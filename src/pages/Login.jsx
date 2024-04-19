@@ -29,6 +29,8 @@ import Cookies from "js-cookie";
 import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
 import IconButton from "@mui/material/IconButton";
+import { fillSelectedDates } from "../utils/store/merchantSlice";
+import { useDispatch } from "react-redux";
 import "react-toastify/dist/ReactToastify.min.css";
 import VerifyOTP from "../components/VerifyOTP";
 import bro from "../assets/images/admin/bro.svg";
@@ -38,6 +40,7 @@ export const Login = () => {
   const [buttonDisabled, setButtonDisabled] = useState(false);
   const [showVerifyUser, setShowVerifyUser] = useState(false);
   const [showLoginImage, setShowLoginImage] = useState(true);
+  const dispatch = useDispatch();
 
   useEffect(() => {
     setShowLoginImage(true);
@@ -117,6 +120,19 @@ export const Login = () => {
     // Call the mutation to trigger the login process
     loginMutation.mutate(formData);
   };
+
+  useEffect(() => {
+    const now = new Date();
+    const startOfMonth = new Date();
+    const endOfMonth = new Date();
+
+    dispatch(
+      fillSelectedDates({
+        startDate: startOfMonth,
+        endDate: endOfMonth,
+      })
+    );
+  }, []);
   return (
     <main className="flex md:grid md:grid-cols-2 flex-col-reverse min-h-screen">
       <section className="bg-brown_1 hidden  md:flex items-center pb-5 md:pb-0 justify-center">

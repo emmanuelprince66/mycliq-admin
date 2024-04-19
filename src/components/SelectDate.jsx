@@ -5,12 +5,14 @@ import { useDispatch } from "react-redux";
 import { fillSelectedDates } from "../utils/store/merchantSlice";
 import { fillUserDetails } from "../utils/store/merchantSlice";
 import { useSelector } from "react-redux";
+
 import { Box, Button, Typography } from "@mui/material";
 import { AuthAxios } from "../helpers/axiosInstance";
 import { parse } from "date-fns";
 
 const SelectDate = () => {
   const { selectedDates } = useSelector((state) => state);
+  const dispatch = useDispatch();
   console.log(selectedDates);
 
   const current = new Date();
@@ -40,7 +42,6 @@ const SelectDate = () => {
     endDate: selectedDates.endDate,
     key: "selection",
   });
-  const dispatch = useDispatch();
 
   useEffect(() => {
     async function getUserDetails() {
