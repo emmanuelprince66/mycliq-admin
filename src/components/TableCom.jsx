@@ -373,7 +373,7 @@ const TableCom = () => {
             </Typography>
           </Box>
         </Card>
-        <Card
+        {/* <Card
           sx={{
             display: "flex",
             flexDirection: "column",
@@ -423,7 +423,7 @@ const TableCom = () => {
               />
             </Typography>
           </Box>
-        </Card>
+        </Card> */}
       </Box>
 
       <Box

@@ -165,7 +165,7 @@ const GMerchants = () => {
             </Box>
             <Typography
               sx={{
-                fomtWeight: "500",
+                fontWeight: "500",
                 fontSize: "14px",
                 color: "#4F4F4F",
               }}
@@ -178,7 +178,7 @@ const GMerchants = () => {
           <Box>
             <Typography
               sx={{
-                fomtWeight: "600",
+                fontWeight: "600",
                 fontSize: "24px",
                 color: "#1E1E1E",
               }}
@@ -221,7 +221,7 @@ const GMerchants = () => {
               </Box>
               <Typography
                 sx={{
-                  fomtWeight: "500",
+                  fontWeight: "500",
                   fontSize: "14px",
                   color: "#4F4F4F",
                 }}
@@ -235,9 +235,9 @@ const GMerchants = () => {
           <Box>
             <Typography
               sx={{
-                fomtWeight: "600",
+                fontWeight: "600",
                 fontSize: "24px",
-                color: "##1E1E1E",
+                color: "#1E1E1E",
               }}
             >
               <FormattedPrice amount={1000} />
@@ -286,7 +286,7 @@ const GMerchants = () => {
               sx={{
                 fontWeight: "600",
                 fontSize: "24px",
-                color: "##1E1E1E",
+                color: "#1E1E1E",
               }}
             >
               <FormattedPrice amount={Number(200000 || 0)} />
@@ -319,7 +319,7 @@ const GMerchants = () => {
             </Box>
             <Typography
               sx={{
-                fomtWeight: "500",
+                fontWeight: "500",
                 fontSize: "14px",
                 color: "#4F4F4F",
               }}
@@ -333,9 +333,9 @@ const GMerchants = () => {
           <Box>
             <Typography
               sx={{
-                fomtWeight: "600",
+                fontWeight: "600",
                 fontSize: "24px",
-                color: "##1E1E1E",
+                color: "#1E1E1E",
               }}
             >
               <FormattedPrice amount={Number(20000 || 0)} />
@@ -360,7 +360,7 @@ const GMerchants = () => {
 
       <Box className="w-full max-h-[60vh] overflow-y-scroll mt-3">
         <Grid container spacing={2}>
-          <Grid item xs={5}>
+          <Grid item xs={12}>
             <Box className="w-full bg-white rounded-md p-2 flex-col border-grey-400 border-[1px] items-start justify-center">
               <Box className="flex w-full justify-between items-center">
                 <Typography
@@ -373,7 +373,7 @@ const GMerchants = () => {
                     alignItems: "center",
                   }}
                 >
-                  All Customers
+                  All Merchants
                   <span
                     className={`p-1 px-2 rounded-full 
                   bg-orange-200 text-orange-500
@@ -444,25 +444,10 @@ const GMerchants = () => {
               </Box>
               {/* search ends */}
 
-              {/* customers  */}
+              {/* merchants  */}
               <Box sx={{ maxHeight: "100vh", overflowY: "scroll" }}>
                 <TableContainer component={Paper}>
                   <Table sx={{ minWidth: 100, padding: "8px" }}>
-                    {/* <TableHead
-                sx={{
-                  background: "#F8F8F8",
-                }}
-              >
-                <TableRow>
-                  <TableCell>S/N</TableCell>
-                  <TableCell>Item Name</TableCell>
-                  <TableCell>EAN</TableCell>
-                  <TableCell>Category</TableCell>
-                  <TableCell>Size</TableCell>
-                  <TableCell>Price(N) </TableCell>
-                  <TableCell>Action</TableCell>
-                </TableRow>
-              </TableHead> */}
                     <TableBody>
                       {!dummyCustomers ? (
                         <CircularProgress
@@ -477,10 +462,12 @@ const GMerchants = () => {
                         Array.isArray(dummyCustomers) &&
                         dummyCustomers.length > 0 ? (
                         dummyCustomers.map((item, i) => (
-                          <TableRow key={item.id}>
-                            <TableCell>{page * rowsPerPage + i + 1}</TableCell>
+                          <TableRow key={item.id} className="cursor-pointer">
+                            <TableCell sx={{ width: "50px" }}>
+                              {page * rowsPerPage + i + 1}
+                            </TableCell>
                             <TableCell>
-                              <Box className="flex items-center gap-2 ml-[-3rem] ">
+                              <Box className="flex items-center gap-2 ">
                                 <Box
                                   sx={{
                                     height: "40px",
@@ -516,7 +503,14 @@ const GMerchants = () => {
                               </Box>
                             </TableCell>
                             <TableCell>
-                              <Box className="cursor-pointer mr-[-12rem]">
+                              <Box
+                                sx={{
+                                  cursor: "pointer",
+                                  width: "100%",
+                                  display: "flex",
+                                  justifyContent: "end",
+                                }}
+                              >
                                 <img src={ArrowRight} alt="a-right" />
                               </Box>
                             </TableCell>
@@ -544,169 +538,7 @@ const GMerchants = () => {
               {/* customers end */}
             </Box>
           </Grid>
-          <Grid item xs={7}>
-            <Grid container spacing={2}>
-              <Grid item xs={6}>
-                {" "}
-                <Box className="w-full bg-white rounded-md p-2 flex-col border-grey-400 border-[1px] items-start justify-center">
-                  <DoughnutChart
-                    title="Customer's Activity"
-                    values={[300, 30]}
-                    label={["Inactive Customers", "Active Customer"]}
-                    color={["#27AE60", "#E52929"]}
-                  />
-                </Box>
-              </Grid>
-              <Grid item xs={6}>
-                <Box className="w-full bg-white rounded-md p-2 flex-col border-grey-400 border-[1px] items-start justify-center">
-                  <DoughnutChart
-                    title="Transaction Insight"
-                    values={[300, 30, 50, 20]}
-                    label={[
-                      "Orders",
-                      "Bank Transfer",
-                      "Wallet To wallet",
-                      "Bills",
-                    ]}
-                    color={["#FF4069", "#36A2EB", "#FF9F40", "#27AE60"]}
-                  />
-                </Box>
-              </Grid>
-              <Grid item xs={12}>
-                <Box
-                  className="w-full bg-white rounded-md p-2 flex-col border-grey-400
-                border-[1px] items-start justify-center"
-                >
-                  <Typography
-                    sx={{
-                      color: "#1E1E1E",
-                      fontWeight: "400",
-                      fontSize: "15px",
-                      py: "15px",
-                    }}
-                  >
-                    Customers’ Daily Spending Power
-                  </Typography>
-                  {/* customers  */}
-                  <Box sx={{ maxHeight: "55vh", overflowY: "scroll" }}>
-                    <TableContainer component={Paper}>
-                      <Table sx={{ minWidth: 100, padding: "8px" }}>
-                        <TableHead
-                          sx={{
-                            background: "#F8F8F8",
-                          }}
-                        >
-                          <TableRow>
-                            <TableCell>S/N</TableCell>
-                            <TableCell> Name</TableCell>
-                            <TableCell>Avg.Daily Spending(N)</TableCell>
-                            <TableCell>Action</TableCell>
-                          </TableRow>
-                        </TableHead>
-                        <TableBody>
-                          {!dummyCustomers ? (
-                            <CircularProgress
-                              size="4.2rem"
-                              sx={{
-                                color: "#DC0019",
-                                marginLeft: "auto",
-                                padding: "1em",
-                              }}
-                            />
-                          ) : dummyCustomers &&
-                            Array.isArray(dummyCustomers) &&
-                            dummyCustomers.length > 0 ? (
-                            dummyCustomers.map((item, i) => (
-                              <TableRow key={item.id}>
-                                <TableCell>
-                                  {page * rowsPerPage + i + 1}
-                                </TableCell>
-                                <TableCell>
-                                  <Box className="flex items-center gap-2 ml-[-1rem] ">
-                                    <Box
-                                      sx={{
-                                        height: "40px",
-                                        width: "40px",
-                                        border: "1px solid #E0E0E0",
-                                        borderRadius: "8px",
-                                        p: "5px",
-                                      }}
-                                    >
-                                      {item?.img === "" ? (
-                                        <img
-                                          src={avatar}
-                                          className="cat-img"
-                                          alt="p-img"
-                                        />
-                                      ) : (
-                                        <img
-                                          src={item?.img}
-                                          className="cat-img"
-                                          alt="p-img"
-                                        />
-                                      )}
-                                    </Box>
-                                    <Typography
-                                      sx={{
-                                        fomtWeight: "400",
-                                        fontSize: "16px",
-                                        color: "#828282",
-                                      }}
-                                    >
-                                      {item?.name}
-                                    </Typography>
-                                  </Box>
-                                </TableCell>
-                                <TableCell>200,000</TableCell>
-                                <TableCell>
-                                  <Button
-                                    variant="outlined"
-                                    sx={{
-                                      textTransform: "capitalize",
-                                      display: "flex",
-                                      gap: "4px",
-                                      width: "100px",
-                                      alignItems: "center",
-                                      color: "#ff7f00",
-                                      fontWeight: "400",
-                                      fontSize: "10px",
-                                      border: "1px solid #E0E0E0",
-                                      "&:hover": {
-                                        backgroundColor: "#fff",
-                                        border: "1px solid #E0E0E0",
-                                      },
-                                      // lineHeight: "26.4px",
-                                    }}
-                                  >
-                                    View Profile
-                                  </Button>
-                                </TableCell>
-                              </TableRow>
-                            ))
-                          ) : (
-                            <TableRow>
-                              <TableCell colSpan="7">No data found</TableCell>
-                            </TableRow>
-                          )}
-                        </TableBody>
-                      </Table>
-                    </TableContainer>
-
-                    <TablePagination
-                      rowsPerPageOptions={[]}
-                      component="div"
-                      count={dummyCustomers?.totalCount || 0}
-                      rowsPerPage={rowsPerPage}
-                      page={page}
-                      onPageChange={(event, newPage) => setPage(newPage)}
-                      // onRowsPerPageChange is removed as the number of rows per page is fixed
-                    />
-                  </Box>
-                  {/* customers end */}
-                </Box>
-              </Grid>
-            </Grid>
-          </Grid>
+          {/* another grid box here */}
         </Grid>
       </Box>
     </Box>
