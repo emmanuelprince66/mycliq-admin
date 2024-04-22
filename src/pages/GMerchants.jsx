@@ -356,6 +356,85 @@ const GMerchants = () => {
         >
           Merchant's Order Overview
         </Typography>
+
+        <div className="w-full flex gap-4 justify-between items-center">
+          <Card
+            sx={{
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "start",
+              gap: "25px",
+              width: "100%",
+              cursor: "pointer",
+              padding: "1rem",
+            }}
+          >
+            <div className="flex justify-between w-full items-center">
+              <p className=" ">Association</p>
+
+              <ChevronRightRoundedIcon sx={{ color: "#FF7F00" }} />
+            </div>
+
+            <p className="font-bold">200</p>
+          </Card>
+          <Card
+            sx={{
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "start",
+              gap: "25px",
+              cursor: "pointer",
+              width: "100%",
+              padding: "1rem",
+            }}
+          >
+            <div className="flex justify-between w-full items-center">
+              <p className=" ">Transport</p>
+
+              <ChevronRightRoundedIcon sx={{ color: "#FF7F00" }} />
+            </div>
+
+            <p className="font-bold">150</p>
+          </Card>
+          <Card
+            sx={{
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "start",
+              gap: "25px",
+              cursor: "pointer",
+              width: "100%",
+              padding: "1rem",
+            }}
+          >
+            <div className="flex justify-between w-full items-center">
+              <p className="">Ticketing</p>
+
+              <ChevronRightRoundedIcon sx={{ color: "#FF7F00" }} />
+            </div>
+
+            <p className="font-bold">200</p>
+          </Card>
+          <Card
+            sx={{
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "start",
+              gap: "25px",
+              cursor: "pointer",
+              width: "100%",
+              padding: "1rem",
+            }}
+          >
+            <div className="flex justify-between w-full items-center">
+              <p className="">Add Merchant</p>
+
+              <AddRoundedIcon sx={{ color: "#FF7F00" }} />
+            </div>
+
+            <p className="font-bold">200</p>
+          </Card>
+        </div>
       </Box>
 
       <Box className="w-full max-h-[60vh] overflow-y-scroll mt-3">
