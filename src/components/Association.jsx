@@ -59,9 +59,9 @@ const Association = () => {
       case 0:
         return <AssoContact onSubmit={handleNext} />;
       case 1:
-        return <AssoIimage onSubmit={handleNext} />;
+        return <AssoIimage onSubmit={handleNext} handleBack={handleBack} />;
       case 2:
-        return <AssoBank onSubmit={handleNext} />;
+        return <AssoBank onSubmit={handleNext} handleBack={handleBack} />;
       default:
         return null;
     }

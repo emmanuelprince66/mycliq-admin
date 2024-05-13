@@ -1,6 +1,8 @@
-import React from "react";
+import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import { Button } from "@mui/material";
+import { toast, ToastContainer } from "react-toastify";
+
 import {
   Box,
   Typography,
@@ -22,10 +24,69 @@ import EmailOutlinedIcon from "@mui/icons-material/EmailOutlined";
 import LocalPhoneOutlinedIcon from "@mui/icons-material/LocalPhoneOutlined";
 import info from "../assets/images/admin/info.svg";
 import { Controller } from "react-hook-form";
+import { useMutation, useQuery } from "@tanstack/react-query";
+import {CircularProgress} from "@mui/material";
+import closeIcon from "../assets/images/closeIcon.svg";
+import successIcon from "../assets/successIcon.svg";
+
+
 
 import PersonOutlineRoundedIcon from "@mui/icons-material/PersonOutlineRounded";
+import { BaseAxios } from "../helpers/axiosInstance";
 
 const AssoContact = ({ onSubmit }) => {
+
+const [buttonDisabled , setButtonDisabled] = useState(false)
+const [success , setSuccess] = useState(false)
+  const handleCloseSuccess = () => setSuccess(false);
+
+
+  const style = {
+    position: "absolute",
+    top: "50%",
+    left: "50%",
+    transform: "translate(-50%, -50%)",
+    borderRadius: "12px",
+    width: "745px",
+    bgcolor: "background.paper",
+    p: 3,
+  };
+  const notifyError = (msg) => {
+    toast.error(msg, {
+      position: toast.POSITION.TOP_RIGHT,
+      autoClose: 6000, // Time in milliseconds
+    });
+  };
+  // use mutation hook
+  const registerAssociationMutation = useMutation({
+    mutationFn: async (payLoad) => {
+      try {
+        const response = await BaseAxios({
+          url: "/account/register",
+          method: "POST",
+          data: payLoad,
+        });
+
+        return response.data;
+      } catch (error) {
+        setButtonDisabled(false);
+        notifyError(error?.response?.data?.message);
+        console.log(error);
+        throw new Error(error.response.data.message);
+        // throw new Error(error.response.data.message);
+      }
+    },
+    onSuccess: (data) => {
+      console.log(data);
+      setSuccess(true);
+      setButtonDisabled(false);
+      onStepSubmit();
+    },
+    onError: (error) => {
+      console.log(error);
+      setButtonDisabled(false);
+    },
+  });
   const {
     handleSubmit,
     control,
@@ -34,7 +95,34 @@ const AssoContact = ({ onSubmit }) => {
   } = useForm({ mode: "all" });
 
   const onStepSubmit = (data) => {
-    onSubmit(data); // Pass data back to parent component
+    onSubmit(""); // Pass data back to parent component
+  };
+
+  const formSubmit = (data) => {
+      const {
+        firstName,
+        lastName,
+        phoneNumberTwo,
+        email,
+        phoneNumber,
+        gender,
+      } = data;
+
+      const payLoad = {
+        firstName,
+        lastName,
+        phoneNumberTwo,
+        email,
+        role: "merchant",
+        phoneNumber,
+        gender: gender,
+        isAttendant: true,
+      };
+      registerAssociationMutation.mutate(payLoad);
+      setButtonDisabled(true);
+      
+      console.log(payLoad)
+      
   };
 
   return (
@@ -54,14 +142,14 @@ const AssoContact = ({ onSubmit }) => {
       <Typography sx={{ color: "#C57600", fontWeight: "500" }}>
         Contact Person Information
       </Typography>
-      <form onSubmit={handleSubmit(onStepSubmit)} className="w-full">
+      <form onSubmit={handleSubmit(formSubmit)} className="w-full">
         <Typography
           sx={{ color: "#344054", fontSize: "14px", mt: "20px", mb: "5px" }}
         >
           First Name
         </Typography>
         <Controller
-          name="firstname"
+          name="firstName"
           control={control}
           defaultValue=""
           rules={{
@@ -105,7 +193,7 @@ const AssoContact = ({ onSubmit }) => {
           Last Name
         </Typography>
         <Controller
-          name="lastname"
+          name="lastName"
           control={control}
           defaultValue=""
           rules={{
@@ -268,7 +356,7 @@ const AssoContact = ({ onSubmit }) => {
         <Typography
           sx={{ color: "#344054", fontSize: "14px", mt: "20px", mb: "5px" }}
         >
-          Company Phone Number
+          Alt phone Number
         </Typography>
         <Controller
           name="phoneNumberTwo"
@@ -333,7 +421,9 @@ const AssoContact = ({ onSubmit }) => {
         </Box>
 
         <Button
-          disabled={!isValid}
+          disabled={
+            !isValid || registerAssociationMutation.isLoading || buttonDisabled
+          }
           type="submit"
           sx={{
             background: "#333333",
@@ -349,9 +439,113 @@ const AssoContact = ({ onSubmit }) => {
             fontWeight: "500",
           }}
         >
-          Save and proceed
+          {registerAssociationMutation.isLoading || buttonDisabled ? (
+            <CircularProgress size="1.2rem" sx={{ color: "white" }} />
+          ) : (
+            <Typography
+              sx={{
+                fontWeight: "400",
+                fontSize: "16px",
+                color: "#fff",
+              }}
+            >
+              Save and Proceed
+            </Typography>
+          )}
         </Button>
       </form>
+
+      {/* Modal for create bill sucess*/}
+
+      <Modal
+        open={success}
+        onClose={handleCloseSuccess}
+        aria-labelledby="modal-modal-title"
+        aria-describedby="modal-modal-description"
+        PaperProps={{
+          sx: {
+            border: "none", // Remove the border
+            boxShadow: "none", // Remove the box shadow
+          },
+        }}
+      >
+        <Box sx={style}>
+          <Box
+            sx={{
+              display: "flex",
+              justifyContent: "space-between",
+              alignItems: "center",
+            }}
+          >
+            <Typography
+              sx={{
+                fomtWeight: "900",
+                color: "#1E1E1E",
+                fontWeight: "500",
+                fontSize: "20px",
+              }}
+            >
+              Successful
+            </Typography>
+
+            <Box onClick={handleCloseSuccess}>
+              <img src={closeIcon} alt="c-icon" />
+            </Box>
+          </Box>
+
+          <Box
+            sx={{
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "start",
+              mt: "2rem",
+              mb: "1.9rem",
+            }}
+          >
+            <Box>
+              <img src={successIcon} alt="success-icon" />
+            </Box>
+
+            <Typography
+              sx={{
+                fomtWeight: "400",
+                fontSize: "16px",
+                color: "#4F4F4F",
+                lineHeight: "24px",
+              }}
+            >
+              New Item Added Successfully!
+            </Typography>
+          </Box>
+          <Box
+            sx={{
+              width: "100%",
+              mb: "-0.7rem",
+            }}
+          >
+            <Button
+              onClick={handleCloseSuccess}
+              sx={{
+                background: "#333333",
+                width: "100%",
+                padding: "10px",
+                borderRadius: "8px",
+                color: "#fff",
+                "&:hover": {
+                  backgroundColor: "#333333",
+                },
+              }}
+            >
+              Okay
+            </Button>
+          </Box>
+        </Box>
+      </Modal>
+      {/* Modal ends */}
+      <ToastContainer
+        theme="dark"
+        toastStyle={{ background: "#333", color: "#fff" }}
+      />
     </Box>
   );
 };

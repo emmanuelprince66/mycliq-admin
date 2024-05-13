@@ -19,7 +19,7 @@ import EmailOutlinedIcon from "@mui/icons-material/EmailOutlined";
 
 import { Input } from "@mui/icons-material";
 
-const AssoIimage = ({ onSubmit }) => {
+const AssoIimage = ({ onSubmit , handleBack }) => {
   const [imagePreview, setImagePreview] = useState(null);
   const {
     handleSubmit,
@@ -444,6 +444,25 @@ const AssoIimage = ({ onSubmit }) => {
             }}
           >
             Save and proceed
+          </Button>
+          <Button
+          onClick={handleBack}
+            sx={{
+              width: "50%",
+              my:"10px",
+              mx:"auto",
+              padding: "10px",
+              borderRadius: "8px",
+              color:"#333333",
+              borderColor: "#ff7f00",
+              textTransform: "none",
+              "&:hover": {
+                borderColor:"#ff7f00",
+              },
+            }}
+            variant="outlined"
+          >
+            Back
           </Button>
         </Box>
       </form>

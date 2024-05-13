@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from "react";
-import { Navigate } from "react-router-dom";
+  import React, { useState, useEffect } from "react";
+  import { Navigate } from "react-router-dom";
 import { Box, CircularProgress } from "@mui/material";
 import { useDispatch } from "react-redux";
 import { fillUserDetails } from "./store/merchantSlice";

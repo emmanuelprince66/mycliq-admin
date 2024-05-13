@@ -57,7 +57,7 @@ const Merchant = () => {
   const getStepContent = (step) => {
     switch (step) {
       case 0:
-        return <BranchManagerForm onSubmit={handleNext} />;
+        return <BranchManag erForm onSubmit={handleNext} />;
       case 1:
         return <CompanyInfoForm onSubmit={handleNext} />;
       case 2:

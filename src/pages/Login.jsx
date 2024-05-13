@@ -76,10 +76,11 @@ export const Login = () => {
           data: formData,
         });
 
-        if (response.status !== 200) {
+        if (response.status !== 201) {
           throw new Error(response.data.message);
         }
-        return response.data;
+        
+        return response;
       } catch (error) {
         console.log(error);
         throw new Error(error.response.data.message);
@@ -116,6 +117,7 @@ export const Login = () => {
     console.log("Form data:", formData);
 
     setButtonDisabled(true);
+    console.log(formData)
 
     // Call the mutation to trigger the login process
     loginMutation.mutate(formData);
@@ -205,7 +207,7 @@ export const Login = () => {
                           </Typography>{" "}
                         </InputLabel>
                         <TextField
-                          {...register("emailOrPhone", {
+                          {...register("email", {
                             required: "Email is required",
                           })}
                           required

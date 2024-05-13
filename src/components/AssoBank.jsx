@@ -28,7 +28,7 @@ import { Controller } from "react-hook-form";
 
 import PersonOutlineRoundedIcon from "@mui/icons-material/PersonOutlineRounded";
 
-const AssoBank = ({ onSubmit }) => {
+const AssoBank = ({ onSubmit , handleBack }) => {
   const {
     handleSubmit,
     control,
@@ -208,6 +208,25 @@ const AssoBank = ({ onSubmit }) => {
           }}
         >
           Submit
+        </Button>
+        <Button
+        onClick={handleBack}
+          sx={{
+            width: "50%",
+            my: "10px",
+            mx: "auto",
+            padding: "10px",
+            borderRadius: "8px",
+            color: "#333333",
+            borderColor: "#ff7f00",
+            textTransform: "none",
+            "&:hover": {
+              borderColor: "#ff7f00",
+            },
+          }}
+          variant="outlined"
+        >
+          Back
         </Button>
       </form>
     </Box>
