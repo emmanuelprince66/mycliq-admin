@@ -121,7 +121,7 @@ const TableCom = () => {
     const fetchData = async () => {
       try {
         const response = await AuthAxios({
-          url: "/transaction/admin?limit=200",
+          url: "/admin/trx",
           method: "GET",
         });
 

@@ -91,8 +91,10 @@ export const Login = () => {
       navigate("/overview");
 
       // Store data in cookies
-      Cookies.set("authToken", data.access_token);
-      Cookies.set("refreshToken", data.refreshToken);
+      
+      console.log(data?.data?.data?.access_token)
+      Cookies.set("authToken", data?.data?.data?.access_token);
+      Cookies.set("refreshToken", data?.data?.data?.refreshToken);
       // Cookies.set("companyName", data.companyName);
       // Cookies.set("registeredName", data.registeredName);
 

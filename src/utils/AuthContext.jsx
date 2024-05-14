@@ -11,6 +11,9 @@ export function AuthProvider({ children }) {
   const dispatch = useDispatch();
   const [showSpinner, setShowSpinner] = useState(false);
   const [redirectToLogin, setRedirectToLogin] = useState(false);
+  
+  const token = getCookie("authToken")
+  console.log(token)
 
   useEffect(() => {
     setShowSpinner(true); // Show spinner initially
@@ -22,7 +25,7 @@ export function AuthProvider({ children }) {
       }
 
       try {
-        const user = getUser(); // This might throw if token is expired
+        const user = getUser(token); // This might throw if token is expired
         if (user) {
           setShowSpinner(false);
           dispatch(fillUserDetails(user));
