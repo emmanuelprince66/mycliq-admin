@@ -116,6 +116,9 @@ const TableCom = () => {
 
   const dispatch = useDispatch();
   const { transactionDetails } = useSelector((state) => state);
+  
+  
+  console.log(transactionDetails)
 
   useEffect(() => {
     const fetchData = async () => {
@@ -128,6 +131,7 @@ const TableCom = () => {
         if (response) {
           console.log(response);
           setLoading(false);
+          // dispatch(saveTransactionData(response?.data));
 
           // const paidData = response?.data?.queryResult.filter(
           //   (item) => item?.remittance?.paymentStatus === "PAID"
@@ -139,39 +143,40 @@ const TableCom = () => {
           // );
           // setVerifiedDataState(verifiedData.length);
 
-          let filteredItems = response.data?.queryResult;
+          let filteredItems = response?.data?.data?.records;
+          console.log(filteredItems)
 
           // Filter by name (if searchTerm exists)
           if (searchTerm) {
             filteredItems = filteredItems.filter((item) => {
               return (
-                item.transferFrom.firstName
+                item?.origin?.accountName
                   .toLowerCase()
                   .includes(searchTerm.toLowerCase()) ||
-                item.transferFrom.lastName
+                item?.origin?.accountNumber
                   .toLowerCase()
                   .includes(searchTerm.toLowerCase())
               );
             });
           }
 
-          // Filter by date range (if selectedDates exist)
-          if (selectedDates) {
-            const startDate = new Date(selectedDates.startDate);
-            const endDate = new Date(selectedDates.endDate);
-            endDate.setDate(endDate.getDate() + 1); // Increment by 1 day to include the end date
+          // // Filter by date range (if selectedDates exist)
+          // if (selectedDates) {
+          //   const startDate = new Date(selectedDates.startDate);
+          //   const endDate = new Date(selectedDates.endDate);
+          //   endDate.setDate(endDate.getDate() + 1); // Increment by 1 day to include the end date
 
-            filteredItems = filteredItems.filter((item) => {
-              const createdAt = new Date(item?.createdAt);
+          //   filteredItems = filteredItems.filter((item) => {
+          //     const createdAt = new Date(item?.createdAt);
 
-              return (
-                createdAt >= startDate && createdAt < endDate // Inclusive of start and end dates
-              );
-            });
-          }
-
+          //     return (
+          //       createdAt >= startDate && createdAt < endDate // Inclusive of start and end dates
+          //     );
+          //   });
+          // }
+      console.log(filteredItems)
           setTransactionData(filteredItems);
-          dispatch(saveTransactionData(response?.data));
+          dispatch(saveTransactionData(response?.data?.data?.records));
         }
       } catch (error) {
         console.log(error);
@@ -184,14 +189,23 @@ const TableCom = () => {
 
     fetchData();
   }, [dispatch, searchTerm, selectedDates]);
+  
+  
+  console.log(transactionData)
+  
+  
+  
 
   useEffect(() => {
-    const amtOfTotalDeposit = transactionData.reduce(
-      (prev, curr) => prev + JSON.parse(curr.amount),
+    const amtOfTotalDeposit = transactionDetails.reduce(
+      (prev, curr) => prev + JSON.parse(curr?.amount),
       0
     );
+
+    console.log(amtOfTotalDeposit)
+    ;
     setTotalDeposits(amtOfTotalDeposit);
-  }, [transactionData, totalDeposits]);
+  }, [transactionDetails, totalDeposits]);
 
   async function viewDetails(i) {
     setOpen1(true);
@@ -318,7 +332,7 @@ const TableCom = () => {
                 color: "##1E1E1E",
               }}
             >
-              <FormattedPrice amount={transactionDetails.outflow} />
+              <FormattedPrice amount={transactionDetails?.outflow} />
             </Typography>
           </Box>
         </Card>
@@ -348,7 +362,7 @@ const TableCom = () => {
             </Box>
             <Typography
               sx={{
-                fomtWeight: "500",
+                fontWeight: "500",
                 fontSize: "14px",
                 color: "#4F4F4F",
               }}
@@ -509,10 +523,10 @@ const TableCom = () => {
             >
               <TableRow>
                 <TableCell>S/N</TableCell>
-                <TableCell>Transaction ID</TableCell>
-                <TableCell>User</TableCell>
-                <TableCell>Transaction Type</TableCell>
-                <TableCell>Amount(N)</TableCell>
+                <TableCell>Account Name</TableCell>
+                <TableCell>Account Number</TableCell>
+                <TableCell>Current Balance</TableCell>
+                <TableCell>Amount</TableCell>
                 <TableCell>Status</TableCell>
                 <TableCell>Action</TableCell>
               </TableRow>
@@ -587,33 +601,31 @@ const TableCom = () => {
                     }}
                   />
                 </TableRow>
-              ) : transactionData.length > 0 ? (
+              ) : transactionData?.length > 0 ? (
                 transactionData.map((item, i) => (
                   <TableRow key={item.id}>
                     <TableCell>{i + 1}</TableCell>
-                    <TableCell>{` ID:${item.id.slice(1, 12)}`}</TableCell>
-                    <TableCell>
-                      {item.transferFrom.firstName} {item.transferFrom.lastName}
-                    </TableCell>
-                    <TableCell>{item.transactionType}</TableCell>
-                    <TableCell>{item.amount}</TableCell>
+                    <TableCell>{item?.origin?.accountName}</TableCell>
+                    <TableCell>{item?.origin?.accountNumber}</TableCell>
+                    <TableCell>{item?.currentBalance}</TableCell>
+                    <TableCell>{item?.amount}</TableCell>
                     <TableCell>
                       {" "}
                       <Box
                         sx={{
                           textTransform: "capitalize",
                           background:
-                            item?.remittance?.paymentStatus === "PAID"
-                              ? "#EBFFF3"
-                              : "#EBF3FF",
+                            item?.status === "pending" ||
+                            item.status === "processing"
+                              ? "#FF7F00"
+                              : item?.status === "failed"
+                              ? "#DC0019"
+                              : "#EBFFF3",
                           color:
-                            item?.remittance?.paymentStatus === "PAID"
-                              ? "#1E854A"
-                              : "#1367D8",
-                          width:
-                            item?.remittance?.paymentStatus === "PAID"
-                              ? "67px"
-                              : "87px",
+                            item?.status === "pending" ||
+                            item.status === "processing"
+                              ? "#fff": item.status === "success" ? "#1E854A" 
+                              : "#fff",
                           fontWeight: "500",
                           fontSize: "12px",
                           padding: "4px 8px 4px 8px",
@@ -628,8 +640,7 @@ const TableCom = () => {
                         <CheckCircleOutlineRoundedIcon
                           sx={{ fontSize: "12px" }}
                         />{" "}
-                        {item?.remittance?.paymentStatus === "PAID" &&
-                          "Sucessfull"}
+                        {item?.status}
                       </Box>
                     </TableCell>
                     <TableCell>
