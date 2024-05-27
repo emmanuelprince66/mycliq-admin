@@ -101,7 +101,12 @@ const dummyCustomers = [
     img: "",
   },
 ];
-const CustomerProfile = () => {
+const CustomerProfile = ({
+  customerDataById,
+  showCustomerProfile,
+  handleCloseShowCustomerProfile,
+}) => {
+
   const [showProfileDetails, setShowProfileDetails] = useState(false);
   const handleCloseProfileDetails = () => setShowProfileDetails(false);
   const [page, setPage] = useState(0);
@@ -111,6 +116,7 @@ const CustomerProfile = () => {
       <Grid container spacing={2}>
         <Grid xs={12}>
           <Box className="w-full bg-white rounded-md p-2 flex flex-col border-grey-400  border-[1px] items-start justify-center">
+
             <Typography
               sx={{
                 color: "#1E1E1E",
@@ -287,7 +293,7 @@ const CustomerProfile = () => {
                       fontSize: "15px",
                     }}
                   >
-                    Eleanor Poe
+                    {`${customerDataById?.lastName}  ${customerDataById?.firstName}`}
                   </Typography>
                 </Box>
                 <Box className="flex items-center mt-2 mb-1 justify-between ">
@@ -335,7 +341,7 @@ const CustomerProfile = () => {
                       fontSize: "15px",
                     }}
                   >
-                    example@gmail.com
+                    {customerDataById?.email}
                   </Typography>
                 </Box>
                 <Box className="flex  items-center mt-2 mb-1 justify-between ">
@@ -359,7 +365,7 @@ const CustomerProfile = () => {
                       fontSize: "15px",
                     }}
                   >
-                    08177338833
+                    {customerDataById?.phoneNumber}
                   </Typography>
                 </Box>
                 <Box className="flex  items-center mt-2 mb-1 justify-between ">
@@ -383,7 +389,8 @@ const CustomerProfile = () => {
                       fontSize: "15px",
                     }}
                   >
-                    Molette Ibadan
+                    {" "}
+                    {customerDataById?.address || "address is here"}
                   </Typography>
                 </Box>
               </Box>

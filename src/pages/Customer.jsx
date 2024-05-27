@@ -31,6 +31,7 @@ import FormattedPrice from "../components/FormattedPrice";
 import fdown from "../assets/fdown.svg";
 import ArrowRight from "../assets/images/arrow-right.svg";
 import CheckCircleOutlineRoundedIcon from "@mui/icons-material/CheckCircleOutlineRounded";
+import { AuthAxios } from "../helpers/axiosInstance";
 
 import InputAdornment from "@mui/material/InputAdornment";
 import side from "../assets/images/admin/side.svg";
@@ -38,11 +39,20 @@ import percent from "../assets/images/admin/percent.svg";
 import upcolor from "../assets/images/admin/upcolor.svg";
 import SelectDate from "../components/SelectDate";
 import DoughnutChart from "../components/DoughnutChart";
+import { useDispatch } from "react-redux";
+import { fillCustomersData } from "../utils/store/merchantSlice";
+
 import CustomerProfile from "../components/CustomerProfile";
 const Customer = () => {
+
+const dispatch  = useDispatch();
+
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(100);
   const [showCustomerProfile, setShowCustomerProfile] = useState(false);
+  const [customerData , setCustomerData] = useState([]) 
+  const [customerDataById , setCustomerDataById] = useState([])
+
   const dummyCustomers = [
     {
       id: 1,
@@ -105,6 +115,33 @@ const Customer = () => {
       img: "",
     },
   ];
+  
+  
+  const handleShowCustomerProfile = () => setShowCustomerProfile(true)
+  const handleCloseShowCustomerProfile = () => setShowCustomerProfile(false)
+  const handleOpenCustomerProfile = (id) => {
+  console.log(id)
+  setCustomerDataById(customerData[id])
+  handleShowCustomerProfile();
+  
+  }
+  
+    useEffect(() => {
+      async function getCustomersData() {
+        try {
+          const response = await AuthAxios.get("/admin/user");
+          console.log(response);
+          setCustomerData(response?.data?.data?.records);
+          dispatch(fillCustomersData(response?.data?.data?.records));
+        } catch (error) {
+          console.log(error);
+        }
+      }
+      getCustomersData();
+    }, [dispatch]);
+    
+    
+    console.log(customerData)
   return (
     <Box
       sx={{
@@ -421,9 +458,8 @@ const Customer = () => {
                 <Box sx={{ maxHeight: "100vh", overflowY: "scroll" }}>
                   <TableContainer component={Paper}>
                     <Table sx={{ minWidth: 100, padding: "8px" }}>
-              
                       <TableBody>
-                        {!dummyCustomers ? (
+                        {!customerData || customerData?.length === 0 ? (
                           <CircularProgress
                             size="4.2rem"
                             sx={{
@@ -432,12 +468,12 @@ const Customer = () => {
                               padding: "1em",
                             }}
                           />
-                        ) : dummyCustomers &&
-                          Array.isArray(dummyCustomers) &&
-                          dummyCustomers.length > 0 ? (
-                          dummyCustomers.map((item, i) => (
+                        ) : customerData &&
+                          Array.isArray(customerData) &&
+                          customerData?.length > 0 ? (
+                          customerData?.map((item, i) => (
                             <TableRow key={item.id}>
-                              <TableCell sx={{  width:"50px"}}>
+                              <TableCell sx={{ width: "50px" }}>
                                 {page * rowsPerPage + i + 1}
                               </TableCell>
                               <TableCell>
@@ -472,18 +508,19 @@ const Customer = () => {
                                       color: "#828282",
                                     }}
                                   >
-                                    {item?.name}
+                                    {`${item?.lastName}  ${item?.firstName}`}
                                   </Typography>
                                 </Box>
                               </TableCell>
                               <TableCell>
-                                <Box sx={{
-                                cursor:"pointer",
-                                width:"100%",
-                                display:"flex",
-                                justifyContent:"end"
-                                }}
-                                
+                                <Box
+                                  sx={{
+                                    cursor: "pointer",
+                                    width: "100%",
+                                    display: "flex",
+                                    justifyContent: "end",
+                                  }}
+                                  onClick={() => handleOpenCustomerProfile(i)}
                                 >
                                   <img src={ArrowRight} alt="a-right" />
                                 </Box>
@@ -512,10 +549,13 @@ const Customer = () => {
                 {/* customers end */}
               </Box>
             </Grid>
-        
           </Grid>
         ) : (
-          <CustomerProfile />
+          <CustomerProfile
+            customerDataById={customerDataById || []}
+            showCustomerProfile={showCustomerProfile}
+            handleCloseShowCustomerProfile={handleCloseShowCustomerProfile}
+          />
         )}
       </Box>
     </Box>
