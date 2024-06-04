@@ -1,6 +1,7 @@
 import React from "react";
 import { useForm } from "react-hook-form";
 import { Button } from "@mui/material";
+import { useState } from "react";
 import {
   Box,
   Typography,
@@ -11,6 +12,7 @@ import {
   MenuItem,
   Modal,
   Select,
+  CircularProgress,
   FormControl,
   Backdrop,
   RadioGroup,
@@ -23,12 +25,19 @@ import LocalPhoneOutlinedIcon from "@mui/icons-material/LocalPhoneOutlined";
 import CabinRoundedIcon from "@mui/icons-material/CabinRounded";
 import TableRestaurantRoundedIcon from "@mui/icons-material/TableRestaurantRounded";
 import info from "../assets/images/admin/info.svg";
+import { useMutation, useQuery } from "@tanstack/react-query";
+import { BaseAxios } from "../helpers/axiosInstance";
+import Cookies from "js-cookie";
+
 
 import { Controller } from "react-hook-form";
 
 import PersonOutlineRoundedIcon from "@mui/icons-material/PersonOutlineRounded";
 
 const BankDetailsForm = () => {
+  const [showSpinner, setShowSpinner] = useState(false);
+
+const token = Cookies.get("authToken")
   const {
     handleSubmit,
     control,
@@ -36,9 +45,55 @@ const BankDetailsForm = () => {
     formState: { isValid, errors },
   } = useForm({ mode: "all" });
 
+
+    const notifyError = (msg) => {
+      toast.error(msg, {
+        position: toast.POSITION.TOP_RIGHT,
+        autoClose: 6000, // Time in milliseconds
+      });
+    };
+    // use mutation hook
+    const registerBankDetailsMutation = useMutation({
+      mutationFn: async (payLoad) => {
+        try {
+          const response = await BaseAxios({
+            url: "",
+            method: "POST",
+            data: payLoad,
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          });
+
+          return response.data;
+        } catch (error) {
+          notifyError(error?.response?.data?.message);
+          console.log(error);
+          setShowSpinner(false);
+          handleReset();
+          throw new Error(error.response.data.message);
+          // throw new Error(error.response.data.message);
+        }
+      },
+      onSuccess: (data) => {
+        console.log(data);
+        setSuccess(true);
+        setShowSpinner(false);
+        handleReset();
+      },
+      onError: (error) => {
+        console.log(error);
+        setShowSpinner(false);
+        handleReset();
+      },
+    });
+
   const handleFormSubmit = (data) => {
   console.log(data)
   };
+
+
+
 
   return (
     <Box
@@ -192,6 +247,7 @@ const BankDetailsForm = () => {
           )}
         />
         <Button
+        disabled={showSpinner || registerBankDetailsMutation.isLoading}
           type="submit"
           sx={{
             background: "#333333",
@@ -207,7 +263,11 @@ const BankDetailsForm = () => {
             fontWeight: "500",
           }}
         >
-          Submit
+          {showSpinner || registerBankDetailsMutation.isLoading ? (
+            <CircularProgress size="1.2rem" sx={{ color: "white" }} />
+          ) : (
+            "Submit"
+          )}
         </Button>
       </form>
     </Box>

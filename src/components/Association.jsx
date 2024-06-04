@@ -86,8 +86,8 @@ const token = Cookies.get("authToken");
     setCompletedSteps((prev) => new Set(prev).add(activeStep)); // Step 2
 
     if (activeStep === steps.length - 1) {
-      console.log("Final submission data:", newData);
-      setResetForm(true); // Set resetForm to true after final submission
+      registerAssociationMutation.mutate(newData);
+      setShowSpinner(true);
     } else {
       setActiveStep((prevActiveStep) => prevActiveStep + 1);
     }
