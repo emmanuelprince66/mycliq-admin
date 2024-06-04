@@ -12,14 +12,30 @@ import AssoBank from "./AssoBank";
 import AssoContact from "./AssoContact";
 import AssoIimage from "./AssoIimage";
 import CheckRoundedIcon from "@mui/icons-material/CheckRounded";
+import TranspoContact from "./TranspoContact";
+import TranspoImage from "./TranspoImage";
+import Cookies from "js-cookie";
 
-const steps = ["Step 1", "Step 2", "Step 3"];
+import { toast, ToastContainer } from "react-toastify";
+import { useMutation, useQuery } from "@tanstack/react-query";
+import closeIcon from "../assets/images/closeIcon.svg";
+import successIcon from "../assets/successIcon.svg";
+import info from "../assets/images/admin/info.svg";
+import { BaseAxios } from "../helpers/axiosInstance";
 
-const Association = () => {
+
+import TranspoBank from "./TranspoBank";
+
+const steps = ["Step 1", "Step 2"];
+// const steps = ["Step 1", "Step 2", "Step 3"];
+
+const Transportation = () => {
+const token = Cookies.get("authToken")
   const [activeStep, setActiveStep] = useState(0);
   const [completedSteps, setCompletedSteps] = useState(new Set()); // Step 1
   const [collectedData, setCollectedData] = useState({});
   const [resetForm, setResetForm] = useState(false);
+  const [showSpinner , setShowSpinner] = useState(false)
 
   const CustomStepConnector = () => (
     <StepConnector
@@ -28,17 +44,64 @@ const Association = () => {
       }}
     />
   );
+  const notifyError = (msg) => {
+    toast.error(msg, {
+      position: toast.POSITION.TOP_RIGHT,
+      autoClose: 6000, // Time in milliseconds
+    });
+  };
+  // use mutation hook
+  const registerTransportationMutation = useMutation({
+    mutationFn: async (payLoad) => {
+      try {
+        const response = await BaseAxios({
+          url: "/admin/merchant/onboard",
+          method: "POST",
+          data: payLoad,
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
 
+        return response.data;
+      } catch (error) {
+        notifyError(error?.response?.data?.message);
+        console.log(error);
+        setShowSpinner(false);
+        handleReset()
+        throw new Error(error.response.data.message);
+        // throw new Error(error.response.data.message);
+      }
+    },
+    onSuccess: (data) => {
+      console.log(data);
+      setSuccess(true);
+      setShowSpinner(false);
+      handleReset();
+      
+    },
+    onError: (error) => {
+      console.log(error);
+      setShowSpinner(false);
+      handleReset();
+      
+    },
+  });
   const handleNext = (data) => {
     const newData = { ...collectedData, ...data };
     setCollectedData(newData);
-    
 
     setCompletedSteps((prev) => new Set(prev).add(activeStep)); // Step 2
 
     if (activeStep === steps.length - 1) {
       console.log("Final submission data:", newData);
-      setResetForm(true); // Set resetForm to true after final submission
+      
+      console.log(newData)
+      registerTransportationMutation.mutate(newData)
+      setShowSpinner(true)
+
+      //   setResetForm(true);
+
     } else {
       setActiveStep((prevActiveStep) => prevActiveStep + 1);
     }
@@ -58,11 +121,17 @@ const Association = () => {
   const getStepContent = (step) => {
     switch (step) {
       case 0:
-        return <AssoContact onSubmit={handleNext} />;
+        return <TranspoContact onSubmit={handleNext} />;
       case 1:
-        return <AssoIimage onSubmit={handleNext} handleBack={handleBack} />;
-      case 2:
-        return <AssoBank onSubmit={handleNext} handleBack={handleBack} />;
+        return (
+          <TranspoImage
+            onSubmit={handleNext}
+            handleBack={handleBack}
+            showSpinner={showSpinner}
+          />
+        );
+    //   case 2:
+    //     return <TranspoBank onSubmit={handleNext} handleBack={handleBack} />;
       default:
         return null;
     }
@@ -78,7 +147,7 @@ const Association = () => {
           mb: "20px",
         }}
       >
-        Register a New Association
+        Register a New Transportation
       </Typography>
 
       <Box className=" w-[60%] mx-auto">
@@ -158,4 +227,4 @@ const Association = () => {
   );
 };
 
-export default Association;
+export default Transportation;

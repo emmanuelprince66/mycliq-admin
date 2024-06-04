@@ -25,21 +25,17 @@ import LocalPhoneOutlinedIcon from "@mui/icons-material/LocalPhoneOutlined";
 import info from "../assets/images/admin/info.svg";
 import { Controller } from "react-hook-form";
 import { useMutation, useQuery } from "@tanstack/react-query";
-import {CircularProgress} from "@mui/material";
+import { CircularProgress } from "@mui/material";
 import closeIcon from "../assets/images/closeIcon.svg";
 import successIcon from "../assets/successIcon.svg";
-
-
 
 import PersonOutlineRoundedIcon from "@mui/icons-material/PersonOutlineRounded";
 import { BaseAxios } from "../helpers/axiosInstance";
 
-const AssoContact = ({ onSubmit }) => {
-
-const [buttonDisabled , setButtonDisabled] = useState(false)
-const [success , setSuccess] = useState(false)
+const TranspoContact = ({ onSubmit }) => {
+  const [buttonDisabled, setButtonDisabled] = useState(false);
+  const [success, setSuccess] = useState(false);
   const handleCloseSuccess = () => setSuccess(false);
-
 
   const style = {
     position: "absolute",
@@ -58,35 +54,7 @@ const [success , setSuccess] = useState(false)
     });
   };
   // use mutation hook
-  const registerAssociationMutation = useMutation({
-    mutationFn: async (payLoad) => {
-      try {
-        const response = await BaseAxios({
-          url: "/account/register",
-          method: "POST",
-          data: payLoad,
-        });
-
-        return response.data;
-      } catch (error) {
-        setButtonDisabled(false);
-        notifyError(error?.response?.data?.message);
-        console.log(error);
-        throw new Error(error.response.data.message);
-        // throw new Error(error.response.data.message);
-      }
-    },
-    onSuccess: (data) => {
-      console.log(data);
-      setSuccess(true);
-      setButtonDisabled(false);
-      onStepSubmit();
-    },
-    onError: (error) => {
-      console.log(error);
-      setButtonDisabled(false);
-    },
-  });
+// 
   const {
     handleSubmit,
     control,
@@ -95,35 +63,12 @@ const [success , setSuccess] = useState(false)
   } = useForm({ mode: "all" });
 
   const onStepSubmit = (data) => {
-    onSubmit(data); // Pass data back to parent component
+  const payLoad = {
+    contactPerson : data
+  }
+    onSubmit(payLoad); // Pass data back to parent component
   };
 
-  // const formSubmit = (data) => {
-  //     const {
-  //       firstName,
-  //       lastName,
-  //       phoneNumberTwo,
-  //       email,
-  //       phoneNumber,
-  //       gender,
-  //     } = data;
-
-  //     const payLoad = {
-  //       firstName,
-  //       lastName,
-  //       phoneNumberTwo,
-  //       email,
-  //       role: "merchant",
-  //       phoneNumber,
-  //       gender: gender,
-  //       isAttendant: true,
-  //     };
-  //     registerAssociationMutation.mutate(payLoad);
-  //     setButtonDisabled(true);
-      
-  //     console.log(payLoad)
-      
-  // };
 
   return (
     <Box
@@ -318,7 +263,7 @@ const [success , setSuccess] = useState(false)
           Company Phone Number
         </Typography>
         <Controller
-          name="phoneNumber"
+          name="phone"
           control={control}
           defaultValue=""
           rules={{ required: true, minLength: 11, maxLength: 11 }}
@@ -346,9 +291,9 @@ const [success , setSuccess] = useState(false)
                   </InputAdornment>
                 ),
               }}
-              error={!!errors.phoneNumber} // Apply error state based on validation result
+              error={!!errors.phone} // Apply error state based on validation result
               helperText={
-                errors.phoneNumber ? "Phone number must be 11 digits" : null
+                errors.phone ? "Phone number must be 11 digits" : null
               } // Display error message
             />
           )}
@@ -359,7 +304,7 @@ const [success , setSuccess] = useState(false)
           Alt phone Number
         </Typography>
         <Controller
-          name="phoneNumberTwo"
+          name="altPhone"
           control={control}
           defaultValue=""
           rules={{ required: true, minLength: 11, maxLength: 11 }}
@@ -387,9 +332,9 @@ const [success , setSuccess] = useState(false)
                   </InputAdornment>
                 ),
               }}
-              error={!!errors.phoneNumber} // Apply error state based on validation result
+              error={!!errors.altPhone} // Apply error state based on validation result
               helperText={
-                errors.phoneNumber ? "Phone number must be 11 digits" : null
+                errors.altPhone ? "Phone number must be 11 digits" : null
               } // Display error message
             />
           )}
@@ -422,7 +367,7 @@ const [success , setSuccess] = useState(false)
 
         <Button
           disabled={
-            !isValid || registerAssociationMutation.isLoading || buttonDisabled
+            !isValid 
           }
           type="submit"
           sx={{
@@ -439,9 +384,6 @@ const [success , setSuccess] = useState(false)
             fontWeight: "500",
           }}
         >
-          {registerAssociationMutation.isLoading || buttonDisabled ? (
-            <CircularProgress size="1.2rem" sx={{ color: "white" }} />
-          ) : (
             <Typography
               sx={{
                 fontWeight: "400",
@@ -451,7 +393,6 @@ const [success , setSuccess] = useState(false)
             >
               Save and Proceed
             </Typography>
-          )}
         </Button>
       </form>
 
@@ -550,4 +491,4 @@ const [success , setSuccess] = useState(false)
   );
 };
 
-export default AssoContact;
+export default TranspoContact;
