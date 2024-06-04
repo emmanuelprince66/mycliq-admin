@@ -38,8 +38,7 @@ const Onboarding = () => {
                 onClick={() => setShowVentures("Bankdetails")}
                 sx={{
                   display: "flex",
-                  justifyContent: "space-between",
-                  alignItems: "center",
+                
                   background: showVentures === "Bankdetails" && "#F4F4F4",
                   width: "100%",
                   "&:hover": {
@@ -65,10 +64,10 @@ const Onboarding = () => {
                 <Box
                   sx={{
                     display: "flex",
-                    justifyContent: "center",
+                    justifyContent: "start",
                     width: "100%",
+                    ml:"1rem",
                     alignItems: "center",
-                    gap: "12px",
                     color:
                       showVentures === "Bankdetails" ? "#333333" : "#828282",
                   }}
@@ -87,8 +86,6 @@ const Onboarding = () => {
                 onClick={() => setShowVentures("Merchant")}
                 sx={{
                   display: "flex",
-                  justifyContent: "space-between",
-                  alignItems: "center",
                   background: showVentures === "Merchant" && "#F4F4F4",
                   width: "100%",
                   "&:hover": {
@@ -114,7 +111,8 @@ const Onboarding = () => {
                 <Box
                   sx={{
                     display: "flex",
-                    justifyContent: "center",
+                    justifyContent: "start",
+                    ml:"1rem",
                     width: "100%",
                     alignItems: "center",
                     gap: "12px",
@@ -163,7 +161,8 @@ const Onboarding = () => {
                 <Box
                   sx={{
                     display: "flex",
-                    justifyContent: "center",
+                    justifyContent: "start",
+                    ml:"1rem",
                     width: "100%",
                     alignItems: "center",
                     gap: "12px",
@@ -212,7 +211,8 @@ const Onboarding = () => {
                 <Box
                   sx={{
                     display: "flex",
-                    justifyContent: "center",
+                    justifyContent: "start",
+                    ml:"1rem",
                     width: "100%",
                     alignItems: "center",
                     gap: "16px",
