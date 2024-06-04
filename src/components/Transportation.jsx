@@ -223,6 +223,7 @@ const token = Cookies.get("authToken")
           </>
         )}
       </Box>
+      <ToastContainer />
     </Box>
   );
 };

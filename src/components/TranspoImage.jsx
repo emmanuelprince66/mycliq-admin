@@ -45,32 +45,38 @@ const TranspoImage = ({ onSubmit, handleBack, showSpinner }) => {
   //     console.log(formPayLoad);
   //   };
 
-  const onStepSubmit = async (data, formPayLoad) => {
-    // Create a new FormData object
-    console.log(data);
-    console.log(formPayLoad);
-    const formData = new FormData();
+const onStepSubmit = async (data, formPayLoad) => {
+  // Create a new FormData object
+  console.log(data);
+  console.log(formPayLoad);
+  const formData = new FormData();
 
-    // Append form data to the FormData object
-    Object.keys(data).forEach((key) => {
-      formData.append(key, data[key]);
+  // Append form data to the FormData object
+  Object.keys(data).forEach((key) => {
+    formData.append(key, data[key]);
+  });
+
+  // Append the image file to the FormData object
+  if (imagePreview) {
+    const file = await fetch(imagePreview).then((r) => r.blob());
+    const reader = new FileReader();
+    reader.readAsDataURL(file);
+    const venturesLogo = await new Promise((resolve) => {
+      reader.onloadend = () => {
+        resolve(reader.result);
+      };
     });
 
-    // Append the image file to the FormData object
-    if (imagePreview) {
-      const file = await fetch(imagePreview).then((r) => r.blob());
-      formData.append("image", file);
+    const formDatta = {
+      ...data,
+      venturesLogo, // This will be a string
+      tags: ["transportation"],
+    };
 
-      const formDatta = {
-        ...data,
-        venturesLogo: "ventures logo",
-        tags: ["transportation"],
-      };
-
-      // Call the onSubmit function with the FormData object
-      onSubmit(formDatta);
-    }
-  };
+    // Call the onSubmit function with the FormData object
+    onSubmit(formDatta);
+  }
+};
 
   return (
     <Box

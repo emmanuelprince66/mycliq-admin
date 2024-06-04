@@ -6,6 +6,7 @@ import Merchant from "../components/Merchant";
 import Association from "../components/Association";
 import { styled } from "@mui/material/styles";
 import Transportation from "../components/Transportation";
+import BankDetailsForm from "../components/BankDetailsForm";
 
 const Item = styled(Box)(({ theme }) => ({
   backgroundColor: theme.palette.mode === "dark" ? "#1A2027" : "#fff",
@@ -17,7 +18,7 @@ const Item = styled(Box)(({ theme }) => ({
 }));
 
 const Onboarding = () => {
-  const [ showVentures , setShowVentures] = useState("Merchant")
+  const [ showVentures , setShowVentures] = useState("Bankdetails")
   
   return (
     <Box sx={{ flexGrow: 1 }}>
@@ -33,6 +34,55 @@ const Onboarding = () => {
                 justifyContent: "center",
               }}
             >
+              <Box
+                onClick={() => setShowVentures("Bankdetails")}
+                sx={{
+                  display: "flex",
+                  justifyContent: "space-between",
+                  alignItems: "center",
+                  background: showVentures === "Bankdetails" && "#F4F4F4",
+                  width: "100%",
+                  "&:hover": {
+                    cursor: "pointer",
+                  },
+                  mt: "1rem",
+                  height: "40px",
+                  borderRadius: "8px",
+                }}
+              >
+                {showVentures === "Bankdetails" && (
+                  <Box
+                    sx={{
+                      height: "40px",
+                      minWidth: "4px",
+                      background: showVentures === "Bankdetails" && "#FF7F00",
+                      borderTopRightRadius: "8px",
+                      borderBottomRightRadius: "8px",
+                    }}
+                  ></Box>
+                )}
+
+                <Box
+                  sx={{
+                    display: "flex",
+                    justifyContent: "center",
+                    width: "100%",
+                    alignItems: "center",
+                    gap: "12px",
+                    color:
+                      showVentures === "Bankdetails" ? "#333333" : "#828282",
+                  }}
+                >
+                  <Typography
+                    sx={{
+                      fomtWeight: "500",
+                      fontSize: "14px",
+                    }}
+                  >
+                    Upload Bank Details
+                  </Typography>
+                </Box>
+              </Box>
               <Box
                 onClick={() => setShowVentures("Merchant")}
                 sx={{
@@ -193,11 +243,12 @@ const Onboarding = () => {
             ) : showVentures === "Transportation" ? (
               <Transportation />
             ) : (
-              ""
+              showVentures === "Bankdetails" && <BankDetailsForm/>
             )}
           </Item>
         </Grid>
       </Grid>
+      
     </Box>
   );
 };

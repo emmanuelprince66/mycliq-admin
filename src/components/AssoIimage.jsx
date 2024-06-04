@@ -19,7 +19,7 @@ import EmailOutlinedIcon from "@mui/icons-material/EmailOutlined";
 
 import { Input } from "@mui/icons-material";
 
-const AssoIimage = ({ onSubmit , handleBack }) => {
+const AssoIimage = ({ onSubmit , handleBack , showSpinner }) => {
   const [imagePreview, setImagePreview] = useState(null);
   const {
     handleSubmit,
@@ -39,30 +39,38 @@ const AssoIimage = ({ onSubmit , handleBack }) => {
       setImagePreview(null);
     }
   };
-  const onStepSubmit = async (data) => {
-    // Create a new FormData object
-    const formData = new FormData();
+const onStepSubmit = async (data, formPayLoad) => {
+  // Create a new FormData object
+  console.log(data);
+  console.log(formPayLoad);
+  const formData = new FormData();
 
-    // Append form data to the FormData object
-    Object.keys(data).forEach((key) => {
-      formData.append(key, data[key]);
+  // Append form data to the FormData object
+  Object.keys(data).forEach((key) => {
+    formData.append(key, data[key]);
+  });
+
+  // Append the image file to the FormData object
+  if (imagePreview) {
+    const file = await fetch(imagePreview).then((r) => r.blob());
+    const reader = new FileReader();
+    reader.readAsDataURL(file);
+    const venturesLogo = await new Promise((resolve) => {
+      reader.onloadend = () => {
+        resolve(reader.result);
+      };
     });
 
-    // Append the image file to the FormData object
-    if (imagePreview) {
-      const file = await fetch(imagePreview).then((r) => r.blob());
-      formData.append("image", file);
+    const formDatta = {
+      ...data,
+      venturesLogo, // This will be a string
+      tags: ["association"],
+    };
 
-      const formDatta = {
-        ...data,
-        img: file,
-      };
-
-      // Call the onSubmit function with the FormData object
-      onSubmit(formDatta);
-    }
-  };
-
+    // Call the onSubmit function with the FormData object
+    onSubmit(formDatta);
+  }
+};
   return (
     <Box
       sx={{
@@ -427,7 +435,7 @@ const AssoIimage = ({ onSubmit , handleBack }) => {
           />
           {/* Add more Controller components for other fields similarly */}
           <Button
-            disabled={!isValid}
+            disabled={!isValid || showSpinner}
             type="submit"
             sx={{
               background: "#333333",
@@ -443,21 +451,33 @@ const AssoIimage = ({ onSubmit , handleBack }) => {
               fontWeight: "500",
             }}
           >
-            Save and proceed
+            {showSpinner ? (
+              <CircularProgress size="1.2rem" sx={{ color: "white" }} />
+            ) : (
+              <Typography
+                sx={{
+                  fontWeight: "400",
+                  fontSize: "16px",
+                  color: "#fff",
+                }}
+              >
+                Save and Proceed
+              </Typography>
+            )}
           </Button>
           <Button
-          onClick={handleBack}
+            onClick={handleBack}
             sx={{
               width: "50%",
-              my:"10px",
-              mx:"auto",
+              my: "10px",
+              mx: "auto",
               padding: "10px",
               borderRadius: "8px",
-              color:"#333333",
+              color: "#333333",
               borderColor: "#ff7f00",
               textTransform: "none",
               "&:hover": {
-                borderColor:"#ff7f00",
+                borderColor: "#ff7f00",
               },
             }}
             variant="outlined"

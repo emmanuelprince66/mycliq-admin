@@ -11,15 +11,23 @@ import {
 import AssoBank from "./AssoBank";
 import AssoContact from "./AssoContact";
 import AssoIimage from "./AssoIimage";
+import Cookies from "js-cookie";
+import { toast, ToastContainer } from "react-toastify";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import CheckRoundedIcon from "@mui/icons-material/CheckRounded";
+import { BaseAxios } from "../helpers/axiosInstance";
 
-const steps = ["Step 1", "Step 2", "Step 3"];
+
+const steps = ["Step 1", "Step 2"];
 
 const Association = () => {
+const token = Cookies.get("authToken");
+
   const [activeStep, setActiveStep] = useState(0);
   const [completedSteps, setCompletedSteps] = useState(new Set()); // Step 1
   const [collectedData, setCollectedData] = useState({});
   const [resetForm, setResetForm] = useState(false);
+  const [showSpinner , setShowSpinner] = useState(false)
 
   const CustomStepConnector = () => (
     <StepConnector
@@ -28,6 +36,47 @@ const Association = () => {
       }}
     />
   );
+    const notifyError = (msg) => {
+      toast.error(msg, {
+        position: toast.POSITION.TOP_RIGHT,
+        autoClose: 6000, // Time in milliseconds
+      });
+    };
+    // use mutation hook
+    const registerAssociationMutation = useMutation({
+      mutationFn: async (payLoad) => {
+        try {
+          const response = await BaseAxios({
+            url: "/admin/merchant/onboard",
+            method: "POST",
+            data: payLoad,
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          });
+
+          return response.data;
+        } catch (error) {
+          notifyError(error?.response?.data?.message);
+          console.log(error);
+          setShowSpinner(false);
+          handleReset();
+          throw new Error(error.response.data.message);
+          // throw new Error(error.response.data.message);
+        }
+      },
+      onSuccess: (data) => {
+        console.log(data);
+        setSuccess(true);
+        setShowSpinner(false);
+        handleReset();
+      },
+      onError: (error) => {
+        console.log(error);
+        setShowSpinner(false);
+        handleReset();
+      },
+    });
 
   const handleNext = (data) => {
     const newData = { ...collectedData, ...data };
@@ -60,9 +109,15 @@ const Association = () => {
       case 0:
         return <AssoContact onSubmit={handleNext} />;
       case 1:
-        return <AssoIimage onSubmit={handleNext} handleBack={handleBack} />;
-      case 2:
-        return <AssoBank onSubmit={handleNext} handleBack={handleBack} />;
+        return (
+          <AssoIimage
+            onSubmit={handleNext}
+            handleBack={handleBack}
+            showSpinner={showSpinner}
+          />
+        );
+      // case 2:
+      //   return <AssoBank onSubmit={handleNext} handleBack={handleBack} />;
       default:
         return null;
     }
@@ -154,6 +209,7 @@ const Association = () => {
           </>
         )}
       </Box>
+      <ToastContainer />
     </Box>
   );
 };
