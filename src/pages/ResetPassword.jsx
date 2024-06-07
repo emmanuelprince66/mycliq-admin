@@ -41,6 +41,7 @@ const ResetPassword = () => {
   const weakPasswordIcon = new RegExp("(?=.{7,})");
   const mediumPassword = new RegExp("(?=.*[A-Z])");
   const strongPassword = new RegExp("(?=.*[^A-Za-z0-9])");
+  const token = getCookie("authToken");
 
   const navigate = useNavigate();
   const handleClose = () => {
@@ -128,28 +129,23 @@ const ResetPassword = () => {
 
   // reset password
   const mutationReset = useMutation({
-    mutationFn: async (token) => {
+    mutationFn: async (payload) => {
       try {
-        const response = await axios.patch(
-          "https://mycliq-staging-6cffceb00c13.herokuapp.com/api/auth/password-change",
-          {
-            currentPassword: currentPasswordInput,
-            newPassword: newPasswordInput,
-            confirmPassword: confirmPasswordInput,
+        const response = await BaseAxios({
+          url: "account/change-password",
+          method: "POST",
+          data: payload,
+          headers: {
+            Authorization: `Bearer ${token}`,
           },
-          {
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
-          }
-        );
+        });
 
         return response.data;
       } catch (error) {
         console.log(error);
-        setCurrentPasswordInput("");
-        setConfirmPasswordInput("");
-        setNewPasswordInput("");
+        // setCurrentPasswordInput("");
+        // setConfirmPasswordInput("");
+        // setNewPasswordInput("");
 
         const err = error.response
           ? Array.isArray(error.response.data.message)
@@ -166,13 +162,13 @@ const ResetPassword = () => {
       setDisableButton(false);
       setOpenSuccessModal(true);
 
-      setCurrentPasswordInput("");
-      setConfirmPasswordInput("");
-      setNewPasswordInput("");
+      // setCurrentPasswordInput("");
+      // setConfirmPasswordInput("");
+      // setNewPasswordInput("");
 
-      setTimeout(() => {
-        navigate("/");
-      }, [2000]);
+      // setTimeout(() => {
+      //   navigate("/");
+      // }, [2000]);
       // Handle success, update state, or perform further actions
     },
     onError: (error) => {
@@ -245,10 +241,13 @@ const ResetPassword = () => {
       return;
     }
     if (newPasswordInput === confirmPasswordInput) {
-      const token = getCookie("authToken");
-      console.log(token);
+    
+    const payload = {
+      currentPassword:currentPasswordInput,
+      newPassword:newPasswordInput
+      }
 
-      mutationReset.mutate(token);
+      mutationReset.mutate(payload);
     } else {
       notifyErr("Password do not match");
       setDisableButton(false);

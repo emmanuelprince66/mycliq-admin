@@ -14,6 +14,7 @@ import { ToastContainer, toast } from "react-toastify";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import axios from "axios";
 import backRedArrow from "../assets/images/backRedArrow.svg";
+import { BaseAxios } from "../helpers/axiosInstance";
 import closeIcon from "../assets/images/closeIcon.svg";
 import VerifyForgotPassword from "../components/VerifyForgotPassword";
 
@@ -35,17 +36,13 @@ const VerifyOTP = ({ setShowVerifyUser, setShowLoginImage }) => {
   }, []);
 
   const mutationOTP = useMutation({
-    mutationFn: async (phone) => {
-      console.log(phoneNo);
+    mutationFn: async (payload) => {
       try {
-        const response = await axios.post(
-          "https://mycliq-staging-6cffceb00c13.herokuapp.com/api/auth/request-otp",
-          {
-            phone: phone, // Replace with your phone data
-            otpType: "password-reset",
-          }
-        );
-
+        const response = await BaseAxios({
+          url: "auth/password-reset",
+          method: "POST",
+          data: payload,
+        });
         return response.data;
       } catch (error) {
         console.log(error);
@@ -70,7 +67,11 @@ const VerifyOTP = ({ setShowVerifyUser, setShowLoginImage }) => {
   const handleGetOTP = () => {
     setDisableButton(true);
     if (phoneNo && phoneNo.length === 11) {
-      mutationOTP.mutate(phoneNo);
+    
+    const payload  = {
+    phone : phoneNo
+    }
+      mutationOTP.mutate(payload);
       
     } else if (phoneNo.length < 11) {
       notifyErr("Phone number is too short");
