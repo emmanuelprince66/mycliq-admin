@@ -49,6 +49,7 @@ import {
   fillUserDetails,
 } from "../utils/store/merchantSlice";
 import search from "../assets/images/admin/search.svg";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import { useNavigate } from "react-router-dom";
 import { AuthAxios } from "../helpers/axiosInstance";
 import { TransactionDetails } from "./transactionDetails";
@@ -77,6 +78,7 @@ const TableCom = () => {
   const [rowsPerPage, setRowsPerPage] = useState(5);
   const [anchorEl, setAnchorEl] = React.useState(null);
   const open = Boolean(anchorEl);
+  
 
   const [depositDetails, setDepositDetails] = useState(false);
   const [withdrawalDetails, setWithdrawalDetails] = useState(false);
@@ -120,75 +122,83 @@ const TableCom = () => {
   
   console.log(transactionDetails)
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await AuthAxios({
-          url: "/admin/trx",
-          method: "GET",
-        });
 
-        if (response) {
-          console.log(response);
-          setLoading(false);
-          // dispatch(saveTransactionData(response?.data));
+const {
+  data: transactions,
+  error,
+  isLoading,
+} = useQuery({
+  queryKey: "transactions",
+  queryFn: async () => {
+    try {
+      const response = await AuthAxios.get("/admin/trx");
+      console.log(response)
+      return response?.data?.data?.records;
+    } catch (error) {
+      throw new Error("Failed to fetch customer data");
+    }
+  },
+  onSuccess: (data) => {
+    console.log(data);
+  },
+  staleTime: 5000, // Cache data for 5 seconds
+}); 
 
-          // const paidData = response?.data?.queryResult.filter(
-          //   (item) => item?.remittance?.paymentStatus === "PAID"
-          // );
-          // setPaidDataState(paidData.length);
 
-          // const verifiedData = response?.data?.queryResult.filter(
-          //   (item) => item?.remittance?.paymentStatus === "VERIFIED"
-          // );
-          // setVerifiedDataState(verifiedData.length);
 
-          let filteredItems = response?.data?.data?.records;
-          console.log(filteredItems)
 
-          // Filter by name (if searchTerm exists)
-          if (searchTerm) {
-            filteredItems = filteredItems.filter((item) => {
-              return (
-                item?.origin?.accountName
-                  .toLowerCase()
-                  .includes(searchTerm.toLowerCase()) ||
-                item?.origin?.accountNumber
-                  .toLowerCase()
-                  .includes(searchTerm.toLowerCase())
-              );
-            });
-          }
 
-          // // Filter by date range (if selectedDates exist)
-          // if (selectedDates) {
-          //   const startDate = new Date(selectedDates.startDate);
-          //   const endDate = new Date(selectedDates.endDate);
-          //   endDate.setDate(endDate.getDate() + 1); // Increment by 1 day to include the end date
+useEffect(() =>  {
+ 
+ if(transactions) {
+   // const paidData = response?.data?.queryResult.filter(
+   //   (item) => item?.remittance?.paymentStatus === "PAID"
+   // );
+   // setPaidDataState(paidData.length);
 
-          //   filteredItems = filteredItems.filter((item) => {
-          //     const createdAt = new Date(item?.createdAt);
+   // const verifiedData = response?.data?.queryResult.filter(
+   //   (item) => item?.remittance?.paymentStatus === "VERIFIED"
+   // );
+   // setVerifiedDataState(verifiedData.length);
 
-          //     return (
-          //       createdAt >= startDate && createdAt < endDate // Inclusive of start and end dates
-          //     );
-          //   });
-          // }
-      console.log(filteredItems)
-          setTransactionData(filteredItems);
-          dispatch(saveTransactionData(response?.data?.data?.records));
-        }
-      } catch (error) {
-        console.log(error);
-        if (error.response && error.response.status === 401) {
-          // navigate("/");
-          localStorage.clear();
-        }
-      }
-    };
+   let filteredItems = transactions;
+   console.log(filteredItems);
 
-    fetchData();
-  }, [dispatch, searchTerm, selectedDates]);
+   // Filter by name (if searchTerm exists)
+   if (searchTerm) {
+     filteredItems = filteredItems.filter((item) => {
+       return (
+         item?.origin?.accountName
+           .toLowerCase()
+           .includes(searchTerm.toLowerCase()) ||
+         item?.origin?.accountNumber
+           .toLowerCase()
+           .includes(searchTerm.toLowerCase())
+       );
+     });
+   }
+
+   // // Filter by date range (if selectedDates exist)
+   // if (selectedDates) {
+   //   const startDate = new Date(selectedDates.startDate);
+   //   const endDate = new Date(selectedDates.endDate);
+   //   endDate.setDate(endDate.getDate() + 1); // Increment by 1 day to include the end date
+
+   //   filteredItems = filteredItems.filter((item) => {
+   //     const createdAt = new Date(item?.createdAt);
+
+   //     return (
+   //       createdAt >= startDate && createdAt < endDate // Inclusive of start and end dates
+   //     );
+   //   });
+   // }
+   setTransactionData(filteredItems);
+   dispatch(saveTransactionData(transactions));
+ }
+
+} , [transactions , dispatch , selectedDates , searchTerm] )
+
+
   
   
   console.log(transactionData)
@@ -214,14 +224,14 @@ const TableCom = () => {
   return (
     <Box
       sx={{
-        width: "1080px",
+        width: "100%",
         padding: "1rem",
         backgroundColor: "#fffcfc",
       }}
     >
       <Box
         sx={{
-          width: "1080px",
+          width: "100%",
           display: "flex",
           gap: "2rem",
           mb: "1rem",
@@ -232,7 +242,8 @@ const TableCom = () => {
             display: "flex",
             flexDirection: "column",
             padding: "16px",
-            width: "356px",
+            // width: "356px",
+            width:"100%",
             gap: "0.8rem",
           }}
         >
@@ -284,7 +295,8 @@ const TableCom = () => {
             display: "flex",
             flexDirection: "column",
             padding: "16px",
-            width: "356px",
+            // width: "356px",
+            width:"100%",
             gap: "0.8rem",
           }}
         >
@@ -341,7 +353,8 @@ const TableCom = () => {
             display: "flex",
             flexDirection: "column",
             padding: "16px",
-            width: "356px",
+            // width: "356px",
+            width:"100%",
             gap: "0.8rem",
           }}
         >
@@ -442,7 +455,7 @@ const TableCom = () => {
 
       <Box
         sx={{
-          width: "1080px",
+          width: "100%",
           margin: "auto",
           padding: "1rem",
           backgroundColor: "#fff",
@@ -590,7 +603,7 @@ const TableCom = () => {
                     </TableCell>
                   </TableRow>
                 ))} */}
-              {loading ? (
+              {isLoading ? (
                 <TableRow>
                   <CircularProgress
                     size="4.2rem"

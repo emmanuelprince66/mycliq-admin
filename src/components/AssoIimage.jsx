@@ -80,8 +80,7 @@ const onStepSubmit = async (data, formPayLoad) => {
         alignItems: "center",
         justifyContent: "content",
         my: "3rem",
-        overflowY: "scroll",
-        maxHeight: "70vh",
+        height:"100%",
         pb: "2rem",
       }}
     >

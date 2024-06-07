@@ -107,6 +107,9 @@ const CustomerProfile = ({
   handleCloseShowCustomerProfile,
 }) => {
 
+
+console.log(customerDataById)
+
   const [showProfileDetails, setShowProfileDetails] = useState(false);
   const handleCloseProfileDetails = () => setShowProfileDetails(false);
   const [page, setPage] = useState(0);

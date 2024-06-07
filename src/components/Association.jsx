@@ -18,7 +18,7 @@ import CheckRoundedIcon from "@mui/icons-material/CheckRounded";
 import { BaseAxios } from "../helpers/axiosInstance";
 
 
-const steps = ["Step 1", "Step 2"];
+const steps = ["Step 1", "Step 2" , "Step 3"];
 
 const Association = () => {
 const token = Cookies.get("authToken");
@@ -116,8 +116,8 @@ const token = Cookies.get("authToken");
             showSpinner={showSpinner}
           />
         );
-      // case 2:
-      //   return <AssoBank onSubmit={handleNext} handleBack={handleBack} />;
+      case 2:
+        return <AssoBank onSubmit={handleNext} handleBack={handleBack} />;
       default:
         return null;
     }

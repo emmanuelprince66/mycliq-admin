@@ -25,6 +25,7 @@ import avatar from "../assets/avatar.svg";
 import search from "../../src/assets/search.svg";
 
 import download from "../assets/images/download.svg";
+import { useMutation, useQuery } from "@tanstack/react-query";
 
 import CircularProgress from "@mui/material/CircularProgress";
 import FormattedPrice from "../components/FormattedPrice";
@@ -53,95 +54,37 @@ const dispatch  = useDispatch();
   const [customerData , setCustomerData] = useState([]) 
   const [customerDataById , setCustomerDataById] = useState([])
 
-  const dummyCustomers = [
-    {
-      id: 1,
-      name: "Eleanor Poe",
-      img: "",
-    },
-    {
-      id: 2,
-      name: "Pleanor Poe",
-      img: "",
-    },
-    {
-      id: 3,
-      name: "Sleanor Poe",
-      img: "",
-    },
-    {
-      id: 4,
-      name: "Bleanor Poe",
-      img: "",
-    },
-    {
-      id: 5,
-      name: "Gleanor Poe",
-      img: "",
-    },
-    {
-      id: 6,
-      name: "Gleanor Poe",
-      img: "",
-    },
-    {
-      id: 7,
-      name: "Gleanor Poe",
-      img: "",
-    },
-    {
-      id: 8,
-      name: "Gleanor Poe",
-      img: "",
-    },
-    {
-      id: 9,
-      name: "Gleanor Poe",
-      img: "",
-    },
-    {
-      id: 10,
-      name: "Gleanor Poe",
-      img: "",
-    },
-    {
-      id: 11,
-      name: "Gleanor Poe",
-      img: "",
-    },
-    {
-      id: 12,
-      name: "Gleanor Poe",
-      img: "",
-    },
-  ];
+
   
   
-  const handleShowCustomerProfile = () => setShowCustomerProfile(true)
-  const handleCloseShowCustomerProfile = () => setShowCustomerProfile(false)
-  const handleOpenCustomerProfile = (id) => {
-  console.log(id)
-  setCustomerDataById(customerData[id])
-  handleShowCustomerProfile();
+
   
-  }
-  
-    useEffect(() => {
-      async function getCustomersData() {
-        try {
-          const response = await AuthAxios.get("/admin/user");
-          console.log(response);
-          setCustomerData(response?.data?.data?.records);
-          dispatch(fillCustomersData(response?.data?.data?.records));
-        } catch (error) {
-          console.log(error);
-        }
-      }
-      getCustomersData();
-    }, [dispatch]);
+const { data: customers, error, isLoading } = useQuery({
+  queryKey: "customers",
+  queryFn: async () => {
+    try {
+      const response = await AuthAxios.get("/admin/user");
+      return response?.data?.data?.records;
+    } catch (error) {
+      throw new Error("Failed to fetch customer data");
+    }
+  },
+  onSuccess: (data) => {
+  console.log(data)
+  },
+  staleTime: 5000, // Cache data for 5 seconds
+}); 
     
     
-    console.log(customerData)
+      const handleShowCustomerProfile = () => setShowCustomerProfile(true);
+      const handleCloseShowCustomerProfile = () =>
+        setShowCustomerProfile(false);
+      const handleOpenCustomerProfile = (id) => {
+        console.log(id);
+        setCustomerDataById(customers[id]);
+        handleShowCustomerProfile();
+      };
+
   return (
     <Box
       sx={{
@@ -153,7 +96,7 @@ const dispatch  = useDispatch();
       <SelectDate />
       <Box
         sx={{
-          width: "1080px",
+          width: "100%",
           display: "flex",
           gap: "2rem",
           mb: "1rem",
@@ -164,7 +107,8 @@ const dispatch  = useDispatch();
             display: "flex",
             flexDirection: "column",
             padding: "16px",
-            width: "356px",
+            // width: "356px",
+            width: "100%",
             gap: "0.8rem",
           }}
         >
@@ -212,7 +156,8 @@ const dispatch  = useDispatch();
             display: "flex",
             flexDirection: "column",
             padding: "16px",
-            width: "356px",
+            // width: "356px",
+            width: "100%",
             gap: "0.8rem",
           }}
         >
@@ -269,7 +214,8 @@ const dispatch  = useDispatch();
             display: "flex",
             flexDirection: "column",
             padding: "16px",
-            width: "356px",
+            // width: "356px",
+            width: "100%",
             gap: "0.8rem",
           }}
         >
@@ -318,7 +264,8 @@ const dispatch  = useDispatch();
             display: "flex",
             flexDirection: "column",
             padding: "16px",
-            width: "356px",
+            // width: "356px",
+            width: "100%",
             gap: "0.8rem",
           }}
         >
@@ -459,7 +406,7 @@ const dispatch  = useDispatch();
                   <TableContainer component={Paper}>
                     <Table sx={{ minWidth: 100, padding: "8px" }}>
                       <TableBody>
-                        {!customerData || customerData?.length === 0 ? (
+                        {!customers || customers?.length === 0 || isLoading ? (
                           <CircularProgress
                             size="4.2rem"
                             sx={{
@@ -468,11 +415,15 @@ const dispatch  = useDispatch();
                               padding: "1em",
                             }}
                           />
-                        ) : customerData &&
-                          Array.isArray(customerData) &&
-                          customerData?.length > 0 ? (
-                          customerData?.map((item, i) => (
-                            <TableRow key={item.id}>
+                        ) : customers &&
+                          Array.isArray(customers) &&
+                          customers?.length > 0 ? (
+                          customers?.map((item, i) => (
+                            <TableRow
+                              key={item.id}
+                              className="cursor-pointer"
+                              onClick={() => handleOpenCustomerProfile(i)}
+                            >
                               <TableCell sx={{ width: "50px" }}>
                                 {page * rowsPerPage + i + 1}
                               </TableCell>
@@ -520,7 +471,6 @@ const dispatch  = useDispatch();
                                     display: "flex",
                                     justifyContent: "end",
                                   }}
-                                  onClick={() => handleOpenCustomerProfile(i)}
                                 >
                                   <img src={ArrowRight} alt="a-right" />
                                 </Box>
@@ -539,7 +489,7 @@ const dispatch  = useDispatch();
                   <TablePagination
                     rowsPerPageOptions={[]}
                     component="div"
-                    count={dummyCustomers?.totalCount || 0}
+                    count={customers?.totalCount || 0}
                     rowsPerPage={rowsPerPage}
                     page={page}
                     onPageChange={(event, newPage) => setPage(newPage)}

@@ -67,10 +67,8 @@ const Transaction= () => {
     <Box
       sx={{
         width: "100%",
-
       }}
     >
-
       <TableCom />
     </Box>
   );

@@ -20,7 +20,7 @@ import EmailOutlinedIcon from "@mui/icons-material/EmailOutlined";
 
 import { Input } from "@mui/icons-material";
 
-const TranspoImage = ({ onSubmit, handleBack, showSpinner }) => {
+const VentureImage = ({ onSubmit, handleBack }) => {
   const [imagePreview, setImagePreview] = useState(null);
   const {
     handleSubmit,
@@ -45,38 +45,43 @@ const TranspoImage = ({ onSubmit, handleBack, showSpinner }) => {
   //     console.log(formPayLoad);
   //   };
 
-const onStepSubmit = async (data, formPayLoad) => {
-  // Create a new FormData object
-  console.log(data);
-  console.log(formPayLoad);
-  const formData = new FormData();
+  const onStepSubmit = async (data) => {
+    // Create a new FormData object
+    console.log(data);
+    const formData = new FormData();
 
-  // Append form data to the FormData object
-  Object.keys(data).forEach((key) => {
-    formData.append(key, data[key]);
-  });
-
-  // Append the image file to the FormData object
-  if (imagePreview) {
-    const file = await fetch(imagePreview).then((r) => r.blob());
-    const reader = new FileReader();
-    reader.readAsDataURL(file);
-    const venturesLogo = await new Promise((resolve) => {
-      reader.onloadend = () => {
-        resolve(reader.result);
-      };
+    // Append form data to the FormData object
+    Object.keys(data).forEach((key) => {
+      formData.append(key, data[key]);
     });
 
-    const formDatta = {
-      ...data,
-      venturesLogo, // This will be a string
-      tags: ["transportation"],
-    };
+    // Append the image file to the FormData object
+    if (imagePreview) {
+      const file = await fetch(imagePreview).then((r) => r.blob());
+      const reader = new FileReader();
+      reader.readAsDataURL(file);
+      const venturesLogo = await new Promise((resolve) => {
+        reader.onloadend = () => {
+          resolve(reader.result);
+        };
+      });
 
-    // Call the onSubmit function with the FormData object
-    onSubmit(formDatta);
-  }
+const formDatta = {
+  ...data,
+  venturesLogo,
+  tags: [`${data?.ventureTag}`],
 };
+
+const newFormDatta = { ...formDatta };
+delete newFormDatta.ventureTag;
+
+console.log(newFormDatta);
+
+      // Call the onSubmit function with the FormData object
+
+      onSubmit(newFormDatta);
+    }
+  };
 
   return (
     <Box
@@ -87,8 +92,6 @@ const onStepSubmit = async (data, formPayLoad) => {
         alignItems: "center",
         justifyContent: "content",
         my: "3rem",
-        overflowY: "scroll",
-        maxHeight: "70vh",
         pb: "2rem",
       }}
     >
@@ -195,8 +198,64 @@ const onStepSubmit = async (data, formPayLoad) => {
                       School/Institution
                     </Box>
                   </MenuItem>
-                  <MenuItem value="MALE">Futa</MenuItem>
-                  <MenuItem value="FEMALE">Female</MenuItem>
+                  <MenuItem value="FUNAAB">
+                    Federal University of Agriculture
+                  </MenuItem>
+                  <MenuItem value="PCU">
+                    Precious Conerstone University
+                  </MenuItem>
+                  <MenuItem value="AAUA">Adekunle Ajasin University</MenuItem>
+                  <MenuItem value="BC">Babcock University</MenuItem>
+                  <MenuItem value="CU">Covenant University</MenuItem>
+                  <MenuItem value="LCU">Lead City University</MenuItem>
+                  <MenuItem value="UI">University Of Ibadan</MenuItem>
+                </Select>
+              )}
+            />
+          </FormControl>
+          <Typography
+            sx={{
+              color: "#000",
+              fontWeight: "600",
+              fontSize: "13px",
+              my: "5px",
+            }}
+          >
+            Venture
+          </Typography>
+          <FormControl sx={{ mb: "1rem", width: "100%" }}>
+            <Controller
+              name="ventureTag"
+              control={control}
+              defaultValue=""
+              render={({ field }) => (
+                <Select
+                  {...field}
+                  sx={{
+                    "& .MuiOutlinedInput-notchedOutline": {},
+                    "&.Mui-focused .MuiOutlinedInput-notchedOutline": {
+                      borderColor: "#ff7f00",
+                    },
+                    "&:hover .MuiOutlinedInput-notchedOutline": {
+                      borderColor: "#ff7f00",
+                    },
+                  }}
+                  displayEmpty
+                >
+                  <MenuItem value="" disabled>
+                    <Box>
+                      <AddBusinessRoundedIcon /> &nbsp; | Select
+                      Venture
+                    </Box>
+                  </MenuItem>
+                  <MenuItem value="transportation">
+                    Transportation
+                  </MenuItem>
+                  <MenuItem value="association">
+               Association
+                  </MenuItem>
+                  <MenuItem value="ticketing">Ticketing</MenuItem>
+
                 </Select>
               )}
             />
@@ -442,7 +501,7 @@ const onStepSubmit = async (data, formPayLoad) => {
           />
           {/* Add more Controller components for other fields similarly */}
           <Button
-            disabled={!isValid || showSpinner}
+            disabled={!isValid}
             type="submit"
             sx={{
               background: "#333333",
@@ -458,19 +517,15 @@ const onStepSubmit = async (data, formPayLoad) => {
               fontWeight: "500",
             }}
           >
-            {showSpinner ? (
-              <CircularProgress size="1.2rem" sx={{ color: "white" }} />
-            ) : (
-              <Typography
-                sx={{
-                  fontWeight: "400",
-                  fontSize: "16px",
-                  color: "#fff",
-                }}
-              >
-                Save and Proceed
-              </Typography>
-            )}
+            <Typography
+              sx={{
+                fontWeight: "400",
+                fontSize: "16px",
+                color: "#fff",
+              }}
+            >
+              Save and Proceed
+            </Typography>
           </Button>
           <Button
             onClick={handleBack}
@@ -497,4 +552,4 @@ const onStepSubmit = async (data, formPayLoad) => {
   );
 };
 
-export default TranspoImage;
+export default VentureImage;

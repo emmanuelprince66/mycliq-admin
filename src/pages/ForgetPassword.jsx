@@ -13,6 +13,7 @@ import { useNavigate } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import axios from "axios";
+import { BaseAxios } from "../helpers/axiosInstance";
 import closeIcon from "../assets/images/closeIcon.svg";
 import VerifyForgotPassword from "../components/VerifyForgotPassword";
 
@@ -31,12 +32,11 @@ const ForgetPassword = () => {
     mutationFn: async (phone) => {
       console.log(phoneNo);
       try {
-        const response = await axios.post(
-          "https://check-server-api.herokuapp.com/api/v1/auth/request-otp",
-          {
-            phone: phone, // Replace with your phone data
-          }
-        );
+        const response = await BaseAxios({
+          url: "/auth/password-reset",
+          method: "POST",
+          phone: phone,
+        });
 
         return response.data;
       } catch (error) {

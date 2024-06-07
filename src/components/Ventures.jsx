@@ -12,8 +12,6 @@ import AssoBank from "./AssoBank";
 import AssoContact from "./AssoContact";
 import AssoIimage from "./AssoIimage";
 import CheckRoundedIcon from "@mui/icons-material/CheckRounded";
-import TranspoContact from "./TranspoContact";
-import TranspoImage from "./TranspoImage";
 import Cookies from "js-cookie";
 
 import { toast, ToastContainer } from "react-toastify";
@@ -22,14 +20,16 @@ import closeIcon from "../assets/images/closeIcon.svg";
 import successIcon from "../assets/successIcon.svg";
 import info from "../assets/images/admin/info.svg";
 import { BaseAxios } from "../helpers/axiosInstance";
+import VentureContact from "./VentureContact";
+import VentureImage from "./VentureImage";
+import VentureBank from "./VentureBank";
 
 
-import TranspoBank from "./TranspoBank";
 
-const steps = ["Step 1", "Step 2"];
-// const steps = ["Step 1", "Step 2", "Step 3"];
+// const steps = ["Step 1", "Step 2"];
+const steps = ["Step 1", "Step 2", "Step 3"];
 
-const Transportation = () => {
+const Ventures = () => {
 const token = Cookies.get("authToken")
   const [activeStep, setActiveStep] = useState(0);
   const [completedSteps, setCompletedSteps] = useState(new Set()); // Step 1
@@ -50,8 +50,14 @@ const token = Cookies.get("authToken")
       autoClose: 6000, // Time in milliseconds
     });
   };
+  const notifySuccess = (msg) => {
+    toast.success(msg, {
+      position: toast.POSITION.TOP_RIGHT,
+      autoClose: 6000, // Time in milliseconds
+    });
+  };
   // use mutation hook
-  const registerTransportationMutation = useMutation({
+  const registerVenturesMutation = useMutation({
     mutationFn: async (payLoad) => {
       try {
         const response = await BaseAxios({
@@ -77,6 +83,7 @@ const token = Cookies.get("authToken")
       console.log(data);
       setSuccess(true);
       setShowSpinner(false);
+      notifySuccess(data?.message)
       handleReset();
       
     },
@@ -97,7 +104,7 @@ const token = Cookies.get("authToken")
       console.log("Final submission data:", newData);
       
       console.log(newData)
-      registerTransportationMutation.mutate(newData)
+      registerVenturesMutation.mutate(newData)
       setShowSpinner(true)
 
       //   setResetForm(true);
@@ -121,17 +128,19 @@ const token = Cookies.get("authToken")
   const getStepContent = (step) => {
     switch (step) {
       case 0:
-        return <TranspoContact onSubmit={handleNext} />;
+        return <VentureContact onSubmit={handleNext} 
+        />;
       case 1:
         return (
-          <TranspoImage
+          <VentureImage
             onSubmit={handleNext}
             handleBack={handleBack}
-            showSpinner={showSpinner}
           />
         );
-    //   case 2:
-    //     return <TranspoBank onSubmit={handleNext} handleBack={handleBack} />;
+      case 2:
+        return <VentureBank onSubmit={handleNext} handleBack={handleBack} 
+        showSpinner={showSpinner}
+        />;
       default:
         return null;
     }
@@ -147,7 +156,7 @@ const token = Cookies.get("authToken")
           mb: "20px",
         }}
       >
-        Register a New Transportation
+        Register a New Venture
       </Typography>
 
       <Box className=" w-[60%] mx-auto">
@@ -228,4 +237,4 @@ const token = Cookies.get("authToken")
   );
 };
 
-export default Transportation;
+export default Ventures;

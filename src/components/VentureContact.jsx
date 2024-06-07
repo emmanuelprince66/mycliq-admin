@@ -32,7 +32,7 @@ import successIcon from "../assets/successIcon.svg";
 import PersonOutlineRoundedIcon from "@mui/icons-material/PersonOutlineRounded";
 import { BaseAxios } from "../helpers/axiosInstance";
 
-const TranspoContact = ({ onSubmit }) => {
+const VentureContact = ({ onSubmit }) => {
   const [buttonDisabled, setButtonDisabled] = useState(false);
   const [success, setSuccess] = useState(false);
   const handleCloseSuccess = () => setSuccess(false);
@@ -79,8 +79,6 @@ const TranspoContact = ({ onSubmit }) => {
         alignItems: "center",
         justifyContent: "content",
         my: "3rem",
-        overflowY: "scroll",
-        maxHeight: "70vh",
         pb: "2rem",
       }}
     >
@@ -491,4 +489,4 @@ const TranspoContact = ({ onSubmit }) => {
   );
 };
 
-export default TranspoContact;
+export default VentureContact;
