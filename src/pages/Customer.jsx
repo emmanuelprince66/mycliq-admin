@@ -402,7 +402,7 @@ const { data: customers, error, isLoading } = useQuery({
                 {/* search ends */}
 
                 {/* customers  */}
-                <Box sx={{ maxHeight: "100vh", overflowY: "scroll" }}>
+                <Box sx={{ maxHeight: "100vh", overflowY: "scroll"  }}>
                   <TableContainer component={Paper}>
                     <Table sx={{ minWidth: 100, padding: "8px" }}>
                       <TableBody>

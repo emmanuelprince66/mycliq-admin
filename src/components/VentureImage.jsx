@@ -33,7 +33,6 @@ const VentureImage = ({ onSubmit, handleBack }) => {
     console.log("handleImageChange called"); // Add this line
     const file = e.target.files[0];
 
-    console.log(file, "hello");
     if (file && file.type.substr(0, 5) === "image") {
       setImagePreview(URL.createObjectURL(file));
     } else {
@@ -74,11 +73,6 @@ const formDatta = {
 
 const newFormDatta = { ...formDatta };
 delete newFormDatta.ventureTag;
-
-console.log(newFormDatta);
-
-      // Call the onSubmit function with the FormData object
-
       onSubmit(newFormDatta);
     }
   };

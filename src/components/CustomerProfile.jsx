@@ -115,7 +115,7 @@ console.log(customerDataById)
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(100);
   return (
-    <Box className="w-full overflow-y-scroll max-h-[70vh]">
+    <Box className="w-full overflow-y-auto max-h-[100vh]">
       <Grid container spacing={2}>
         <Grid xs={12}>
           <Box className="w-full bg-white rounded-md p-2 flex flex-col border-grey-400  border-[1px] items-start justify-center">
