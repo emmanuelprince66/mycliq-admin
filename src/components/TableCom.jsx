@@ -703,7 +703,7 @@ const TableCom = () => {
                 transactionData.map((item, i) => (
                   <TableRow key={item.id}>
                     <TableCell>{i + 1}</TableCell>
-                    <TableCell>"John Doe"</TableCell>
+                    <TableCell>John Doe</TableCell>
                     <TableCell>{item?.origin?.accountName}</TableCell>
                     <TableCell>{item?.type}</TableCell>
                     <TableCell>
