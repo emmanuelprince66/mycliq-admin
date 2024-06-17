@@ -620,7 +620,7 @@ const TableCom = () => {
             >
               <TableRow>
                 <TableCell>S/N</TableCell>
-                <TableCell>Transaction ID</TableCell>
+                <TableCell>Name</TableCell>
                 <TableCell>User</TableCell>
                 <TableCell>Type</TableCell>
                 <TableCell>Amount(N)</TableCell>
@@ -703,7 +703,7 @@ const TableCom = () => {
                 transactionData.map((item, i) => (
                   <TableRow key={item.id}>
                     <TableCell>{i + 1}</TableCell>
-                    <TableCell>{item?.id.slice(0, 15)}</TableCell>
+                    <TableCell>"John Doe"</TableCell>
                     <TableCell>{item?.origin?.accountName}</TableCell>
                     <TableCell>{item?.type}</TableCell>
                     <TableCell>
