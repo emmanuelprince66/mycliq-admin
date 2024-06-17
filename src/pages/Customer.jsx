@@ -1044,7 +1044,7 @@ const Customer = () => {
                 </Box>
 
                 {/* customers  */}
-                <Box className="max-h-[87vh] overflow-y-auto">
+                <Box className="h-[87vh] overflow-y-auto">
                   <TableContainer component={Paper}>
                     <Table sx={{ minWidth: 100, padding: "8px" }}>
                       <TableBody>

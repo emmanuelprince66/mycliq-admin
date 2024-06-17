@@ -119,7 +119,7 @@ const CustomerProfile = ({
       <Grid container spacing={2}>
         <Grid xs={12}></Grid>
         <Grid item xs={7}>
-          <Box className="w-full bg-white rounded-md p-4 flex-col border-grey-400 border-[1px] h-[76vh]  overflow-y-scroll items-start justify-center">
+          <Box className="w-full bg-white rounded-md p-4 flex-col border-grey-400 border-[1px]  overflow-y-scroll items-start justify-center">
             <Typography
               sx={{
                 color: "#1E1E1E",
