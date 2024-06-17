@@ -204,15 +204,15 @@ const Customer = () => {
                   </Typography>
                   <Typography
                     sx={{
-                      fontSize: "24px",
-                      fontWeight: 600,
+                      fontSize: "20px",
+                      fontWeight: 500,
                       color: "#000",
                     }}
                   >
                     <FormattedPrice amount={3000000} />
                   </Typography>
                 </Box>
-                <Box className="flex flex-col gap-2 items-start">
+                <Box className="flex flex-col gap-1 items-start">
                   <Typography
                     sx={{
                       fontSize: "12px",
@@ -223,8 +223,8 @@ const Customer = () => {
                   </Typography>
                   <Typography
                     sx={{
-                      fontSize: "24px",
-                      fontWeight: 600,
+                      fontSize: "20px",
+                      fontWeight: 500,
                       color: "#000",
                     }}
                   >
@@ -290,8 +290,8 @@ const Customer = () => {
                   </Typography>
                   <Typography
                     sx={{
-                      fontSize: "24px",
-                      fontWeight: 600,
+                      fontSize: "20px",
+                      fontWeight: 500,
                       color: "#000",
                     }}
                   >
@@ -309,8 +309,8 @@ const Customer = () => {
                   </Typography>
                   <Typography
                     sx={{
-                      fontSize: "24px",
-                      fontWeight: 600,
+                      fontSize: "20px",
+                      fontWeight: 500,
                       color: "#000",
                     }}
                   >
@@ -367,8 +367,8 @@ const Customer = () => {
                   </Typography>
                   <Typography
                     sx={{
-                      fontSize: "24px",
-                      fontWeight: 600,
+                      fontSize: "20px",
+                      fontWeight: 500,
                       color: "#000",
                     }}
                   >
@@ -386,8 +386,8 @@ const Customer = () => {
                   </Typography>
                   <Typography
                     sx={{
-                      fontSize: "24px",
-                      fontWeight: 600,
+                      fontSize: "20px",
+                      fontWeight: 500,
                       color: "#000",
                     }}
                   >
@@ -444,8 +444,8 @@ const Customer = () => {
                   </Typography>
                   <Typography
                     sx={{
-                      fontSize: "24px",
-                      fontWeight: 600,
+                      fontSize: "20px",
+                      fontWeight: 500,
                       color: "#000",
                     }}
                   >
@@ -463,8 +463,8 @@ const Customer = () => {
                   </Typography>
                   <Typography
                     sx={{
-                      fontSize: "24px",
-                      fontWeight: 600,
+                      fontSize: "20px",
+                      fontWeight: 500,
                       color: "#000",
                     }}
                   >
@@ -520,8 +520,8 @@ const Customer = () => {
                   </Typography>
                   <Typography
                     sx={{
-                      fontSize: "24px",
-                      fontWeight: 600,
+                      fontSize: "20px",
+                      fontWeight: 500,
                       color: "#000",
                     }}
                   >
@@ -539,8 +539,8 @@ const Customer = () => {
                   </Typography>
                   <Typography
                     sx={{
-                      fontSize: "24px",
-                      fontWeight: 600,
+                      fontSize: "20px",
+                      fontWeight: 500,
                       color: "#000",
                     }}
                   >
@@ -609,8 +609,8 @@ const Customer = () => {
                   </Typography>
                   <Typography
                     sx={{
-                      fontSize: "24px",
-                      fontWeight: 600,
+                      fontSize: "20px",
+                      fontWeight: 500,
                       color: "#000",
                     }}
                   >
@@ -628,8 +628,8 @@ const Customer = () => {
                   </Typography>
                   <Typography
                     sx={{
-                      fontSize: "24px",
-                      fontWeight: 600,
+                      fontSize: "20px",
+                      fontWeight: 500,
                       color: "#000",
                     }}
                   >
@@ -695,8 +695,8 @@ const Customer = () => {
                   </Typography>
                   <Typography
                     sx={{
-                      fontSize: "24px",
-                      fontWeight: 600,
+                      fontSize: "20px",
+                      fontWeight: 500,
                       color: "#000",
                     }}
                   >
@@ -714,8 +714,8 @@ const Customer = () => {
                   </Typography>
                   <Typography
                     sx={{
-                      fontSize: "24px",
-                      fontWeight: 600,
+                      fontSize: "20px",
+                      fontWeight: 500,
                       color: "#000",
                     }}
                   >
@@ -772,8 +772,8 @@ const Customer = () => {
                   </Typography>
                   <Typography
                     sx={{
-                      fontSize: "24px",
-                      fontWeight: 600,
+                      fontSize: "20px",
+                      fontWeight: 500,
                       color: "#000",
                     }}
                   >
@@ -791,8 +791,8 @@ const Customer = () => {
                   </Typography>
                   <Typography
                     sx={{
-                      fontSize: "24px",
-                      fontWeight: 600,
+                      fontSize: "20px",
+                      fontWeight: 500,
                       color: "#000",
                     }}
                   >
@@ -849,8 +849,8 @@ const Customer = () => {
                   </Typography>
                   <Typography
                     sx={{
-                      fontSize: "24px",
-                      fontWeight: 600,
+                      fontSize: "20px",
+                      fontWeight: 500,
                       color: "#000",
                     }}
                   >
@@ -868,8 +868,8 @@ const Customer = () => {
                   </Typography>
                   <Typography
                     sx={{
-                      fontSize: "24px",
-                      fontWeight: 600,
+                      fontSize: "20px",
+                      fontWeight: 500,
                       color: "#000",
                     }}
                   >
@@ -894,7 +894,7 @@ const Customer = () => {
                     sx={{
                       color: "#1E1E1E",
                       fontWeight: "500",
-                      fontSize: "15px",
+                      fontSize: "20px",
                       display: "flex",
                       gap: "6px",
                       alignItems: "center",
@@ -939,7 +939,7 @@ const Customer = () => {
                 <div className="flex gap-[5rem]  mt-4 items-center">
                   <Typography
                     sx={{
-                      color: "#1E1E1E",
+                      color: "#4F4F4F",
                       fontWeight: "500",
                       fontSize: "15px",
                       display: "flex",
@@ -969,7 +969,7 @@ const Customer = () => {
                   </Typography>
                   <Typography
                     sx={{
-                      color: "#1E1E1E",
+                      color: "#4F4F4F",
                       fontWeight: "500",
                       fontSize: "15px",
                       display: "flex",
@@ -1044,7 +1044,7 @@ const Customer = () => {
                 </Box>
 
                 {/* customers  */}
-                <Box className="max-h-[69vh] overflow-y-auto">
+                <Box className="max-h-[87vh] overflow-y-auto">
                   <TableContainer component={Paper}>
                     <Table sx={{ minWidth: 100, padding: "8px" }}>
                       <TableBody>
@@ -1145,9 +1145,9 @@ const Customer = () => {
                 <Box sx={{ alignItems: "start", pt: "10px", px: "10px" }}>
                   <Typography
                     sx={{
-                      fontWeight: "40 0",
-                      fontSize: "16px",
-                      color: "#4F4F4F",
+                      fontWeight: "500",
+                      fontSize: "20px",
+                      color: "#1E1E1E",
                       py: "10px",
                     }}
                   >
@@ -1200,9 +1200,9 @@ const Customer = () => {
                 <Box sx={{ alignItems: "start", pt: "10px", px: "10px " }}>
                   <Typography
                     sx={{
-                      fontWeight: "40 0",
-                      fontSize: "16px",
-                      color: "#4F4F4F",
+                      fontWeight: "500",
+                      fontSize: "20px",
+                      color: "#1E1E1E",
                       py: "10px",
                     }}
                   >
@@ -1241,9 +1241,9 @@ const Customer = () => {
                 <Box sx={{ alignItems: "start", pt: "10px", px: "10px " }}>
                   <Typography
                     sx={{
-                      fontWeight: "40 0",
-                      fontSize: "16px",
-                      color: "#4F4F4F",
+                      fontWeight: "500",
+                      fontSize: "20px",
+                      color: "#1e1e1e",
                       py: "10px",
                     }}
                   >

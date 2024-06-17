@@ -269,8 +269,8 @@ const TableCom = () => {
           <Box>
             <Typography
               sx={{
-                fomtWeight: "600",
-                fontSize: "24px",
+                fomtWeight: "500",
+                fontSize: "20px",
                 color: "#1E1E1E",
               }}
             >
@@ -331,8 +331,8 @@ const TableCom = () => {
           <Box>
             <Typography
               sx={{
-                fomtWeight: "600",
-                fontSize: "24px",
+                fomtWeight: "500",
+                fontSize: "20px",
                 color: "##1E1E1E",
               }}
             >
@@ -383,8 +383,8 @@ const TableCom = () => {
           <Box>
             <Typography
               sx={{
-                fomtWeight: "600",
-                fontSize: "24px",
+                fomtWeight: "500",
+                fontSize: "20px",
                 color: "##1E1E1E",
               }}
             >
@@ -432,8 +432,8 @@ const TableCom = () => {
           <Box>
             <Typography
               sx={{
-                fomtWeight: "600",
-                fontSize: "24px",
+                fomtWeight: "500",
+                fontSize: "20px",
                 color: "##1E1E1E",
               }}
             >

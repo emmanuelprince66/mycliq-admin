@@ -105,7 +105,7 @@ export const Overview = () => {
               </Typography>
               <Typography
                 sx={{
-                  fontSize: "24px",
+                  fontSize: "20px",
                   fontWeight: 600,
                   color: "#000",
                 }}
@@ -113,7 +113,7 @@ export const Overview = () => {
                 <FormattedPrice amount={3000000} />
               </Typography>
             </Box>
-            <Box className="flex flex-col gap-2 items-start">
+            <Box className="flex flex-col gap-1 items-start">
               <Typography
                 sx={{
                   fontSize: "12px",
@@ -124,7 +124,7 @@ export const Overview = () => {
               </Typography>
               <Typography
                 sx={{
-                  fontSize: "24px",
+                  fontSize: "20px",
                   fontWeight: 600,
                   color: "#000",
                 }}
@@ -191,7 +191,7 @@ export const Overview = () => {
               </Typography>
               <Typography
                 sx={{
-                  fontSize: "24px",
+                  fontSize: "20px",
                   fontWeight: 600,
                   color: "#000",
                 }}
@@ -199,7 +199,7 @@ export const Overview = () => {
                 <FormattedPrice amount={3000000} />
               </Typography>
             </Box>
-            <Box className="flex flex-col gap-2 items-start">
+            <Box className="flex flex-col gap-1 items-start">
               <Typography
                 sx={{
                   fontSize: "12px",
@@ -210,7 +210,7 @@ export const Overview = () => {
               </Typography>
               <Typography
                 sx={{
-                  fontSize: "24px",
+                  fontSize: "20px",
                   fontWeight: 600,
                   color: "#000",
                 }}
@@ -268,7 +268,7 @@ export const Overview = () => {
               </Typography>
               <Typography
                 sx={{
-                  fontSize: "24px",
+                  fontSize: "20px",
                   fontWeight: 600,
                   color: "#000",
                 }}
@@ -276,7 +276,7 @@ export const Overview = () => {
                 <FormattedPrice amount={3000000} />
               </Typography>
             </Box>
-            <Box className="flex flex-col gap-2 items-start">
+            <Box className="flex flex-col gap-1 items-start">
               <Typography
                 sx={{
                   fontSize: "12px",
@@ -287,7 +287,7 @@ export const Overview = () => {
               </Typography>
               <Typography
                 sx={{
-                  fontSize: "24px",
+                  fontSize: "20px",
                   fontWeight: 600,
                   color: "#000",
                 }}
@@ -344,7 +344,7 @@ export const Overview = () => {
               </Typography>
               <Typography
                 sx={{
-                  fontSize: "24px",
+                  fontSize: "20px",
                   fontWeight: 600,
                   color: "#000",
                 }}
@@ -352,7 +352,7 @@ export const Overview = () => {
                 <FormattedPrice amount={3000000} />
               </Typography>
             </Box>
-            <Box className="flex flex-col gap-2 items-start">
+            <Box className="flex flex-col gap-1 items-start">
               <Typography
                 sx={{
                   fontSize: "12px",
@@ -363,7 +363,7 @@ export const Overview = () => {
               </Typography>
               <Typography
                 sx={{
-                  fontSize: "24px",
+                  fontSize: "20px",
                   fontWeight: 600,
                   color: "#000",
                 }}
@@ -420,7 +420,7 @@ export const Overview = () => {
               </Typography>
               <Typography
                 sx={{
-                  fontSize: "24px",
+                  fontSize: "20px",
                   fontWeight: 600,
                   color: "#000",
                 }}
@@ -428,7 +428,7 @@ export const Overview = () => {
                 <FormattedPrice amount={3000000} />
               </Typography>
             </Box>
-            <Box className="flex flex-col gap-2 items-start">
+            <Box className="flex flex-col gap-1 items-start">
               <Typography
                 sx={{
                   fontSize: "12px",
@@ -439,7 +439,7 @@ export const Overview = () => {
               </Typography>
               <Typography
                 sx={{
-                  fontSize: "24px",
+                  fontSize: "20px",
                   fontWeight: 600,
                   color: "#000",
                 }}
@@ -459,9 +459,9 @@ export const Overview = () => {
               <Box sx={{ alignItems: "start" }}>
                 <Typography
                   sx={{
-                    fontWeight: "400",
-                    fontSize: "16px",
-                    color: "#4F4F4F",
+                    fontWeight: "500",
+                    fontSize: "20px",
+                    color: "#1E1E1E",
                     py: "10px",
                   }}
                 >
@@ -519,9 +519,9 @@ export const Overview = () => {
               <Box sx={{ alignItems: "start", pt: "10px", px: "10px" }}>
                 <Typography
                   sx={{
-                    fontWeight: "400",
-                    fontSize: "16px",
-                    color: "#4F4F4F",
+                    fontWeight: "500",
+                    fontSize: "20px",
+                    color: "#1E1E1E",
                     py: "10px",
                   }}
                 >
@@ -583,9 +583,9 @@ export const Overview = () => {
               <Box sx={{ alignItems: "start" }}>
                 <Typography
                   sx={{
-                    fontWeight: "400",
-                    fontSize: "16px",
-                    color: "#4F4F4F",
+                    fontWeight: "500",
+                    fontSize: "20px",
+                    color: "#1E1E1E",
                     p: "20px",
                   }}
                 >
@@ -600,8 +600,8 @@ export const Overview = () => {
               <Box sx={{ alignItems: "start", pt: "10px", px: "10px" }}>
                 <Typography
                   sx={{
-                    fontWeight: "400",
-                    fontSize: "16px",
+                    fontWeight: "500",
+                    fontSize: "20px",
                     color: "#4F4F4F",
                     py: "10px",
                   }}

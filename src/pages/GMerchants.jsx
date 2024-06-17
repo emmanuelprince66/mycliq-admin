@@ -193,8 +193,8 @@ const GMerchants = () => {
           <Box>
             <Typography
               sx={{
-                fontWeight: "600",
-                fontSize: "24px",
+                fontWeight: "500",
+                fontSize: "20px",
                 color: "#1E1E1E",
               }}
             >
@@ -250,8 +250,8 @@ const GMerchants = () => {
           <Box>
             <Typography
               sx={{
-                fontWeight: "600",
-                fontSize: "24px",
+                fontWeight: "500",
+                fontSize: "20px",
                 color: "#1E1E1E",
               }}
             >
@@ -299,8 +299,8 @@ const GMerchants = () => {
           <Box>
             <Typography
               sx={{
-                fontWeight: "600",
-                fontSize: "24px",
+                fontWeight: "500",
+                fontSize: "20px",
                 color: "#1E1E1E",
               }}
             >
@@ -348,8 +348,8 @@ const GMerchants = () => {
           <Box>
             <Typography
               sx={{
-                fontWeight: "600",
-                fontSize: "24px",
+                fontWeight: "500",
+                fontSize: "20px",
                 color: "#1E1E1E",
               }}
             >
@@ -397,8 +397,8 @@ const GMerchants = () => {
           <Box>
             <Typography
               sx={{
-                fontWeight: "600",
-                fontSize: "24px",
+                fontWeight: "500",
+                fontSize: "20px",
                 color: "#1E1E1E",
               }}
             >
@@ -463,8 +463,8 @@ const GMerchants = () => {
               <Box>
                 <Typography
                   sx={{
-                    fontWeight: "600",
-                    fontSize: "18px",
+                    fontWeight: "500",
+                    fontSize: "16px",
                     color: "#1E1E1E",
                   }}
                 >
@@ -527,8 +527,8 @@ const GMerchants = () => {
               <Box>
                 <Typography
                   sx={{
-                    fontWeight: "600",
-                    fontSize: "18px",
+                    fontWeight: "500",
+                    fontSize: "16px",
                     color: "#1E1E1E",
                   }}
                 >
@@ -591,8 +591,8 @@ const GMerchants = () => {
               <Box>
                 <Typography
                   sx={{
-                    fontWeight: "600",
-                    fontSize: "18px",
+                    fontWeight: "500",
+                    fontSize: "16px",
                     color: "#1E1E1E",
                   }}
                 >
@@ -655,8 +655,8 @@ const GMerchants = () => {
               <Box>
                 <Typography
                   sx={{
-                    fontWeight: "600",
-                    fontSize: "18px",
+                    fontWeight: "500",
+                    fontSize: "16px",
                     color: "#1E1E1E",
                   }}
                 >
@@ -719,8 +719,8 @@ const GMerchants = () => {
               <Box>
                 <Typography
                   sx={{
-                    fontWeight: "600",
-                    fontSize: "18px",
+                    fontWeight: "500",
+                    fontSize: "16px",
                     color: "#1E1E1E",
                   }}
                 >
@@ -754,7 +754,7 @@ const GMerchants = () => {
                   sx={{
                     color: "#1E1E1E",
                     fontWeight: "500",
-                    fontSize: "15px",
+                    fontSize: "20px",
                     display: "flex",
                     gap: "6px",
                     alignItems: "center",
@@ -799,7 +799,7 @@ const GMerchants = () => {
               <div className="flex gap-[5rem]  mt-4 items-center">
                 <Typography
                   sx={{
-                    color: "#1E1E1E",
+                    color: "#4F4F4F",
                     fontWeight: "500",
                     fontSize: "15px",
                     display: "flex",
@@ -829,7 +829,7 @@ const GMerchants = () => {
                 </Typography>
                 <Typography
                   sx={{
-                    color: "#1E1E1E",
+                    color: "#4F4F4F",
                     fontWeight: "500",
                     fontSize: "15px",
                     display: "flex",
@@ -904,7 +904,7 @@ const GMerchants = () => {
               </Box>
 
               {/* customers  */}
-              <Box className="max-h-[69vh] overflow-y-auto">
+              <Box className="max-h-[87vh] overflow-y-auto">
                 <TableContainer component={Paper}>
                   <Table sx={{ minWidth: 100, padding: "8px" }}>
                     <TableBody>
@@ -1001,8 +1001,8 @@ const GMerchants = () => {
               <Box sx={{ alignItems: "start", pt: "10px", px: "10px" }}>
                 <Typography
                   sx={{
-                    fontWeight: "40 0",
-                    fontSize: "16px",
+                    fontWeight: "500",
+                    fontSize: "20px",
                     color: "#4F4F4F",
                     py: "10px",
                   }}
@@ -1056,9 +1056,9 @@ const GMerchants = () => {
               <Box sx={{ alignItems: "start", pt: "10px", px: "10px " }}>
                 <Typography
                   sx={{
-                    fontWeight: "40 0",
-                    fontSize: "16px",
-                    color: "#4F4F4F",
+                    fontWeight: "500",
+                    fontSize: "20px",
+                    color: "#1E1E1E",
                     py: "10px",
                   }}
                 >
@@ -1097,9 +1097,9 @@ const GMerchants = () => {
               <Box sx={{ alignItems: "start", pt: "10px", px: "10px " }}>
                 <Typography
                   sx={{
-                    fontWeight: "40 0",
-                    fontSize: "16px",
-                    color: "#4F4F4F",
+                    fontWeight: "500",
+                    fontSize: "20px",
+                    color: "#1E1E1E",
                     py: "10px",
                   }}
                 >
