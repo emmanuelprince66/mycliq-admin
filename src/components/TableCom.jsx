@@ -61,7 +61,6 @@ import DiscountDetails from "./DiscountDetails";
 import CreateOffer from "./CreateOffer";
 const TableCom = () => {
   const [transactionData, setTransactionData] = useState([]);
-  console.log(transactionData);
   const [open1, setOpen1] = React.useState(false);
   const [data, setData] = useState({});
   const handleClose1 = () => setOpen1(false);
@@ -78,12 +77,14 @@ const TableCom = () => {
   const [rowsPerPage, setRowsPerPage] = useState(5);
   const [anchorEl, setAnchorEl] = React.useState(null);
   const open = Boolean(anchorEl);
-  
 
   const [depositDetails, setDepositDetails] = useState(false);
   const [withdrawalDetails, setWithdrawalDetails] = useState(false);
   const [discountDetails, setDiscountDetails] = useState(false);
   const [createOffer, setCreateOffer] = useState(false);
+
+  const [transactionFilter, setTransactionFilter] = useState("All");
+
   const handleCloseDepositDetails = () => setDepositDetails(false);
   const handleCloseWithdrawalDetails = () => setWithdrawalDetails(false);
   const handleCloseDiscountDetails = () => setDiscountDetails(false);
@@ -118,102 +119,93 @@ const TableCom = () => {
 
   const dispatch = useDispatch();
   const { transactionDetails } = useSelector((state) => state);
-  
-  
-  console.log(transactionDetails)
 
+  console.log(transactionDetails);
 
-const {
-  data: transactions,
-  error,
-  isLoading,
-} = useQuery({
-  queryKey: "transactions",
-  queryFn: async () => {
-    try {
-      const response = await AuthAxios.get("/admin/trx");
-      console.log(response)
-      return response?.data?.data?.records;
-    } catch (error) {
-      throw new Error("Failed to fetch customer data");
-    }
-  },
-  onSuccess: (data) => {
-    console.log(data);
-  },
-  staleTime: 5000, // Cache data for 5 seconds
-}); 
+  const handleTransactionFilter = (val) => {
+    setTransactionFilter(val);
+  };
 
-
-
-
-
-useEffect(() =>  {
- 
- if(transactions) {
-   // const paidData = response?.data?.queryResult.filter(
-   //   (item) => item?.remittance?.paymentStatus === "PAID"
-   // );
-   // setPaidDataState(paidData.length);
-
-   // const verifiedData = response?.data?.queryResult.filter(
-   //   (item) => item?.remittance?.paymentStatus === "VERIFIED"
-   // );
-   // setVerifiedDataState(verifiedData.length);
-
-   let filteredItems = transactions;
-   console.log(filteredItems);
-
-   // Filter by name (if searchTerm exists)
-   if (searchTerm) {
-     filteredItems = filteredItems.filter((item) => {
-       return (
-         item?.origin?.accountName
-           .toLowerCase()
-           .includes(searchTerm.toLowerCase()) ||
-         item?.origin?.accountNumber
-           .toLowerCase()
-           .includes(searchTerm.toLowerCase())
-       );
-     });
-   }
-
-   // // Filter by date range (if selectedDates exist)
-   // if (selectedDates) {
-   //   const startDate = new Date(selectedDates.startDate);
-   //   const endDate = new Date(selectedDates.endDate);
-   //   endDate.setDate(endDate.getDate() + 1); // Increment by 1 day to include the end date
-
-   //   filteredItems = filteredItems.filter((item) => {
-   //     const createdAt = new Date(item?.createdAt);
-
-   //     return (
-   //       createdAt >= startDate && createdAt < endDate // Inclusive of start and end dates
-   //     );
-   //   });
-   // }
-   setTransactionData(filteredItems);
-   dispatch(saveTransactionData(transactions));
- }
-
-} , [transactions , dispatch , selectedDates , searchTerm] )
-
-
-  
-  
-  console.log(transactionData)
-  
-  
-  
+  const {
+    data: transactions,
+    error,
+    isLoading,
+  } = useQuery({
+    queryKey: "transactions",
+    queryFn: async () => {
+      try {
+        const response = await AuthAxios.get("/admin/trx");
+        console.log(response);
+        return response?.data?.data?.records;
+      } catch (error) {
+        throw new Error("Failed to fetch customer data");
+      }
+    },
+    onSuccess: (data) => {
+      console.log(data);
+    },
+    staleTime: 5000, // Cache data for 5 seconds
+  });
 
   useEffect(() => {
-    const amtOfTotalDeposit = transactionDetails.reduce(
-      (prev, curr) => prev + JSON.parse(curr?.amount),
-      0
-    );
+    if (transactions) {
+      // const paidData = response?.data?.queryResult.filter(
+      //   (item) => item?.remittance?.paymentStatus === "PAID"
+      // );
+      // setPaidDataState(paidData.length);
 
-    console.log(amtOfTotalDeposit)
-    ;
+      // const verifiedData = response?.data?.queryResult.filter(
+      //   (item) => item?.remittance?.paymentStatus === "VERIFIED"
+      // );
+      // setVerifiedDataState(verifiedData.length);
+
+      let filteredItems = transactions;
+      console.log(filteredItems);
+
+      // Filter by name (if searchTerm exists)
+      if (searchTerm) {
+        filteredItems = filteredItems.filter((item) => {
+          return (
+            item?.origin?.accountName
+              .toLowerCase()
+              .includes(searchTerm.toLowerCase()) ||
+            item?.origin?.accountNumber
+              .toLowerCase()
+              .includes(searchTerm.toLowerCase())
+          );
+        });
+      }
+
+      // // Filter by date range (if selectedDates exist)
+      // if (selectedDates) {
+      //   const startDate = new Date(selectedDates.startDate);
+      //   const endDate = new Date(selectedDates.endDate);
+      //   endDate.setDate(endDate.getDate() + 1); // Increment by 1 day to include the end date
+
+      //   filteredItems = filteredItems.filter((item) => {
+      //     const createdAt = new Date(item?.createdAt);
+
+      //     return (
+      //       createdAt >= startDate && createdAt < endDate // Inclusive of start and end dates
+      //     );
+      //   });
+      // }
+      setTransactionData(filteredItems);
+      dispatch(saveTransactionData(transactions));
+    }
+  }, [transactions, dispatch, selectedDates, searchTerm]);
+
+  console.log(transactionData);
+
+  useEffect(() => {
+    const amtOfTotalDeposit =
+      transactions &&
+      transactionDetails.reduce(
+        (prev, curr) => prev + JSON.parse(curr?.amount),
+        0
+      );
+
+    console.log(amtOfTotalDeposit);
     setTotalDeposits(amtOfTotalDeposit);
   }, [transactionDetails, totalDeposits]);
 
@@ -243,7 +235,7 @@ useEffect(() =>  {
             flexDirection: "column",
             padding: "16px",
             // width: "356px",
-            width:"100%",
+            width: "100%",
             gap: "0.8rem",
           }}
         >
@@ -270,7 +262,7 @@ useEffect(() =>  {
               }}
             >
               Total <br />
-              Deposits
+              Inward
             </Typography>
           </Box>
 
@@ -283,9 +275,9 @@ useEffect(() =>  {
               }}
             >
               {totalDeposits === null ? (
-                <CircularProgress size="1.2rem" sx={{ color: "#DC0019" }} />
+                <CircularProgress size="1.2rem" sx={{ color: "#f78105" }} />
               ) : (
-                <FormattedPrice amount={totalDeposits} />
+                <FormattedPrice amount={totalDeposits || 0} />
               )}
             </Typography>
           </Box>
@@ -296,7 +288,7 @@ useEffect(() =>  {
             flexDirection: "column",
             padding: "16px",
             // width: "356px",
-            width:"100%",
+            width: "100%",
             gap: "0.8rem",
           }}
         >
@@ -331,7 +323,7 @@ useEffect(() =>  {
                 }}
               >
                 Total <br />
-                Withdrawals
+                OutWard
               </Typography>
             </Box>
           </Box>
@@ -344,7 +336,9 @@ useEffect(() =>  {
                 color: "##1E1E1E",
               }}
             >
-              <FormattedPrice amount={transactionDetails?.outflow} />
+              <FormattedPrice
+                amount={Number(transactionDetails?.outflow || 0)}
+              />
             </Typography>
           </Box>
         </Card>
@@ -354,7 +348,7 @@ useEffect(() =>  {
             flexDirection: "column",
             padding: "16px",
             // width: "356px",
-            width:"100%",
+            width: "100%",
             gap: "0.8rem",
           }}
         >
@@ -400,12 +394,12 @@ useEffect(() =>  {
             </Typography>
           </Box>
         </Card>
-        {/* <Card
+        <Card
           sx={{
             display: "flex",
             flexDirection: "column",
             padding: "16px",
-            width: "356px",
+            width: "100%",
             gap: "0.8rem",
           }}
         >
@@ -431,9 +425,7 @@ useEffect(() =>  {
                 color: "#4F4F4F",
               }}
             >
-              Total Revenue Cost
-              <br />
-              to Discount & Offers
+              Total <br /> Revenue Lost
             </Typography>
           </Box>
 
@@ -450,7 +442,7 @@ useEffect(() =>  {
               />
             </Typography>
           </Box>
-        </Card> */}
+        </Card>
       </Box>
 
       <Box
@@ -527,6 +519,98 @@ useEffect(() =>  {
           {/* search ends */}
         </Box>
 
+        <div className="  mt-7  mb-2 w-full flex items-center gap-5">
+          <div
+            className="flex items-center flex-col gap-2 cursor-pointer  min-h-[3rem]"
+            onClick={() => handleTransactionFilter("All")}
+          >
+            <div className="flex gap-2 items-center ">
+              <p className="text-[16px] text-[#F78105] font-[600]">
+                All Transaction
+              </p>
+              <span className="py-1 px-2 bg-[#FFEFD6] rounded-md">
+                <p className="text-[12px] text-[#A86500] font-[500]">
+                  {!isLoading && transactions?.length > 0 ? (
+                    transactions?.length
+                  ) : (
+                    <CircularProgress
+                      size="1rem"
+                      sx={{
+                        color: "#f78105",
+                        marginLeft: "auto",
+                      }}
+                    />
+                  )}
+                </p>
+              </span>
+            </div>
+            {transactionFilter === "All" && (
+              <div className="w-full h-1 rounded-tl-lg rounded-tr-lg bg-[#F78105]" />
+            )}
+          </div>
+          <div
+            className="flex items-center flex-col gap-2 cursor-pointer  min-h-[3rem]"
+            onClick={() => handleTransactionFilter("Inward")}
+          >
+            <div className="flex gap-2 items-center">
+              <p className="text-[16px] text-[#F78105] font-[600]">Inward</p>
+              {/* <span className="py-1 px-2 bg-[#FFEFD6] rounded-md">
+                <p className="text-[12px] text-[#A86500] font-[500]">122</p>
+              </span> */}
+            </div>
+            {transactionFilter === "Inward" && (
+              <div className="w-full h-1 rounded-tl-lg rounded-tr-lg bg-[#F78105]" />
+            )}
+          </div>
+          <div
+            className="flex items-center flex-col gap-2 cursor-pointer  min-h-[3rem]"
+            onClick={() => handleTransactionFilter("Outward")}
+          >
+            <div className="flex gap-2 items-center">
+              <p className="text-[16px] text-[#F78105] font-[600]">Outward</p>
+              {/* <span className="py-1 px-2 bg-[#FFEFD6] rounded-md">
+                <p className="text-[12px] text-[#A86500] font-[500]">122</p>
+              </span> */}
+            </div>
+            {transactionFilter === "Outward" && (
+              <div className="w-full h-1 rounded-tl-lg rounded-tr-lg bg-[#F78105]" />
+            )}
+          </div>
+          <div
+            className="flex items-center flex-col gap-2 cursor-pointer  min-h-[3rem]"
+            onClick={() => handleTransactionFilter("Wallet")}
+          >
+            <div className="flex gap-2 items-center">
+              <p className="text-[16px] text-[#F78105] font-[600]">
+                Wallet to Wallet
+              </p>
+              {/* <span className="py-1 px-2 bg-[#FFEFD6] rounded-md">
+                <p className="text-[12px] text-[#A86500] font-[500]">122</p>
+              </span> */}
+            </div>
+            {transactionFilter === "Wallet" && (
+              <div className="w-full h-1 rounded-tl-lg rounded-tr-lg bg-[#F78105]" />
+            )}
+          </div>
+          <div
+            className="flex items-center flex-col gap-2 cursor-pointer  min-h-[3rem]"
+            onClick={() => handleTransactionFilter("Bills")}
+          >
+            <div className="flex gap-2 items-center">
+              <p className="text-[16px] text-[#F78105] font-[600]">
+                Bill Payment
+              </p>
+              {/* <span className="py-1 px-2 bg-[#FFEFD6] rounded-md">
+                <p className="text-[12px] text-[#A86500] font-[500]">122</p>
+              </span> */}
+            </div>
+            {transactionFilter === "Bills" && (
+              <div className="w-full h-1 rounded-tl-lg rounded-tr-lg bg-[#F78105]" />
+            )}
+          </div>
+        </div>
+        <Divider sx={{ marginTop: "-20px", mb: "1rem" }} />
+
         <TableContainer component={Paper}>
           <Table sx={{ minWidth: 650, padding: "8px" }}>
             <TableHead
@@ -536,10 +620,11 @@ useEffect(() =>  {
             >
               <TableRow>
                 <TableCell>S/N</TableCell>
-                <TableCell>Account Name</TableCell>
-                <TableCell>Account Number</TableCell>
-                <TableCell>Current Balance</TableCell>
-                <TableCell>Amount</TableCell>
+                <TableCell>Transaction ID</TableCell>
+                <TableCell>User</TableCell>
+                <TableCell>Type</TableCell>
+                <TableCell>Amount(N)</TableCell>
+                <TableCell>Wallet Balance(N)</TableCell>
                 <TableCell>Status</TableCell>
                 <TableCell>Action</TableCell>
               </TableRow>
@@ -608,7 +693,7 @@ useEffect(() =>  {
                   <CircularProgress
                     size="4.2rem"
                     sx={{
-                      color: "#DC0019",
+                      color: "#f78105",
                       marginLeft: "auto",
                       padding: "1em",
                     }}
@@ -618,10 +703,13 @@ useEffect(() =>  {
                 transactionData.map((item, i) => (
                   <TableRow key={item.id}>
                     <TableCell>{i + 1}</TableCell>
+                    <TableCell>{item?.id.slice(0, 15)}</TableCell>
                     <TableCell>{item?.origin?.accountName}</TableCell>
-                    <TableCell>{item?.origin?.accountNumber}</TableCell>
-                    <TableCell>{item?.currentBalance}</TableCell>
-                    <TableCell>{item?.amount}</TableCell>
+                    <TableCell>{item?.type}</TableCell>
+                    <TableCell>
+                      <FormattedPrice amount={item?.amount} />
+                    </TableCell>
+                    <TableCell>{item?.fees}</TableCell>
                     <TableCell>
                       {" "}
                       <Box
@@ -637,7 +725,9 @@ useEffect(() =>  {
                           color:
                             item?.status === "pending" ||
                             item.status === "processing"
-                              ? "#fff": item.status === "success" ? "#1E854A" 
+                              ? "#fff"
+                              : item.status === "success"
+                              ? "#1E854A"
                               : "#fff",
                           fontWeight: "500",
                           fontSize: "12px",
@@ -664,7 +754,7 @@ useEffect(() =>  {
                           textTransform: "capitalize",
                           color: "#DC0019",
                           fontWeight: "600",
-                          fontSize: "14px",
+                          fontSize: "10px",
                           border: "1px solid #E0E0E0",
                           "&:hover": {
                             backgroundColor: "#fff",

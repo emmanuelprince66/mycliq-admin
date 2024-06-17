@@ -38,7 +38,9 @@ import DoughnutChart from "./DoughnutChart";
 import CustomerProfileDetails from "./CustomerProfileDetails";
 import celeb from "../assets/celeb.svg";
 import bage1 from "../assets/bage1.svg";
-
+import ReportProblemOutlinedIcon from "@mui/icons-material/ReportProblemOutlined";
+import VerifiedOutlinedIcon from "@mui/icons-material/VerifiedOutlined";
+import Switch from "@mui/material/Switch";
 const dummyCustomers = [
   {
     id: 1,
@@ -106,150 +108,18 @@ const CustomerProfile = ({
   showCustomerProfile,
   handleCloseShowCustomerProfile,
 }) => {
-
-
-console.log(customerDataById)
+  console.log(customerDataById);
 
   const [showProfileDetails, setShowProfileDetails] = useState(false);
   const handleCloseProfileDetails = () => setShowProfileDetails(false);
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(100);
   return (
-    <Box className="w-full overflow-y-auto max-h-[100vh]">
+    <Box className="w-full ">
       <Grid container spacing={2}>
-        <Grid xs={12}>
-          <Box className="w-full bg-white rounded-md p-2 flex flex-col border-grey-400  border-[1px] items-start justify-center">
-
-            <Typography
-              sx={{
-                color: "#1E1E1E",
-                fontWeight: "500",
-                fontSize: "15px",
-                p: "1rem",
-              }}
-            >
-              Bonus Point
-            </Typography>
-
-            <Box className="flex items-center w-full justify-evenly ">
-              <Box className="flex flex-col items-start pl-4 gap-3 border-r border-grey-400 w-full mr-8">
-                <Box className="flex gap-2 items-center">
-                  <img src={celeb} alt="c-img" />
-
-                  <Typography
-                    sx={{
-                      color: "#1E1E1E",
-                      fontWeight: "300",
-                      fontSize: "12px",
-                    }}
-                  >
-                    100% Welcome Bonus
-                    <br /> Received
-                  </Typography>
-                </Box>
-                <Typography
-                  sx={{
-                    color: "#1E1E1E",
-                    fontWeight: "500",
-                    fontSize: "15px",
-                  }}
-                >
-                  N600,0000
-                </Typography>
-              </Box>
-              <Box className="flex flex-col items-start gap-3 border-r border-grey-400 w-full mr-8">
-                <Box className="flex gap-2 items-center">
-                  <img src={celeb} alt="c-img" />
-
-                  <Typography
-                    sx={{
-                      color: "#1E1E1E",
-                      fontWeight: "300",
-                      fontSize: "12px",
-                    }}
-                  >
-                    Total Mycliq Point
-                    <br /> Received
-                  </Typography>
-                </Box>
-                <Box className="flex gap-4 items-center">
-                  <Typography
-                    sx={{
-                      color: "#1E1E1E",
-                      fontWeight: "300",
-                      fontSize: "10px",
-                      display: "flex",
-                      alignItems: "center",
-                      gap: "5px",
-                    }}
-                  >
-                    All time:
-                    <span className="text-lg text-black font-bold">1,770</span>
-                  </Typography>
-                  <Typography
-                    sx={{
-                      color: "#1E1E1E",
-                      fontWeight: "300",
-                      fontSize: "10px",
-                      display: "flex",
-                      alignItems: "center",
-                      gap: "5px",
-                    }}
-                  >
-                    By Filter:
-                    <span className="text-lg text-black font-bold">30</span>
-                  </Typography>
-                </Box>
-              </Box>
-              <Box className="flex flex-col items-start gap-3 w-full">
-                <Box className="flex gap-2 items-center">
-                  <img src={celeb} alt="c-img" />
-
-                  <Typography
-                    sx={{
-                      color: "#1E1E1E",
-                      fontWeight: "300",
-                      fontSize: "12px",
-                    }}
-                  >
-                    Mycliq Point
-                    <br /> Used
-                  </Typography>
-                </Box>
-                <Box className="flex gap-4 items-center">
-                  <Typography
-                    sx={{
-                      color: "#1E1E1E",
-                      fontWeight: "300",
-                      fontSize: "10px",
-                      display: "flex",
-                      alignItems: "center",
-                      gap: "5px",
-                    }}
-                  >
-                    All time:
-                    <span className="text-lg text-black font-bold">1,770</span>
-                  </Typography>
-                  <Typography
-                    sx={{
-                      color: "#1E1E1E",
-                      fontWeight: "300",
-                      fontSize: "10px",
-                      display: "flex",
-                      alignItems: "center",
-                      gap: "5px",
-                    }}
-                  >
-                    By Filter:
-                    <span className="text-lg text-black font-bold">30</span>
-                  </Typography>
-                </Box>
-              </Box>
-            </Box>
-          </Box>
-        </Grid>
+        <Grid xs={12}></Grid>
         <Grid item xs={7}>
-          <Box className="w-full bg-white rounded-md p-4 flex-col border-grey-400 border-[1px] max-h-[96vh]  overflow-y-scroll items-start justify-center">
+          <Box className="w-full bg-white rounded-md p-4 flex-col border-grey-400 border-[1px] h-[76vh]  overflow-y-scroll items-start justify-center">
             <Typography
               sx={{
                 color: "#1E1E1E",
@@ -276,7 +146,7 @@ console.log(customerDataById)
                   BASIC
                 </Typography>
                 <Box className="flex items-center mt-2 mb-1">
-                  <Box className="flex items-center gap-1 w-[150px] ">
+                  <Box className="flex items-center gap-1 w-[200px] ">
                     <PersonOutlineRoundedIcon sx={{ color: "grey" }} />
                     <Typography
                       sx={{
@@ -300,7 +170,7 @@ console.log(customerDataById)
                   </Typography>
                 </Box>
                 <Box className="flex items-center mt-2 mb-1 justify-between ">
-                  <Box className="flex items-center gap-1 w-[150px] ">
+                  <Box className="flex items-center gap-1 w-[200px] ">
                     <TransgenderRoundedIcon sx={{ color: "grey" }} />
                     <Typography
                       sx={{
@@ -324,7 +194,7 @@ console.log(customerDataById)
                   </Typography>
                 </Box>
                 <Box className="flex  items-center mt-2 mb-1 justify-between ">
-                  <Box className="flex items-center gap-1 w-[150px] ">
+                  <Box className="flex items-center gap-1 w-[200px] ">
                     <EmailOutlinedIcon sx={{ color: "grey" }} />
                     <Typography
                       sx={{
@@ -337,18 +207,27 @@ console.log(customerDataById)
                     </Typography>
                   </Box>
 
-                  <Typography
-                    sx={{
-                      color: "#1E1E1E",
-                      fontWeight: "500",
-                      fontSize: "15px",
-                    }}
-                  >
-                    {customerDataById?.email}
-                  </Typography>
+                  <div className="flex gap-2 items-center">
+                    <Typography
+                      sx={{
+                        color: "#1E1E1E",
+                        fontWeight: "500",
+                        fontSize: "15px",
+                      }}
+                    >
+                      {customerDataById?.email}
+                    </Typography>
+
+                    <div className="bg-[#FFF0F0] py-1 px-2 flex items-center gap-1 rounded-md">
+                      <ReportProblemOutlinedIcon className="text-[#E52929] text-[10px] font-[500]" />
+                      <p className="text-[#E52929] text-[10px] font-[500]">
+                        Unverified
+                      </p>
+                    </div>
+                  </div>
                 </Box>
                 <Box className="flex  items-center mt-2 mb-1 justify-between ">
-                  <Box className="flex items-center gap-1 w-[150px]">
+                  <Box className="flex items-center gap-1 w-[200px]">
                     <LocalPhoneOutlinedIcon sx={{ color: "grey" }} />
                     <Typography
                       sx={{
@@ -361,18 +240,27 @@ console.log(customerDataById)
                     </Typography>
                   </Box>
 
-                  <Typography
-                    sx={{
-                      color: "#1E1E1E",
-                      fontWeight: "500",
-                      fontSize: "15px",
-                    }}
-                  >
-                    {customerDataById?.phoneNumber}
-                  </Typography>
+                  <div className="flex gap-2 items-center">
+                    <Typography
+                      sx={{
+                        color: "#1E1E1E",
+                        fontWeight: "500",
+                        fontSize: "15px",
+                      }}
+                    >
+                      {customerDataById?.phoneNumber}
+                    </Typography>
+
+                    <div className="bg-[#EBFFF3] py-1 px-2 flex items-center gap-1 rounded-md">
+                      <VerifiedOutlinedIcon className="text-[#1E854A] text-[10px] font-[500]" />
+                      <p className="text-[#1E854A] text-[10px] font-[500]">
+                        Verified
+                      </p>
+                    </div>
+                  </div>
                 </Box>
                 <Box className="flex  items-center mt-2 mb-1 justify-between ">
-                  <Box className="flex items-center gap-1 w-[150px]">
+                  <Box className="flex items-center gap-1 w-[200px]">
                     <FmdGoodRoundedIcon sx={{ color: "grey" }} />
                     <Typography
                       sx={{
@@ -399,6 +287,156 @@ console.log(customerDataById)
               </Box>
             </Box>
 
+            <Box className="flex flex-col items-start w-full justify-center py-2">
+              <Typography
+                sx={{
+                  color: "grey",
+                  fontWeight: "500",
+                  fontSize: "15px",
+                }}
+              >
+                BASIC INFORMATION FOR BVN
+              </Typography>
+              <Box className="flex items-center mt-2 mb-1 ">
+                <Box className="flex items-center gap-1 w-[200px] ">
+                  <CabinRoundedIcon sx={{ color: "grey" }} />
+                  <Typography
+                    sx={{
+                      color: "grey",
+                      fontWeight: "300",
+                      fontSize: "13px",
+                    }}
+                  >
+                    Name:
+                  </Typography>
+                </Box>
+
+                <Typography
+                  sx={{
+                    color: "#1E1E1E",
+                    fontWeight: "500",
+                    fontSize: "15px",
+                  }}
+                >
+                  {`${customerDataById?.lastName}  ${customerDataById?.firstName}`}
+                </Typography>
+              </Box>
+              <Box className="flex items-center mt-2 mb-1 justify-between ">
+                <Box className="flex items-center gap-1 w-[200px] ">
+                  <PersonOutlineRoundedIcon sx={{ color: "grey" }} />
+                  <Typography
+                    sx={{
+                      color: "grey",
+                      fontWeight: "300",
+                      fontSize: "13px",
+                    }}
+                  >
+                    Gender:
+                  </Typography>
+                </Box>
+
+                <Typography
+                  sx={{
+                    color: "#1E1E1E",
+                    fontWeight: "500",
+                    fontSize: "15px",
+                  }}
+                >
+                  Male
+                </Typography>
+              </Box>
+              <Box className="flex items-center mt-2 mb-1 ">
+                <Box className="flex items-center gap-1 w-[200px] ">
+                  <CabinRoundedIcon sx={{ color: "grey" }} />
+                  <Typography
+                    sx={{
+                      color: "grey",
+                      fontWeight: "300",
+                      fontSize: "13px",
+                    }}
+                  >
+                    Email:
+                  </Typography>
+                </Box>
+
+                <div className="flex gap-2 items-center">
+                  <Typography
+                    sx={{
+                      color: "#1E1E1E",
+                      fontWeight: "500",
+                      fontSize: "15px",
+                    }}
+                  >
+                    {customerDataById?.email}
+                  </Typography>
+
+                  <div className="bg-[#FFF0F0] py-1 px-2 flex items-center gap-1 rounded-md">
+                    <ReportProblemOutlinedIcon className="text-[#E52929] text-[10px] font-[500]" />
+                    <p className="text-[#E52929] text-[10px] font-[500]">
+                      Unverified
+                    </p>
+                  </div>
+                </div>
+              </Box>
+              <Box className="flex items-center mt-2 mb-1 justify-between ">
+                <Box className="flex items-center gap-1 w-[200px] ">
+                  <PersonOutlineRoundedIcon sx={{ color: "grey" }} />
+                  <Typography
+                    sx={{
+                      color: "grey",
+                      fontWeight: "300",
+                      fontSize: "13px",
+                    }}
+                  >
+                    Phone Number:
+                  </Typography>
+                </Box>
+
+                <div className="flex gap-2 items-center">
+                  <Typography
+                    sx={{
+                      color: "#1E1E1E",
+                      fontWeight: "500",
+                      fontSize: "15px",
+                    }}
+                  >
+                    {customerDataById?.phoneNumber}
+                  </Typography>
+
+                  <div className="bg-[#EBFFF3] py-1 px-2 flex items-center gap-1 rounded-md">
+                    <VerifiedOutlinedIcon className="text-[#1E854A] text-[10px] font-[500]" />
+                    <p className="text-[#1E854A] text-[10px] font-[500]">
+                      Verified
+                    </p>
+                  </div>
+                </div>
+              </Box>
+              <Box className="flex  items-center mt-2 mb-1 justify-between ">
+                <Box className="flex items-center gap-1 w-[200px]">
+                  <FmdGoodRoundedIcon sx={{ color: "grey" }} />
+                  <Typography
+                    sx={{
+                      color: "grey",
+                      fontWeight: "300",
+                      fontSize: "13px",
+                    }}
+                  >
+                    Address:
+                  </Typography>
+                </Box>
+
+                <Typography
+                  sx={{
+                    color: "#1E1E1E",
+                    fontWeight: "500",
+                    fontSize: "15px",
+                  }}
+                >
+                  {" "}
+                  {customerDataById?.address || "address is here"}
+                </Typography>
+              </Box>
+            </Box>
             <Box className="flex flex-col items-start w-full justify-center py-2">
               <Typography
                 sx={{
@@ -520,7 +558,7 @@ console.log(customerDataById)
                   py: "1rem",
                 }}
               >
-                Account & Activity
+                Customer Account & Activity
               </Typography>
 
               <Box className="flex items-center mt-2 mb-1 ">
@@ -631,30 +669,7 @@ console.log(customerDataById)
                   01/05/2023 at 08:54 PM
                 </Typography>
               </Box>
-              <Box className="flex  items-center mt-2 mb-1 ">
-                <Box className="flex items-center gap-1 w-[150px]">
-                  <FmdGoodRoundedIcon sx={{ color: "grey" }} />
-                  <Typography
-                    sx={{
-                      color: "grey",
-                      fontWeight: "300",
-                      fontSize: "13px",
-                    }}
-                  >
-                    Order Count:
-                  </Typography>
-                </Box>
 
-                <Typography
-                  sx={{
-                    color: "#1E1E1E",
-                    fontWeight: "500",
-                    fontSize: "15px",
-                  }}
-                >
-                  32
-                </Typography>
-              </Box>
               <Box className="flex  items-center mt-2 mb-1 ">
                 <Box className="flex items-center gap-1 w-[150px]">
                   <HttpsOutlinedIcon sx={{ color: "red" }} />
@@ -676,19 +691,82 @@ console.log(customerDataById)
                     fontSize: "15px",
                   }}
                 >
-                  32
+                  <Switch
+                    sx={{
+                      "& .MuiSwitch-switchBase.Mui-checked": {
+                        color: "#fff",
+                        // "&:hover": {
+                        //   backgroundColor: alpha(
+                        //     pink[600],
+                        //     theme.palette.action.hoverOpacity
+                        //   ),
+                        // },
+                      },
+                      "& .MuiSwitch-switchBase.Mui-checked + .MuiSwitch-track":
+                        {
+                          backgroundColor: "#DC0019",
+                        },
+                    }}
+                    defaultChecked
+                    color="default"
+                  />
                 </Typography>
               </Box>
             </Box>
           </Grid>
           <Grid item xs={12}>
             <Box className="w-full bg-white rounded-md p-2 flex-col border-grey-400  border-[1px] items-start justify-center">
-              <DoughnutChart
+              {/* <DoughnutChart
                 title="Transaction Insight"
                 values={[100, 40, 90, 50]}
                 label={["Orders", "Bank Transfer", "Wallet To wallet", "Bills"]}
                 color={["#FF4069", "#36A2EB", "#FF9F40", "#27AE60"]}
-              />
+              /> */}
+              <Typography
+                sx={{
+                  fontWeight: "500",
+                  fontSize: "15px",
+                  color: "#000",
+                  py: "10px",
+                  pl: "10px",
+                }}
+              >
+                Customer Transaction Insight
+              </Typography>
+              <div className="w-full flex gap-5 p-3 items-start">
+                <div className="flex items-start flex-col gap-2">
+                  <div className="flex items-center gap-2">
+                    <div className="w-[24px] h-[8px] bg-[#27AE60]"></div>
+
+                    <p className="text-[#828282] font-normal text-[14px]">
+                      Inward Transfer [234]
+                    </p>
+                  </div>
+
+                  <div className="flex items-center gap-2">
+                    <div className="w-[24px] h-[8px] bg-[#E52929]"></div>
+
+                    <p className="text-[#828282] font-normal text-[14px]">
+                      Outward Transfer [234]
+                    </p>
+                  </div>
+
+                  <div className="flex items-center gap-2">
+                    <div className="w-[24px] h-[8px] bg-[#BD00FF]"></div>
+
+                    <p className="text-[#828282] font-normal text-[14px]">
+                      Wallet to Wallet [234]
+                    </p>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <div className="w-[24px] h-[8px] bg-[#BD00FF]"></div>
+
+                    <p className="text-[#828282] font-normal text-[14px]">
+                      Mycliq [234]
+                    </p>
+                  </div>
+                </div>
+              </div>
             </Box>
           </Grid>
         </Grid>

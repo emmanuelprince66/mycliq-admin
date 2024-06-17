@@ -164,7 +164,7 @@ const Billers = () => {
               <Box>
                 <Typography
                   sx={{
-                    fomtWeight: "600",
+                    fontWeight: "600",
                     fontSize: "24px",
                     color: "#1E1E1E",
                   }}
@@ -416,7 +416,7 @@ const Billers = () => {
 
               {/* customers  */}
               <Box
-                sx={{ maxHeight: "60vh", overflowY: "scroll", width: "50%" }}
+                sx={{ maxHeight: "80vh", overflowY: "scroll", width: "50%" }}
               >
                 <TableContainer component={Paper}>
                   <Table sx={{ minWidth: 100, padding: "8px" }}>

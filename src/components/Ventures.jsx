@@ -81,9 +81,9 @@ const token = Cookies.get("authToken")
     },
     onSuccess: (data) => {
       console.log(data);
-      setSuccess(true);
-      setShowSpinner(false);
       notifySuccess(data?.message)
+      // setSuccess(true);
+      setShowSpinner(false);
       handleReset();
       
     },

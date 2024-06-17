@@ -129,6 +129,8 @@ const ChangePassWord = ({ phoneNo, setShowVerifyUser }) => {
     onSuccess: (response) => {
       notify(response.message);
       console.log(response);
+      setPasswordInput("");
+      setConfirmPasswordInput("");
       setDisableButton(false);
       setShowVerifyUser((prev) => !prev);
     },

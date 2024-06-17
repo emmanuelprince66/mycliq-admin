@@ -10,7 +10,7 @@ import SupportIcon from "../assets/images/sidebar/support";
 import Mode from "../assets/images/sidebar/mode";
 import SunIcon from "../assets/images/ColorMode/sun.svg";
 import CabinRoundedIcon from "@mui/icons-material/CabinRounded";
-import Cookies from "js-cookie"
+import Cookies from "js-cookie";
 import checkIcon from "../assets/images/logo.png";
 import LockIcon from "@mui/icons-material/Lock";
 import cliqIcon from "../assets/images/admin/cliqIcon.png";
@@ -96,11 +96,10 @@ export const Sidebar = () => {
   function logOut() {
     navigate("/");
     Cookies.remove("authToken");
-  Cookies.remove("refreshToken");
-    
+    Cookies.remove("refreshToken");
   }
   return (
-    <aside className="flex h-full pl-[2em] py-[3em]  border-r border-border_light pr-[1em] flex-col bg-white">
+    <aside className="flex h-screen overflow-scroll bg-white pl-[2em] py-[3em]  border-r border-border_light pr-[1em] flex-col ">
       <img src={cliqIcon} className="w-[100px] mt-[-40px] " alt="check icon" />
 
       <div className="pt-5 pb-3  border-b border-solid ">

@@ -19,6 +19,7 @@ import {
   Card,
   Typography,
   Modal,
+  CircularProgress,
 } from "@mui/material";
 import download from "../assets/images/download.svg";
 import info from "../assets/images/admin/info.svg";
@@ -36,6 +37,11 @@ import AddRoundedIcon from "@mui/icons-material/AddRounded";
 import bigavatar from "../assets/images/bigavatar.svg";
 import celeb from "../assets/celeb.svg";
 import bage1 from "../assets/bage1.svg";
+import mOne from "../assets/images/merchants/m-1.svg";
+import mTwo from "../assets/images/merchants/m-2.svg";
+import mThree from "../assets/images/merchants/m-3.svg";
+import mFour from "../assets/images/merchants/m-4.svg";
+import mFive from "../assets/images/merchants/m-5.svg";
 import InputAdornment from "@mui/material/InputAdornment";
 import side from "../assets/images/admin/side.svg";
 import percent from "../assets/images/admin/percent.svg";
@@ -51,9 +57,18 @@ import search from "../../src/assets/search.svg";
 import ChevronRightRoundedIcon from "@mui/icons-material/ChevronRightRounded";
 import avatar from "../assets/avatar.svg";
 import DoughnutChart from "../components/DoughnutChart";
+import { styled } from "@mui/material/styles";
 import SelectDate from "../components/SelectDate";
 import fdown from "../assets/fdown.svg";
-
+import profileNew from "../assets/images/admin/profile-new.svg";
+const Item = styled(Box)(({ theme }) => ({
+  backgroundColor: theme.palette.mode === "dark" ? "#1A2027" : "#fff",
+  ...theme.typography.body2,
+  border: "1px solid #E0E0E0",
+  color: theme.palette.text.secondary,
+  borderRadius: "8px",
+  maxHeight: "100%",
+}));
 const GMerchants = () => {
   const dummyCustomers = [
     {
@@ -120,7 +135,7 @@ const GMerchants = () => {
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(100);
   const [showInStore, setShowInStore] = useState(true);
-
+  const [isLoading, setIsLoading] = useState(false);
   return (
     <Box
       sx={{
@@ -133,9 +148,9 @@ const GMerchants = () => {
       {/* card */}
       <Box
         sx={{
-          width: "1080px",
+          width: "100%",
           display: "flex",
-          gap: "2rem",
+          gap: "0.5rem",
           mb: "1rem",
         }}
       >
@@ -144,7 +159,7 @@ const GMerchants = () => {
             display: "flex",
             flexDirection: "column",
             padding: "16px",
-            width: "356px",
+            width: "100%",
             gap: "0.8rem",
           }}
         >
@@ -170,7 +185,7 @@ const GMerchants = () => {
                 color: "#4F4F4F",
               }}
             >
-              Total <br />
+              General <br />
               Inflow
             </Typography>
           </Box>
@@ -192,7 +207,7 @@ const GMerchants = () => {
             display: "flex",
             flexDirection: "column",
             padding: "16px",
-            width: "356px",
+            width: "100%",
             gap: "0.8rem",
           }}
         >
@@ -226,7 +241,7 @@ const GMerchants = () => {
                   color: "#4F4F4F",
                 }}
               >
-                Total <br />
+                General <br />
                 Outflow
               </Typography>
             </Box>
@@ -249,7 +264,7 @@ const GMerchants = () => {
             display: "flex",
             flexDirection: "column",
             padding: "16px",
-            width: "356px",
+            width: "100%",
             gap: "0.8rem",
           }}
         >
@@ -275,7 +290,7 @@ const GMerchants = () => {
                 color: "#4F4F4F",
               }}
             >
-              Merchant's Total
+              Merchant's
               <br />
               Wallet Balance
             </Typography>
@@ -298,7 +313,56 @@ const GMerchants = () => {
             display: "flex",
             flexDirection: "column",
             padding: "16px",
-            width: "356px",
+            width: "100%",
+            gap: "0.8rem",
+          }}
+        >
+          <Box
+            sx={{
+              display: "flex",
+              alignItems: "center",
+              gap: "15px",
+            }}
+          >
+            <Box
+              sx={{
+                width: "28px",
+                height: "28px",
+              }}
+            >
+              <img src={profileNew} className="fd" alt="p-new" />
+            </Box>
+            <Typography
+              sx={{
+                fontWeight: "500",
+                fontSize: "14px",
+                color: "#4F4F4F",
+              }}
+            >
+              Total Merchants
+              <br />
+              Onboarded{" "}
+            </Typography>
+          </Box>
+
+          <Box>
+            <Typography
+              sx={{
+                fontWeight: "600",
+                fontSize: "24px",
+                color: "#1E1E1E",
+              }}
+            >
+              <FormattedPrice amount={Number(20000 || 0)} />
+            </Typography>
+          </Box>
+        </Card>
+        <Card
+          sx={{
+            display: "flex",
+            flexDirection: "column",
+            padding: "16px",
+            width: "100%",
             gap: "0.8rem",
           }}
         >
@@ -324,9 +388,9 @@ const GMerchants = () => {
                 color: "#4F4F4F",
               }}
             >
-              Commission
+              Total Merchants
               <br />
-              From Merchants{" "}
+              Onboarded{" "}
             </Typography>
           </Box>
 
@@ -345,7 +409,7 @@ const GMerchants = () => {
       </Box>
       {/* card */}
 
-      <Box className="w-full bg-white p-3 max-h-[70vh] flex flex-col items-center  border-grey-400 border-[1px] rounded-md">
+      <Box className="w-full bg-white p-3  flex flex-col items-start  border-grey-400 border-[1px] rounded-md">
         <Typography
           sx={{
             fontWeight: "500",
@@ -362,84 +426,328 @@ const GMerchants = () => {
             sx={{
               display: "flex",
               flexDirection: "column",
-              alignItems: "start",
-              gap: "25px",
+              padding: "16px",
               width: "100%",
-              cursor: "pointer",
-              padding: "1rem",
+              gap: "0.8rem",
             }}
           >
-            <div className="flex justify-between w-full items-center">
-              <p className=" ">Association</p>
+            <Box
+              sx={{
+                display: "flex",
+                alignItems: "center",
+                gap: "15px",
+                flexDirection: "column",
+                alignItems: "start",
+              }}
+            >
+              <Box
+                sx={{
+                  width: "28px",
+                  height: "28px",
+                  display: "flex",
+                  alignItems: "center",
+                  gap: "10px",
+                }}
+              >
+                <img src={mOne} className="fd" alt="m-one" />
+                <Typography
+                  sx={{
+                    fontWeight: "500",
+                    fontSize: "14px",
+                    color: "#4F4F4F",
+                  }}
+                >
+                  Vendors
+                </Typography>
+              </Box>
+              <Box>
+                <Typography
+                  sx={{
+                    fontWeight: "600",
+                    fontSize: "18px",
+                    color: "#1E1E1E",
+                  }}
+                >
+                  2,122
+                </Typography>
+              </Box>
+              <Box className="flex gap-3 items-center cursor-pointer">
+                <Typography
+                  sx={{
+                    fontWeight: "400",
+                    fontSize: "14px",
+                    color: "#FF7F00",
+                  }}
+                >
+                  View More
+                </Typography>
 
-              <ChevronRightRoundedIcon sx={{ color: "#FF7F00" }} />
-            </div>
-
-            <p className="font-bold">200</p>
+                <ChevronRightRoundedIcon sx={{ color: "#FF7F00" }} />
+              </Box>
+            </Box>
           </Card>
           <Card
             sx={{
               display: "flex",
               flexDirection: "column",
-              alignItems: "start",
-              gap: "25px",
-              cursor: "pointer",
+              padding: "16px",
               width: "100%",
-              padding: "1rem",
+              gap: "0.8rem",
             }}
           >
-            <div className="flex justify-between w-full items-center">
-              <p className=" ">Transport</p>
+            <Box
+              sx={{
+                display: "flex",
+                alignItems: "center",
+                gap: "15px",
+                flexDirection: "column",
+                alignItems: "start",
+              }}
+            >
+              <Box
+                sx={{
+                  width: "28px",
+                  height: "28px",
+                  display: "flex",
+                  alignItems: "center",
+                  gap: "10px",
+                }}
+              >
+                <img src={mTwo} className="fd" alt="m-2" />
+                <Typography
+                  sx={{
+                    fontWeight: "500",
+                    fontSize: "14px",
+                    color: "#4F4F4F",
+                  }}
+                >
+                  Transportation
+                </Typography>
+              </Box>
+              <Box>
+                <Typography
+                  sx={{
+                    fontWeight: "600",
+                    fontSize: "18px",
+                    color: "#1E1E1E",
+                  }}
+                >
+                  2,122
+                </Typography>
+              </Box>
+              <Box className="flex gap-3 items-center cursor-pointer">
+                <Typography
+                  sx={{
+                    fontWeight: "400",
+                    fontSize: "14px",
+                    color: "#FF7F00",
+                  }}
+                >
+                  View More
+                </Typography>
 
-              <ChevronRightRoundedIcon sx={{ color: "#FF7F00" }} />
-            </div>
-
-            <p className="font-bold">150</p>
+                <ChevronRightRoundedIcon sx={{ color: "#FF7F00" }} />
+              </Box>
+            </Box>
           </Card>
           <Card
             sx={{
               display: "flex",
               flexDirection: "column",
-              alignItems: "start",
-              gap: "25px",
-              cursor: "pointer",
+              padding: "16px",
               width: "100%",
-              padding: "1rem",
+              gap: "0.8rem",
             }}
           >
-            <div className="flex justify-between w-full items-center">
-              <p className="">Ticketing</p>
+            <Box
+              sx={{
+                display: "flex",
+                alignItems: "center",
+                gap: "15px",
+                flexDirection: "column",
+                alignItems: "start",
+              }}
+            >
+              <Box
+                sx={{
+                  width: "28px",
+                  height: "28px",
+                  display: "flex",
+                  alignItems: "center",
+                  gap: "10px",
+                }}
+              >
+                <img src={mThree} className="fd" alt="m-3" />
+                <Typography
+                  sx={{
+                    fontWeight: "500",
+                    fontSize: "14px",
+                    color: "#4F4F4F",
+                  }}
+                >
+                  Association
+                </Typography>
+              </Box>
+              <Box>
+                <Typography
+                  sx={{
+                    fontWeight: "600",
+                    fontSize: "18px",
+                    color: "#1E1E1E",
+                  }}
+                >
+                  2,122
+                </Typography>
+              </Box>
+              <Box className="flex gap-3 items-center cursor-pointer">
+                <Typography
+                  sx={{
+                    fontWeight: "400",
+                    fontSize: "14px",
+                    color: "#FF7F00",
+                  }}
+                >
+                  View More
+                </Typography>
 
-              <ChevronRightRoundedIcon sx={{ color: "#FF7F00" }} />
-            </div>
-
-            <p className="font-bold">200</p>
+                <ChevronRightRoundedIcon sx={{ color: "#FF7F00" }} />
+              </Box>
+            </Box>
           </Card>
           <Card
             sx={{
               display: "flex",
               flexDirection: "column",
-              alignItems: "start",
-              gap: "25px",
-              cursor: "pointer",
+              padding: "16px",
               width: "100%",
-              padding: "1rem",
+              gap: "0.8rem",
             }}
           >
-            <div className="flex justify-between w-full items-center">
-              <p className="">Add Merchant</p>
+            <Box
+              sx={{
+                display: "flex",
+                alignItems: "center",
+                gap: "15px",
+                flexDirection: "column",
+                alignItems: "start",
+              }}
+            >
+              <Box
+                sx={{
+                  width: "28px",
+                  height: "28px",
+                  display: "flex",
+                  alignItems: "center",
+                  gap: "10px",
+                }}
+              >
+                <img src={mFour} className="fd" alt="m-4" />
+                <Typography
+                  sx={{
+                    fontWeight: "500",
+                    fontSize: "14px",
+                    color: "#4F4F4F",
+                  }}
+                >
+                  Ticketing
+                </Typography>
+              </Box>
+              <Box>
+                <Typography
+                  sx={{
+                    fontWeight: "600",
+                    fontSize: "18px",
+                    color: "#1E1E1E",
+                  }}
+                >
+                  2,122
+                </Typography>
+              </Box>
+              <Box className="flex gap-3 items-center cursor-pointer">
+                <Typography
+                  sx={{
+                    fontWeight: "400",
+                    fontSize: "14px",
+                    color: "#FF7F00",
+                  }}
+                >
+                  View More
+                </Typography>
 
-              <AddRoundedIcon sx={{ color: "#FF7F00" }} />
-            </div>
+                <ChevronRightRoundedIcon sx={{ color: "#FF7F00" }} />
+              </Box>
+            </Box>
+          </Card>
+          <Card
+            sx={{
+              display: "flex",
+              flexDirection: "column",
+              padding: "16px",
+              width: "100%",
+              gap: "0.8rem",
+            }}
+          >
+            <Box
+              sx={{
+                display: "flex",
+                alignItems: "center",
+                gap: "15px",
+                flexDirection: "column",
+                alignItems: "start",
+              }}
+            >
+              <Box
+                sx={{
+                  width: "28px",
+                  height: "28px",
+                  display: "flex",
+                  alignItems: "center",
+                  gap: "10px",
+                }}
+              >
+                <img src={mFive} className="fd" alt="m-5" />
+                <Typography
+                  sx={{
+                    fontWeight: "500",
+                    fontSize: "14px",
+                    color: "#4F4F4F",
+                  }}
+                >
+                  Add Merchant
+                </Typography>
+              </Box>
+              <Box>
+                <Typography
+                  sx={{
+                    fontWeight: "600",
+                    fontSize: "18px",
+                    color: "#1E1E1E",
+                  }}
+                >
+                  2,122
+                </Typography>
+              </Box>
+              <Box className="flex gap-3 items-center cursor-pointer">
+                <Typography
+                  sx={{
+                    fontWeight: "400",
+                    fontSize: "14px",
+                    color: "#FF7F00",
+                  }}
+                >
+                  View More
+                </Typography>
 
-            <p className="font-bold">200</p>
+                <ChevronRightRoundedIcon sx={{ color: "#FF7F00" }} />
+              </Box>
+            </Box>
           </Card>
         </div>
       </Box>
 
-      <Box className="w-full max-h-[60vh] overflow-y-scroll mt-3">
+      <Box className="w-full  mt-3">
         <Grid container spacing={2}>
-          <Grid item xs={12}>
+          <Grid item xs={8}>
             <Box className="w-full bg-white rounded-md p-2 flex-col border-grey-400 border-[1px] items-start justify-center">
               <Box className="flex w-full justify-between items-center">
                 <Typography
@@ -458,7 +766,17 @@ const GMerchants = () => {
                   bg-orange-200 text-orange-500
                  text-[10px]`}
                   >
-                    730
+                    {!isLoading && dummyCustomers?.length > 0 ? (
+                      dummyCustomers?.length
+                    ) : (
+                      <CircularProgress
+                        size="1rem"
+                        sx={{
+                          color: "#f78105",
+                          marginLeft: "auto",
+                        }}
+                      />
+                    )}
                   </span>
                 </Typography>
 
@@ -477,6 +795,69 @@ const GMerchants = () => {
                   download
                 </Button>
               </Box>
+
+              <div className="flex gap-[5rem]  mt-4 items-center">
+                <Typography
+                  sx={{
+                    color: "#1E1E1E",
+                    fontWeight: "500",
+                    fontSize: "15px",
+                    display: "flex",
+                    gap: "6px",
+                    alignItems: "center",
+                  }}
+                >
+                  Suspended Accounts
+                  <span
+                    className={`p-1 px-2 rounded-full 
+                  bg-orange-200 text-orange-500
+                 text-[10px]`}
+                  >
+                    {!isLoading && dummyCustomers?.length > 0 ? (
+                      // customers?.length
+                      0
+                    ) : (
+                      <CircularProgress
+                        size="1rem"
+                        sx={{
+                          color: "#f78105",
+                          marginLeft: "auto",
+                        }}
+                      />
+                    )}
+                  </span>
+                </Typography>
+                <Typography
+                  sx={{
+                    color: "#1E1E1E",
+                    fontWeight: "500",
+                    fontSize: "15px",
+                    display: "flex",
+                    gap: "6px",
+                    alignItems: "center",
+                  }}
+                >
+                  Reactivated Accounts
+                  <span
+                    className={`p-1 px-2 rounded-full 
+                  bg-orange-200 text-orange-500
+                 text-[10px]`}
+                  >
+                    {!isLoading && dummyCustomers?.length > 0 ? (
+                      // customers?.length
+                      0
+                    ) : (
+                      <CircularProgress
+                        size="1rem"
+                        sx={{
+                          color: "#f78105",
+                          marginLeft: "auto",
+                        }}
+                      />
+                    )}
+                  </span>
+                </Typography>
+              </div>
 
               {/* search  */}
               <Box className="my-[1rem]">
@@ -502,7 +883,7 @@ const GMerchants = () => {
                       },
                     },
                   }}
-                  placeholder="Search Customer..."
+                  placeholder="Search Merchant..."
                   variant="outlined"
                   required
                   id="firstName-input"
@@ -521,26 +902,25 @@ const GMerchants = () => {
                   }}
                 />
               </Box>
-              {/* search ends */}
 
-              {/* merchants  */}
-              <Box sx={{ maxHeight: "100vh", overflowY: "scroll" }}>
+              {/* customers  */}
+              <Box className="max-h-[69vh] overflow-y-auto">
                 <TableContainer component={Paper}>
                   <Table sx={{ minWidth: 100, padding: "8px" }}>
                     <TableBody>
-                      {!dummyCustomers ? (
+                      {dummyCustomers?.length === 0 ? (
                         <CircularProgress
                           size="4.2rem"
                           sx={{
-                            color: "#DC0019",
+                            color: "#f78105",
                             marginLeft: "auto",
                             padding: "1em",
                           }}
                         />
                       ) : dummyCustomers &&
                         Array.isArray(dummyCustomers) &&
-                        dummyCustomers.length > 0 ? (
-                        dummyCustomers.map((item, i) => (
+                        dummyCustomers?.length > 0 ? (
+                        dummyCustomers?.map((item, i) => (
                           <TableRow key={item.id} className="cursor-pointer">
                             <TableCell sx={{ width: "50px" }}>
                               {page * rowsPerPage + i + 1}
@@ -549,8 +929,6 @@ const GMerchants = () => {
                               <Box className="flex items-center gap-2 ">
                                 <Box
                                   sx={{
-                                    height: "40px",
-                                    width: "40px",
                                     border: "1px solid #E0E0E0",
                                     borderRadius: "8px",
                                     p: "5px",
@@ -607,7 +985,7 @@ const GMerchants = () => {
                 <TablePagination
                   rowsPerPageOptions={[]}
                   component="div"
-                  count={dummyCustomers?.totalCount || 0}
+                  // count={customers?.totalCount || 0}
                   rowsPerPage={rowsPerPage}
                   page={page}
                   onPageChange={(event, newPage) => setPage(newPage)}
@@ -617,7 +995,153 @@ const GMerchants = () => {
               {/* customers end */}
             </Box>
           </Grid>
-          {/* another grid box here */}
+
+          <Grid item xs={4}>
+            <Item>
+              <Box sx={{ alignItems: "start", pt: "10px", px: "10px" }}>
+                <Typography
+                  sx={{
+                    fontWeight: "40 0",
+                    fontSize: "16px",
+                    color: "#4F4F4F",
+                    py: "10px",
+                  }}
+                >
+                  General Merchant & Activity Status
+                </Typography>
+              </Box>
+              <div className="w-full flex gap-5 p-3 items-start">
+                <div className="flex items-start flex-col gap-2">
+                  <div className="flex items-center gap-2">
+                    <div className="w-[24px] h-[8px] bg-[#27AE60]"></div>
+
+                    <p className="text-[#828282] font-normal text-[14px]">
+                      General Active Merchants [234]
+                    </p>
+                  </div>
+
+                  <div className="flex items-center gap-2">
+                    <div className="w-[24px] h-[8px] bg-[#E52929]"></div>
+
+                    <p className="text-[#828282] font-normal text-[14px]">
+                      General Inactive Merchants [234]
+                    </p>
+                  </div>
+
+                  <div className="flex items-center gap-2">
+                    <div className="w-[24px] h-[8px] bg-[#BD00FF]"></div>
+
+                    <p className="text-[#828282] font-normal text-[14px]">
+                      General Suspended Merchants [234]
+                    </p>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <div className="w-[24px] h-[8px] bg-[#1367D8]"></div>
+
+                    <p className="text-[#828282] font-normal text-[14px]">
+                      General Reactivated Merchants [234]
+                    </p>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <div className="w-[24px] h-[8px] bg-black"></div>
+
+                    <p className="text-[#828282] font-normal text-[14px]">
+                      General Closed Merchants [234]
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </Item>
+            <Item sx={{ mt: "10px" }}>
+              <Box sx={{ alignItems: "start", pt: "10px", px: "10px " }}>
+                <Typography
+                  sx={{
+                    fontWeight: "40 0",
+                    fontSize: "16px",
+                    color: "#4F4F4F",
+                    py: "10px",
+                  }}
+                >
+                  General Customer Verification Status
+                </Typography>
+              </Box>
+              <div className="w-full flex gap-5 p-3 items-start">
+                <div className="flex items-start flex-col gap-2">
+                  <div className="flex items-center gap-2">
+                    <div className="w-[24px] h-[8px] bg-[#27AE60]"></div>
+
+                    <p className="text-[#828282] font-normal text-[14px]">
+                      BVN Verified [234]
+                    </p>
+                  </div>
+
+                  <div className="flex items-center gap-2">
+                    <div className="w-[24px] h-[8px] bg-[#E52929]"></div>
+
+                    <p className="text-[#828282] font-normal text-[14px]">
+                      NIN Verified [234]
+                    </p>
+                  </div>
+
+                  <div className="flex items-center gap-2">
+                    <div className="w-[24px] h-[8px] bg-[#BD00FF]"></div>
+
+                    <p className="text-[#828282] font-normal text-[14px]">
+                      Not Verified [234]
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </Item>
+            <Item sx={{ mt: "10px" }}>
+              <Box sx={{ alignItems: "start", pt: "10px", px: "10px " }}>
+                <Typography
+                  sx={{
+                    fontWeight: "40 0",
+                    fontSize: "16px",
+                    color: "#4F4F4F",
+                    py: "10px",
+                  }}
+                >
+                  General Customer Transaction Insight
+                </Typography>
+              </Box>
+              <div className="w-full flex gap-5 p-3 items-start">
+                <div className="flex items-start flex-col gap-2">
+                  <div className="flex items-center gap-2">
+                    <div className="w-[24px] h-[8px] bg-[#27AE60]"></div>
+
+                    <p className="text-[#828282] font-normal text-[14px]">
+                      Inward Transfer [234]
+                    </p>
+                  </div>
+
+                  <div className="flex items-center gap-2">
+                    <div className="w-[24px] h-[8px] bg-[#E52929]"></div>
+
+                    <p className="text-[#828282] font-normal text-[14px]">
+                      Outward Transfer [234]
+                    </p>
+                  </div>
+
+                  <div className="flex items-center gap-2">
+                    <div className="w-[24px] h-[8px] bg-[#BD00FF]"></div>
+
+                    <p className="text-[#828282] font-normal text-[14px]">
+                      Wallet to Wallet [234]
+                    </p>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <div className="w-[24px] h-[8px] bg-[#BD00FF]"></div>
+
+                    <p className="text-[#828282] font-normal text-[14px]">
+                      Mycliq [234]
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </Item>
+          </Grid>
         </Grid>
       </Box>
     </Box>

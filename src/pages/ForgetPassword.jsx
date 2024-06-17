@@ -35,7 +35,7 @@ const ForgetPassword = () => {
         const response = await BaseAxios({
           url: "/auth/password-reset",
           method: "POST",
-          phone: phone,
+          data: { phone: phone },
         });
 
         return response.data;

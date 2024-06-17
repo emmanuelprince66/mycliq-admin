@@ -28,7 +28,7 @@ const DoughnutChart = ({ title, label, values, color }) => {
         alignItems: "center",
         alignItems: "start",
         width: "100%",
-        p: "10px",
+        p: "5px",
       }}
     >
       <Typography

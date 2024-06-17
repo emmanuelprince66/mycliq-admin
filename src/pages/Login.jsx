@@ -79,7 +79,7 @@ export const Login = () => {
         if (response.status !== 201) {
           throw new Error(response.data.message);
         }
-        
+
         return response;
       } catch (error) {
         console.log(error);
@@ -91,8 +91,8 @@ export const Login = () => {
       navigate("/overview");
 
       // Store data in cookies
-      
-      console.log(data?.data?.data?.access_token)
+
+      console.log(data?.data?.data?.access_token);
       Cookies.set("authToken", data?.data?.data?.access_token);
       Cookies.set("refreshToken", data?.data?.data?.refreshToken);
       // Cookies.set("companyName", data.companyName);
@@ -119,7 +119,7 @@ export const Login = () => {
     console.log("Form data:", formData);
 
     setButtonDisabled(true);
-    console.log(formData)
+    console.log(formData);
 
     // Call the mutation to trigger the login process
     loginMutation.mutate(formData);

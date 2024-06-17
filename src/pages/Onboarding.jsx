@@ -14,12 +14,12 @@ const Item = styled(Box)(({ theme }) => ({
   border: "1px solid #E0E0E0",
   color: theme.palette.text.secondary,
   borderRadius: "8px",
-  height: "160vh",
+  height: "100%",
 }));
 
 const Onboarding = () => {
-  const [ showVentures , setShowVentures] = useState("Merchant")
-  
+  const [showVentures, setShowVentures] = useState("Merchant");
+
   return (
     <Box sx={{ flexGrow: 1 }}>
       <Grid container spacing={2}>
@@ -34,7 +34,6 @@ const Onboarding = () => {
                 justifyContent: "center",
               }}
             >
-          
               <Box
                 onClick={() => setShowVentures("Merchant")}
                 sx={{
@@ -65,7 +64,7 @@ const Onboarding = () => {
                   sx={{
                     display: "flex",
                     justifyContent: "start",
-                    ml:"1rem",
+                    ml: "1rem",
                     width: "100%",
                     alignItems: "center",
                     gap: "12px",
@@ -103,8 +102,7 @@ const Onboarding = () => {
                     sx={{
                       height: "40px",
                       minWidth: "4px",
-                      background:
-                        showVentures === "Ventures" && "#FF7F00",
+                      background: showVentures === "Ventures" && "#FF7F00",
                       borderTopRightRadius: "8px",
                       borderBottomRightRadius: "8px",
                     }}
@@ -115,12 +113,11 @@ const Onboarding = () => {
                   sx={{
                     display: "flex",
                     justifyContent: "start",
-                    ml:"1rem",
+                    ml: "1rem",
                     width: "100%",
                     alignItems: "center",
                     gap: "12px",
-                    color:
-                      showVentures === "Ventures" ? "#333333" : "#828282",
+                    color: showVentures === "Ventures" ? "#333333" : "#828282",
                   }}
                 >
                   <Typography
@@ -133,26 +130,19 @@ const Onboarding = () => {
                   </Typography>
                 </Box>
               </Box>
-
-         
             </Box>
           </Item>
         </Grid>
         <Grid item xs={9.5}>
-          <Item sx={{
-          maxHeight:"100%",
-          overflowY:"auto",
-          }}>
+          <Item className="">
             {showVentures === "Merchant" ? (
               <Merchant />
-  
-            ) : showVentures === "Ventures" && (
-              <Ventures />)
-          }
+            ) : (
+              showVentures === "Ventures" && <Ventures />
+            )}
           </Item>
         </Grid>
       </Grid>
-      
     </Box>
   );
 };
