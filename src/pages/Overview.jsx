@@ -1,6 +1,6 @@
 import React from "react";
 import TableCom from "../components/TableCom";
-import { Box, Card, Typography, Grid } from "@mui/material";
+import { Box, Card, Typography, Grid, Button } from "@mui/material";
 import SelectDate from "../components/SelectDate";
 import purple from "../assets/images/admin/purple.svg";
 import blue from "../assets/images/admin/blue.svg";
@@ -25,6 +25,7 @@ const Item = styled(Box)(({ theme }) => ({
   color: theme.palette.text.secondary,
   borderRadius: "8px",
   maxHeight: "100%",
+  width: "100%",
 }));
 export const Overview = () => {
   return (
@@ -106,7 +107,7 @@ export const Overview = () => {
               <Typography
                 sx={{
                   fontSize: "20px",
-                  fontWeight: 600,
+                  fontWeight: 500,
                   color: "#000",
                 }}
               >
@@ -125,7 +126,7 @@ export const Overview = () => {
               <Typography
                 sx={{
                   fontSize: "20px",
-                  fontWeight: 600,
+                  fontWeight: 500,
                   color: "#000",
                 }}
               >
@@ -192,7 +193,7 @@ export const Overview = () => {
               <Typography
                 sx={{
                   fontSize: "20px",
-                  fontWeight: 600,
+                  fontWeight: 500,
                   color: "#000",
                 }}
               >
@@ -211,7 +212,7 @@ export const Overview = () => {
               <Typography
                 sx={{
                   fontSize: "20px",
-                  fontWeight: 600,
+                  fontWeight: 500,
                   color: "#000",
                 }}
               >
@@ -252,7 +253,7 @@ export const Overview = () => {
                 color: "#4F4F4F",
               }}
             >
-              Total Merchants
+              Total Customers
             </Typography>
           </Box>
 
@@ -269,7 +270,7 @@ export const Overview = () => {
               <Typography
                 sx={{
                   fontSize: "20px",
-                  fontWeight: 600,
+                  fontWeight: 500,
                   color: "#000",
                 }}
               >
@@ -288,7 +289,7 @@ export const Overview = () => {
               <Typography
                 sx={{
                   fontSize: "20px",
-                  fontWeight: 600,
+                  fontWeight: 500,
                   color: "#000",
                 }}
               >
@@ -329,7 +330,7 @@ export const Overview = () => {
                 color: "#4F4F4F",
               }}
             >
-              Total Customers{" "}
+              Total Merchants{" "}
             </Typography>
           </Box>
           <Box className="flex flex-col items-start gap-1 w-full">
@@ -345,7 +346,7 @@ export const Overview = () => {
               <Typography
                 sx={{
                   fontSize: "20px",
-                  fontWeight: 600,
+                  fontWeight: 500,
                   color: "#000",
                 }}
               >
@@ -364,7 +365,7 @@ export const Overview = () => {
               <Typography
                 sx={{
                   fontSize: "20px",
-                  fontWeight: 600,
+                  fontWeight: 500,
                   color: "#000",
                 }}
               >
@@ -421,7 +422,7 @@ export const Overview = () => {
               <Typography
                 sx={{
                   fontSize: "20px",
-                  fontWeight: 600,
+                  fontWeight: 500,
                   color: "#000",
                 }}
               >
@@ -440,7 +441,7 @@ export const Overview = () => {
               <Typography
                 sx={{
                   fontSize: "20px",
-                  fontWeight: 600,
+                  fontWeight: 500,
                   color: "#000",
                 }}
               >
@@ -453,130 +454,6 @@ export const Overview = () => {
       {/*  */}
 
       <Box sx={{ flexGrow: "1", my: "10px" }}>
-        <Grid container spacing={2}>
-          <Grid item xs={8}>
-            <Item sx={{ px: "1rem", pb: "20px", height: "100%" }}>
-              <Box sx={{ alignItems: "start" }}>
-                <Typography
-                  sx={{
-                    fontWeight: "500",
-                    fontSize: "20px",
-                    color: "#1E1E1E",
-                    py: "10px",
-                  }}
-                >
-                  Total Customers Status
-                </Typography>
-              </Box>
-              <div className="w-full flex gap-5 items-start">
-                <div className="flex items-start flex-col gap-2">
-                  <div className="flex items-center gap-2">
-                    <div className="w-[24px] h-[8px] bg-[#27AE60]"></div>
-
-                    <p className="text-[#828282] font-normal text-[14px]">
-                      Active Customers [234]
-                    </p>
-                  </div>
-
-                  <div className="flex items-center gap-2">
-                    <div className="w-[24px] h-[8px] bg-[#E52929]"></div>
-
-                    <p className="text-[#828282] font-normal text-[14px]">
-                      Inactive Customers [234]
-                    </p>
-                  </div>
-
-                  <div className="flex items-center gap-2">
-                    <div className="w-[24px] h-[8px] bg-[#BD00FF]"></div>
-
-                    <p className="text-[#828282] font-normal text-[14px]">
-                      Suspended Customers [234]
-                    </p>
-                  </div>
-                </div>
-                <div className="flex items-start flex-col gap-2">
-                  <div className="flex items-center gap-2">
-                    <div className="w-[24px] h-[8px] bg-[#1367D8]"></div>
-
-                    <p className="text-[#828282] font-normal text-[14px]">
-                      Active Customers [234]
-                    </p>
-                  </div>
-
-                  <div className="flex items-center gap-2">
-                    <div className="w-[24px] h-[8px] bg-black"></div>
-
-                    <p className="text-[#828282] font-normal text-[14px]">
-                      Inactive Customers [234]
-                    </p>
-                  </div>
-                </div>
-              </div>
-            </Item>
-          </Grid>
-          <Grid item xs={4}>
-            <Item>
-              <Box sx={{ alignItems: "start", pt: "10px", px: "10px" }}>
-                <Typography
-                  sx={{
-                    fontWeight: "500",
-                    fontSize: "20px",
-                    color: "#1E1E1E",
-                    py: "10px",
-                  }}
-                >
-                  Total Merchants Status
-                </Typography>
-              </Box>
-              <div className="w-full flex gap-5 p-3 items-start">
-                <div className="flex items-start flex-col gap-2">
-                  <div className="flex items-center gap-2">
-                    <div className="w-[24px] h-[8px] bg-[#27AE60]"></div>
-
-                    <p className="text-[#828282] font-normal text-[14px]">
-                      Active Merchants [234]
-                    </p>
-                  </div>
-
-                  <div className="flex items-center gap-2">
-                    <div className="w-[24px] h-[8px] bg-[#E52929]"></div>
-
-                    <p className="text-[#828282] font-normal text-[14px]">
-                      Inactive Merchants [234]
-                    </p>
-                  </div>
-
-                  <div className="flex items-center gap-2">
-                    <div className="w-[24px] h-[8px] bg-[#BD00FF]"></div>
-
-                    <p className="text-[#828282] font-normal text-[14px]">
-                      Suspended Merchants [234]
-                    </p>
-                  </div>
-                  <div className="flex items-center gap-2">
-                    <div className="w-[24px] h-[8px] bg-[#1367D8]"></div>
-
-                    <p className="text-[#828282] font-normal text-[14px]">
-                      Reactivated Merchants [234]
-                    </p>
-                  </div>
-                  <div className="flex items-center gap-2">
-                    <div className="w-[24px] h-[8px] bg-black"></div>
-
-                    <p className="text-[#828282] font-normal text-[14px]">
-                      Closed Merchants [234]
-                    </p>
-                  </div>
-                </div>
-              </div>
-            </Item>
-          </Grid>
-        </Grid>
-      </Box>
-
-      {/* chart */}
-
-      <Box sx={{ flexGrow: "1" }}>
         <Grid container spacing={2}>
           <Grid item xs={8}>
             <Item>
@@ -595,68 +472,157 @@ export const Overview = () => {
               <LineChart />
             </Item>
           </Grid>
+
           <Grid item xs={4}>
-            <Item>
-              <Box sx={{ alignItems: "start", pt: "10px", px: "10px" }}>
-                <Typography
-                  sx={{
-                    fontWeight: "500",
-                    fontSize: "20px",
-                    color: "#4F4F4F",
-                    py: "10px",
-                  }}
-                >
-                  Total Transaction Insight
-                </Typography>
-              </Box>
-              <div className="w-full flex gap-5 p-3 items-start">
-                <div className="flex items-start flex-col gap-2">
-                  <div className="flex items-center gap-2">
-                    <div className="w-[24px] h-[8px] bg-[#27AE60]"></div>
+            <Box sx={{ flexGrow: "1", flexDirection: "column" }}>
+              <Item className="mb-2">
+                <Box sx={{ alignItems: "start", pt: "10px", px: "10px" }}>
+                  <Typography
+                    sx={{
+                      fontWeight: "500",
+                      fontSize: "20px",
+                      color: "#1E1E1E",
+                      py: "10px",
+                    }}
+                  >
+                    Total Users Status
+                  </Typography>
+                </Box>
+                <div className="w-full  p-3 items-start">
+                  <div className="flex items-start flex-col gap-2">
+                    <div className="flex items-center gap-2 w-full">
+                      <div className="w-[24px] h-[8px] bg-[#27AE60]"></div>
 
-                    <p className="text-[#828282] font-normal text-[14px]">
-                      Active Merchants [234]
-                    </p>
-                  </div>
+                      <div className="flex items-center justify-between w-full">
+                        <p className="text-[#828282] font-normal text-[14px]">
+                          Total Active Users [234]
+                        </p>
+                        <span className="text-[#F78105] cursor-pointer text-[12px] hover:text-[#333333]">
+                          View More
+                        </span>
+                      </div>
+                    </div>
 
-                  <div className="flex items-center gap-2">
-                    <div className="w-[24px] h-[8px] bg-[#E52929]"></div>
+                    <div className="flex items-center gap-2 w-full">
+                      <div className="w-[24px] h-[8px] bg-[#E52929]"></div>
 
-                    <p className="text-[#828282] font-normal text-[14px]">
-                      Inactive Merchants [234]
-                    </p>
-                  </div>
+                      <div className="flex items-center justify-between w-full">
+                        <p className="text-[#828282] font-normal text-[14px]">
+                          Total Inactive Users [234]
+                        </p>
+                        <span className="text-[#F78105] cursor-pointer text-[12px] hover:text-[#333333]">
+                          View More
+                        </span>
+                      </div>
+                    </div>
 
-                  <div className="flex items-center gap-2">
-                    <div className="w-[24px] h-[8px] bg-[#BD00FF]"></div>
+                    <div className="flex items-center gap-2 w-full">
+                      <div className="w-[24px] h-[8px] bg-[#BD00FF]"></div>
 
-                    <p className="text-[#828282] font-normal text-[14px]">
-                      Suspended Merchants [234]
-                    </p>
-                  </div>
-                  <div className="flex items-center gap-2">
-                    <div className="w-[24px] h-[8px] bg-[#1367D8]"></div>
+                      <div className="flex items-center justify-between w-full">
+                        <p className="text-[#828282] font-normal text-[14px]">
+                          Total Suspended Users [234]
+                        </p>
+                        <span className="text-[#F78105] cursor-pointer text-[12px] hover:text-[#333333]">
+                          View More
+                        </span>
+                      </div>
+                    </div>
+                    <div className="flex items-center gap-2 w-full">
+                      <div className="w-[24px] h-[8px] bg-[#1367D8]"></div>
 
-                    <p className="text-[#828282] font-normal text-[14px]">
-                      Reactivated Merchants [234]
-                    </p>
-                  </div>
-                  <div className="flex items-center gap-2">
-                    <div className="w-[24px] h-[8px] bg-black"></div>
+                      <div className="flex items-center justify-between w-full">
+                        <p className="text-[#828282] font-normal text-[14px]">
+                          Total Reactivated Users [234]
+                        </p>
+                        <span className="text-[#F78105] cursor-pointer text-[12px] hover:text-[#333333]">
+                          View More
+                        </span>
+                      </div>
+                    </div>
+                    <div className="flex items-center gap-2 w-full">
+                      <div className="w-[24px] h-[8px] bg-black"></div>
 
-                    <p className="text-[#828282] font-normal text-[14px]">
-                      Closed Merchants [234]
-                    </p>
+                      <div className="flex items-center justify-between w-full">
+                        <p className="text-[#828282] font-normal text-[14px]">
+                          Total Closed Users [234]
+                        </p>
+                        <span className="text-[#F78105]  cursor-pointer text-[12px] hover:text-[#333333]">
+                          View More
+                        </span>
+                      </div>
+                    </div>
                   </div>
                 </div>
-              </div>
-            </Item>
-          </Grid>
-          <Grid item xs={12}>
-            {/* <Item>big</Item> */}
+              </Item>
+              <Item>
+                <Box sx={{ alignItems: "start", pt: "10px", px: "10px" }}>
+                  <Typography
+                    sx={{
+                      fontWeight: "500",
+                      fontSize: "20px",
+                      color: "#4F4F4F",
+                      py: "10px",
+                    }}
+                  >
+                    Total Transaction Insight
+                  </Typography>
+                </Box>
+                <div className="w-full flex gap-5 p-3 items-start">
+                  <div className="flex items-start flex-col gap-2">
+                    <div className="flex items-center gap-2">
+                      <div className="w-[24px] h-[8px] bg-[#27AE60]"></div>
+
+                      <p className="text-[#828282] font-normal text-[14px]">
+                        Total Inward Transfer [234]
+                      </p>
+                    </div>
+
+                    <div className="flex items-center gap-2">
+                      <div className="w-[24px] h-[8px] bg-[#E52929]"></div>
+
+                      <p className="text-[#828282] font-normal text-[14px]">
+                        Total Outward Transfer [234]
+                      </p>
+                    </div>
+
+                    <div className="flex items-center gap-2">
+                      <div className="w-[24px] h-[8px] bg-[#BD00FF]"></div>
+
+                      <p className="text-[#828282] font-normal text-[14px]">
+                        Total Wallet To Wallet [234]
+                      </p>
+                    </div>
+                    <div className="flex items-center gap-2">
+                      <div className="w-[24px] h-[8px] bg-[#1367D8]"></div>
+
+                      <p className="text-[#828282] font-normal text-[14px]">
+                        Total Mycliq [234]
+                      </p>
+                    </div>
+                    <div className="flex items-center gap-2">
+                      <div className="w-[24px] h-[8px] bg-pink-400"></div>
+
+                      <p className="text-[#828282] font-normal text-[14px]">
+                        Total Soft POS [234]
+                      </p>
+                    </div>
+                    <div className="flex items-center gap-2">
+                      <div className="w-[24px] h-[8px] bg-red-500"></div>
+
+                      <p className="text-[#828282] font-normal text-[14px]">
+                        Total Bills [234]
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </Item>
+            </Box>
           </Grid>
         </Grid>
       </Box>
+
+      {/* chart */}
     </Box>
   );
 };

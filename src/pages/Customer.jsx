@@ -936,7 +936,7 @@ const Customer = () => {
                   </Button>
                 </Box>
 
-                <div className="flex gap-[5rem]  mt-4 items-center">
+                {/* <div className="flex gap-[5rem]  mt-4 items-center">
                   <Typography
                     sx={{
                       color: "#4F4F4F",
@@ -997,7 +997,7 @@ const Customer = () => {
                       )}
                     </span>
                   </Typography>
-                </div>
+                </div> */}
 
                 {/* search  */}
                 <Box className="my-[1rem]">
@@ -1044,7 +1044,7 @@ const Customer = () => {
                 </Box>
 
                 {/* customers  */}
-                <Box className="h-[87vh] overflow-y-auto">
+                <Box className="max-h-[87vh] overflow-y-auto">
                   <TableContainer component={Paper}>
                     <Table sx={{ minWidth: 100, padding: "8px" }}>
                       <TableBody>
@@ -1154,44 +1154,69 @@ const Customer = () => {
                     General Customer & Activity Status
                   </Typography>
                 </Box>
-                <div className="w-full flex gap-5 p-3 items-start">
-                  <div className="flex items-start flex-col gap-2">
-                    <div className="flex items-center gap-2">
+                <div className="w-full  p-3 items-start">
+                  <div className="flex items-start flex-col gap-2 w-full">
+                    <div className="flex items-center gap-2 w-full">
                       <div className="w-[24px] h-[8px] bg-[#27AE60]"></div>
 
-                      <p className="text-[#828282] font-normal text-[14px]">
-                        General Active Customers [234]
-                      </p>
+                      <div className="flex items-center justify-between w-full">
+                        <p className="text-[#828282] font-normal text-[12px]">
+                          General Active Customers [234]
+                        </p>
+                        <span className="text-[#F78105] cursor-pointer text-[12px] hover:text-[#333333]">
+                          View More
+                        </span>
+                      </div>
                     </div>
 
-                    <div className="flex items-center gap-2">
+                    <div className="flex items-center gap-2 w-full">
                       <div className="w-[24px] h-[8px] bg-[#E52929]"></div>
 
-                      <p className="text-[#828282] font-normal text-[14px]">
-                        General Inactive Customers [234]
-                      </p>
+                      <div className="flex items-center justify-between w-full">
+                        <p className="text-[#828282] font-normal text-[12px]">
+                          General Inactive Customers [234]
+                        </p>
+                        <span className="text-[#F78105] cursor-pointer text-[12px] hover:text-[#333333]">
+                          View More
+                        </span>
+                      </div>
                     </div>
 
-                    <div className="flex items-center gap-2">
+                    <div className="flex items-center gap-2 w-full">
                       <div className="w-[24px] h-[8px] bg-[#BD00FF]"></div>
 
-                      <p className="text-[#828282] font-normal text-[14px]">
-                        General Suspended Customers [234]
-                      </p>
+                      <div className="flex items-center justify-between w-full">
+                        <p className="text-[#828282] font-normal text-[12px]">
+                          General Suspended Customers [234]
+                        </p>
+                        <span className="text-[#F78105] cursor-pointer text-[12px] hover:text-[#333333]">
+                          View More
+                        </span>
+                      </div>
                     </div>
-                    <div className="flex items-center gap-2">
+                    <div className="flex items-center gap-2 w-full">
                       <div className="w-[24px] h-[8px] bg-[#1367D8]"></div>
 
-                      <p className="text-[#828282] font-normal text-[14px]">
-                        General Reactivated Customers [234]
-                      </p>
+                      <div className="flex items-center justify-between w-full">
+                        <p className="text-[#828282] font-normal text-[12px]">
+                          General Reactivated Customers [234]
+                        </p>
+                        <span className="text-[#F78105] cursor-pointer text-[12px] hover:text-[#333333]">
+                          View More
+                        </span>
+                      </div>
                     </div>
-                    <div className="flex items-center gap-2">
+                    <div className="flex items-center gap-2 w-full">
                       <div className="w-[24px] h-[8px] bg-black"></div>
 
-                      <p className="text-[#828282] font-normal text-[14px]">
-                        General Closed Customers [234]
-                      </p>
+                      <div className="flex items-center justify-between w-full">
+                        <p className="text-[#828282] font-normal text-[12px]">
+                          General Closed Customers [234]
+                        </p>
+                        <span className="text-[#F78105] cursor-pointer text-[12px] hover:text-[#333333]">
+                          View More
+                        </span>
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -1214,7 +1239,7 @@ const Customer = () => {
                     <div className="flex items-center gap-2">
                       <div className="w-[24px] h-[8px] bg-[#27AE60]"></div>
 
-                      <p className="text-[#828282] font-normal text-[14px]">
+                      <p className="text-[#828282] font-normal text-[12px]">
                         BVN Verified [234]
                       </p>
                     </div>
@@ -1222,7 +1247,7 @@ const Customer = () => {
                     <div className="flex items-center gap-2">
                       <div className="w-[24px] h-[8px] bg-[#E52929]"></div>
 
-                      <p className="text-[#828282] font-normal text-[14px]">
+                      <p className="text-[#828282] font-normal text-[12px]">
                         NIN Verified [234]
                       </p>
                     </div>
@@ -1230,7 +1255,7 @@ const Customer = () => {
                     <div className="flex items-center gap-2">
                       <div className="w-[24px] h-[8px] bg-[#BD00FF]"></div>
 
-                      <p className="text-[#828282] font-normal text-[14px]">
+                      <p className="text-[#828282] font-normal text-[12px]">
                         Not Verified [234]
                       </p>
                     </div>
@@ -1255,7 +1280,7 @@ const Customer = () => {
                     <div className="flex items-center gap-2">
                       <div className="w-[24px] h-[8px] bg-[#27AE60]"></div>
 
-                      <p className="text-[#828282] font-normal text-[14px]">
+                      <p className="text-[#828282] font-normal text-[12px]">
                         Inward Transfer [234]
                       </p>
                     </div>
@@ -1263,7 +1288,7 @@ const Customer = () => {
                     <div className="flex items-center gap-2">
                       <div className="w-[24px] h-[8px] bg-[#E52929]"></div>
 
-                      <p className="text-[#828282] font-normal text-[14px]">
+                      <p className="text-[#828282] font-normal text-[12px]">
                         Outward Transfer [234]
                       </p>
                     </div>
@@ -1271,14 +1296,14 @@ const Customer = () => {
                     <div className="flex items-center gap-2">
                       <div className="w-[24px] h-[8px] bg-[#BD00FF]"></div>
 
-                      <p className="text-[#828282] font-normal text-[14px]">
+                      <p className="text-[#828282] font-normal text-[12px]">
                         Wallet to Wallet [234]
                       </p>
                     </div>
                     <div className="flex items-center gap-2">
                       <div className="w-[24px] h-[8px] bg-[#BD00FF]"></div>
 
-                      <p className="text-[#828282] font-normal text-[14px]">
+                      <p className="text-[#828282] font-normal text-[12px]">
                         Mycliq [234]
                       </p>
                     </div>

@@ -795,6 +795,7 @@ const CustomerProfile = ({
                   >
                     <TableRow>
                       <TableCell>S/N</TableCell>
+                      <TableCell> Full Name</TableCell>
                       <TableCell> Transaction ID</TableCell>
                       <TableCell>Type</TableCell>
                       <TableCell>Amount</TableCell>
@@ -818,6 +819,17 @@ const CustomerProfile = ({
                       dummyCustomers.map((item, i) => (
                         <TableRow key={item.id}>
                           <TableCell>{page * rowsPerPage + i + 1}</TableCell>
+                          <TableCell>
+                            <Typography
+                              sx={{
+                                fomtWeight: "400",
+                                fontSize: "16px",
+                                color: "#828282",
+                              }}
+                            >
+                              item?.name
+                            </Typography>
+                          </TableCell>
                           <TableCell>
                             <Typography
                               sx={{
