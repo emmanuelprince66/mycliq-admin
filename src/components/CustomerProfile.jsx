@@ -41,6 +41,7 @@ import bage1 from "../assets/bage1.svg";
 import ReportProblemOutlinedIcon from "@mui/icons-material/ReportProblemOutlined";
 import VerifiedOutlinedIcon from "@mui/icons-material/VerifiedOutlined";
 import Switch from "@mui/material/Switch";
+import compliance from "../assets/images/generalMerchants/compliance.svg";
 const dummyCustomers = [
   {
     id: 1,
@@ -120,16 +121,24 @@ const CustomerProfile = ({
         <Grid xs={12}></Grid>
         <Grid item xs={7}>
           <Box className="w-full bg-white rounded-md p-4 flex-col border-grey-400 border-[1px]  overflow-y-scroll items-start justify-center">
-            <Typography
-              sx={{
-                color: "#1E1E1E",
-                fontWeight: "500",
-                fontSize: "15px",
-                p: "1rem",
-              }}
-            >
-              Customer Profile
-            </Typography>
+            <div className="flex w-full items-center justify-between ">
+              <Typography
+                sx={{
+                  color: "#1E1E1E",
+                  fontWeight: "500",
+                  fontSize: "15px",
+                  p: "1rem",
+                }}
+              >
+                Customer Profile
+              </Typography>
+              <div className="flex gap-2 items-center cursor-pointer">
+                <img src={compliance} alt="c-p" />
+                <p className="text-[14px] font-[500] text-[#F78105]">
+                  Compliance
+                </p>
+              </div>
+            </div>
 
             <Box className="w-full flex items-start flex-col   gap-[4rem] my-3 border-b border-grey-400  pb-1">
               <Box className="ml-3">
