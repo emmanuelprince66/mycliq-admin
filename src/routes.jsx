@@ -21,6 +21,10 @@ import Customer from "./pages/Customer";
 import Billers from "./pages/Billers";
 import GMerchants from "./pages/GMerchants";
 import { AuthProvider } from "./utils/AuthContext";
+import Gtransportaton from "./components/Gtransportaton";
+import Gassociation from "./components/Gassociation";
+import Gticket from "./components/Gticket";
+import Gvendor from "./components/Gvendor";
 
 const myRoutes = [
   { component: <Login />, path: "/", name: "Login Page" },
@@ -33,8 +37,28 @@ const myRoutes = [
   },
   {
     component: <GMerchants />,
-    path: "/gmerchants",
+    path: "/merchants",
     name: "Merchants",
+  },
+  {
+    component: <Gtransportaton />,
+    path: "/gtransportations",
+    name: "gtransport",
+  },
+  {
+    component: <Gassociation />,
+    path: "/gassociations",
+    name: "gassociation",
+  },
+  {
+    component: <Gticket />,
+    path: "/gtickets",
+    name: "gticket",
+  },
+  {
+    component: <Gvendor />,
+    path: "/gvendors",
+    name: "gvendor",
   },
   {
     component: <Billers />,

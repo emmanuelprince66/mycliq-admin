@@ -25,21 +25,17 @@ import LocalPhoneOutlinedIcon from "@mui/icons-material/LocalPhoneOutlined";
 import info from "../assets/images/admin/info.svg";
 import { Controller } from "react-hook-form";
 import { useMutation, useQuery } from "@tanstack/react-query";
-import {CircularProgress} from "@mui/material";
+import { CircularProgress } from "@mui/material";
 import closeIcon from "../assets/images/closeIcon.svg";
 import successIcon from "../assets/successIcon.svg";
-
-
 
 import PersonOutlineRoundedIcon from "@mui/icons-material/PersonOutlineRounded";
 import { BaseAxios } from "../helpers/axiosInstance";
 
 const AssoContact = ({ onSubmit }) => {
-
-const [buttonDisabled , setButtonDisabled] = useState(false)
-const [success , setSuccess] = useState(false)
+  const [buttonDisabled, setButtonDisabled] = useState(false);
+  const [success, setSuccess] = useState(false);
   const handleCloseSuccess = () => setSuccess(false);
-
 
   const style = {
     position: "absolute",
@@ -120,9 +116,9 @@ const [success , setSuccess] = useState(false)
   //     };
   //     registerAssociationMutation.mutate(payLoad);
   //     setButtonDisabled(true);
-      
+
   //     console.log(payLoad)
-      
+
   // };
 
   return (

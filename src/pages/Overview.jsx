@@ -170,7 +170,7 @@ export const Overview = () => {
               </Box>
               <Typography
                 sx={{
-                  fomtWeight: "500",
+                  fontWeight: "500",
                   fontSize: "14px",
                   color: "#4F4F4F",
                 }}
@@ -248,7 +248,7 @@ export const Overview = () => {
             </Box>
             <Typography
               sx={{
-                fomtWeight: "500",
+                fontWeight: "500",
                 fontSize: "14px",
                 color: "#4F4F4F",
               }}
@@ -274,7 +274,7 @@ export const Overview = () => {
                   color: "#000",
                 }}
               >
-                <FormattedPrice amount={3000000} />
+                100
               </Typography>
             </Box>
             <Box className="flex flex-col gap-1 items-start">
@@ -293,7 +293,7 @@ export const Overview = () => {
                   color: "#000",
                 }}
               >
-                <FormattedPrice amount={3000000} />
+                50
               </Typography>
             </Box>
           </Box>
@@ -350,7 +350,7 @@ export const Overview = () => {
                   color: "#000",
                 }}
               >
-                <FormattedPrice amount={3000000} />
+                2200
               </Typography>
             </Box>
             <Box className="flex flex-col gap-1 items-start">
@@ -369,7 +369,7 @@ export const Overview = () => {
                   color: "#000",
                 }}
               >
-                <FormattedPrice amount={3000000} />
+                10
               </Typography>
             </Box>
           </Box>
@@ -426,7 +426,7 @@ export const Overview = () => {
                   color: "#000",
                 }}
               >
-                <FormattedPrice amount={3000000} />
+                12233
               </Typography>
             </Box>
             <Box className="flex flex-col gap-1 items-start">
@@ -445,7 +445,7 @@ export const Overview = () => {
                   color: "#000",
                 }}
               >
-                <FormattedPrice amount={3000000} />
+                1363678
               </Typography>
             </Box>
           </Box>
@@ -454,7 +454,7 @@ export const Overview = () => {
       {/*  */}
 
       <Box sx={{ flexGrow: "1", my: "10px" }}>
-        <Grid container spacing={2}>
+        <Grid container spacing={3}>
           <Grid item xs={8}>
             <Item>
               <Box sx={{ alignItems: "start" }}>
@@ -475,7 +475,7 @@ export const Overview = () => {
 
           <Grid item xs={4}>
             <Box sx={{ flexGrow: "1", flexDirection: "column" }}>
-              <Item className="mb-2">
+              <Item className="mb-4">
                 <Box sx={{ alignItems: "start", pt: "10px", px: "10px" }}>
                   <Typography
                     sx={{

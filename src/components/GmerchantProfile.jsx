@@ -36,13 +36,17 @@ import fdown from "../assets/fdown.svg";
 import upcolor from "../assets/images/admin/upcolor.svg";
 import wallet from "../assets/images/generalMerchants/wallet.svg";
 import percent from "../assets/images/generalMerchants/percent.svg";
-
+import AccordionDetails from "@mui/material/AccordionDetails";
+import Accordion from "@mui/material/Accordion";
+import AccordionActions from "@mui/material/AccordionActions";
+import AccordionSummary from "@mui/material/AccordionSummary";
+import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import AddCircleOutlineRoundedIcon from "@mui/icons-material/AddCircleOutlineRounded";
 import FormattedPrice from "./FormattedPrice";
 const Item = styled(Box)(({ theme }) => ({
   backgroundColor: theme.palette.mode === "dark" ? "#1A2027" : "#fff",
   ...theme.typography.body2,
-  border: "1px solid #E0E0E0",
+  border: "2px solid #E0E0E0",
   color: theme.palette.text.secondary,
   borderRadius: "8px",
   maxHeight: "100%",
@@ -118,19 +122,18 @@ const GmerchantProfile = () => {
   } = useForm({ mode: "all" });
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(100);
+  const [showProfileDetails, setShowProfileDetails] = useState(true);
   return (
     <div className="w-full">
       <div className="w-full flex items-center justify-between">
         <p className="font-[600]  text-[20px] text-[#1e1e1e]">Cascade Lounge</p>
 
-        <div className="flex gap-4 items-center w-[50%] justify-end">
+        <div className="flex gap-4 items-center w-[60%] justify-end">
           <div className="flex gap-1 items-center ">
-            <AddCircleOutlineRoundedIcon
-              sx={{ color: "#F78105", fontSize: "16px" }}
-            />
             <p className="text-[#F78105] text-[16px] font-[600]">
-              Add New Outlet
+              Total Number Of Outlet :
             </p>
+            <p className="text-[#F78105] text-[16px] font-[600]">24</p>
           </div>
           <FormControl sx={{ width: "60%" }}>
             <Controller
@@ -161,498 +164,7 @@ const GmerchantProfile = () => {
         </div>
       </div>
 
-      <Grid container spacing={2} sx={{ background: "#fff", my: "10px" }}>
-        <Grid item xs={12}>
-          <Item>
-            <div className="flex flex-col items-start w-full p-3">
-              <p className="text-[20px] font-[500 text-[#1e1e1e] mb-2">
-                Profile
-              </p>
-
-              <Grid container spacing={1}>
-                <Grid item xs={6}>
-                  <Box className="flex flex-col items-start w-full justify-center ">
-                    <Typography
-                      sx={{
-                        color: "grey",
-                        fontWeight: "500",
-                        fontSize: "15px",
-                      }}
-                    >
-                      GENERAL INFORMATION
-                    </Typography>
-                    <Box className="flex items-center mt-2 mb-1 ">
-                      <Box className="flex items-center gap-1 w-[200px] ">
-                        <CabinRoundedIcon sx={{ color: "grey" }} />
-                        <Typography
-                          sx={{
-                            color: "grey",
-                            fontWeight: "300",
-                            fontSize: "13px",
-                          }}
-                        >
-                          Total Reg.Outlets :
-                        </Typography>
-                      </Box>
-
-                      <Typography
-                        sx={{
-                          color: "#1E1E1E",
-                          fontWeight: "500",
-                          fontSize: "15px",
-                        }}
-                      >
-                        10
-                      </Typography>
-                    </Box>
-                    <Box className="flex items-center mt-2 mb-1 justify-between ">
-                      <Box className="flex items-center gap-1 w-[200px] ">
-                        <CabinRoundedIcon sx={{ color: "grey" }} />
-                        <Typography
-                          sx={{
-                            color: "grey",
-                            fontWeight: "300",
-                            fontSize: "13px",
-                          }}
-                        >
-                          Brand Name:
-                        </Typography>
-                      </Box>
-
-                      <Typography
-                        sx={{
-                          color: "#1E1E1E",
-                          fontWeight: "500",
-                          fontSize: "15px",
-                        }}
-                      >
-                        Encore Supermarket
-                      </Typography>
-                    </Box>
-                    <Box className="flex items-center mt-2 mb-1 ">
-                      <Box className="flex items-center gap-1 w-[200px] ">
-                        <CabinRoundedIcon sx={{ color: "grey" }} />
-                        <Typography
-                          sx={{
-                            color: "grey",
-                            fontWeight: "300",
-                            fontSize: "13px",
-                          }}
-                        >
-                          Registered Name:
-                        </Typography>
-                      </Box>
-
-                      <div className="flex gap-2 items-center">
-                        <Typography
-                          sx={{
-                            color: "#1E1E1E",
-                            fontWeight: "500",
-                            fontSize: "15px",
-                          }}
-                        >
-                          Encore Supermarket
-                        </Typography>
-                      </div>
-                    </Box>
-                    <Box className="flex items-center mt-2 mb-1 justify-between ">
-                      <Box className="flex items-center gap-1 w-[200px] ">
-                        <PersonOutlineRoundedIcon sx={{ color: "grey" }} />
-                        <Typography
-                          sx={{
-                            color: "grey",
-                            fontWeight: "300",
-                            fontSize: "13px",
-                          }}
-                        >
-                          CAC NO:
-                        </Typography>
-                      </Box>
-
-                      <div className="flex gap-2 items-center">
-                        <Typography
-                          sx={{
-                            color: "#1E1E1E",
-                            fontWeight: "500",
-                            fontSize: "15px",
-                          }}
-                        >
-                          12223344
-                        </Typography>
-                      </div>
-                    </Box>
-                  </Box>
-                </Grid>
-                <Grid item xs={6}>
-                  <Box className="flex flex-col items-start w-full justify-center ">
-                    <Typography
-                      sx={{
-                        color: "grey",
-                        fontWeight: "500",
-                        fontSize: "15px",
-                      }}
-                    >
-                      BRANCH MANAGER'S INFORMATION
-                    </Typography>
-                    <Box className="flex items-center mt-2 mb-1 ">
-                      <Box className="flex items-center gap-1 w-[200px] ">
-                        <PersonOutlineRoundedIcon sx={{ color: "grey" }} />
-                        <Typography
-                          sx={{
-                            color: "grey",
-                            fontWeight: "300",
-                            fontSize: "13px",
-                          }}
-                        >
-                          Manager's Name :
-                        </Typography>
-                      </Box>
-
-                      <Typography
-                        sx={{
-                          color: "#1E1E1E",
-                          fontWeight: "500",
-                          fontSize: "15px",
-                        }}
-                      >
-                        Eleanor Poe
-                      </Typography>
-                    </Box>
-                    <Box className="flex items-center mt-2 mb-1 justify-between ">
-                      <Box className="flex items-center gap-1 w-[200px] ">
-                        <TransgenderRoundedIcon sx={{ color: "grey" }} />
-                        <Typography
-                          sx={{
-                            color: "grey",
-                            fontWeight: "300",
-                            fontSize: "13px",
-                          }}
-                        >
-                          Gender:
-                        </Typography>
-                      </Box>
-
-                      <Typography
-                        sx={{
-                          color: "#1E1E1E",
-                          fontWeight: "500",
-                          fontSize: "15px",
-                        }}
-                      >
-                        male
-                      </Typography>
-                    </Box>
-                    <Box className="flex items-center mt-2 mb-1 ">
-                      <Box className="flex items-center gap-1 w-[200px] ">
-                        <EmailOutlinedIcon sx={{ color: "grey" }} />
-                        <Typography
-                          sx={{
-                            color: "grey",
-                            fontWeight: "300",
-                            fontSize: "13px",
-                          }}
-                        >
-                          Email:
-                        </Typography>
-                      </Box>
-
-                      <div className="flex gap-2 items-center">
-                        <Typography
-                          sx={{
-                            color: "#1E1E1E",
-                            fontWeight: "500",
-                            fontSize: "15px",
-                          }}
-                        >
-                          eleanor@gmail.com
-                        </Typography>
-                      </div>
-                    </Box>
-                    <Box className="flex items-center mt-2 mb-1 justify-between ">
-                      <Box className="flex items-center gap-1 w-[200px] ">
-                        <LocalPhoneOutlinedIcon sx={{ color: "grey" }} />
-                        <Typography
-                          sx={{
-                            color: "grey",
-                            fontWeight: "300",
-                            fontSize: "13px",
-                          }}
-                        >
-                          Phone No:
-                        </Typography>
-                      </Box>
-
-                      <div className="flex gap-2 items-center">
-                        <Typography
-                          sx={{
-                            color: "#1E1E1E",
-                            fontWeight: "500",
-                            fontSize: "15px",
-                          }}
-                        >
-                          08166553443
-                        </Typography>
-                      </div>
-                    </Box>
-                    <Box className="flex items-center mt-2 mb-1 justify-between ">
-                      <Box className="flex items-center gap-1 w-[200px] ">
-                        <LocalPhoneOutlinedIcon sx={{ color: "grey" }} />
-                        <Typography
-                          sx={{
-                            color: "grey",
-                            fontWeight: "300",
-                            fontSize: "13px",
-                          }}
-                        >
-                          Alt Phone No:
-                        </Typography>
-                      </Box>
-
-                      <div className="flex gap-2 items-center">
-                        <Typography
-                          sx={{
-                            color: "#1E1E1E",
-                            fontWeight: "500",
-                            fontSize: "15px",
-                          }}
-                        >
-                          08166553443
-                        </Typography>
-                      </div>
-                    </Box>
-                  </Box>
-                </Grid>
-                <Divider sx={{ width: "100%", pt: "10px" }} />
-                <Grid item xs={6}>
-                  <Box className="flex flex-col items-start w-full pt-4 justify-center ">
-                    <Typography
-                      sx={{
-                        color: "grey",
-                        fontWeight: "500",
-                        fontSize: "15px",
-                      }}
-                    >
-                      OUTLET INFORMATION
-                    </Typography>
-                    <Box className="flex items-center mt-2 mb-1 ">
-                      <Box className="flex items-center gap-1 w-[200px] ">
-                        <CabinRoundedIcon sx={{ color: "grey" }} />
-                        <Typography
-                          sx={{
-                            color: "grey",
-                            fontWeight: "300",
-                            fontSize: "13px",
-                          }}
-                        >
-                          Date Registered :
-                        </Typography>
-                      </Box>
-
-                      <Typography
-                        sx={{
-                          color: "#1E1E1E",
-                          fontWeight: "500",
-                          fontSize: "15px",
-                        }}
-                      >
-                        01-02-10022
-                      </Typography>
-                    </Box>
-                    <Box className="flex items-center mt-2 mb-1 justify-between ">
-                      <Box className="flex items-center gap-1 w-[200px] ">
-                        <CabinRoundedIcon sx={{ color: "grey" }} />
-                        <Typography
-                          sx={{
-                            color: "grey",
-                            fontWeight: "300",
-                            fontSize: "13px",
-                          }}
-                        >
-                          Outlet Location:
-                        </Typography>
-                      </Box>
-
-                      <Typography
-                        sx={{
-                          color: "#1E1E1E",
-                          fontWeight: "500",
-                          fontSize: "15px",
-                        }}
-                      >
-                        Ibadan
-                      </Typography>
-                    </Box>
-                    <Box className="flex items-center mt-2 mb-1 ">
-                      <Box className="flex items-center gap-1 w-[200px] ">
-                        <CabinRoundedIcon sx={{ color: "grey" }} />
-                        <Typography
-                          sx={{
-                            color: "grey",
-                            fontWeight: "300",
-                            fontSize: "13px",
-                          }}
-                        >
-                          Outlet Address:
-                        </Typography>
-                      </Box>
-
-                      <div className="flex gap-2 items-center">
-                        <Typography
-                          sx={{
-                            color: "#1E1E1E",
-                            fontWeight: "500",
-                            fontSize: "15px",
-                          }}
-                        >
-                          Shop 4, mycliq Complex, State
-                        </Typography>
-                      </div>
-                    </Box>
-                    <Box className="flex items-center mt-2 mb-1 justify-between ">
-                      <Box className="flex items-center gap-1 w-[200px] ">
-                        <LocalPhoneOutlinedIcon sx={{ color: "grey" }} />
-                        <Typography
-                          sx={{
-                            color: "grey",
-                            fontWeight: "300",
-                            fontSize: "13px",
-                          }}
-                        >
-                          Phone Num:
-                        </Typography>
-                      </Box>
-
-                      <div className="flex gap-2 items-center">
-                        <Typography
-                          sx={{
-                            color: "#1E1E1E",
-                            fontWeight: "500",
-                            fontSize: "15px",
-                          }}
-                        >
-                          08166776633
-                        </Typography>
-                      </div>
-                    </Box>
-                    <Box className="flex items-center mt-2 mb-1 justify-between ">
-                      <Box className="flex items-center gap-1 w-[200px] ">
-                        <EmailOutlinedIcon sx={{ color: "grey" }} />
-                        <Typography
-                          sx={{
-                            color: "grey",
-                            fontWeight: "300",
-                            fontSize: "13px",
-                          }}
-                        >
-                          Email:
-                        </Typography>
-                      </Box>
-
-                      <div className="flex gap-2 items-center">
-                        <Typography
-                          sx={{
-                            color: "#1E1E1E",
-                            fontWeight: "500",
-                            fontSize: "15px",
-                          }}
-                        >
-                          text@gmail.com
-                        </Typography>
-                      </div>
-                    </Box>
-                  </Box>
-                </Grid>
-                <Grid item xs={6}>
-                  <Box className="flex flex-col items-start w-full pt-4 justify-center ">
-                    <Typography
-                      sx={{
-                        color: "grey",
-                        fontWeight: "500",
-                        fontSize: "15px",
-                      }}
-                    >
-                      OUTLET BANK ACCOUNT DETAILS
-                    </Typography>
-                    <Box className="flex items-center mt-2 mb-1 ">
-                      <Box className="flex items-center gap-1 w-[200px] ">
-                        <PersonOutlineRoundedIcon sx={{ color: "grey" }} />
-                        <Typography
-                          sx={{
-                            color: "grey",
-                            fontWeight: "300",
-                            fontSize: "13px",
-                          }}
-                        >
-                          Bank Name :
-                        </Typography>
-                      </Box>
-
-                      <Typography
-                        sx={{
-                          color: "#1E1E1E",
-                          fontWeight: "500",
-                          fontSize: "15px",
-                        }}
-                      >
-                        Access Bank
-                      </Typography>
-                    </Box>
-                    <Box className="flex items-center mt-2 mb-1 justify-between ">
-                      <Box className="flex items-center gap-1 w-[200px] ">
-                        <TransgenderRoundedIcon sx={{ color: "grey" }} />
-                        <Typography
-                          sx={{
-                            color: "grey",
-                            fontWeight: "300",
-                            fontSize: "13px",
-                          }}
-                        >
-                          Account Name:
-                        </Typography>
-                      </Box>
-
-                      <Typography
-                        sx={{
-                          color: "#1E1E1E",
-                          fontWeight: "500",
-                          fontSize: "15px",
-                        }}
-                      >
-                        Eleanor Poe
-                      </Typography>
-                    </Box>
-                    <Box className="flex items-center mt-2 mb-1 ">
-                      <Box className="flex items-center gap-1 w-[200px] ">
-                        <CabinRoundedIcon sx={{ color: "grey" }} />
-                        <Typography
-                          sx={{
-                            color: "grey",
-                            fontWeight: "300",
-                            fontSize: "13px",
-                          }}
-                        >
-                          Account Number:
-                        </Typography>
-                      </Box>
-
-                      <div className="flex gap-2 items-center">
-                        <Typography
-                          sx={{
-                            color: "#1E1E1E",
-                            fontWeight: "500",
-                            fontSize: "15px",
-                          }}
-                        >
-                          453545354
-                        </Typography>
-                      </div>
-                    </Box>
-                  </Box>
-                </Grid>
-              </Grid>
-            </div>
-          </Item>
-        </Grid>
+      <Grid container spacing={2} sx={{ my: "10px" }}>
         <Grid item xs={12}>
           <Box
             sx={{
@@ -874,7 +386,534 @@ const GmerchantProfile = () => {
           </Box>
         </Grid>
         <Grid item xs={12}>
-          <Box className="w-full bg-white rounded-md p-2 flex flex-col border-grey-400  border-[1px] items-start justify-center">
+          <Item>
+            <Accordion
+              defaultExpanded
+              sx={{
+                boxShadow: "none", // Remove box shadow
+              }}
+            >
+              <AccordionSummary
+                expandIcon={
+                  <ExpandMoreIcon
+                    sx={{
+                      color: "#828282",
+                      background: "#1E1E1E0D",
+                      p: "1px",
+                      borderRadius: "10px",
+                    }}
+                  />
+                }
+                aria-controls="panel1-content"
+                id="panel1-header"
+                sx={{
+                  borderBottom: "none", // Remove bottom border of the summary
+                  display: "flex",
+                  alignItems: "center",
+                  width: "100%",
+                  px: "5px",
+                }}
+              >
+                <p className="text-[20px] font-[500 text-[#1e1e1e] ml-6">
+                  Profile
+                </p>
+              </AccordionSummary>
+              <AccordionDetails
+                sx={{
+                  width: "100%",
+                  // Remove top border of the details
+                }}
+              >
+                <div className="flex flex-col items-start w-full p-3">
+                  <Grid container spacing={1}>
+                    <Grid item xs={6}>
+                      <Box className="flex flex-col items-start w-full justify-center ">
+                        <Typography
+                          sx={{
+                            color: "grey",
+                            fontWeight: "500",
+                            fontSize: "15px",
+                          }}
+                        >
+                          GENERAL INFORMATION
+                        </Typography>
+                        <Box className="flex items-center mt-2 mb-1 ">
+                          <Box className="flex items-center gap-1 w-[200px] ">
+                            <CabinRoundedIcon sx={{ color: "grey" }} />
+                            <Typography
+                              sx={{
+                                color: "grey",
+                                fontWeight: "300",
+                                fontSize: "13px",
+                              }}
+                            >
+                              Total Reg.Outlets :
+                            </Typography>
+                          </Box>
+
+                          <Typography
+                            sx={{
+                              color: "#1E1E1E",
+                              fontWeight: "500",
+                              fontSize: "15px",
+                            }}
+                          >
+                            10
+                          </Typography>
+                        </Box>
+                        <Box className="flex items-center mt-2 mb-1 justify-between ">
+                          <Box className="flex items-center gap-1 w-[200px] ">
+                            <CabinRoundedIcon sx={{ color: "grey" }} />
+                            <Typography
+                              sx={{
+                                color: "grey",
+                                fontWeight: "300",
+                                fontSize: "13px",
+                              }}
+                            >
+                              Brand Name:
+                            </Typography>
+                          </Box>
+
+                          <Typography
+                            sx={{
+                              color: "#1E1E1E",
+                              fontWeight: "500",
+                              fontSize: "15px",
+                            }}
+                          >
+                            Encore Supermarket
+                          </Typography>
+                        </Box>
+                        <Box className="flex items-center mt-2 mb-1 ">
+                          <Box className="flex items-center gap-1 w-[200px] ">
+                            <CabinRoundedIcon sx={{ color: "grey" }} />
+                            <Typography
+                              sx={{
+                                color: "grey",
+                                fontWeight: "300",
+                                fontSize: "13px",
+                              }}
+                            >
+                              Registered Name:
+                            </Typography>
+                          </Box>
+
+                          <div className="flex gap-2 items-center">
+                            <Typography
+                              sx={{
+                                color: "#1E1E1E",
+                                fontWeight: "500",
+                                fontSize: "15px",
+                              }}
+                            >
+                              Encore Supermarket
+                            </Typography>
+                          </div>
+                        </Box>
+                        <Box className="flex items-center mt-2 mb-1 justify-between ">
+                          <Box className="flex items-center gap-1 w-[200px] ">
+                            <PersonOutlineRoundedIcon sx={{ color: "grey" }} />
+                            <Typography
+                              sx={{
+                                color: "grey",
+                                fontWeight: "300",
+                                fontSize: "13px",
+                              }}
+                            >
+                              CAC NO:
+                            </Typography>
+                          </Box>
+
+                          <div className="flex gap-2 items-center">
+                            <Typography
+                              sx={{
+                                color: "#1E1E1E",
+                                fontWeight: "500",
+                                fontSize: "15px",
+                              }}
+                            >
+                              12223344
+                            </Typography>
+                          </div>
+                        </Box>
+                      </Box>
+                    </Grid>
+                    <Grid item xs={6}>
+                      <Box className="flex flex-col items-start w-full justify-center ">
+                        <Typography
+                          sx={{
+                            color: "grey",
+                            fontWeight: "500",
+                            fontSize: "15px",
+                          }}
+                        >
+                          BRANCH MANAGER'S INFORMATION
+                        </Typography>
+                        <Box className="flex items-center mt-2 mb-1 ">
+                          <Box className="flex items-center gap-1 w-[200px] ">
+                            <PersonOutlineRoundedIcon sx={{ color: "grey" }} />
+                            <Typography
+                              sx={{
+                                color: "grey",
+                                fontWeight: "300",
+                                fontSize: "13px",
+                              }}
+                            >
+                              Manager's Name :
+                            </Typography>
+                          </Box>
+
+                          <Typography
+                            sx={{
+                              color: "#1E1E1E",
+                              fontWeight: "500",
+                              fontSize: "15px",
+                            }}
+                          >
+                            Eleanor Poe
+                          </Typography>
+                        </Box>
+                        <Box className="flex items-center mt-2 mb-1 justify-between ">
+                          <Box className="flex items-center gap-1 w-[200px] ">
+                            <TransgenderRoundedIcon sx={{ color: "grey" }} />
+                            <Typography
+                              sx={{
+                                color: "grey",
+                                fontWeight: "300",
+                                fontSize: "13px",
+                              }}
+                            >
+                              Gender:
+                            </Typography>
+                          </Box>
+
+                          <Typography
+                            sx={{
+                              color: "#1E1E1E",
+                              fontWeight: "500",
+                              fontSize: "15px",
+                            }}
+                          >
+                            male
+                          </Typography>
+                        </Box>
+                        <Box className="flex items-center mt-2 mb-1 ">
+                          <Box className="flex items-center gap-1 w-[200px] ">
+                            <EmailOutlinedIcon sx={{ color: "grey" }} />
+                            <Typography
+                              sx={{
+                                color: "grey",
+                                fontWeight: "300",
+                                fontSize: "13px",
+                              }}
+                            >
+                              Email:
+                            </Typography>
+                          </Box>
+
+                          <div className="flex gap-2 items-center">
+                            <Typography
+                              sx={{
+                                color: "#1E1E1E",
+                                fontWeight: "500",
+                                fontSize: "15px",
+                              }}
+                            >
+                              eleanor@gmail.com
+                            </Typography>
+                          </div>
+                        </Box>
+                        <Box className="flex items-center mt-2 mb-1 justify-between ">
+                          <Box className="flex items-center gap-1 w-[200px] ">
+                            <LocalPhoneOutlinedIcon sx={{ color: "grey" }} />
+                            <Typography
+                              sx={{
+                                color: "grey",
+                                fontWeight: "300",
+                                fontSize: "13px",
+                              }}
+                            >
+                              Phone No:
+                            </Typography>
+                          </Box>
+
+                          <div className="flex gap-2 items-center">
+                            <Typography
+                              sx={{
+                                color: "#1E1E1E",
+                                fontWeight: "500",
+                                fontSize: "15px",
+                              }}
+                            >
+                              08166553443
+                            </Typography>
+                          </div>
+                        </Box>
+                        <Box className="flex items-center mt-2 mb-1 justify-between ">
+                          <Box className="flex items-center gap-1 w-[200px] ">
+                            <LocalPhoneOutlinedIcon sx={{ color: "grey" }} />
+                            <Typography
+                              sx={{
+                                color: "grey",
+                                fontWeight: "300",
+                                fontSize: "13px",
+                              }}
+                            >
+                              Alt Phone No:
+                            </Typography>
+                          </Box>
+
+                          <div className="flex gap-2 items-center">
+                            <Typography
+                              sx={{
+                                color: "#1E1E1E",
+                                fontWeight: "500",
+                                fontSize: "15px",
+                              }}
+                            >
+                              08166553443
+                            </Typography>
+                          </div>
+                        </Box>
+                      </Box>
+                    </Grid>
+                    <Divider sx={{ width: "100%", pt: "10px" }} />
+                    <Grid item xs={6}>
+                      <Box className="flex flex-col items-start w-full pt-4 justify-center ">
+                        <Typography
+                          sx={{
+                            color: "grey",
+                            fontWeight: "500",
+                            fontSize: "15px",
+                          }}
+                        >
+                          OUTLET INFORMATION
+                        </Typography>
+                        <Box className="flex items-center mt-2 mb-1 ">
+                          <Box className="flex items-center gap-1 w-[200px] ">
+                            <CabinRoundedIcon sx={{ color: "grey" }} />
+                            <Typography
+                              sx={{
+                                color: "grey",
+                                fontWeight: "300",
+                                fontSize: "13px",
+                              }}
+                            >
+                              Date Registered :
+                            </Typography>
+                          </Box>
+
+                          <Typography
+                            sx={{
+                              color: "#1E1E1E",
+                              fontWeight: "500",
+                              fontSize: "15px",
+                            }}
+                          >
+                            01-02-10022
+                          </Typography>
+                        </Box>
+                        <Box className="flex items-center mt-2 mb-1 justify-between ">
+                          <Box className="flex items-center gap-1 w-[200px] ">
+                            <CabinRoundedIcon sx={{ color: "grey" }} />
+                            <Typography
+                              sx={{
+                                color: "grey",
+                                fontWeight: "300",
+                                fontSize: "13px",
+                              }}
+                            >
+                              Outlet Location:
+                            </Typography>
+                          </Box>
+
+                          <Typography
+                            sx={{
+                              color: "#1E1E1E",
+                              fontWeight: "500",
+                              fontSize: "15px",
+                            }}
+                          >
+                            Ibadan
+                          </Typography>
+                        </Box>
+                        <Box className="flex items-center mt-2 mb-1 ">
+                          <Box className="flex items-center gap-1 w-[200px] ">
+                            <CabinRoundedIcon sx={{ color: "grey" }} />
+                            <Typography
+                              sx={{
+                                color: "grey",
+                                fontWeight: "300",
+                                fontSize: "13px",
+                              }}
+                            >
+                              Outlet Address:
+                            </Typography>
+                          </Box>
+
+                          <div className="flex gap-2 items-center">
+                            <Typography
+                              sx={{
+                                color: "#1E1E1E",
+                                fontWeight: "500",
+                                fontSize: "15px",
+                              }}
+                            >
+                              Shop 4, mycliq Complex, State
+                            </Typography>
+                          </div>
+                        </Box>
+                        <Box className="flex items-center mt-2 mb-1 justify-between ">
+                          <Box className="flex items-center gap-1 w-[200px] ">
+                            <LocalPhoneOutlinedIcon sx={{ color: "grey" }} />
+                            <Typography
+                              sx={{
+                                color: "grey",
+                                fontWeight: "300",
+                                fontSize: "13px",
+                              }}
+                            >
+                              Phone Num:
+                            </Typography>
+                          </Box>
+
+                          <div className="flex gap-2 items-center">
+                            <Typography
+                              sx={{
+                                color: "#1E1E1E",
+                                fontWeight: "500",
+                                fontSize: "15px",
+                              }}
+                            >
+                              08166776633
+                            </Typography>
+                          </div>
+                        </Box>
+                        <Box className="flex items-center mt-2 mb-1 justify-between ">
+                          <Box className="flex items-center gap-1 w-[200px] ">
+                            <EmailOutlinedIcon sx={{ color: "grey" }} />
+                            <Typography
+                              sx={{
+                                color: "grey",
+                                fontWeight: "300",
+                                fontSize: "13px",
+                              }}
+                            >
+                              Email:
+                            </Typography>
+                          </Box>
+
+                          <div className="flex gap-2 items-center">
+                            <Typography
+                              sx={{
+                                color: "#1E1E1E",
+                                fontWeight: "500",
+                                fontSize: "15px",
+                              }}
+                            >
+                              text@gmail.com
+                            </Typography>
+                          </div>
+                        </Box>
+                      </Box>
+                    </Grid>
+                    <Grid item xs={6}>
+                      <Box className="flex flex-col items-start w-full pt-4 justify-center ">
+                        <Typography
+                          sx={{
+                            color: "grey",
+                            fontWeight: "500",
+                            fontSize: "15px",
+                          }}
+                        >
+                          OUTLET BANK ACCOUNT DETAILS
+                        </Typography>
+                        <Box className="flex items-center mt-2 mb-1 ">
+                          <Box className="flex items-center gap-1 w-[200px] ">
+                            <PersonOutlineRoundedIcon sx={{ color: "grey" }} />
+                            <Typography
+                              sx={{
+                                color: "grey",
+                                fontWeight: "300",
+                                fontSize: "13px",
+                              }}
+                            >
+                              Bank Name :
+                            </Typography>
+                          </Box>
+
+                          <Typography
+                            sx={{
+                              color: "#1E1E1E",
+                              fontWeight: "500",
+                              fontSize: "15px",
+                            }}
+                          >
+                            Access Bank
+                          </Typography>
+                        </Box>
+                        <Box className="flex items-center mt-2 mb-1 justify-between ">
+                          <Box className="flex items-center gap-1 w-[200px] ">
+                            <TransgenderRoundedIcon sx={{ color: "grey" }} />
+                            <Typography
+                              sx={{
+                                color: "grey",
+                                fontWeight: "300",
+                                fontSize: "13px",
+                              }}
+                            >
+                              Account Name:
+                            </Typography>
+                          </Box>
+
+                          <Typography
+                            sx={{
+                              color: "#1E1E1E",
+                              fontWeight: "500",
+                              fontSize: "15px",
+                            }}
+                          >
+                            Eleanor Poe
+                          </Typography>
+                        </Box>
+                        <Box className="flex items-center mt-2 mb-1 ">
+                          <Box className="flex items-center gap-1 w-[200px] ">
+                            <CabinRoundedIcon sx={{ color: "grey" }} />
+                            <Typography
+                              sx={{
+                                color: "grey",
+                                fontWeight: "300",
+                                fontSize: "13px",
+                              }}
+                            >
+                              Account Number:
+                            </Typography>
+                          </Box>
+
+                          <div className="flex gap-2 items-center">
+                            <Typography
+                              sx={{
+                                color: "#1E1E1E",
+                                fontWeight: "500",
+                                fontSize: "15px",
+                              }}
+                            >
+                              453545354
+                            </Typography>
+                          </div>
+                        </Box>
+                      </Box>
+                    </Grid>
+                  </Grid>
+                </div>
+              </AccordionDetails>
+            </Accordion>
+          </Item>
+        </Grid>
+
+        <Grid item xs={12}>
+          <Box className="w-full rounded-md p-2 flex flex-col border-grey-400  border-[1px] items-start justify-center">
             {/* customers  */}
             <Box sx={{ maxHeight: "55vh", overflowY: "scroll", width: "100%" }}>
               <Box className="text-left">

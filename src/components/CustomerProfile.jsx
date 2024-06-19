@@ -806,8 +806,9 @@ const CustomerProfile = ({
                       <TableCell>S/N</TableCell>
                       <TableCell> Full Name</TableCell>
                       <TableCell> Transaction ID</TableCell>
+                      <TableCell>Amount(N)</TableCell>
                       <TableCell>Type</TableCell>
-                      <TableCell>Amount</TableCell>
+                      <TableCell>Wallet Balance(N)</TableCell>
                       <TableCell>Status</TableCell>
                       <TableCell>Action</TableCell>
                     </TableRow>
@@ -836,7 +837,7 @@ const CustomerProfile = ({
                                 color: "#828282",
                               }}
                             >
-                              item?.name
+                              {item?.name}
                             </Typography>
                           </TableCell>
                           <TableCell>
@@ -858,10 +859,11 @@ const CustomerProfile = ({
                                 color: "#828282",
                               }}
                             >
-                              Funding{" "}
+                              200,000
                             </Typography>
                           </TableCell>
-                          <TableCell>200,000</TableCell>
+                          <TableCell>Funding</TableCell>
+                          <TableCell>20000</TableCell>
                           <TableCell>
                             <Typography
                               sx={{

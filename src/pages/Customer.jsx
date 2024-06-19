@@ -103,8 +103,6 @@ const Customer = () => {
     <Box
       sx={{
         width: "100%",
-        padding: "0.5rem",
-        backgroundColor: "#fffcfc",
       }}
     >
       <Box
@@ -186,6 +184,9 @@ const Customer = () => {
                     fontWeight: 500,
                     fontSize: "14px",
                     color: "#4F4F4F",
+                    minHeight: "2.7rem",
+                    display: "flex",
+                    alignItems: "center",
                   }}
                 >
                   General Inflow
@@ -194,33 +195,6 @@ const Customer = () => {
 
               <Box className="flex flex-col items-start gap-1 w-full">
                 <Box className="flex flex-col gap-1 items-start">
-                  <Typography
-                    sx={{
-                      fontSize: "12px",
-                      color: "#4F4F4F",
-                    }}
-                  >
-                    All-Time:
-                  </Typography>
-                  <Typography
-                    sx={{
-                      fontSize: "20px",
-                      fontWeight: 500,
-                      color: "#000",
-                    }}
-                  >
-                    <FormattedPrice amount={3000000} />
-                  </Typography>
-                </Box>
-                <Box className="flex flex-col gap-1 items-start">
-                  <Typography
-                    sx={{
-                      fontSize: "12px",
-                      color: "#4F4F4F",
-                    }}
-                  >
-                    By-Filter:
-                  </Typography>
                   <Typography
                     sx={{
                       fontSize: "20px",
@@ -268,9 +242,12 @@ const Customer = () => {
                   </Box>
                   <Typography
                     sx={{
-                      fomtWeight: "500",
+                      fontWeight: "500",
                       fontSize: "14px",
                       color: "#4F4F4F",
+                      minHeight: "2.7rem",
+                      display: "flex",
+                      alignItems: "center",
                     }}
                   >
                     General Outflow
@@ -279,34 +256,7 @@ const Customer = () => {
               </Box>
 
               <Box className="flex flex-col items-start gap-1 w-full">
-                <Box className="flex flex-col gap-1 items-start">
-                  <Typography
-                    sx={{
-                      fontSize: "12px",
-                      color: "#4F4F4F",
-                    }}
-                  >
-                    All-Time:
-                  </Typography>
-                  <Typography
-                    sx={{
-                      fontSize: "20px",
-                      fontWeight: 500,
-                      color: "#000",
-                    }}
-                  >
-                    <FormattedPrice amount={3000000} />
-                  </Typography>
-                </Box>
                 <Box className="flex flex-col gap-2 items-start">
-                  <Typography
-                    sx={{
-                      fontSize: "12px",
-                      color: "#4F4F4F",
-                    }}
-                  >
-                    By-Filter:
-                  </Typography>
                   <Typography
                     sx={{
                       fontSize: "20px",
@@ -346,7 +296,7 @@ const Customer = () => {
                 </Box>
                 <Typography
                   sx={{
-                    fomtWeight: "500",
+                    fontWeight: "500",
                     fontSize: "14px",
                     color: "#4F4F4F",
                   }}
@@ -356,34 +306,7 @@ const Customer = () => {
               </Box>
 
               <Box className="flex flex-col items-start gap-1 w-full">
-                <Box className="flex flex-col gap-1 items-start">
-                  <Typography
-                    sx={{
-                      fontSize: "12px",
-                      color: "#4F4F4F",
-                    }}
-                  >
-                    All-Time:
-                  </Typography>
-                  <Typography
-                    sx={{
-                      fontSize: "20px",
-                      fontWeight: 500,
-                      color: "#000",
-                    }}
-                  >
-                    <FormattedPrice amount={3000000} />
-                  </Typography>
-                </Box>
                 <Box className="flex flex-col gap-2 items-start">
-                  <Typography
-                    sx={{
-                      fontSize: "12px",
-                      color: "#4F4F4F",
-                    }}
-                  >
-                    By-Filter:
-                  </Typography>
                   <Typography
                     sx={{
                       fontSize: "20px",
@@ -433,34 +356,7 @@ const Customer = () => {
                 </Typography>
               </Box>
               <Box className="flex flex-col items-start gap-1 w-full">
-                <Box className="flex flex-col gap-1 items-start">
-                  <Typography
-                    sx={{
-                      fontSize: "12px",
-                      color: "#4F4F4F",
-                    }}
-                  >
-                    All-Time:
-                  </Typography>
-                  <Typography
-                    sx={{
-                      fontSize: "20px",
-                      fontWeight: 500,
-                      color: "#000",
-                    }}
-                  >
-                    <FormattedPrice amount={3000000} />
-                  </Typography>
-                </Box>
                 <Box className="flex flex-col gap-2 items-start">
-                  <Typography
-                    sx={{
-                      fontSize: "12px",
-                      color: "#4F4F4F",
-                    }}
-                  >
-                    By-Filter:
-                  </Typography>
                   <Typography
                     sx={{
                       fontSize: "20px",
@@ -509,42 +405,15 @@ const Customer = () => {
                 </Typography>
               </Box>
               <Box className="flex flex-col items-start gap-1 w-full">
-                <Box className="flex flex-col gap-1 items-start">
-                  <Typography
-                    sx={{
-                      fontSize: "12px",
-                      color: "#4F4F4F",
-                    }}
-                  >
-                    All-Time:
-                  </Typography>
-                  <Typography
-                    sx={{
-                      fontSize: "20px",
-                      fontWeight: 500,
-                      color: "#000",
-                    }}
-                  >
-                    <FormattedPrice amount={3000000} />
-                  </Typography>
-                </Box>
                 <Box className="flex flex-col gap-2 items-start">
                   <Typography
                     sx={{
-                      fontSize: "12px",
-                      color: "#4F4F4F",
-                    }}
-                  >
-                    By-Filter:
-                  </Typography>
-                  <Typography
-                    sx={{
                       fontSize: "20px",
                       fontWeight: 500,
                       color: "#000",
                     }}
                   >
-                    <FormattedPrice amount={3000000} />
+                    4564
                   </Typography>
                 </Box>
               </Box>
@@ -884,9 +753,9 @@ const Customer = () => {
 
       {/*  */}
 
-      <Box className="w-full ">
+      <Box className="w-full mt-7">
         {!showCustomerProfile ? (
-          <Grid container spacing={2}>
+          <Grid container spacing={3}>
             <Grid item xs={8}>
               <Box className="w-full bg-white rounded-md p-2 flex-col border-grey-400 border-[1px] items-start justify-center">
                 <Box className="flex w-full justify-between items-center">
