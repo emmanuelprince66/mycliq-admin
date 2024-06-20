@@ -146,14 +146,18 @@ const GmerchantProfile = ({ setShowMerchantProfile }) => {
   const [showProfileDetails, setShowProfileDetails] = useState(true);
 
   const handleBackHome = () => {
-    setShowMerchantProfile((prev) => !prev);
+    if (outletValue === "") {
+      setShowMerchantProfile((prev) => !prev);
+    } else {
+      setShowOutLet((prev) => !prev);
+      setOutletValue("");
+    }
   };
 
   const handleOutletChange = (event) => {
     const value = event.target.value;
     setOutletValue(value);
     setShowOutLet((prev) => !prev);
-    console.log(value);
   };
 
   return (
