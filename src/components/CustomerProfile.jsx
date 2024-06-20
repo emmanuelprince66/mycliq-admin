@@ -140,31 +140,37 @@ const CustomerProfile = ({
               </div>
             </div>
 
-            <Box className="w-full flex items-start flex-col   gap-[4rem] my-3 border-b border-grey-400  pb-1">
+            <Box className="w-full flex items-start flex-col   gap-[2rem] my-3 border-b border-grey-400  pb-1">
               <Box className="ml-3">
-                <img src={bigavatar} className="object-contain" alt="b-a" />
+                <img
+                  src={bigavatar}
+                  className="object-contain w-[120px]  h-[120px]"
+                  alt="b-a"
+                />
               </Box>
               <Box className="flex flex-col items-start w-full justify-center">
                 <Typography
                   sx={{
                     color: "grey",
                     fontWeight: "500",
-                    fontSize: "15px",
+                    fontSize: "13px",
                   }}
                 >
-                  BASIC
+                  BASIC INFORMATION FOR REGISTRATION
                 </Typography>
-                <Box className="flex items-center mt-2 mb-1">
+                <Box className="flex items-center mt-1 mb-1">
                   <Box className="flex items-center gap-1 w-[200px] ">
-                    <PersonOutlineRoundedIcon sx={{ color: "grey" }} />
+                    <PersonOutlineRoundedIcon
+                      sx={{ color: "grey", fontSize: "15px" }}
+                    />
                     <Typography
                       sx={{
                         color: "grey",
                         fontWeight: "300",
-                        fontSize: "13px",
+                        fontSize: "12px",
                       }}
                     >
-                      Name:
+                      Name :
                     </Typography>
                   </Box>
 
@@ -172,23 +178,25 @@ const CustomerProfile = ({
                     sx={{
                       color: "#1E1E1E",
                       fontWeight: "500",
-                      fontSize: "15px",
+                      fontSize: "13px",
                     }}
                   >
-                    {`${customerDataById?.lastName}  ${customerDataById?.firstName}`}
+                    emmanuel
                   </Typography>
                 </Box>
-                <Box className="flex items-center mt-2 mb-1 justify-between ">
+                <Box className="flex items-center mt-1 mb-1 justify-between ">
                   <Box className="flex items-center gap-1 w-[200px] ">
-                    <TransgenderRoundedIcon sx={{ color: "grey" }} />
+                    <TransgenderRoundedIcon
+                      sx={{ color: "grey", fontSize: "15px" }}
+                    />
                     <Typography
                       sx={{
                         color: "grey",
                         fontWeight: "300",
-                        fontSize: "13px",
+                        fontSize: "12px",
                       }}
                     >
-                      Gender:
+                      Gender :
                     </Typography>
                   </Box>
 
@@ -196,23 +204,25 @@ const CustomerProfile = ({
                     sx={{
                       color: "#1E1E1E",
                       fontWeight: "500",
-                      fontSize: "15px",
+                      fontSize: "13px",
                     }}
                   >
                     Male
                   </Typography>
                 </Box>
-                <Box className="flex  items-center mt-2 mb-1 justify-between ">
+                <Box className="flex  items-center mt-1 mb-1 justify-between ">
                   <Box className="flex items-center gap-1 w-[200px] ">
-                    <EmailOutlinedIcon sx={{ color: "grey" }} />
+                    <EmailOutlinedIcon
+                      sx={{ color: "grey", fontSize: "15px" }}
+                    />
                     <Typography
                       sx={{
                         color: "grey",
                         fontWeight: "300",
-                        fontSize: "13px",
+                        fontSize: "12px",
                       }}
                     >
-                      Email:
+                      Email :
                     </Typography>
                   </Box>
 
@@ -221,31 +231,36 @@ const CustomerProfile = ({
                       sx={{
                         color: "#1E1E1E",
                         fontWeight: "500",
-                        fontSize: "15px",
+                        fontSize: "13px",
                       }}
                     >
-                      {customerDataById?.email}
+                      e@gmail.com
                     </Typography>
 
-                    <div className="bg-[#FFF0F0] py-1 px-2 flex items-center gap-1 rounded-md">
-                      <ReportProblemOutlinedIcon className="text-[#E52929] text-[10px] font-[500]" />
+                    <div className="bg-[#FFF0F0]  px-2 flex items-center gap-1 rounded-md">
+                      <ReportProblemOutlinedIcon
+                        sx={{ fontSize: "15px" }}
+                        className="text-[#E52929] font-[500]"
+                      />
                       <p className="text-[#E52929] text-[10px] font-[500]">
                         Unverified
                       </p>
                     </div>
                   </div>
                 </Box>
-                <Box className="flex  items-center mt-2 mb-1 justify-between ">
+                <Box className="flex  items-center mt-1 mb-1 justify-between ">
                   <Box className="flex items-center gap-1 w-[200px]">
-                    <LocalPhoneOutlinedIcon sx={{ color: "grey" }} />
+                    <LocalPhoneOutlinedIcon
+                      sx={{ color: "grey", fontSize: "15px" }}
+                    />
                     <Typography
                       sx={{
                         color: "grey",
                         fontWeight: "300",
-                        fontSize: "13px",
+                        fontSize: "12px",
                       }}
                     >
-                      Phone Num:
+                      Phone Num :
                     </Typography>
                   </Box>
 
@@ -254,31 +269,36 @@ const CustomerProfile = ({
                       sx={{
                         color: "#1E1E1E",
                         fontWeight: "500",
-                        fontSize: "15px",
+                        fontSize: "13px",
                       }}
                     >
-                      {customerDataById?.phoneNumber}
+                      0815524624624
                     </Typography>
 
-                    <div className="bg-[#EBFFF3] py-1 px-2 flex items-center gap-1 rounded-md">
-                      <VerifiedOutlinedIcon className="text-[#1E854A] text-[10px] font-[500]" />
+                    <div className="bg-[#EBFFF3]  px-2 flex items-center gap-1 rounded-md">
+                      <VerifiedOutlinedIcon
+                        sx={{ fontSize: "15px" }}
+                        className="text-[#1E854A] text-[10px] font-[500]"
+                      />
                       <p className="text-[#1E854A] text-[10px] font-[500]">
                         Verified
                       </p>
                     </div>
                   </div>
                 </Box>
-                <Box className="flex  items-center mt-2 mb-1 justify-between ">
+                <Box className="flex  items-center mt-1 mb-1 justify-between ">
                   <Box className="flex items-center gap-1 w-[200px]">
-                    <FmdGoodRoundedIcon sx={{ color: "grey" }} />
+                    <FmdGoodRoundedIcon
+                      sx={{ color: "grey", fontSize: "15px" }}
+                    />
                     <Typography
                       sx={{
                         color: "grey",
                         fontWeight: "300",
-                        fontSize: "13px",
+                        fontSize: "12px",
                       }}
                     >
-                      Address:
+                      Address :
                     </Typography>
                   </Box>
 
@@ -286,37 +306,39 @@ const CustomerProfile = ({
                     sx={{
                       color: "#1E1E1E",
                       fontWeight: "500",
-                      fontSize: "15px",
+                      fontSize: "13px",
                     }}
                   >
                     {" "}
-                    {customerDataById?.address || "address is here"}
+                    address is here
                   </Typography>
                 </Box>
               </Box>
             </Box>
 
-            <Box className="flex flex-col items-start w-full justify-center py-2">
+            <Box className="flex flex-col items-start w-full justify-center">
               <Typography
                 sx={{
                   color: "grey",
                   fontWeight: "500",
-                  fontSize: "15px",
+                  fontSize: "13px",
                 }}
               >
                 BASIC INFORMATION FOR BVN
               </Typography>
-              <Box className="flex items-center mt-2 mb-1 ">
+              <Box className="flex items-center mt-1 mb-1">
                 <Box className="flex items-center gap-1 w-[200px] ">
-                  <CabinRoundedIcon sx={{ color: "grey" }} />
+                  <PersonOutlineRoundedIcon
+                    sx={{ color: "grey", fontSize: "15px" }}
+                  />
                   <Typography
                     sx={{
                       color: "grey",
                       fontWeight: "300",
-                      fontSize: "13px",
+                      fontSize: "12px",
                     }}
                   >
-                    Name:
+                    Name :
                   </Typography>
                 </Box>
 
@@ -324,23 +346,25 @@ const CustomerProfile = ({
                   sx={{
                     color: "#1E1E1E",
                     fontWeight: "500",
-                    fontSize: "15px",
+                    fontSize: "13px",
                   }}
                 >
-                  {`${customerDataById?.lastName}  ${customerDataById?.firstName}`}
+                  emmanuel
                 </Typography>
               </Box>
-              <Box className="flex items-center mt-2 mb-1 justify-between ">
+              <Box className="flex items-center mt-1 mb-1 justify-between ">
                 <Box className="flex items-center gap-1 w-[200px] ">
-                  <PersonOutlineRoundedIcon sx={{ color: "grey" }} />
+                  <TransgenderRoundedIcon
+                    sx={{ color: "grey", fontSize: "15px" }}
+                  />
                   <Typography
                     sx={{
                       color: "grey",
                       fontWeight: "300",
-                      fontSize: "13px",
+                      fontSize: "12px",
                     }}
                   >
-                    Gender:
+                    Gender :
                   </Typography>
                 </Box>
 
@@ -348,23 +372,23 @@ const CustomerProfile = ({
                   sx={{
                     color: "#1E1E1E",
                     fontWeight: "500",
-                    fontSize: "15px",
+                    fontSize: "13px",
                   }}
                 >
                   Male
                 </Typography>
               </Box>
-              <Box className="flex items-center mt-2 mb-1 ">
+              <Box className="flex  items-center mt-1 mb-1 justify-between ">
                 <Box className="flex items-center gap-1 w-[200px] ">
-                  <CabinRoundedIcon sx={{ color: "grey" }} />
+                  <EmailOutlinedIcon sx={{ color: "grey", fontSize: "15px" }} />
                   <Typography
                     sx={{
                       color: "grey",
                       fontWeight: "300",
-                      fontSize: "13px",
+                      fontSize: "12px",
                     }}
                   >
-                    Email:
+                    Email :
                   </Typography>
                 </Box>
 
@@ -373,31 +397,36 @@ const CustomerProfile = ({
                     sx={{
                       color: "#1E1E1E",
                       fontWeight: "500",
-                      fontSize: "15px",
+                      fontSize: "13px",
                     }}
                   >
-                    {customerDataById?.email}
+                    e@gmail.com
                   </Typography>
 
-                  <div className="bg-[#FFF0F0] py-1 px-2 flex items-center gap-1 rounded-md">
-                    <ReportProblemOutlinedIcon className="text-[#E52929] text-[10px] font-[500]" />
+                  <div className="bg-[#FFF0F0]  px-2 flex items-center gap-1 rounded-md">
+                    <ReportProblemOutlinedIcon
+                      sx={{ fontSize: "15px" }}
+                      className="text-[#E52929] font-[500]"
+                    />
                     <p className="text-[#E52929] text-[10px] font-[500]">
                       Unverified
                     </p>
                   </div>
                 </div>
               </Box>
-              <Box className="flex items-center mt-2 mb-1 justify-between ">
-                <Box className="flex items-center gap-1 w-[200px] ">
-                  <PersonOutlineRoundedIcon sx={{ color: "grey" }} />
+              <Box className="flex  items-center mt-1 mb-1 justify-between ">
+                <Box className="flex items-center gap-1 w-[200px]">
+                  <LocalPhoneOutlinedIcon
+                    sx={{ color: "grey", fontSize: "15px" }}
+                  />
                   <Typography
                     sx={{
                       color: "grey",
                       fontWeight: "300",
-                      fontSize: "13px",
+                      fontSize: "12px",
                     }}
                   >
-                    Phone Number:
+                    Phone Num :
                   </Typography>
                 </Box>
 
@@ -406,31 +435,36 @@ const CustomerProfile = ({
                     sx={{
                       color: "#1E1E1E",
                       fontWeight: "500",
-                      fontSize: "15px",
+                      fontSize: "13px",
                     }}
                   >
-                    {customerDataById?.phoneNumber}
+                    0815524624624
                   </Typography>
 
-                  <div className="bg-[#EBFFF3] py-1 px-2 flex items-center gap-1 rounded-md">
-                    <VerifiedOutlinedIcon className="text-[#1E854A] text-[10px] font-[500]" />
+                  <div className="bg-[#EBFFF3]  px-2 flex items-center gap-1 rounded-md">
+                    <VerifiedOutlinedIcon
+                      sx={{ fontSize: "15px" }}
+                      className="text-[#1E854A] text-[10px] font-[500]"
+                    />
                     <p className="text-[#1E854A] text-[10px] font-[500]">
                       Verified
                     </p>
                   </div>
                 </div>
               </Box>
-              <Box className="flex  items-center mt-2 mb-1 justify-between ">
+              <Box className="flex  items-center mt-1 mb-1 justify-between ">
                 <Box className="flex items-center gap-1 w-[200px]">
-                  <FmdGoodRoundedIcon sx={{ color: "grey" }} />
+                  <FmdGoodRoundedIcon
+                    sx={{ color: "grey", fontSize: "15px" }}
+                  />
                   <Typography
                     sx={{
                       color: "grey",
                       fontWeight: "300",
-                      fontSize: "13px",
+                      fontSize: "12px",
                     }}
                   >
-                    Address:
+                    Address :
                   </Typography>
                 </Box>
 
@@ -438,32 +472,32 @@ const CustomerProfile = ({
                   sx={{
                     color: "#1E1E1E",
                     fontWeight: "500",
-                    fontSize: "15px",
+                    fontSize: "13px",
                   }}
                 >
                   {" "}
-                  {customerDataById?.address || "address is here"}
+                  address is here
                 </Typography>
               </Box>
             </Box>
-            <Box className="flex flex-col items-start w-full justify-center py-2">
+            <Box className="flex flex-col  items-start w-full justify-center py-2">
               <Typography
                 sx={{
                   color: "grey",
                   fontWeight: "500",
-                  fontSize: "15px",
+                  fontSize: "13px",
                 }}
               >
                 BANK DETAILS
               </Typography>
-              <Box className="flex items-center mt-2 mb-1 ">
+              <Box className="flex items-center mt-1 mb-1 ">
                 <Box className="flex items-center gap-1 w-[200px] ">
-                  <CabinRoundedIcon sx={{ color: "grey" }} />
+                  <CabinRoundedIcon sx={{ color: "grey", fontSize: "15px" }} />
                   <Typography
                     sx={{
                       color: "grey",
                       fontWeight: "300",
-                      fontSize: "13px",
+                      fontSize: "12px",
                     }}
                   >
                     Bank Name:
@@ -474,20 +508,22 @@ const CustomerProfile = ({
                   sx={{
                     color: "#1E1E1E",
                     fontWeight: "500",
-                    fontSize: "15px",
+                    fontSize: "13px",
                   }}
                 >
                   Providus Bank
                 </Typography>
               </Box>
-              <Box className="flex items-center mt-2 mb-1 justify-between ">
+              <Box className="flex items-center mt-1 mb-1 justify-between ">
                 <Box className="flex items-center gap-1 w-[200px] ">
-                  <PersonOutlineRoundedIcon sx={{ color: "grey" }} />
+                  <PersonOutlineRoundedIcon
+                    sx={{ color: "grey", fontSize: "15px" }}
+                  />
                   <Typography
                     sx={{
                       color: "grey",
                       fontWeight: "300",
-                      fontSize: "13px",
+                      fontSize: "12px",
                     }}
                   >
                     Account Number:
@@ -498,20 +534,20 @@ const CustomerProfile = ({
                   sx={{
                     color: "#1E1E1E",
                     fontWeight: "500",
-                    fontSize: "15px",
+                    fontSize: "13px",
                   }}
                 >
                   2211223445
                 </Typography>
               </Box>
-              <Box className="flex items-center mt-2 mb-1 ">
+              <Box className="flex items-center mt-1 mb-1 ">
                 <Box className="flex items-center gap-1 w-[200px] ">
-                  <CabinRoundedIcon sx={{ color: "grey" }} />
+                  <CabinRoundedIcon sx={{ color: "grey", fontSize: "15px" }} />
                   <Typography
                     sx={{
                       color: "grey",
                       fontWeight: "300",
-                      fontSize: "13px",
+                      fontSize: "12px",
                     }}
                   >
                     Bank Name:
@@ -522,34 +558,10 @@ const CustomerProfile = ({
                   sx={{
                     color: "#1E1E1E",
                     fontWeight: "500",
-                    fontSize: "15px",
+                    fontSize: "13px",
                   }}
                 >
                   Safe Haven
-                </Typography>
-              </Box>
-              <Box className="flex items-center mt-2 mb-1 justify-between ">
-                <Box className="flex items-center gap-1 w-[200px] ">
-                  <PersonOutlineRoundedIcon sx={{ color: "grey" }} />
-                  <Typography
-                    sx={{
-                      color: "grey",
-                      fontWeight: "300",
-                      fontSize: "13px",
-                    }}
-                  >
-                    Account Number:
-                  </Typography>
-                </Box>
-
-                <Typography
-                  sx={{
-                    color: "#1E1E1E",
-                    fontWeight: "500",
-                    fontSize: "15px",
-                  }}
-                >
-                  2211223445
                 </Typography>
               </Box>
             </Box>
@@ -557,7 +569,7 @@ const CustomerProfile = ({
         </Grid>
         <Grid item xs={5}>
           <Grid item xs={12}>
-            <Box className="w-full mb-3 bg-white rounded-md p-2 flex-col border-grey-400  border-[1px] items-start justify-center">
+            <Box className="w-full mb-3 bg-white  p-2 flex-col border-grey-400  border-b-[1px] items-start justify-center">
               <Typography
                 sx={{
                   color: "#1E1E1E",
@@ -572,12 +584,14 @@ const CustomerProfile = ({
 
               <Box className="flex items-center mt-2 mb-1 ">
                 <Box className="flex items-center gap-1  w-[150px] ">
-                  <PersonOutlineRoundedIcon sx={{ color: "grey" }} />
+                  <PersonOutlineRoundedIcon
+                    sx={{ color: "grey", fontSize: "15px" }}
+                  />
                   <Typography
                     sx={{
                       color: "grey",
                       fontWeight: "300",
-                      fontSize: "13px",
+                      fontSize: "12px",
                     }}
                   >
                     Account status:
@@ -588,10 +602,10 @@ const CustomerProfile = ({
                   sx={{
                     color: "#1E1E1E",
                     fontWeight: "500",
-                    fontSize: "12px",
+                    fontSize: "10px",
                     background: "#EBFFF3",
-                    py: "5px",
-                    px: "10px",
+                    py: "2px",
+                    px: "8px",
                     color: "#1E854A",
                     borderRadius: "10px",
                     display: "flex",
@@ -599,18 +613,20 @@ const CustomerProfile = ({
                     gap: "10px",
                   }}
                 >
-                  <span className="w-[10px] h-[10px] rounded-full  bg-green-600" />
+                  <span className="w-[10px] h-[10px] rounded-full text-[13px0]  bg-green-600" />
                   Active
                 </Typography>
               </Box>
               <Box className="flex  items-center mt-2 mb-1 ">
                 <Box className="flex items-center gap-1 w-[150px] ">
-                  <PersonOutlineRoundedIcon sx={{ color: "grey" }} />
+                  <PersonOutlineRoundedIcon
+                    sx={{ color: "grey", fontSize: "15px" }}
+                  />
                   <Typography
                     sx={{
                       color: "grey",
                       fontWeight: "300",
-                      fontSize: "13px",
+                      fontSize: "12px",
                     }}
                   >
                     KYC Level:
@@ -627,17 +643,19 @@ const CustomerProfile = ({
                   }}
                 >
                   <img src={bage1} alt="b-img" />
-                  <span className="font-bold ml-2">Tier 1</span>
+                  <span className="font-bold ml-2 text-[13px]">Tier 1</span>
                 </Typography>
               </Box>
               <Box className="flex  items-center mt-2 mb-1 ">
                 <Box className="flex items-center gap-1 w-[150px]">
-                  <CalendarMonthRoundedIcon sx={{ color: "grey" }} />
+                  <CalendarMonthRoundedIcon
+                    sx={{ color: "grey", fontSize: "15px" }}
+                  />
                   <Typography
                     sx={{
                       color: "grey",
                       fontWeight: "300",
-                      fontSize: "13px",
+                      fontSize: "12px",
                     }}
                   >
                     Date Registered:
@@ -648,7 +666,7 @@ const CustomerProfile = ({
                   sx={{
                     color: "#1E1E1E",
                     fontWeight: "500",
-                    fontSize: "15px",
+                    fontSize: "13px",
                   }}
                 >
                   01/05/2023 at 08:54 PM
@@ -656,12 +674,14 @@ const CustomerProfile = ({
               </Box>
               <Box className="flex  items-center mt-2 mb-1  ">
                 <Box className="flex items-center gap-1 w-[150px]">
-                  <AccessTimeRoundedIcon sx={{ color: "grey" }} />
+                  <AccessTimeRoundedIcon
+                    sx={{ color: "grey", fontSize: "15px" }}
+                  />
                   <Typography
                     sx={{
                       color: "grey",
                       fontWeight: "300",
-                      fontSize: "13px",
+                      fontSize: "12px",
                     }}
                   >
                     Last Seen:
@@ -672,21 +692,21 @@ const CustomerProfile = ({
                   sx={{
                     color: "#1E1E1E",
                     fontWeight: "500",
-                    fontSize: "15px",
+                    fontSize: "13px",
                   }}
                 >
                   01/05/2023 at 08:54 PM
                 </Typography>
               </Box>
 
-              <Box className="flex  items-center mt-2 mb-1 ">
+              <Box className="flex  items-center  mb-1 ">
                 <Box className="flex items-center gap-1 w-[150px]">
-                  <HttpsOutlinedIcon sx={{ color: "red" }} />
+                  <HttpsOutlinedIcon sx={{ color: "red", fontSize: "15px" }} />
                   <Typography
                     sx={{
                       color: "red",
                       fontWeight: "300",
-                      fontSize: "13px",
+                      fontSize: "12px",
                     }}
                   >
                     Disable Account:
@@ -697,7 +717,7 @@ const CustomerProfile = ({
                   sx={{
                     color: "#1E1E1E",
                     fontWeight: "500",
-                    fontSize: "15px",
+                    fontSize: "13px",
                   }}
                 >
                   <Switch
@@ -734,7 +754,7 @@ const CustomerProfile = ({
               <Typography
                 sx={{
                   fontWeight: "500",
-                  fontSize: "15px",
+                  fontSize: "14px",
                   color: "#000",
                   py: "10px",
                   pl: "10px",
@@ -747,7 +767,7 @@ const CustomerProfile = ({
                   <div className="flex items-center gap-2">
                     <div className="w-[24px] h-[8px] bg-[#27AE60]"></div>
 
-                    <p className="text-[#828282] font-normal text-[14px]">
+                    <p className="text-[#828282] font-normal text-[12px]">
                       Inward Transfer [234]
                     </p>
                   </div>
@@ -755,7 +775,7 @@ const CustomerProfile = ({
                   <div className="flex items-center gap-2">
                     <div className="w-[24px] h-[8px] bg-[#E52929]"></div>
 
-                    <p className="text-[#828282] font-normal text-[14px]">
+                    <p className="text-[#828282] font-normal text-[12px]">
                       Outward Transfer [234]
                     </p>
                   </div>
@@ -763,14 +783,14 @@ const CustomerProfile = ({
                   <div className="flex items-center gap-2">
                     <div className="w-[24px] h-[8px] bg-[#BD00FF]"></div>
 
-                    <p className="text-[#828282] font-normal text-[14px]">
+                    <p className="text-[#828282] font-normal text-[12px]">
                       Wallet to Wallet [234]
                     </p>
                   </div>
                   <div className="flex items-center gap-2">
                     <div className="w-[24px] h-[8px] bg-[#BD00FF]"></div>
 
-                    <p className="text-[#828282] font-normal text-[14px]">
+                    <p className="text-[#828282] font-normal text-[12px]">
                       Mycliq [234]
                     </p>
                   </div>
