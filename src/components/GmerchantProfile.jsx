@@ -179,7 +179,7 @@ const GmerchantProfile = ({ setShowMerchantProfile }) => {
 
           <img src={arrRight} alt="a-r" />
 
-          <p className="text-[#F78105]">General</p>
+          <p className="text-[#F78105]">Vendors</p>
         </div>
         <SelectDate />
       </div>

@@ -159,35 +159,38 @@ const Gassociation = () => {
         padding: "1rem",
       }}
     >
-      <div className="w-full flex items-center justify-between">
-        <div className="flex gap-2 items-center">
-          {showMerchantProfile && (
-            <span
-              className="flex gap-1 items-center cursor-pointer"
-              onClick={handleClose}
-            >
-              <ArrowBackRoundedIcon sx={{ color: "#F78105" }} />
-              <p className="font-[600] text-[#F78105] text-[14px]">Go Back</p>
-            </span>
-          )}
-
-          <span className="flex gap-1">
-            <img src={house} alt="h" />
-            <p className="text-[14px] font-[400 text-[#828282]">Merchants</p>
-          </span>
-
-          <img src={arrRight} alt="a-r" />
-
-          <p className="text-[#F78105]">Association</p>
-        </div>
-        <SelectDate />
-      </div>
-
       {showMerchantProfile ? (
-        <GmerchantProfile />
+        <GmerchantProfile setShowMerchantProfile={setShowMerchantProfile} />
       ) : (
         <>
           {/* card */}
+          <div className="w-full flex items-center justify-between">
+            <div className="flex gap-2 items-center">
+              {showMerchantProfile && (
+                <span
+                  className="flex gap-1 items-center cursor-pointer"
+                  onClick={handleClose}
+                >
+                  <ArrowBackRoundedIcon sx={{ color: "#F78105" }} />
+                  <p className="font-[600] text-[#F78105] text-[14px]">
+                    Go Back
+                  </p>
+                </span>
+              )}
+
+              <span className="flex gap-1">
+                <img src={house} alt="h" />
+                <p className="text-[14px] font-[400 text-[#828282]">
+                  Merchants
+                </p>
+              </span>
+
+              <img src={arrRight} alt="a-r" />
+
+              <p className="text-[#F78105]">General</p>
+            </div>
+            <SelectDate />
+          </div>
           <Box
             sx={{
               width: "100%",
