@@ -29,6 +29,8 @@ import CalendarMonthRoundedIcon from "@mui/icons-material/CalendarMonthRounded";
 import CheckCircleOutlineRoundedIcon from "@mui/icons-material/CheckCircleOutlineRounded";
 import PersonOutlineRoundedIcon from "@mui/icons-material/PersonOutlineRounded";
 import TransgenderRoundedIcon from "@mui/icons-material/TransgenderRounded";
+import { useMutation, useQuery } from "@tanstack/react-query";
+import { AuthAxios } from "../helpers/axiosInstance";
 import LocalPhoneOutlinedIcon from "@mui/icons-material/LocalPhoneOutlined";
 import EmailOutlinedIcon from "@mui/icons-material/EmailOutlined";
 import HttpsOutlinedIcon from "@mui/icons-material/HttpsOutlined";
@@ -110,6 +112,31 @@ const CustomerProfile = ({
   handleCloseShowCustomerProfile,
 }) => {
   console.log(customerDataById);
+
+  const {
+    data: customerTrx,
+    error,
+    isLoading,
+  } = useQuery({
+    queryKey: "customerTrx",
+    queryFn: async () => {
+      try {
+        const response = await AuthAxios.get(
+          `/admin/trx/${customerDataById?.id}`
+        );
+        console.log(response);
+        return response?.data?.data?.records;
+      } catch (error) {
+        throw new Error("Failed to fetch customer data");
+      }
+    },
+    onSuccess: (data) => {
+      console.log(data);
+    },
+    staleTime: 5000, // Cache data for 5 seconds
+  });
+
+  console.log(customerTrx);
 
   const [showProfileDetails, setShowProfileDetails] = useState(false);
   const handleCloseProfileDetails = () => setShowProfileDetails(false);
