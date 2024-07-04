@@ -29,6 +29,8 @@ import CalendarMonthRoundedIcon from "@mui/icons-material/CalendarMonthRounded";
 import CheckCircleOutlineRoundedIcon from "@mui/icons-material/CheckCircleOutlineRounded";
 import PersonOutlineRoundedIcon from "@mui/icons-material/PersonOutlineRounded";
 import TransgenderRoundedIcon from "@mui/icons-material/TransgenderRounded";
+import { useMutation, useQuery } from "@tanstack/react-query";
+import { AuthAxios } from "../helpers/axiosInstance";
 import LocalPhoneOutlinedIcon from "@mui/icons-material/LocalPhoneOutlined";
 import EmailOutlinedIcon from "@mui/icons-material/EmailOutlined";
 import HttpsOutlinedIcon from "@mui/icons-material/HttpsOutlined";
@@ -38,7 +40,10 @@ import DoughnutChart from "./DoughnutChart";
 import CustomerProfileDetails from "./CustomerProfileDetails";
 import celeb from "../assets/celeb.svg";
 import bage1 from "../assets/bage1.svg";
-
+import ReportProblemOutlinedIcon from "@mui/icons-material/ReportProblemOutlined";
+import VerifiedOutlinedIcon from "@mui/icons-material/VerifiedOutlined";
+import Switch from "@mui/material/Switch";
+import compliance from "../assets/images/generalMerchants/compliance.svg";
 const dummyCustomers = [
   {
     id: 1,
@@ -101,182 +106,98 @@ const dummyCustomers = [
     img: "",
   },
 ];
-const CustomerProfile = () => {
+const CustomerProfile = ({
+  customerDataById,
+  showCustomerProfile,
+  handleCloseShowCustomerProfile,
+}) => {
+  console.log(customerDataById);
+
+  const {
+    data: customerTrx,
+    error,
+    isLoading,
+  } = useQuery({
+    queryKey: "customerTrx",
+    queryFn: async () => {
+      try {
+        const response = await AuthAxios.get(
+          `/admin/trx/${customerDataById?.id}`
+        );
+        console.log(response);
+        return response?.data?.data?.records;
+      } catch (error) {
+        throw new Error("Failed to fetch customer data");
+      }
+    },
+    onSuccess: (data) => {
+      console.log(data);
+    },
+    staleTime: 5000, // Cache data for 5 seconds
+  });
+
+  console.log(customerTrx);
+
   const [showProfileDetails, setShowProfileDetails] = useState(false);
   const handleCloseProfileDetails = () => setShowProfileDetails(false);
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(100);
   return (
-    <Box className="w-full overflow-y-scroll max-h-[70vh]">
+    <Box className="w-full ">
       <Grid container spacing={2}>
-        <Grid xs={12}>
-          <Box className="w-full bg-white rounded-md p-2 flex flex-col border-grey-400  border-[1px] items-start justify-center">
-            <Typography
-              sx={{
-                color: "#1E1E1E",
-                fontWeight: "500",
-                fontSize: "15px",
-                p: "1rem",
-              }}
-            >
-              Bonus Point
-            </Typography>
-
-            <Box className="flex items-center w-full justify-evenly ">
-              <Box className="flex flex-col items-start pl-4 gap-3 border-r border-grey-400 w-full mr-8">
-                <Box className="flex gap-2 items-center">
-                  <img src={celeb} alt="c-img" />
-
-                  <Typography
-                    sx={{
-                      color: "#1E1E1E",
-                      fontWeight: "300",
-                      fontSize: "12px",
-                    }}
-                  >
-                    100% Welcome Bonus
-                    <br /> Received
-                  </Typography>
-                </Box>
-                <Typography
-                  sx={{
-                    color: "#1E1E1E",
-                    fontWeight: "500",
-                    fontSize: "15px",
-                  }}
-                >
-                  N600,0000
-                </Typography>
-              </Box>
-              <Box className="flex flex-col items-start gap-3 border-r border-grey-400 w-full mr-8">
-                <Box className="flex gap-2 items-center">
-                  <img src={celeb} alt="c-img" />
-
-                  <Typography
-                    sx={{
-                      color: "#1E1E1E",
-                      fontWeight: "300",
-                      fontSize: "12px",
-                    }}
-                  >
-                    Total Mycliq Point
-                    <br /> Received
-                  </Typography>
-                </Box>
-                <Box className="flex gap-4 items-center">
-                  <Typography
-                    sx={{
-                      color: "#1E1E1E",
-                      fontWeight: "300",
-                      fontSize: "10px",
-                      display: "flex",
-                      alignItems: "center",
-                      gap: "5px",
-                    }}
-                  >
-                    All time:
-                    <span className="text-lg text-black font-bold">1,770</span>
-                  </Typography>
-                  <Typography
-                    sx={{
-                      color: "#1E1E1E",
-                      fontWeight: "300",
-                      fontSize: "10px",
-                      display: "flex",
-                      alignItems: "center",
-                      gap: "5px",
-                    }}
-                  >
-                    By Filter:
-                    <span className="text-lg text-black font-bold">30</span>
-                  </Typography>
-                </Box>
-              </Box>
-              <Box className="flex flex-col items-start gap-3 w-full">
-                <Box className="flex gap-2 items-center">
-                  <img src={celeb} alt="c-img" />
-
-                  <Typography
-                    sx={{
-                      color: "#1E1E1E",
-                      fontWeight: "300",
-                      fontSize: "12px",
-                    }}
-                  >
-                    Mycliq Point
-                    <br /> Used
-                  </Typography>
-                </Box>
-                <Box className="flex gap-4 items-center">
-                  <Typography
-                    sx={{
-                      color: "#1E1E1E",
-                      fontWeight: "300",
-                      fontSize: "10px",
-                      display: "flex",
-                      alignItems: "center",
-                      gap: "5px",
-                    }}
-                  >
-                    All time:
-                    <span className="text-lg text-black font-bold">1,770</span>
-                  </Typography>
-                  <Typography
-                    sx={{
-                      color: "#1E1E1E",
-                      fontWeight: "300",
-                      fontSize: "10px",
-                      display: "flex",
-                      alignItems: "center",
-                      gap: "5px",
-                    }}
-                  >
-                    By Filter:
-                    <span className="text-lg text-black font-bold">30</span>
-                  </Typography>
-                </Box>
-              </Box>
-            </Box>
-          </Box>
-        </Grid>
+        <Grid xs={12}></Grid>
         <Grid item xs={7}>
-          <Box className="w-full bg-white rounded-md p-4 flex-col border-grey-400 border-[1px] max-h-[96vh]  overflow-y-scroll items-start justify-center">
-            <Typography
-              sx={{
-                color: "#1E1E1E",
-                fontWeight: "500",
-                fontSize: "15px",
-                p: "1rem",
-              }}
-            >
-              Customer Profile
-            </Typography>
+          <Box className="w-full bg-white rounded-md p-4 flex-col border-grey-400 border-[1px]  overflow-y-scroll items-start justify-center">
+            <div className="flex w-full items-center justify-between ">
+              <Typography
+                sx={{
+                  color: "#1E1E1E",
+                  fontWeight: "500",
+                  fontSize: "15px",
+                  p: "1rem",
+                }}
+              >
+                Customer Profile
+              </Typography>
+              <div className="flex gap-2 items-center cursor-pointer">
+                <img src={compliance} alt="c-p" />
+                <p className="text-[14px] font-[500] text-[#F78105]">
+                  Compliance
+                </p>
+              </div>
+            </div>
 
-            <Box className="w-full flex items-start flex-col   gap-[4rem] my-3 border-b border-grey-400  pb-1">
+            <Box className="w-full flex items-start flex-col   gap-[2rem] my-3 border-b border-grey-400  pb-1">
               <Box className="ml-3">
-                <img src={bigavatar} className="object-contain" alt="b-a" />
+                <img
+                  src={bigavatar}
+                  className="object-contain w-[120px]  h-[120px]"
+                  alt="b-a"
+                />
               </Box>
               <Box className="flex flex-col items-start w-full justify-center">
                 <Typography
                   sx={{
                     color: "grey",
                     fontWeight: "500",
-                    fontSize: "15px",
+                    fontSize: "13px",
                   }}
                 >
-                  BASIC
+                  BASIC INFORMATION FOR REGISTRATION
                 </Typography>
-                <Box className="flex items-center mt-2 mb-1">
-                  <Box className="flex items-center gap-1 w-[150px] ">
-                    <PersonOutlineRoundedIcon sx={{ color: "grey" }} />
+                <Box className="flex items-center mt-1 mb-1">
+                  <Box className="flex items-center gap-1 w-[200px] ">
+                    <PersonOutlineRoundedIcon
+                      sx={{ color: "grey", fontSize: "15px" }}
+                    />
                     <Typography
                       sx={{
                         color: "grey",
                         fontWeight: "300",
-                        fontSize: "13px",
+                        fontSize: "12px",
                       }}
                     >
-                      Name:
+                      Name :
                     </Typography>
                   </Box>
 
@@ -284,23 +205,25 @@ const CustomerProfile = () => {
                     sx={{
                       color: "#1E1E1E",
                       fontWeight: "500",
-                      fontSize: "15px",
+                      fontSize: "13px",
                     }}
                   >
-                    Eleanor Poe
+                    emmanuel
                   </Typography>
                 </Box>
-                <Box className="flex items-center mt-2 mb-1 justify-between ">
-                  <Box className="flex items-center gap-1 w-[150px] ">
-                    <TransgenderRoundedIcon sx={{ color: "grey" }} />
+                <Box className="flex items-center mt-1 mb-1 justify-between ">
+                  <Box className="flex items-center gap-1 w-[200px] ">
+                    <TransgenderRoundedIcon
+                      sx={{ color: "grey", fontSize: "15px" }}
+                    />
                     <Typography
                       sx={{
                         color: "grey",
                         fontWeight: "300",
-                        fontSize: "13px",
+                        fontSize: "12px",
                       }}
                     >
-                      Gender:
+                      Gender :
                     </Typography>
                   </Box>
 
@@ -308,71 +231,101 @@ const CustomerProfile = () => {
                     sx={{
                       color: "#1E1E1E",
                       fontWeight: "500",
-                      fontSize: "15px",
+                      fontSize: "13px",
                     }}
                   >
                     Male
                   </Typography>
                 </Box>
-                <Box className="flex  items-center mt-2 mb-1 justify-between ">
-                  <Box className="flex items-center gap-1 w-[150px] ">
-                    <EmailOutlinedIcon sx={{ color: "grey" }} />
+                <Box className="flex  items-center mt-1 mb-1 justify-between ">
+                  <Box className="flex items-center gap-1 w-[200px] ">
+                    <EmailOutlinedIcon
+                      sx={{ color: "grey", fontSize: "15px" }}
+                    />
                     <Typography
                       sx={{
                         color: "grey",
                         fontWeight: "300",
-                        fontSize: "13px",
+                        fontSize: "12px",
                       }}
                     >
-                      Email:
+                      Email :
                     </Typography>
                   </Box>
 
-                  <Typography
-                    sx={{
-                      color: "#1E1E1E",
-                      fontWeight: "500",
-                      fontSize: "15px",
-                    }}
-                  >
-                    example@gmail.com
-                  </Typography>
+                  <div className="flex gap-2 items-center">
+                    <Typography
+                      sx={{
+                        color: "#1E1E1E",
+                        fontWeight: "500",
+                        fontSize: "13px",
+                      }}
+                    >
+                      e@gmail.com
+                    </Typography>
+
+                    <div className="bg-[#FFF0F0]  px-2 flex items-center gap-1 rounded-md">
+                      <ReportProblemOutlinedIcon
+                        sx={{ fontSize: "15px" }}
+                        className="text-[#E52929] font-[500]"
+                      />
+                      <p className="text-[#E52929] text-[10px] font-[500]">
+                        Unverified
+                      </p>
+                    </div>
+                  </div>
                 </Box>
-                <Box className="flex  items-center mt-2 mb-1 justify-between ">
-                  <Box className="flex items-center gap-1 w-[150px]">
-                    <LocalPhoneOutlinedIcon sx={{ color: "grey" }} />
+                <Box className="flex  items-center mt-1 mb-1 justify-between ">
+                  <Box className="flex items-center gap-1 w-[200px]">
+                    <LocalPhoneOutlinedIcon
+                      sx={{ color: "grey", fontSize: "15px" }}
+                    />
                     <Typography
                       sx={{
                         color: "grey",
                         fontWeight: "300",
-                        fontSize: "13px",
+                        fontSize: "12px",
                       }}
                     >
-                      Phone Num:
+                      Phone Num :
                     </Typography>
                   </Box>
 
-                  <Typography
-                    sx={{
-                      color: "#1E1E1E",
-                      fontWeight: "500",
-                      fontSize: "15px",
-                    }}
-                  >
-                    08177338833
-                  </Typography>
+                  <div className="flex gap-2 items-center">
+                    <Typography
+                      sx={{
+                        color: "#1E1E1E",
+                        fontWeight: "500",
+                        fontSize: "13px",
+                      }}
+                    >
+                      0815524624624
+                    </Typography>
+
+                    <div className="bg-[#EBFFF3]  px-2 flex items-center gap-1 rounded-md">
+                      <VerifiedOutlinedIcon
+                        sx={{ fontSize: "15px" }}
+                        className="text-[#1E854A] text-[10px] font-[500]"
+                      />
+                      <p className="text-[#1E854A] text-[10px] font-[500]">
+                        Verified
+                      </p>
+                    </div>
+                  </div>
                 </Box>
-                <Box className="flex  items-center mt-2 mb-1 justify-between ">
-                  <Box className="flex items-center gap-1 w-[150px]">
-                    <FmdGoodRoundedIcon sx={{ color: "grey" }} />
+                <Box className="flex  items-center mt-1 mb-1 justify-between ">
+                  <Box className="flex items-center gap-1 w-[200px]">
+                    <FmdGoodRoundedIcon
+                      sx={{ color: "grey", fontSize: "15px" }}
+                    />
                     <Typography
                       sx={{
                         color: "grey",
                         fontWeight: "300",
-                        fontSize: "13px",
+                        fontSize: "12px",
                       }}
                     >
-                      Address:
+                      Address :
                     </Typography>
                   </Box>
 
@@ -380,33 +333,198 @@ const CustomerProfile = () => {
                     sx={{
                       color: "#1E1E1E",
                       fontWeight: "500",
-                      fontSize: "15px",
+                      fontSize: "13px",
                     }}
                   >
-                    Molette Ibadan
+                    {" "}
+                    address is here
                   </Typography>
                 </Box>
               </Box>
             </Box>
 
-            <Box className="flex flex-col items-start w-full justify-center py-2">
+            <Box className="flex flex-col items-start w-full justify-center">
               <Typography
                 sx={{
                   color: "grey",
                   fontWeight: "500",
-                  fontSize: "15px",
+                  fontSize: "13px",
                 }}
               >
-                BANK DETAILS
+                BASIC INFORMATION FOR BVN
               </Typography>
-              <Box className="flex items-center mt-2 mb-1 ">
+              <Box className="flex items-center mt-1 mb-1">
                 <Box className="flex items-center gap-1 w-[200px] ">
-                  <CabinRoundedIcon sx={{ color: "grey" }} />
+                  <PersonOutlineRoundedIcon
+                    sx={{ color: "grey", fontSize: "15px" }}
+                  />
                   <Typography
                     sx={{
                       color: "grey",
                       fontWeight: "300",
+                      fontSize: "12px",
+                    }}
+                  >
+                    Name :
+                  </Typography>
+                </Box>
+
+                <Typography
+                  sx={{
+                    color: "#1E1E1E",
+                    fontWeight: "500",
+                    fontSize: "13px",
+                  }}
+                >
+                  emmanuel
+                </Typography>
+              </Box>
+              <Box className="flex items-center mt-1 mb-1 justify-between ">
+                <Box className="flex items-center gap-1 w-[200px] ">
+                  <TransgenderRoundedIcon
+                    sx={{ color: "grey", fontSize: "15px" }}
+                  />
+                  <Typography
+                    sx={{
+                      color: "grey",
+                      fontWeight: "300",
+                      fontSize: "12px",
+                    }}
+                  >
+                    Gender :
+                  </Typography>
+                </Box>
+
+                <Typography
+                  sx={{
+                    color: "#1E1E1E",
+                    fontWeight: "500",
+                    fontSize: "13px",
+                  }}
+                >
+                  Male
+                </Typography>
+              </Box>
+              <Box className="flex  items-center mt-1 mb-1 justify-between ">
+                <Box className="flex items-center gap-1 w-[200px] ">
+                  <EmailOutlinedIcon sx={{ color: "grey", fontSize: "15px" }} />
+                  <Typography
+                    sx={{
+                      color: "grey",
+                      fontWeight: "300",
+                      fontSize: "12px",
+                    }}
+                  >
+                    Email :
+                  </Typography>
+                </Box>
+
+                <div className="flex gap-2 items-center">
+                  <Typography
+                    sx={{
+                      color: "#1E1E1E",
+                      fontWeight: "500",
                       fontSize: "13px",
+                    }}
+                  >
+                    e@gmail.com
+                  </Typography>
+
+                  <div className="bg-[#FFF0F0]  px-2 flex items-center gap-1 rounded-md">
+                    <ReportProblemOutlinedIcon
+                      sx={{ fontSize: "15px" }}
+                      className="text-[#E52929] font-[500]"
+                    />
+                    <p className="text-[#E52929] text-[10px] font-[500]">
+                      Unverified
+                    </p>
+                  </div>
+                </div>
+              </Box>
+              <Box className="flex  items-center mt-1 mb-1 justify-between ">
+                <Box className="flex items-center gap-1 w-[200px]">
+                  <LocalPhoneOutlinedIcon
+                    sx={{ color: "grey", fontSize: "15px" }}
+                  />
+                  <Typography
+                    sx={{
+                      color: "grey",
+                      fontWeight: "300",
+                      fontSize: "12px",
+                    }}
+                  >
+                    Phone Num :
+                  </Typography>
+                </Box>
+
+                <div className="flex gap-2 items-center">
+                  <Typography
+                    sx={{
+                      color: "#1E1E1E",
+                      fontWeight: "500",
+                      fontSize: "13px",
+                    }}
+                  >
+                    0815524624624
+                  </Typography>
+
+                  <div className="bg-[#EBFFF3]  px-2 flex items-center gap-1 rounded-md">
+                    <VerifiedOutlinedIcon
+                      sx={{ fontSize: "15px" }}
+                      className="text-[#1E854A] text-[10px] font-[500]"
+                    />
+                    <p className="text-[#1E854A] text-[10px] font-[500]">
+                      Verified
+                    </p>
+                  </div>
+                </div>
+              </Box>
+              <Box className="flex  items-center mt-1 mb-1 justify-between ">
+                <Box className="flex items-center gap-1 w-[200px]">
+                  <FmdGoodRoundedIcon
+                    sx={{ color: "grey", fontSize: "15px" }}
+                  />
+                  <Typography
+                    sx={{
+                      color: "grey",
+                      fontWeight: "300",
+                      fontSize: "12px",
+                    }}
+                  >
+                    Address :
+                  </Typography>
+                </Box>
+
+                <Typography
+                  sx={{
+                    color: "#1E1E1E",
+                    fontWeight: "500",
+                    fontSize: "13px",
+                  }}
+                >
+                  {" "}
+                  address is here
+                </Typography>
+              </Box>
+            </Box>
+            <Box className="flex flex-col  items-start w-full justify-center py-2">
+              <Typography
+                sx={{
+                  color: "grey",
+                  fontWeight: "500",
+                  fontSize: "13px",
+                }}
+              >
+                BANK DETAILS
+              </Typography>
+              <Box className="flex items-center mt-1 mb-1 ">
+                <Box className="flex items-center gap-1 w-[200px] ">
+                  <CabinRoundedIcon sx={{ color: "grey", fontSize: "15px" }} />
+                  <Typography
+                    sx={{
+                      color: "grey",
+                      fontWeight: "300",
+                      fontSize: "12px",
                     }}
                   >
                     Bank Name:
@@ -417,20 +535,22 @@ const CustomerProfile = () => {
                   sx={{
                     color: "#1E1E1E",
                     fontWeight: "500",
-                    fontSize: "15px",
+                    fontSize: "13px",
                   }}
                 >
                   Providus Bank
                 </Typography>
               </Box>
-              <Box className="flex items-center mt-2 mb-1 justify-between ">
+              <Box className="flex items-center mt-1 mb-1 justify-between ">
                 <Box className="flex items-center gap-1 w-[200px] ">
-                  <PersonOutlineRoundedIcon sx={{ color: "grey" }} />
+                  <PersonOutlineRoundedIcon
+                    sx={{ color: "grey", fontSize: "15px" }}
+                  />
                   <Typography
                     sx={{
                       color: "grey",
                       fontWeight: "300",
-                      fontSize: "13px",
+                      fontSize: "12px",
                     }}
                   >
                     Account Number:
@@ -441,20 +561,20 @@ const CustomerProfile = () => {
                   sx={{
                     color: "#1E1E1E",
                     fontWeight: "500",
-                    fontSize: "15px",
+                    fontSize: "13px",
                   }}
                 >
                   2211223445
                 </Typography>
               </Box>
-              <Box className="flex items-center mt-2 mb-1 ">
+              <Box className="flex items-center mt-1 mb-1 ">
                 <Box className="flex items-center gap-1 w-[200px] ">
-                  <CabinRoundedIcon sx={{ color: "grey" }} />
+                  <CabinRoundedIcon sx={{ color: "grey", fontSize: "15px" }} />
                   <Typography
                     sx={{
                       color: "grey",
                       fontWeight: "300",
-                      fontSize: "13px",
+                      fontSize: "12px",
                     }}
                   >
                     Bank Name:
@@ -465,34 +585,10 @@ const CustomerProfile = () => {
                   sx={{
                     color: "#1E1E1E",
                     fontWeight: "500",
-                    fontSize: "15px",
+                    fontSize: "13px",
                   }}
                 >
                   Safe Haven
-                </Typography>
-              </Box>
-              <Box className="flex items-center mt-2 mb-1 justify-between ">
-                <Box className="flex items-center gap-1 w-[200px] ">
-                  <PersonOutlineRoundedIcon sx={{ color: "grey" }} />
-                  <Typography
-                    sx={{
-                      color: "grey",
-                      fontWeight: "300",
-                      fontSize: "13px",
-                    }}
-                  >
-                    Account Number:
-                  </Typography>
-                </Box>
-
-                <Typography
-                  sx={{
-                    color: "#1E1E1E",
-                    fontWeight: "500",
-                    fontSize: "15px",
-                  }}
-                >
-                  2211223445
                 </Typography>
               </Box>
             </Box>
@@ -500,7 +596,7 @@ const CustomerProfile = () => {
         </Grid>
         <Grid item xs={5}>
           <Grid item xs={12}>
-            <Box className="w-full mb-3 bg-white rounded-md p-2 flex-col border-grey-400  border-[1px] items-start justify-center">
+            <Box className="w-full mb-3 bg-white  p-2 flex-col border-grey-400  border-b-[1px] items-start justify-center">
               <Typography
                 sx={{
                   color: "#1E1E1E",
@@ -510,17 +606,19 @@ const CustomerProfile = () => {
                   py: "1rem",
                 }}
               >
-                Account & Activity
+                Customer Account & Activity
               </Typography>
 
               <Box className="flex items-center mt-2 mb-1 ">
                 <Box className="flex items-center gap-1  w-[150px] ">
-                  <PersonOutlineRoundedIcon sx={{ color: "grey" }} />
+                  <PersonOutlineRoundedIcon
+                    sx={{ color: "grey", fontSize: "15px" }}
+                  />
                   <Typography
                     sx={{
                       color: "grey",
                       fontWeight: "300",
-                      fontSize: "13px",
+                      fontSize: "12px",
                     }}
                   >
                     Account status:
@@ -531,10 +629,10 @@ const CustomerProfile = () => {
                   sx={{
                     color: "#1E1E1E",
                     fontWeight: "500",
-                    fontSize: "12px",
+                    fontSize: "10px",
                     background: "#EBFFF3",
-                    py: "5px",
-                    px: "10px",
+                    py: "2px",
+                    px: "8px",
                     color: "#1E854A",
                     borderRadius: "10px",
                     display: "flex",
@@ -542,18 +640,20 @@ const CustomerProfile = () => {
                     gap: "10px",
                   }}
                 >
-                  <span className="w-[10px] h-[10px] rounded-full  bg-green-600" />
+                  <span className="w-[10px] h-[10px] rounded-full text-[13px0]  bg-green-600" />
                   Active
                 </Typography>
               </Box>
               <Box className="flex  items-center mt-2 mb-1 ">
                 <Box className="flex items-center gap-1 w-[150px] ">
-                  <PersonOutlineRoundedIcon sx={{ color: "grey" }} />
+                  <PersonOutlineRoundedIcon
+                    sx={{ color: "grey", fontSize: "15px" }}
+                  />
                   <Typography
                     sx={{
                       color: "grey",
                       fontWeight: "300",
-                      fontSize: "13px",
+                      fontSize: "12px",
                     }}
                   >
                     KYC Level:
@@ -570,17 +670,19 @@ const CustomerProfile = () => {
                   }}
                 >
                   <img src={bage1} alt="b-img" />
-                  <span className="font-bold ml-2">Tier 1</span>
+                  <span className="font-bold ml-2 text-[13px]">Tier 1</span>
                 </Typography>
               </Box>
               <Box className="flex  items-center mt-2 mb-1 ">
                 <Box className="flex items-center gap-1 w-[150px]">
-                  <CalendarMonthRoundedIcon sx={{ color: "grey" }} />
+                  <CalendarMonthRoundedIcon
+                    sx={{ color: "grey", fontSize: "15px" }}
+                  />
                   <Typography
                     sx={{
                       color: "grey",
                       fontWeight: "300",
-                      fontSize: "13px",
+                      fontSize: "12px",
                     }}
                   >
                     Date Registered:
@@ -591,7 +693,7 @@ const CustomerProfile = () => {
                   sx={{
                     color: "#1E1E1E",
                     fontWeight: "500",
-                    fontSize: "15px",
+                    fontSize: "13px",
                   }}
                 >
                   01/05/2023 at 08:54 PM
@@ -599,12 +701,14 @@ const CustomerProfile = () => {
               </Box>
               <Box className="flex  items-center mt-2 mb-1  ">
                 <Box className="flex items-center gap-1 w-[150px]">
-                  <AccessTimeRoundedIcon sx={{ color: "grey" }} />
+                  <AccessTimeRoundedIcon
+                    sx={{ color: "grey", fontSize: "15px" }}
+                  />
                   <Typography
                     sx={{
                       color: "grey",
                       fontWeight: "300",
-                      fontSize: "13px",
+                      fontSize: "12px",
                     }}
                   >
                     Last Seen:
@@ -615,44 +719,21 @@ const CustomerProfile = () => {
                   sx={{
                     color: "#1E1E1E",
                     fontWeight: "500",
-                    fontSize: "15px",
+                    fontSize: "13px",
                   }}
                 >
                   01/05/2023 at 08:54 PM
                 </Typography>
               </Box>
-              <Box className="flex  items-center mt-2 mb-1 ">
-                <Box className="flex items-center gap-1 w-[150px]">
-                  <FmdGoodRoundedIcon sx={{ color: "grey" }} />
-                  <Typography
-                    sx={{
-                      color: "grey",
-                      fontWeight: "300",
-                      fontSize: "13px",
-                    }}
-                  >
-                    Order Count:
-                  </Typography>
-                </Box>
 
-                <Typography
-                  sx={{
-                    color: "#1E1E1E",
-                    fontWeight: "500",
-                    fontSize: "15px",
-                  }}
-                >
-                  32
-                </Typography>
-              </Box>
-              <Box className="flex  items-center mt-2 mb-1 ">
+              <Box className="flex  items-center  mb-1 ">
                 <Box className="flex items-center gap-1 w-[150px]">
-                  <HttpsOutlinedIcon sx={{ color: "red" }} />
+                  <HttpsOutlinedIcon sx={{ color: "red", fontSize: "15px" }} />
                   <Typography
                     sx={{
                       color: "red",
                       fontWeight: "300",
-                      fontSize: "13px",
+                      fontSize: "12px",
                     }}
                   >
                     Disable Account:
@@ -663,22 +744,85 @@ const CustomerProfile = () => {
                   sx={{
                     color: "#1E1E1E",
                     fontWeight: "500",
-                    fontSize: "15px",
+                    fontSize: "13px",
                   }}
                 >
-                  32
+                  <Switch
+                    sx={{
+                      "& .MuiSwitch-switchBase.Mui-checked": {
+                        color: "#fff",
+                        // "&:hover": {
+                        //   backgroundColor: alpha(
+                        //     pink[600],
+                        //     theme.palette.action.hoverOpacity
+                        //   ),
+                        // },
+                      },
+                      "& .MuiSwitch-switchBase.Mui-checked + .MuiSwitch-track":
+                        {
+                          backgroundColor: "#DC0019",
+                        },
+                    }}
+                    defaultChecked
+                    color="default"
+                  />
                 </Typography>
               </Box>
             </Box>
           </Grid>
           <Grid item xs={12}>
             <Box className="w-full bg-white rounded-md p-2 flex-col border-grey-400  border-[1px] items-start justify-center">
-              <DoughnutChart
+              {/* <DoughnutChart
                 title="Transaction Insight"
                 values={[100, 40, 90, 50]}
                 label={["Orders", "Bank Transfer", "Wallet To wallet", "Bills"]}
                 color={["#FF4069", "#36A2EB", "#FF9F40", "#27AE60"]}
-              />
+              /> */}
+              <Typography
+                sx={{
+                  fontWeight: "500",
+                  fontSize: "14px",
+                  color: "#000",
+                  py: "10px",
+                  pl: "10px",
+                }}
+              >
+                Customer Transaction Insight
+              </Typography>
+              <div className="w-full flex gap-5 p-3 items-start">
+                <div className="flex items-start flex-col gap-2">
+                  <div className="flex items-center gap-2">
+                    <div className="w-[24px] h-[8px] bg-[#27AE60]"></div>
+
+                    <p className="text-[#828282] font-normal text-[12px]">
+                      Inward Transfer [234]
+                    </p>
+                  </div>
+
+                  <div className="flex items-center gap-2">
+                    <div className="w-[24px] h-[8px] bg-[#E52929]"></div>
+
+                    <p className="text-[#828282] font-normal text-[12px]">
+                      Outward Transfer [234]
+                    </p>
+                  </div>
+
+                  <div className="flex items-center gap-2">
+                    <div className="w-[24px] h-[8px] bg-[#BD00FF]"></div>
+
+                    <p className="text-[#828282] font-normal text-[12px]">
+                      Wallet to Wallet [234]
+                    </p>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <div className="w-[24px] h-[8px] bg-[#BD00FF]"></div>
+
+                    <p className="text-[#828282] font-normal text-[12px]">
+                      Mycliq [234]
+                    </p>
+                  </div>
+                </div>
+              </div>
             </Box>
           </Grid>
         </Grid>
@@ -707,9 +851,11 @@ const CustomerProfile = () => {
                   >
                     <TableRow>
                       <TableCell>S/N</TableCell>
+                      <TableCell> Full Name</TableCell>
                       <TableCell> Transaction ID</TableCell>
+                      <TableCell>Amount(N)</TableCell>
                       <TableCell>Type</TableCell>
-                      <TableCell>Amount</TableCell>
+                      <TableCell>Wallet Balance(N)</TableCell>
                       <TableCell>Status</TableCell>
                       <TableCell>Action</TableCell>
                     </TableRow>
@@ -738,6 +884,17 @@ const CustomerProfile = () => {
                                 color: "#828282",
                               }}
                             >
+                              {item?.name}
+                            </Typography>
+                          </TableCell>
+                          <TableCell>
+                            <Typography
+                              sx={{
+                                fomtWeight: "400",
+                                fontSize: "16px",
+                                color: "#828282",
+                              }}
+                            >
                               SN25553333
                             </Typography>
                           </TableCell>
@@ -749,10 +906,11 @@ const CustomerProfile = () => {
                                 color: "#828282",
                               }}
                             >
-                              Funding{" "}
+                              200,000
                             </Typography>
                           </TableCell>
-                          <TableCell>200,000</TableCell>
+                          <TableCell>Funding</TableCell>
+                          <TableCell>20000</TableCell>
                           <TableCell>
                             <Typography
                               sx={{

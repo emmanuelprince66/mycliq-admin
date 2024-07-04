@@ -10,17 +10,26 @@ import {
   Menu,
   MenuItem,
   Select,
+  CircularProgress,
 } from "@mui/material";
 import InsertPhotoRoundedIcon from "@mui/icons-material/InsertPhotoRounded";
 import LocalPhoneOutlinedIcon from "@mui/icons-material/LocalPhoneOutlined";
+import { BaseAxios } from "../helpers/axiosInstance";
+import { useMutation, useQuery, useInfiniteQuery } from "@tanstack/react-query";
+import { toast, ToastContainer } from "react-toastify";
+import Cookie from "js-cookie";
 
 import AddBusinessRoundedIcon from "@mui/icons-material/AddBusinessRounded";
 import EmailOutlinedIcon from "@mui/icons-material/EmailOutlined";
 
 import { Input } from "@mui/icons-material";
 
-const AssoIimage = ({ onSubmit , handleBack , showSpinner }) => {
+const VentureImage = ({ onSubmit, handleBack }) => {
   const [imagePreview, setImagePreview] = useState(null);
+  const token = Cookie.get("authToken");
+  const [uploadingingFile, setUploadingFile] = useState(false);
+  const [imgUrl, setImageUrl] = useState("");
+
   const {
     handleSubmit,
     control,
@@ -28,49 +37,126 @@ const AssoIimage = ({ onSubmit , handleBack , showSpinner }) => {
     formState: { isValid, errors },
   } = useForm({ mode: "all" });
 
-  const handleImageChange = (e) => {
-    console.log("handleImageChange called"); // Add this line
-    const file = e.target.files[0];
+  const notifyError = (msg) => {
+    toast.error(msg, {
+      position: toast.POSITION.TOP_RIGHT,
+      autoClose: 6000, // Time in milliseconds
+    });
+  };
+  // upload file
 
-    console.log(file, "hello");
+  const uploadFileMutation = useMutation({
+    mutationFn: async (formData) => {
+      console.log(formData);
+      try {
+        const response = await BaseAxios({
+          url: "/misc/fs/upload",
+          method: "POST",
+          data: formData,
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "multipart/form-data",
+          },
+        });
+
+        if (response.status !== 201) {
+          setUploadingFile(false);
+
+          notifyError(response?.data?.message);
+          throw new Error(response.data.message);
+        }
+
+        return response;
+      } catch (error) {
+        console.log(error);
+        setUploadingFile(false);
+
+        throw new Error(error.response.data.message);
+      }
+    },
+    onSuccess: (data) => {
+      setImageUrl(data?.data?.data?.publicUrl);
+      setUploadingFile(false);
+      // Handle success, update state, or perform further actions
+    },
+    onError: (error) => {
+      console.log(error);
+    },
+  });
+
+  // fetch all schools
+  const {
+    data: schoolDetails,
+    error,
+    isLoading: schoolLoading,
+  } = useQuery({
+    queryKey: "schoolDetails",
+    queryFn: async () => {
+      try {
+        const config = {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        };
+        const response = await BaseAxios.get(
+          "merchant/bill/institutions",
+          config
+        );
+        return response?.data?.data?.records;
+      } catch (error) {
+        throw new Error("Failed to fetch customer data");
+      }
+    },
+    onSuccess: (data) => {
+      console.log(data);
+    },
+    staleTime: 1000 * 60 * 10, // Cache data for 10 minutes
+  });
+  //
+
+  const handleImageChange = (e) => {
+    const file = e.target.files[0];
     if (file && file.type.substr(0, 5) === "image") {
       setImagePreview(URL.createObjectURL(file));
+
+      const formData = new FormData();
+      formData.append("file", file); // Append the file directly as a Blob
+
+      console.log(formData);
+
+      uploadFileMutation.mutate(formData);
+      setUploadingFile(true);
     } else {
       setImagePreview(null);
     }
   };
-const onStepSubmit = async (data, formPayLoad) => {
-  // Create a new FormData object
-  console.log(data);
-  console.log(formPayLoad);
-  const formData = new FormData();
 
-  // Append form data to the FormData object
-  Object.keys(data).forEach((key) => {
-    formData.append(key, data[key]);
-  });
+  //   const handleFormSubmit = (formPayLoad) => {
+  //     console.log(formPayLoad);
+  //   };
 
-  // Append the image file to the FormData object
-  if (imagePreview) {
-    const file = await fetch(imagePreview).then((r) => r.blob());
-    const reader = new FileReader();
-    reader.readAsDataURL(file);
-    const venturesLogo = await new Promise((resolve) => {
-      reader.onloadend = () => {
-        resolve(reader.result);
+  const onStepSubmit = async (data) => {
+    // Create a new FormData object
+
+    if (imgUrl === "") {
+      console.log(imgUrl);
+      notifyError("Please upload an image");
+    } else {
+      const formData = new FormData();
+
+      const formDatta = {
+        ...data,
+        venturesLogo: imgUrl,
+        tags: [`${data?.ventureTag}`],
       };
-    });
 
-    const formDatta = {
-      ...data,
-      venturesLogo, // This will be a string
-      tags: ["association"],
-    };
+      const newFormDatta = { ...formDatta };
+      delete newFormDatta.ventureTag;
 
-    // Call the onSubmit function with the FormData object
-    onSubmit(formDatta);
-  }
-};
+      onSubmit(newFormDatta);
+    }
+  };
+
   return (
     <Box
       sx={{
@@ -80,12 +166,11 @@ const onStepSubmit = async (data, formPayLoad) => {
         alignItems: "center",
         justifyContent: "content",
         my: "3rem",
-        height:"100%",
         pb: "2rem",
       }}
     >
       <Typography sx={{ color: "#C57600", fontWeight: "500" }}>
-        ASSOCIATION INFORMATION
+        Venture INFORMATION
       </Typography>
 
       <form
@@ -102,11 +187,15 @@ const onStepSubmit = async (data, formPayLoad) => {
               mb: "2px",
             }}
           >
-            Logo Preview
+            {uploadingingFile ? (
+              <CircularProgress size="1.2rem" sx={{ color: "#DC0019" }} />
+            ) : (
+              "  Logo Preview"
+            )}
           </Typography>
 
           <Box className="w-full h-full flex justify-center items-center bg-gray-100 rounded-md  border-[2px] p-2 ">
-            {imagePreview ? (
+            {imagePreview && !uploadingingFile && imgUrl !== "" ? (
               <img
                 src={imagePreview}
                 alt="Preview"
@@ -129,7 +218,7 @@ const onStepSubmit = async (data, formPayLoad) => {
                 my: "5px",
               }}
             >
-              Association Logo
+              Venture Logo
             </Typography>
             <TextField
               onChange={handleImageChange}
@@ -164,7 +253,7 @@ const onStepSubmit = async (data, formPayLoad) => {
           </Typography>
           <FormControl sx={{ mb: "1rem", width: "100%" }}>
             <Controller
-              name="school"
+              name="institutionName"
               control={control}
               defaultValue=""
               render={({ field }) => (
@@ -187,8 +276,16 @@ const onStepSubmit = async (data, formPayLoad) => {
                       School/Institution
                     </Box>
                   </MenuItem>
-                  <MenuItem value="MALE">Futa</MenuItem>
-                  <MenuItem value="FEMALE">Female</MenuItem>
+
+                  {schoolLoading ? (
+                    <CircularProgress sx={{ my: "5px" }} />
+                  ) : (
+                    schoolDetails?.map((item) => (
+                      <MenuItem key={item?.id} value={item?.id}>
+                        {item?.name}
+                      </MenuItem>
+                    ))
+                  )}
                 </Select>
               )}
             />
@@ -201,16 +298,57 @@ const onStepSubmit = async (data, formPayLoad) => {
               my: "5px",
             }}
           >
-            Name Of Association
+            Venture
+          </Typography>
+          <FormControl sx={{ mb: "1rem", width: "100%" }}>
+            <Controller
+              name="ventureTag"
+              control={control}
+              defaultValue=""
+              render={({ field }) => (
+                <Select
+                  {...field}
+                  sx={{
+                    "& .MuiOutlinedInput-notchedOutline": {},
+                    "&.Mui-focused .MuiOutlinedInput-notchedOutline": {
+                      borderColor: "#ff7f00",
+                    },
+                    "&:hover .MuiOutlinedInput-notchedOutline": {
+                      borderColor: "#ff7f00",
+                    },
+                  }}
+                  displayEmpty
+                >
+                  <MenuItem value="" disabled>
+                    <Box>
+                      <AddBusinessRoundedIcon /> &nbsp; | Select Venture
+                    </Box>
+                  </MenuItem>
+                  <MenuItem value="Venture">Venture</MenuItem>
+                  <MenuItem value="association">Association</MenuItem>
+                  <MenuItem value="ticketing">Ticketing</MenuItem>
+                </Select>
+              )}
+            />
+          </FormControl>
+          <Typography
+            sx={{
+              color: "#000",
+              fontWeight: "600",
+              fontSize: "13px",
+              my: "5px",
+            }}
+          >
+            Name Of Venture
           </Typography>
           <Controller
-            name="association"
+            name="venturesName"
             control={control}
             defaultValue=""
             render={({ field }) => (
               <TextField
                 {...field}
-                placeholder="Enter Association Name"
+                placeholder="Enter Venture Name"
                 sx={{
                   width: "100%",
                   "& .MuiOutlinedInput-root": {
@@ -233,8 +371,8 @@ const onStepSubmit = async (data, formPayLoad) => {
                     </InputAdornment>
                   ),
                 }}
-                error={!!errors.association}
-                helperText={errors.association && errors.association.message}
+                error={!!errors.venturesName}
+                helperText={errors.venturesName && errors.venturesName.message}
               />
             )}
           />
@@ -250,13 +388,13 @@ const onStepSubmit = async (data, formPayLoad) => {
             Acronym
           </Typography>
           <Controller
-            name="acronym"
+            name="venturesAcronym"
             control={control}
             defaultValue=""
             render={({ field }) => (
               <TextField
                 {...field}
-                placeholder="Enter Association Acronym e.g NASSA"
+                placeholder="Enter Venture Acronym e.g NASSA"
                 sx={{
                   width: "100%",
                   "& .MuiOutlinedInput-root": {
@@ -279,8 +417,10 @@ const onStepSubmit = async (data, formPayLoad) => {
                     </InputAdornment>
                   ),
                 }}
-                error={!!errors.acronym}
-                helperText={errors.acronym && errors.acronym.message}
+                error={!!errors.venturesAcronym}
+                helperText={
+                  errors.venturesAcronym && errors.venturesAcronym.message
+                }
               />
             )}
           />
@@ -293,10 +433,10 @@ const onStepSubmit = async (data, formPayLoad) => {
               mt: "15px",
             }}
           >
-            Association Email Address
+            Venture Email Address
           </Typography>
           <Controller
-            name="email"
+            name="venturesEmail"
             control={control}
             defaultValue=""
             rules={{
@@ -329,8 +469,8 @@ const onStepSubmit = async (data, formPayLoad) => {
                     </InputAdornment>
                   ),
                 }}
-                error={!!errors.email}
-                helperText={errors.email && "Invalid email address"}
+                error={!!errors.venturesEmail}
+                helperText={errors.venturesEmail && "Invalid email address"}
               />
             )}
           />
@@ -343,10 +483,10 @@ const onStepSubmit = async (data, formPayLoad) => {
               mt: "15px",
             }}
           >
-            Association Phone Number
+            Venture Phone Number
           </Typography>
           <Controller
-            name="phoneNumberAsso"
+            name="venturesPhone"
             control={control}
             defaultValue=""
             rules={{ required: true, minLength: 11, maxLength: 11 }}
@@ -374,11 +514,9 @@ const onStepSubmit = async (data, formPayLoad) => {
                     </InputAdornment>
                   ),
                 }}
-                error={!!errors.phoneNumberAsso} // Apply error state based on validation result
+                error={!!errors.venturesPhone} // Apply error state based on validation result
                 helperText={
-                  errors.phoneNumberAsso
-                    ? "Phone number must be 11 digits"
-                    : null
+                  errors.venturesPhone ? "Phone number must be 11 digits" : null
                 } // Display error message
               />
             )}
@@ -395,7 +533,7 @@ const onStepSubmit = async (data, formPayLoad) => {
             Alternative Phone Number
           </Typography>
           <Controller
-            name="phoneNumberAsso2"
+            name="venturesAltPhone"
             control={control}
             defaultValue=""
             rules={{ required: true, minLength: 11, maxLength: 11 }}
@@ -423,9 +561,9 @@ const onStepSubmit = async (data, formPayLoad) => {
                     </InputAdornment>
                   ),
                 }}
-                error={!!errors.phoneNumberAsso2} // Apply error state based on validation result
+                error={!!errors.venturesAltPhone} // Apply error state based on validation result
                 helperText={
-                  errors.phoneNumberAsso2
+                  errors.venturesAltPhone
                     ? "Phone number must be 11 digits"
                     : null
                 } // Display error message
@@ -434,7 +572,7 @@ const onStepSubmit = async (data, formPayLoad) => {
           />
           {/* Add more Controller components for other fields similarly */}
           <Button
-            disabled={!isValid || showSpinner}
+            disabled={!isValid}
             type="submit"
             sx={{
               background: "#333333",
@@ -450,19 +588,15 @@ const onStepSubmit = async (data, formPayLoad) => {
               fontWeight: "500",
             }}
           >
-            {showSpinner ? (
-              <CircularProgress size="1.2rem" sx={{ color: "white" }} />
-            ) : (
-              <Typography
-                sx={{
-                  fontWeight: "400",
-                  fontSize: "16px",
-                  color: "#fff",
-                }}
-              >
-                Save and Proceed
-              </Typography>
-            )}
+            <Typography
+              sx={{
+                fontWeight: "400",
+                fontSize: "16px",
+                color: !isValid ? "grey" : "#fff",
+              }}
+            >
+              Save and Proceed
+            </Typography>
           </Button>
           <Button
             onClick={handleBack}
@@ -489,4 +623,4 @@ const onStepSubmit = async (data, formPayLoad) => {
   );
 };
 
-export default AssoIimage;
+export default VentureImage;

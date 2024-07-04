@@ -22,9 +22,10 @@ export const Mainlayout = ({ component }) => {
         </Box>
 
         {/* Content */}
-        <Box sx={{ flex: "1", padding: "1rem" }}>
+        <Box sx={{ flex: "1", background: "#FCFCFC", padding: "1rem" }}>
           {/* Your Content component here */}
-          {component}
+
+          <Box className="h-[80vh] overflow-y-auto ">{component}</Box>
         </Box>
       </Box>
     </Box>

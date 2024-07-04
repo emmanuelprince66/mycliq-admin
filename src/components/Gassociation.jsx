@@ -74,7 +74,7 @@ const Item = styled(Box)(({ theme }) => ({
   borderRadius: "8px",
   maxHeight: "100%",
 }));
-const GMerchants = () => {
+const Gassociation = () => {
   const navigate = useNavigate();
   const dummyCustomers = [
     {
@@ -230,7 +230,7 @@ const GMerchants = () => {
                     color: "#4F4F4F",
                   }}
                 >
-                  General <br />
+                  Association <br />
                   Inflow
                 </Typography>
               </Box>
@@ -286,7 +286,7 @@ const GMerchants = () => {
                       color: "#4F4F4F",
                     }}
                   >
-                    General <br />
+                    Association <br />
                     Outflow
                   </Typography>
                 </Box>
@@ -330,13 +330,14 @@ const GMerchants = () => {
                 </Box>
                 <Typography
                   sx={{
-                    fomtWeight: "500",
+                    fontWeight: "500",
                     fontSize: "14px",
                     color: "#4F4F4F",
+                    height: "2.4rem",
+                    display: "flex",
+                    alignItems: "center",
                   }}
                 >
-                  Merchant
-                  <br />
                   Wallet Balance
                 </Typography>
               </Box>
@@ -384,9 +385,9 @@ const GMerchants = () => {
                     color: "#4F4F4F",
                   }}
                 >
-                  Total Merchant
+                  Associations
                   <br />
-                  Onboarded{" "}
+                  Commission{" "}
                 </Typography>
               </Box>
 
@@ -433,7 +434,7 @@ const GMerchants = () => {
                     color: "#4F4F4F",
                   }}
                 >
-                  Total Merchant
+                  Associations
                   <br />
                   Onboarded{" "}
                 </Typography>
@@ -447,7 +448,7 @@ const GMerchants = () => {
                     color: "#1E1E1E",
                   }}
                 >
-                  <FormattedPrice amount={Number(20000 || 0)} />
+                  423872
                 </Typography>
               </Box>
             </Card>
@@ -455,354 +456,6 @@ const GMerchants = () => {
           {/* card */}
 
           {/*  */}
-
-          <Box className="w-full bg-white p-3  flex flex-col items-start  border-grey-400 border-[1px] rounded-md">
-            <Typography
-              sx={{
-                fontWeight: "500",
-                fontSize: "15px",
-                color: "#4F4F4F",
-                my: "10px",
-              }}
-            >
-              Merchant Order Overview
-            </Typography>
-
-            <div className="w-full flex gap-4 justify-between items-center">
-              <Card
-                sx={{
-                  display: "flex",
-                  flexDirection: "column",
-                  padding: "16px",
-                  width: "100%",
-                  gap: "0.8rem",
-                }}
-              >
-                <Box
-                  sx={{
-                    display: "flex",
-                    alignItems: "center",
-                    gap: "15px",
-                    flexDirection: "column",
-                    alignItems: "start",
-                  }}
-                >
-                  <Box
-                    sx={{
-                      width: "28px",
-                      height: "28px",
-                      display: "flex",
-                      alignItems: "center",
-                      gap: "10px",
-                    }}
-                  >
-                    <img src={mOne} className="fd" alt="m-one" />
-                    <Typography
-                      sx={{
-                        fontWeight: "500",
-                        fontSize: "14px",
-                        color: "#4F4F4F",
-                      }}
-                    >
-                      Vendors
-                    </Typography>
-                  </Box>
-                  <Box>
-                    <Typography
-                      sx={{
-                        fontWeight: "500",
-                        fontSize: "16px",
-                        color: "#1E1E1E",
-                      }}
-                    >
-                      2,122
-                    </Typography>
-                  </Box>
-                  <Box
-                    className="flex gap-3 items-center cursor-pointer"
-                    onClick={() => handleNavigateMerchant("/gvendors")}
-                  >
-                    <Typography
-                      sx={{
-                        fontWeight: "400",
-                        fontSize: "14px",
-                        color: "#FF7F00",
-                      }}
-                    >
-                      View More
-                    </Typography>
-
-                    <ChevronRightRoundedIcon sx={{ color: "#FF7F00" }} />
-                  </Box>
-                </Box>
-              </Card>
-              <Card
-                sx={{
-                  display: "flex",
-                  flexDirection: "column",
-                  padding: "16px",
-                  width: "100%",
-                  gap: "0.8rem",
-                }}
-              >
-                <Box
-                  sx={{
-                    display: "flex",
-                    alignItems: "center",
-                    gap: "15px",
-                    flexDirection: "column",
-                    alignItems: "start",
-                  }}
-                >
-                  <Box
-                    sx={{
-                      width: "28px",
-                      height: "28px",
-                      display: "flex",
-                      alignItems: "center",
-                      gap: "10px",
-                    }}
-                  >
-                    <img src={mTwo} className="fd" alt="m-2" />
-                    <Typography
-                      sx={{
-                        fontWeight: "500",
-                        fontSize: "14px",
-                        color: "#4F4F4F",
-                      }}
-                    >
-                      Transportation
-                    </Typography>
-                  </Box>
-                  <Box>
-                    <Typography
-                      sx={{
-                        fontWeight: "500",
-                        fontSize: "16px",
-                        color: "#1E1E1E",
-                      }}
-                    >
-                      2,122
-                    </Typography>
-                  </Box>
-                  <Box
-                    className="flex gap-3 items-center cursor-pointer"
-                    onClick={() => handleNavigateMerchant("/gtransportations")}
-                  >
-                    <Typography
-                      sx={{
-                        fontWeight: "400",
-                        fontSize: "14px",
-                        color: "#FF7F00",
-                      }}
-                    >
-                      View More
-                    </Typography>
-
-                    <ChevronRightRoundedIcon sx={{ color: "#FF7F00" }} />
-                  </Box>
-                </Box>
-              </Card>
-              <Card
-                sx={{
-                  display: "flex",
-                  flexDirection: "column",
-                  padding: "16px",
-                  width: "100%",
-                  gap: "0.8rem",
-                }}
-              >
-                <Box
-                  sx={{
-                    display: "flex",
-                    alignItems: "center",
-                    gap: "15px",
-                    flexDirection: "column",
-                    alignItems: "start",
-                  }}
-                >
-                  <Box
-                    sx={{
-                      width: "28px",
-                      height: "28px",
-                      display: "flex",
-                      alignItems: "center",
-                      gap: "10px",
-                    }}
-                  >
-                    <img src={mThree} className="fd" alt="m-3" />
-                    <Typography
-                      sx={{
-                        fontWeight: "500",
-                        fontSize: "14px",
-                        color: "#4F4F4F",
-                      }}
-                    >
-                      Association
-                    </Typography>
-                  </Box>
-                  <Box>
-                    <Typography
-                      sx={{
-                        fontWeight: "500",
-                        fontSize: "16px",
-                        color: "#1E1E1E",
-                      }}
-                    >
-                      2,122
-                    </Typography>
-                  </Box>
-                  <Box
-                    className="flex gap-3 items-center cursor-pointer"
-                    onClick={() => handleNavigateMerchant("/gassociations")}
-                  >
-                    <Typography
-                      sx={{
-                        fontWeight: "400",
-                        fontSize: "14px",
-                        color: "#FF7F00",
-                      }}
-                    >
-                      View More
-                    </Typography>
-
-                    <ChevronRightRoundedIcon sx={{ color: "#FF7F00" }} />
-                  </Box>
-                </Box>
-              </Card>
-              <Card
-                sx={{
-                  display: "flex",
-                  flexDirection: "column",
-                  padding: "16px",
-                  width: "100%",
-                  gap: "0.8rem",
-                }}
-              >
-                <Box
-                  sx={{
-                    display: "flex",
-                    alignItems: "center",
-                    gap: "15px",
-                    flexDirection: "column",
-                    alignItems: "start",
-                  }}
-                >
-                  <Box
-                    sx={{
-                      width: "28px",
-                      height: "28px",
-                      display: "flex",
-                      alignItems: "center",
-                      gap: "10px",
-                    }}
-                  >
-                    <img src={mFour} className="fd" alt="m-4" />
-                    <Typography
-                      sx={{
-                        fontWeight: "500",
-                        fontSize: "14px",
-                        color: "#4F4F4F",
-                      }}
-                    >
-                      Ticketing
-                    </Typography>
-                  </Box>
-                  <Box>
-                    <Typography
-                      sx={{
-                        fontWeight: "500",
-                        fontSize: "16px",
-                        color: "#1E1E1E",
-                      }}
-                    >
-                      2,122
-                    </Typography>
-                  </Box>
-                  <Box
-                    onClick={() => handleNavigateMerchant("/gtickets")}
-                    className="flex gap-3 items-center cursor-pointer"
-                  >
-                    <Typography
-                      sx={{
-                        fontWeight: "400",
-                        fontSize: "14px",
-                        color: "#FF7F00",
-                      }}
-                    >
-                      View More
-                    </Typography>
-
-                    <ChevronRightRoundedIcon sx={{ color: "#FF7F00" }} />
-                  </Box>
-                </Box>
-              </Card>
-              <Card
-                sx={{
-                  display: "flex",
-                  flexDirection: "column",
-                  padding: "16px",
-                  width: "100%",
-                  gap: "0.8rem",
-                }}
-              >
-                <Box
-                  sx={{
-                    display: "flex",
-                    alignItems: "center",
-                    gap: "15px",
-                    flexDirection: "column",
-                    alignItems: "start",
-                  }}
-                >
-                  <Box
-                    sx={{
-                      width: "28px",
-                      height: "28px",
-                      display: "flex",
-                      alignItems: "center",
-                      gap: "10px",
-                    }}
-                  >
-                    <img src={mFive} className="fd" alt="m-5" />
-                    <Typography
-                      sx={{
-                        fontWeight: "500",
-                        fontSize: "14px",
-                        color: "#4F4F4F",
-                      }}
-                    >
-                      Add Merchant
-                    </Typography>
-                  </Box>
-                  <Box>
-                    <Typography
-                      sx={{
-                        fontWeight: "500",
-                        fontSize: "16px",
-                        color: "#1E1E1E",
-                      }}
-                    >
-                      2,122
-                    </Typography>
-                  </Box>
-                  <Box className="flex gap-3 items-center cursor-pointer">
-                    <Typography
-                      sx={{
-                        fontWeight: "400",
-                        fontSize: "14px",
-                        color: "#FF7F00",
-                      }}
-                    >
-                      View More
-                    </Typography>
-
-                    <ChevronRightRoundedIcon sx={{ color: "#FF7F00" }} />
-                  </Box>
-                </Box>
-              </Card>
-            </div>
-          </Box>
 
           {/*  */}
 
@@ -821,7 +474,7 @@ const GMerchants = () => {
                         alignItems: "center",
                       }}
                     >
-                      All Merchant
+                      All Associations
                       <span
                         className={`p-1 px-2 rounded-full 
                   bg-orange-200 text-orange-500
@@ -1215,4 +868,4 @@ const GMerchants = () => {
   );
 };
 
-export default GMerchants;
+export default Gassociation;

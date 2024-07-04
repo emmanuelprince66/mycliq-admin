@@ -11,18 +11,26 @@ import {
 import AssoBank from "./AssoBank";
 import AssoContact from "./AssoContact";
 import AssoIimage from "./AssoIimage";
+import CheckRoundedIcon from "@mui/icons-material/CheckRounded";
 import Cookies from "js-cookie";
+
 import { toast, ToastContainer } from "react-toastify";
 import { useMutation, useQuery } from "@tanstack/react-query";
-import CheckRoundedIcon from "@mui/icons-material/CheckRounded";
+import closeIcon from "../assets/images/closeIcon.svg";
+import successIcon from "../assets/successIcon.svg";
+import info from "../assets/images/admin/info.svg";
 import { BaseAxios } from "../helpers/axiosInstance";
+import VentureContact from "./VentureContact";
+import VentureImage from "./VentureImage";
+import VentureBank from "./VentureBank";
 
 
-const steps = ["Step 1", "Step 2" , "Step 3"];
 
-const Association = () => {
-const token = Cookies.get("authToken");
+// const steps = ["Step 1", "Step 2"];
+const steps = ["Step 1", "Step 2", "Step 3"];
 
+const Ventures = () => {
+const token = Cookies.get("authToken")
   const [activeStep, setActiveStep] = useState(0);
   const [completedSteps, setCompletedSteps] = useState(new Set()); // Step 1
   const [collectedData, setCollectedData] = useState({});
@@ -36,58 +44,71 @@ const token = Cookies.get("authToken");
       }}
     />
   );
-    const notifyError = (msg) => {
-      toast.error(msg, {
-        position: toast.POSITION.TOP_RIGHT,
-        autoClose: 6000, // Time in milliseconds
-      });
-    };
-    // use mutation hook
-    const registerAssociationMutation = useMutation({
-      mutationFn: async (payLoad) => {
-        try {
-          const response = await BaseAxios({
-            url: "/admin/merchant/onboard",
-            method: "POST",
-            data: payLoad,
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
-          });
+  const notifyError = (msg) => {
+    toast.error(msg, {
+      position: toast.POSITION.TOP_RIGHT,
+      autoClose: 6000, // Time in milliseconds
+    });
+  };
+  const notifySuccess = (msg) => {
+    toast.success(msg, {
+      position: toast.POSITION.TOP_RIGHT,
+      autoClose: 6000, // Time in milliseconds
+    });
+  };
+  // use mutation hook
+  const registerVenturesMutation = useMutation({
+    mutationFn: async (payLoad) => {
+      try {
+        const response = await BaseAxios({
+          url: "/admin/merchant/onboard",
+          method: "POST",
+          data: payLoad,
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
 
-          return response.data;
-        } catch (error) {
-          notifyError(error?.response?.data?.message);
-          console.log(error);
-          setShowSpinner(false);
-          handleReset();
-          throw new Error(error.response.data.message);
-          // throw new Error(error.response.data.message);
-        }
-      },
-      onSuccess: (data) => {
-        console.log(data);
-        setSuccess(true);
-        setShowSpinner(false);
-        handleReset();
-      },
-      onError: (error) => {
+        return response.data;
+      } catch (error) {
+        notifyError(error?.response?.data?.message);
         console.log(error);
         setShowSpinner(false);
-        handleReset();
-      },
-    });
-
+        handleReset()
+        throw new Error(error.response.data.message);
+        // throw new Error(error.response.data.message);
+      }
+    },
+    onSuccess: (data) => {
+      console.log(data);
+      notifySuccess(data?.message)
+      // setSuccess(true);
+      setShowSpinner(false);
+      handleReset();
+      
+    },
+    onError: (error) => {
+      console.log(error);
+      setShowSpinner(false);
+      handleReset();
+      
+    },
+  });
   const handleNext = (data) => {
     const newData = { ...collectedData, ...data };
     setCollectedData(newData);
-    
 
     setCompletedSteps((prev) => new Set(prev).add(activeStep)); // Step 2
 
     if (activeStep === steps.length - 1) {
-      registerAssociationMutation.mutate(newData);
-      setShowSpinner(true);
+      console.log("Final submission data:", newData);
+      
+      console.log(newData)
+      registerVenturesMutation.mutate(newData)
+      setShowSpinner(true)
+
+      //   setResetForm(true);
+
     } else {
       setActiveStep((prevActiveStep) => prevActiveStep + 1);
     }
@@ -107,17 +128,19 @@ const token = Cookies.get("authToken");
   const getStepContent = (step) => {
     switch (step) {
       case 0:
-        return <AssoContact onSubmit={handleNext} />;
+        return <VentureContact onSubmit={handleNext} 
+        />;
       case 1:
         return (
-          <AssoIimage
+          <VentureImage
             onSubmit={handleNext}
             handleBack={handleBack}
-            showSpinner={showSpinner}
           />
         );
       case 2:
-        return <AssoBank onSubmit={handleNext} handleBack={handleBack} />;
+        return <VentureBank onSubmit={handleNext} handleBack={handleBack} 
+        showSpinner={showSpinner}
+        />;
       default:
         return null;
     }
@@ -133,7 +156,7 @@ const token = Cookies.get("authToken");
           mb: "20px",
         }}
       >
-        Register a New Association
+        Register a New Venture
       </Typography>
 
       <Box className=" w-[60%] mx-auto">
@@ -214,4 +237,4 @@ const token = Cookies.get("authToken");
   );
 };
 
-export default Association;
+export default Ventures;

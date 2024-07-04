@@ -21,326 +21,749 @@ import {
   Modal,
 } from "@mui/material";
 import avatar from "../assets/avatar.svg";
+import divideNew from "../assets/images/admin/divide-new.svg";
+import profileNew from "../assets/images/admin/profile-new.svg";
 
 import search from "../../src/assets/search.svg";
-
+import ChevronRightRoundedIcon from "@mui/icons-material/ChevronRightRounded";
 import download from "../assets/images/download.svg";
-
+import { useMutation, useQuery } from "@tanstack/react-query";
+import PermIdentityOutlinedIcon from "@mui/icons-material/PermIdentityOutlined";
+import PeopleAltOutlinedIcon from "@mui/icons-material/PeopleAltOutlined";
 import CircularProgress from "@mui/material/CircularProgress";
 import FormattedPrice from "../components/FormattedPrice";
 import fdown from "../assets/fdown.svg";
 import ArrowRight from "../assets/images/arrow-right.svg";
 import CheckCircleOutlineRoundedIcon from "@mui/icons-material/CheckCircleOutlineRounded";
-
+import { AuthAxios } from "../helpers/axiosInstance";
+import arrowBack from "../assets/images/arrow-back.svg";
 import InputAdornment from "@mui/material/InputAdornment";
 import side from "../assets/images/admin/side.svg";
-import percent from "../assets/images/admin/percent.svg";
 import upcolor from "../assets/images/admin/upcolor.svg";
 import SelectDate from "../components/SelectDate";
 import DoughnutChart from "../components/DoughnutChart";
+import { styled } from "@mui/material/styles";
+import ArrowBackRoundedIcon from "@mui/icons-material/ArrowBackRounded";
+import { useDispatch } from "react-redux";
+import { fillCustomersData } from "../utils/store/merchantSlice";
+import wallet from "../assets/images/generalMerchants/wallet.svg";
+import percent from "../assets/images/generalMerchants/percent.svg";
 import CustomerProfile from "../components/CustomerProfile";
+const Item = styled(Box)(({ theme }) => ({
+  backgroundColor: theme.palette.mode === "dark" ? "#1A2027" : "#fff",
+  ...theme.typography.body2,
+  border: "1px solid #E0E0E0",
+  color: theme.palette.text.secondary,
+  borderRadius: "8px",
+  maxHeight: "100%",
+}));
 const Customer = () => {
+  const dispatch = useDispatch();
+
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(100);
   const [showCustomerProfile, setShowCustomerProfile] = useState(false);
-  const dummyCustomers = [
-    {
-      id: 1,
-      name: "Eleanor Poe",
-      img: "",
+  const [profileAcive, setProfileActive] = useState(false);
+  const [customerData, setCustomerData] = useState([]);
+  const [customerDataById, setCustomerDataById] = useState([]);
+  const {
+    data: customers,
+    error,
+    isLoading,
+  } = useQuery({
+    queryKey: "customers",
+    queryFn: async () => {
+      try {
+        const response = await AuthAxios.get("/admin/user");
+        return response?.data?.data?.records;
+      } catch (error) {
+        throw new Error("Failed to fetch customer data");
+      }
     },
-    {
-      id: 2,
-      name: "Pleanor Poe",
-      img: "",
+    onSuccess: (data) => {
+      console.log(data);
     },
-    {
-      id: 3,
-      name: "Sleanor Poe",
-      img: "",
-    },
-    {
-      id: 4,
-      name: "Bleanor Poe",
-      img: "",
-    },
-    {
-      id: 5,
-      name: "Gleanor Poe",
-      img: "",
-    },
-    {
-      id: 6,
-      name: "Gleanor Poe",
-      img: "",
-    },
-    {
-      id: 7,
-      name: "Gleanor Poe",
-      img: "",
-    },
-    {
-      id: 8,
-      name: "Gleanor Poe",
-      img: "",
-    },
-    {
-      id: 9,
-      name: "Gleanor Poe",
-      img: "",
-    },
-    {
-      id: 10,
-      name: "Gleanor Poe",
-      img: "",
-    },
-    {
-      id: 11,
-      name: "Gleanor Poe",
-      img: "",
-    },
-    {
-      id: 12,
-      name: "Gleanor Poe",
-      img: "",
-    },
-  ];
+    staleTime: 5000, // Cache data for 5 seconds
+  });
+
+  const handleShowCustomerProfile = () => setShowCustomerProfile(true);
+  const handleCloseShowCustomerProfile = () => setShowCustomerProfile(false);
+  const handleOpenCustomerProfile = (id) => {
+    console.log(id);
+    setCustomerDataById(customers[id]);
+    setProfileActive(true);
+    handleShowCustomerProfile();
+  };
+
+  const closeUp = () => {
+    setShowCustomerProfile(false);
+    setProfileActive(false);
+  };
   return (
     <Box
       sx={{
         width: "100%",
-        padding: "1rem",
-        backgroundColor: "#fffcfc",
       }}
     >
-      <SelectDate />
       <Box
         sx={{
-          width: "1080px",
           display: "flex",
-          gap: "2rem",
+          marginLeft: "auto",
+          justifyContent: profileAcive ? "space-between" : "flex-end",
+          width: "100%",
+          gap: "1em",
+          alignItems: "center",
           mb: "1rem",
         }}
       >
-        <Card
-          sx={{
-            display: "flex",
-            flexDirection: "column",
-            padding: "16px",
-            width: "356px",
-            gap: "0.8rem",
-          }}
-        >
-          <Box
-            sx={{
-              display: "flex",
-              alignItems: "center",
-              gap: "15px",
-            }}
-          >
-            <Box
-              sx={{
-                width: "28px",
-                height: "28px",
-              }}
+        {profileAcive && (
+          <Box className="flex items-center gap-1">
+            <span
+              className="flex gap-1 items-center cursor-pointer"
+              onClick={closeUp}
             >
-              <img src={fdown} className="fd" alt="f-down" />
-            </Box>
-            <Typography
-              sx={{
-                fomtWeight: "500",
-                fontSize: "14px",
-                color: "#4F4F4F",
-              }}
-            >
-              Total <br />
-              Inflow
-            </Typography>
-          </Box>
+              <ArrowBackRoundedIcon sx={{ color: "#F78105" }} />
+              <p className="font-[600] text-[#F78105] text-[14px]">Go Back</p>
+            </span>
+            <div className="w-[1px] h-5 bg-[#F78105] mx-1"></div>
+            <span className="flex text-[14px] gap-1 items-center text-slate-400">
+              <PeopleAltOutlinedIcon className="text-slate-400" />
+              Customers
+            </span>
+            <ChevronRightRoundedIcon className="text-[#F78105]" />
 
-          <Box>
-            <Typography
-              sx={{
-                fomtWeight: "600",
-                fontSize: "24px",
-                color: "#1E1E1E",
-              }}
-            >
-              <FormattedPrice amount={2000} />
-            </Typography>
+            <span className="flex gap-1 items-center text-[#F78105]">
+              <PermIdentityOutlinedIcon />
+              {!Array.isArray(customerDataById) &&
+                `${customerDataById?.lastName} ${customerDataById?.firstName}`}
+            </span>
           </Box>
-        </Card>
-        <Card
-          sx={{
-            display: "flex",
-            flexDirection: "column",
-            padding: "16px",
-            width: "356px",
-            gap: "0.8rem",
-          }}
-        >
+        )}
+
+        <Box>
+          <SelectDate />
+        </Box>
+      </Box>
+      {!profileAcive ? (
+        <>
           <Box
             sx={{
+              width: "100%",
               display: "flex",
-              alignItems: "start",
-              justifyContent: "space-between",
-              gap: "15px",
+              gap: "0.5rem",
+              mb: "1rem",
             }}
           >
-            <Box
+            <Card
               sx={{
                 display: "flex",
-                alignItems: "center",
-                gap: "15px",
+                flexDirection: "column",
+                padding: "16px",
+                // width: "356px",
+                width: "100%",
+                gap: "0.8rem",
               }}
             >
               <Box
                 sx={{
-                  width: "28px",
-                  height: "28px",
+                  display: "flex",
+                  alignItems: "center",
+                  gap: "15px",
                 }}
               >
-                <img src={upcolor} className="fd" alt="f-down" />
+                <Box
+                  sx={{
+                    width: "28px",
+                    height: "28px",
+                  }}
+                >
+                  <img src={fdown} className="fd" alt="f-down" />
+                </Box>
+                <Typography
+                  sx={{
+                    fontWeight: 500,
+                    fontSize: "14px",
+                    color: "#4F4F4F",
+                    minHeight: "2.7rem",
+                    display: "flex",
+                    alignItems: "center",
+                  }}
+                >
+                  General Inflow
+                </Typography>
               </Box>
-              <Typography
+
+              <Box className="flex flex-col items-start gap-1 w-full">
+                <Box className="flex flex-col gap-1 items-start">
+                  <Typography
+                    sx={{
+                      fontSize: "20px",
+                      fontWeight: 500,
+                      color: "#000",
+                    }}
+                  >
+                    <FormattedPrice amount={3000000} />
+                  </Typography>
+                </Box>
+              </Box>
+            </Card>
+            <Card
+              sx={{
+                display: "flex",
+                flexDirection: "column",
+                padding: "16px",
+                // width: "356px",
+                width: "100%",
+                gap: "0.8rem",
+              }}
+            >
+              <Box
                 sx={{
-                  fomtWeight: "500",
-                  fontSize: "14px",
-                  color: "#4F4F4F",
+                  display: "flex",
+                  alignItems: "start",
+                  justifyContent: "space-between",
+                  gap: "15px",
                 }}
               >
-                Total <br />
-                Outflow
-              </Typography>
-            </Box>
-          </Box>
+                <Box
+                  sx={{
+                    display: "flex",
+                    alignItems: "center",
+                    gap: "15px",
+                  }}
+                >
+                  <Box
+                    sx={{
+                      width: "28px",
+                      height: "28px",
+                    }}
+                  >
+                    <img src={upcolor} className="fd" alt="f-down" />
+                  </Box>
+                  <Typography
+                    sx={{
+                      fontWeight: "500",
+                      fontSize: "14px",
+                      color: "#4F4F4F",
+                      minHeight: "2.7rem",
+                      display: "flex",
+                      alignItems: "center",
+                    }}
+                  >
+                    General Outflow
+                  </Typography>
+                </Box>
+              </Box>
 
-          <Box>
-            <Typography
+              <Box className="flex flex-col items-start gap-1 w-full">
+                <Box className="flex flex-col gap-2 items-start">
+                  <Typography
+                    sx={{
+                      fontSize: "20px",
+                      fontWeight: 500,
+                      color: "#000",
+                    }}
+                  >
+                    <FormattedPrice amount={3000000} />
+                  </Typography>
+                </Box>
+              </Box>
+            </Card>
+            <Card
               sx={{
-                fomtWeight: "600",
-                fontSize: "24px",
-                color: "##1E1E1E",
+                display: "flex",
+                flexDirection: "column",
+                padding: "16px",
+                // width: "356px",
+                width: "100%",
+                gap: "0.8rem",
               }}
             >
-              <FormattedPrice amount={1000} />
-            </Typography>
+              <Box
+                sx={{
+                  display: "flex",
+                  alignItems: "center",
+                  gap: "15px",
+                }}
+              >
+                <Box
+                  sx={{
+                    width: "28px",
+                    height: "28px",
+                  }}
+                >
+                  <img src={wallet} className="fd" alt="f-down" />
+                </Box>
+                <Typography
+                  sx={{
+                    fontWeight: "500",
+                    fontSize: "14px",
+                    color: "#4F4F4F",
+                  }}
+                >
+                  General Wallet Balance
+                </Typography>
+              </Box>
+
+              <Box className="flex flex-col items-start gap-1 w-full">
+                <Box className="flex flex-col gap-2 items-start">
+                  <Typography
+                    sx={{
+                      fontSize: "20px",
+                      fontWeight: 500,
+                      color: "#000",
+                    }}
+                  >
+                    <FormattedPrice amount={3000000} />
+                  </Typography>
+                </Box>
+              </Box>
+            </Card>
+            <Card
+              sx={{
+                display: "flex",
+                flexDirection: "column",
+                padding: "16px",
+                // width: "356px",
+                width: "100%",
+                gap: "0.8rem",
+              }}
+            >
+              <Box
+                sx={{
+                  display: "flex",
+                  alignItems: "center",
+                  gap: "15px",
+                }}
+              >
+                <Box
+                  sx={{
+                    width: "28px",
+                    height: "28px",
+                  }}
+                >
+                  <img src={percent} className="fd" alt="f-down" />
+                </Box>
+                <Typography
+                  sx={{
+                    fontWeight: "500",
+                    fontSize: "14px",
+                    color: "#4F4F4F",
+                  }}
+                >
+                  {" "}
+                  General Commission
+                </Typography>
+              </Box>
+              <Box className="flex flex-col items-start gap-1 w-full">
+                <Box className="flex flex-col gap-2 items-start">
+                  <Typography
+                    sx={{
+                      fontSize: "20px",
+                      fontWeight: 500,
+                      color: "#000",
+                    }}
+                  >
+                    <FormattedPrice amount={3000000} />
+                  </Typography>
+                </Box>
+              </Box>
+            </Card>
+            <Card
+              sx={{
+                display: "flex",
+                flexDirection: "column",
+                padding: "16px",
+                // width: "356px",
+                width: "100%",
+                gap: "0.8rem",
+              }}
+            >
+              <Box
+                sx={{
+                  display: "flex",
+                  alignItems: "center",
+                  gap: "15px",
+                }}
+              >
+                <Box
+                  sx={{
+                    width: "28px",
+                    height: "28px",
+                  }}
+                >
+                  <img src={profileNew} className="fd" alt="f-down" />
+                </Box>
+                <Typography
+                  sx={{
+                    fontWeight: "500",
+                    fontSize: "14px",
+                    color: "#4F4F4F",
+                  }}
+                >
+                  Total Customers Onboarded{" "}
+                </Typography>
+              </Box>
+              <Box className="flex flex-col items-start gap-1 w-full">
+                <Box className="flex flex-col gap-2 items-start">
+                  <Typography
+                    sx={{
+                      fontSize: "20px",
+                      fontWeight: 500,
+                      color: "#000",
+                    }}
+                  >
+                    4564
+                  </Typography>
+                </Box>
+              </Box>
+            </Card>
           </Box>
-        </Card>
-        <Card
-          sx={{
-            display: "flex",
-            flexDirection: "column",
-            padding: "16px",
-            width: "356px",
-            gap: "0.8rem",
-          }}
-        >
+        </>
+      ) : (
+        <>
           <Box
             sx={{
+              width: "100%",
               display: "flex",
-              alignItems: "center",
-              gap: "15px",
+              gap: "0.5rem",
+              mb: "1rem",
             }}
           >
-            <Box
+            <Card
               sx={{
-                width: "28px",
-                height: "28px",
+                display: "flex",
+                flexDirection: "column",
+                padding: "16px",
+                // width: "356px",
+                width: "100%",
+                gap: "0.8rem",
               }}
             >
-              <img src={percent} className="fd" alt="f-down" />
-            </Box>
-            <Typography
-              sx={{
-                fomtWeight: "500",
-                fontSize: "14px",
-                color: "#4F4F4F",
-              }}
-            >
-              Commission's Total
-              <br />
-              Wallet Balance
-            </Typography>
-          </Box>
+              <Box
+                sx={{
+                  display: "flex",
+                  alignItems: "center",
+                  gap: "15px",
+                }}
+              >
+                <Box
+                  sx={{
+                    width: "28px",
+                    height: "28px",
+                  }}
+                >
+                  <img src={fdown} className="fd" alt="f-down" />
+                </Box>
+                <Typography
+                  sx={{
+                    fontWeight: 500,
+                    fontSize: "14px",
+                    color: "#4F4F4F",
+                  }}
+                >
+                  Customer Inflow
+                </Typography>
+              </Box>
 
-          <Box>
-            <Typography
+              <Box className="flex flex-col items-start gap-1 w-full">
+                <Box className="flex flex-col gap-1 items-start">
+                  <Typography
+                    sx={{
+                      fontSize: "12px",
+                      color: "#4F4F4F",
+                    }}
+                  >
+                    All-Time:
+                  </Typography>
+                  <Typography
+                    sx={{
+                      fontSize: "20px",
+                      fontWeight: 500,
+                      color: "#000",
+                    }}
+                  >
+                    <FormattedPrice amount={3000000} />
+                  </Typography>
+                </Box>
+                <Box className="flex flex-col gap-2 items-start">
+                  <Typography
+                    sx={{
+                      fontSize: "12px",
+                      color: "#4F4F4F",
+                    }}
+                  >
+                    By-Filter:
+                  </Typography>
+                  <Typography
+                    sx={{
+                      fontSize: "20px",
+                      fontWeight: 500,
+                      color: "#000",
+                    }}
+                  >
+                    <FormattedPrice amount={3000000} />
+                  </Typography>
+                </Box>
+              </Box>
+            </Card>
+            <Card
               sx={{
-                fomtWeight: "600",
-                fontSize: "24px",
-                color: "##1E1E1E",
+                display: "flex",
+                flexDirection: "column",
+                padding: "16px",
+                // width: "356px",
+                width: "100%",
+                gap: "0.8rem",
               }}
             >
-              <FormattedPrice amount={Number(200000 || 0)} />
-            </Typography>
-          </Box>
-        </Card>
-        <Card
-          sx={{
-            display: "flex",
-            flexDirection: "column",
-            padding: "16px",
-            width: "356px",
-            gap: "0.8rem",
-          }}
-        >
-          <Box
-            sx={{
-              display: "flex",
-              alignItems: "center",
-              gap: "15px",
-            }}
-          >
-            <Box
-              sx={{
-                width: "28px",
-                height: "28px",
-              }}
-            >
-              <img src={side} className="fd" alt="f-down" />
-            </Box>
-            <Typography
-              sx={{
-                fomtWeight: "500",
-                fontSize: "14px",
-                color: "#4F4F4F",
-              }}
-            >
-              Commission
-              <br />
-              From Customers{" "}
-            </Typography>
-          </Box>
+              <Box
+                sx={{
+                  display: "flex",
+                  alignItems: "start",
+                  justifyContent: "space-between",
+                  gap: "15px",
+                }}
+              >
+                <Box
+                  sx={{
+                    display: "flex",
+                    alignItems: "center",
+                    gap: "15px",
+                  }}
+                >
+                  <Box
+                    sx={{
+                      width: "28px",
+                      height: "28px",
+                    }}
+                  >
+                    <img src={upcolor} className="fd" alt="f-down" />
+                  </Box>
+                  <Typography
+                    sx={{
+                      fomtWeight: "500",
+                      fontSize: "14px",
+                      color: "#4F4F4F",
+                    }}
+                  >
+                    Customer Outflow
+                  </Typography>
+                </Box>
+              </Box>
 
-          <Box>
-            <Typography
+              <Box className="flex flex-col items-start gap-1 w-full">
+                <Box className="flex flex-col gap-1 items-start">
+                  <Typography
+                    sx={{
+                      fontSize: "12px",
+                      color: "#4F4F4F",
+                    }}
+                  >
+                    All-Time:
+                  </Typography>
+                  <Typography
+                    sx={{
+                      fontSize: "20px",
+                      fontWeight: 500,
+                      color: "#000",
+                    }}
+                  >
+                    <FormattedPrice amount={3000000} />
+                  </Typography>
+                </Box>
+                <Box className="flex flex-col gap-2 items-start">
+                  <Typography
+                    sx={{
+                      fontSize: "12px",
+                      color: "#4F4F4F",
+                    }}
+                  >
+                    By-Filter:
+                  </Typography>
+                  <Typography
+                    sx={{
+                      fontSize: "20px",
+                      fontWeight: 500,
+                      color: "#000",
+                    }}
+                  >
+                    <FormattedPrice amount={3000000} />
+                  </Typography>
+                </Box>
+              </Box>
+            </Card>
+            <Card
               sx={{
-                fomtWeight: "600",
-                fontSize: "24px",
-                color: "##1E1E1E",
+                display: "flex",
+                flexDirection: "column",
+                padding: "16px",
+                // width: "356px",
+                width: "100%",
+                gap: "0.8rem",
               }}
             >
-              <FormattedPrice amount={Number(20000 || 0)} />
-            </Typography>
-          </Box>
-        </Card>
-      </Box>
+              <Box
+                sx={{
+                  display: "flex",
+                  alignItems: "center",
+                  gap: "15px",
+                }}
+              >
+                <Box
+                  sx={{
+                    width: "28px",
+                    height: "28px",
+                  }}
+                >
+                  <img src={wallet} className="fd" alt="f-down" />
+                </Box>
+                <Typography
+                  sx={{
+                    fomtWeight: "500",
+                    fontSize: "14px",
+                    color: "#4F4F4F",
+                  }}
+                >
+                  Customer Wallet Balance
+                </Typography>
+              </Box>
 
-      <Box
-        className="w-full overflow-y-s
-      croll max-h-[60vh]"
-      >
+              <Box className="flex flex-col items-start gap-1 w-full">
+                <Box className="flex flex-col gap-1 items-start">
+                  <Typography
+                    sx={{
+                      fontSize: "12px",
+                      color: "#4F4F4F",
+                    }}
+                  >
+                    All-Time:
+                  </Typography>
+                  <Typography
+                    sx={{
+                      fontSize: "20px",
+                      fontWeight: 500,
+                      color: "#000",
+                    }}
+                  >
+                    <FormattedPrice amount={3000000} />
+                  </Typography>
+                </Box>
+                <Box className="flex flex-col gap-2 items-start">
+                  <Typography
+                    sx={{
+                      fontSize: "12px",
+                      color: "#4F4F4F",
+                    }}
+                  >
+                    By-Filter:
+                  </Typography>
+                  <Typography
+                    sx={{
+                      fontSize: "20px",
+                      fontWeight: 500,
+                      color: "#000",
+                    }}
+                  >
+                    <FormattedPrice amount={3000000} />
+                  </Typography>
+                </Box>
+              </Box>
+            </Card>
+            <Card
+              sx={{
+                display: "flex",
+                flexDirection: "column",
+                padding: "16px",
+                // width: "356px",
+                width: "100%",
+                gap: "0.8rem",
+              }}
+            >
+              <Box
+                sx={{
+                  display: "flex",
+                  alignItems: "center",
+                  gap: "15px",
+                }}
+              >
+                <Box
+                  sx={{
+                    width: "28px",
+                    height: "28px",
+                  }}
+                >
+                  <img src={percent} className="fd" alt="f-down" />
+                </Box>
+                <Typography
+                  sx={{
+                    fontWeight: "500",
+                    fontSize: "14px",
+                    color: "#4F4F4F",
+                  }}
+                >
+                  {" "}
+                  Commission
+                </Typography>
+              </Box>
+              <Box className="flex flex-col items-start gap-1 w-full">
+                <Box className="flex flex-col gap-1 items-start">
+                  <Typography
+                    sx={{
+                      fontSize: "12px",
+                      color: "#4F4F4F",
+                    }}
+                  >
+                    All-Time:
+                  </Typography>
+                  <Typography
+                    sx={{
+                      fontSize: "20px",
+                      fontWeight: 500,
+                      color: "#000",
+                    }}
+                  >
+                    <FormattedPrice amount={3000000} />
+                  </Typography>
+                </Box>
+                <Box className="flex flex-col gap-2 items-start">
+                  <Typography
+                    sx={{
+                      fontSize: "12px",
+                      color: "#4F4F4F",
+                    }}
+                  >
+                    By-Filter:
+                  </Typography>
+                  <Typography
+                    sx={{
+                      fontSize: "20px",
+                      fontWeight: 500,
+                      color: "#000",
+                    }}
+                  >
+                    <FormattedPrice amount={3000000} />
+                  </Typography>
+                </Box>
+              </Box>
+            </Card>
+          </Box>
+        </>
+      )}
+
+      {/*  */}
+
+      <Box className="w-full mt-7">
         {!showCustomerProfile ? (
-          <Grid container spacing={2}>
-            <Grid item xs={5}>
+          <Grid container spacing={3}>
+            <Grid item xs={8}>
               <Box className="w-full bg-white rounded-md p-2 flex-col border-grey-400 border-[1px] items-start justify-center">
                 <Box className="flex w-full justify-between items-center">
                   <Typography
                     sx={{
                       color: "#1E1E1E",
                       fontWeight: "500",
-                      fontSize: "15px",
+                      fontSize: "20px",
                       display: "flex",
                       gap: "6px",
                       alignItems: "center",
@@ -352,7 +775,17 @@ const Customer = () => {
                   bg-orange-200 text-orange-500
                  text-[10px]`}
                     >
-                      730
+                      {!isLoading && customers?.length > 0 ? (
+                        customers?.length
+                      ) : (
+                        <CircularProgress
+                          size="1rem"
+                          sx={{
+                            color: "#f78105",
+                            marginLeft: "auto",
+                          }}
+                        />
+                      )}
                     </span>
                   </Typography>
 
@@ -371,6 +804,69 @@ const Customer = () => {
                     download
                   </Button>
                 </Box>
+
+                {/* <div className="flex gap-[5rem]  mt-4 items-center">
+                  <Typography
+                    sx={{
+                      color: "#4F4F4F",
+                      fontWeight: "500",
+                      fontSize: "15px",
+                      display: "flex",
+                      gap: "6px",
+                      alignItems: "center",
+                    }}
+                  >
+                    Suspended Accounts
+                    <span
+                      className={`p-1 px-2 rounded-full 
+                  bg-orange-200 text-orange-500
+                 text-[10px]`}
+                    >
+                      {!isLoading && customers?.length > 0 ? (
+                        // customers?.length
+                        0
+                      ) : (
+                        <CircularProgress
+                          size="1rem"
+                          sx={{
+                            color: "#f78105",
+                            marginLeft: "auto",
+                          }}
+                        />
+                      )}
+                    </span>
+                  </Typography>
+                  <Typography
+                    sx={{
+                      color: "#4F4F4F",
+                      fontWeight: "500",
+                      fontSize: "15px",
+                      display: "flex",
+                      gap: "6px",
+                      alignItems: "center",
+                    }}
+                  >
+                    Reactivated Accounts
+                    <span
+                      className={`p-1 px-2 rounded-full 
+                  bg-orange-200 text-orange-500
+                 text-[10px]`}
+                    >
+                      {!isLoading && customers?.length > 0 ? (
+                        // customers?.length
+                        0
+                      ) : (
+                        <CircularProgress
+                          size="1rem"
+                          sx={{
+                            color: "#f78105",
+                            marginLeft: "auto",
+                          }}
+                        />
+                      )}
+                    </span>
+                  </Typography>
+                </div> */}
 
                 {/* search  */}
                 <Box className="my-[1rem]">
@@ -415,51 +911,37 @@ const Customer = () => {
                     }}
                   />
                 </Box>
-                {/* search ends */}
 
                 {/* customers  */}
-                <Box sx={{ maxHeight: "100vh", overflowY: "scroll" }}>
+                <Box className="max-h-[87vh] overflow-y-auto">
                   <TableContainer component={Paper}>
                     <Table sx={{ minWidth: 100, padding: "8px" }}>
-                      {/* <TableHead
-                sx={{
-                  background: "#F8F8F8",
-                }}
-              >
-                <TableRow>
-                  <TableCell>S/N</TableCell>
-                  <TableCell>Item Name</TableCell>
-                  <TableCell>EAN</TableCell>
-                  <TableCell>Category</TableCell>
-                  <TableCell>Size</TableCell>
-                  <TableCell>Price(N) </TableCell>
-                  <TableCell>Action</TableCell>
-                </TableRow>
-              </TableHead> */}
                       <TableBody>
-                        {!dummyCustomers ? (
+                        {!customers || customers?.length === 0 || isLoading ? (
                           <CircularProgress
                             size="4.2rem"
                             sx={{
-                              color: "#DC0019",
+                              color: "#f78105",
                               marginLeft: "auto",
                               padding: "1em",
                             }}
                           />
-                        ) : dummyCustomers &&
-                          Array.isArray(dummyCustomers) &&
-                          dummyCustomers.length > 0 ? (
-                          dummyCustomers.map((item, i) => (
-                            <TableRow key={item.id}>
-                              <TableCell>
+                        ) : customers &&
+                          Array.isArray(customers) &&
+                          customers?.length > 0 ? (
+                          customers?.map((item, i) => (
+                            <TableRow
+                              key={item.id}
+                              className="cursor-pointer"
+                              onClick={() => handleOpenCustomerProfile(i)}
+                            >
+                              <TableCell sx={{ width: "50px" }}>
                                 {page * rowsPerPage + i + 1}
                               </TableCell>
                               <TableCell>
-                                <Box className="flex items-center gap-2 ml-[-3rem] ">
+                                <Box className="flex items-center gap-2 ">
                                   <Box
                                     sx={{
-                                      height: "40px",
-                                      width: "40px",
                                       border: "1px solid #E0E0E0",
                                       borderRadius: "8px",
                                       p: "5px",
@@ -486,12 +968,19 @@ const Customer = () => {
                                       color: "#828282",
                                     }}
                                   >
-                                    {item?.name}
+                                    {`${item?.lastName}  ${item?.firstName}`}
                                   </Typography>
                                 </Box>
                               </TableCell>
                               <TableCell>
-                                <Box className="cursor-pointer mr-[-12rem]">
+                                <Box
+                                  sx={{
+                                    cursor: "pointer",
+                                    width: "100%",
+                                    display: "flex",
+                                    justifyContent: "end",
+                                  }}
+                                >
                                   <img src={ArrowRight} alt="a-right" />
                                 </Box>
                               </TableCell>
@@ -509,7 +998,7 @@ const Customer = () => {
                   <TablePagination
                     rowsPerPageOptions={[]}
                     component="div"
-                    count={dummyCustomers?.totalCount || 0}
+                    count={customers?.totalCount || 0}
                     rowsPerPage={rowsPerPage}
                     page={page}
                     onPageChange={(event, newPage) => setPage(newPage)}
@@ -519,172 +1008,185 @@ const Customer = () => {
                 {/* customers end */}
               </Box>
             </Grid>
-            <Grid item xs={7}>
-              <Grid container spacing={2}>
-                <Grid item xs={6}>
-                  {" "}
-                  <Box className="w-full bg-white rounded-md p-2 flex-col border-grey-400 border-[1px] items-start justify-center">
-                    <DoughnutChart
-                      title="Customer's Activity"
-                      values={[300, 30]}
-                      label={["Inactive Customers", "Active Customer"]}
-                      color={["#27AE60", "#E52929"]}
-                    />
-                  </Box>
-                </Grid>
-                <Grid item xs={6}>
-                  <Box className="w-full bg-white rounded-md p-2 flex-col border-grey-400 border-[1px] items-start justify-center">
-                    <DoughnutChart
-                      title="Transaction Insight"
-                      values={[300, 30, 50, 20]}
-                      label={[
-                        "Orders",
-                        "Bank Transfer",
-                        "Wallet To wallet",
-                        "Bills",
-                      ]}
-                      color={["#FF4069", "#36A2EB", "#FF9F40", "#27AE60"]}
-                    />
-                  </Box>
-                </Grid>
-                <Grid item xs={12}>
-                  <Box
-                    className="w-full bg-white rounded-md p-2 flex-col border-grey-400
-                border-[1px] items-start justify-center"
-                  >
-                    <Typography
-                      sx={{
-                        color: "#1E1E1E",
-                        fontWeight: "400",
-                        fontSize: "15px",
-                        py: "15px",
-                      }}
-                    >
-                      Customers’ Daily Spending Power
-                    </Typography>
-                    {/* customers  */}
-                    <Box sx={{ maxHeight: "55vh", overflowY: "scroll" }}>
-                      <TableContainer component={Paper}>
-                        <Table sx={{ minWidth: 100, padding: "8px" }}>
-                          <TableHead
-                            sx={{
-                              background: "#F8F8F8",
-                            }}
-                          >
-                            <TableRow>
-                              <TableCell>S/N</TableCell>
-                              <TableCell> Name</TableCell>
-                              <TableCell>Avg.Daily Spending(N)</TableCell>
-                              <TableCell>Action</TableCell>
-                            </TableRow>
-                          </TableHead>
-                          <TableBody>
-                            {!dummyCustomers ? (
-                              <CircularProgress
-                                size="4.2rem"
-                                sx={{
-                                  color: "#DC0019",
-                                  marginLeft: "auto",
-                                  padding: "1em",
-                                }}
-                              />
-                            ) : dummyCustomers &&
-                              Array.isArray(dummyCustomers) &&
-                              dummyCustomers.length > 0 ? (
-                              dummyCustomers.map((item, i) => (
-                                <TableRow key={item.id}>
-                                  <TableCell>
-                                    {page * rowsPerPage + i + 1}
-                                  </TableCell>
-                                  <TableCell>
-                                    <Box className="flex items-center gap-2 ml-[-1rem] ">
-                                      <Box
-                                        sx={{
-                                          height: "40px",
-                                          width: "40px",
-                                          border: "1px solid #E0E0E0",
-                                          borderRadius: "8px",
-                                          p: "5px",
-                                        }}
-                                      >
-                                        {item?.img === "" ? (
-                                          <img
-                                            src={avatar}
-                                            className="cat-img"
-                                            alt="p-img"
-                                          />
-                                        ) : (
-                                          <img
-                                            src={item?.img}
-                                            className="cat-img"
-                                            alt="p-img"
-                                          />
-                                        )}
-                                      </Box>
-                                      <Typography
-                                        sx={{
-                                          fomtWeight: "400",
-                                          fontSize: "16px",
-                                          color: "#828282",
-                                        }}
-                                      >
-                                        {item?.name}
-                                      </Typography>
-                                    </Box>
-                                  </TableCell>
-                                  <TableCell>200,000</TableCell>
-                                  <TableCell>
-                                    <Button
-                                      variant="outlined"
-                                      sx={{
-                                        textTransform: "capitalize",
-                                        display: "flex",
-                                        gap: "4px",
-                                        width: "100px",
-                                        alignItems: "center",
-                                        color: "#ff7f00",
-                                        fontWeight: "400",
-                                        fontSize: "10px",
-                                        border: "1px solid #E0E0E0",
-                                        "&:hover": {
-                                          backgroundColor: "#fff",
-                                          border: "1px solid #E0E0E0",
-                                        },
-                                        // lineHeight: "26.4px",
-                                      }}
-                                    >
-                                      View Profile
-                                    </Button>
-                                  </TableCell>
-                                </TableRow>
-                              ))
-                            ) : (
-                              <TableRow>
-                                <TableCell colSpan="7">No data found</TableCell>
-                              </TableRow>
-                            )}
-                          </TableBody>
-                        </Table>
-                      </TableContainer>
 
-                      <TablePagination
-                        rowsPerPageOptions={[]}
-                        component="div"
-                        count={dummyCustomers?.totalCount || 0}
-                        rowsPerPage={rowsPerPage}
-                        page={page}
-                        onPageChange={(event, newPage) => setPage(newPage)}
-                        // onRowsPerPageChange is removed as the number of rows per page is fixed
-                      />
-                    </Box>
-                    {/* customers end */}
-                  </Box>
-                </Grid>
-              </Grid>
+            <Grid item xs={4}>
+              <Item>
+                <Box sx={{ alignItems: "start", pt: "10px", px: "10px" }}>
+                  <Typography
+                    sx={{
+                      fontWeight: "500",
+                      fontSize: "20px",
+                      color: "#1E1E1E",
+                      py: "10px",
+                    }}
+                  >
+                    General Customer & Activity Status
+                  </Typography>
+                </Box>
+                <div className="w-full  p-3 items-start">
+                  <div className="flex items-start flex-col gap-2 w-full">
+                    <div className="flex items-center gap-2 w-full">
+                      <div className="w-[24px] h-[8px] bg-[#27AE60]"></div>
+
+                      <div className="flex items-center justify-between w-full">
+                        <p className="text-[#828282] font-normal text-[12px]">
+                          General Active Customers [234]
+                        </p>
+                        <span className="text-[#F78105] cursor-pointer text-[12px] hover:text-[#333333]">
+                          View More
+                        </span>
+                      </div>
+                    </div>
+
+                    <div className="flex items-center gap-2 w-full">
+                      <div className="w-[24px] h-[8px] bg-[#E52929]"></div>
+
+                      <div className="flex items-center justify-between w-full">
+                        <p className="text-[#828282] font-normal text-[12px]">
+                          General Inactive Customers [234]
+                        </p>
+                        <span className="text-[#F78105] cursor-pointer text-[12px] hover:text-[#333333]">
+                          View More
+                        </span>
+                      </div>
+                    </div>
+
+                    <div className="flex items-center gap-2 w-full">
+                      <div className="w-[24px] h-[8px] bg-[#BD00FF]"></div>
+
+                      <div className="flex items-center justify-between w-full">
+                        <p className="text-[#828282] font-normal text-[12px]">
+                          General Suspended Customers [234]
+                        </p>
+                        <span className="text-[#F78105] cursor-pointer text-[12px] hover:text-[#333333]">
+                          View More
+                        </span>
+                      </div>
+                    </div>
+                    <div className="flex items-center gap-2 w-full">
+                      <div className="w-[24px] h-[8px] bg-[#1367D8]"></div>
+
+                      <div className="flex items-center justify-between w-full">
+                        <p className="text-[#828282] font-normal text-[12px]">
+                          General Reactivated Customers [234]
+                        </p>
+                        <span className="text-[#F78105] cursor-pointer text-[12px] hover:text-[#333333]">
+                          View More
+                        </span>
+                      </div>
+                    </div>
+                    <div className="flex items-center gap-2 w-full">
+                      <div className="w-[24px] h-[8px] bg-black"></div>
+
+                      <div className="flex items-center justify-between w-full">
+                        <p className="text-[#828282] font-normal text-[12px]">
+                          General Closed Customers [234]
+                        </p>
+                        <span className="text-[#F78105] cursor-pointer text-[12px] hover:text-[#333333]">
+                          View More
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </Item>
+              <Item sx={{ mt: "10px" }}>
+                <Box sx={{ alignItems: "start", pt: "10px", px: "10px " }}>
+                  <Typography
+                    sx={{
+                      fontWeight: "500",
+                      fontSize: "20px",
+                      color: "#1E1E1E",
+                      py: "10px",
+                    }}
+                  >
+                    General Customer Verification Status
+                  </Typography>
+                </Box>
+                <div className="w-full flex gap-5 p-3 items-start">
+                  <div className="flex items-start flex-col gap-2">
+                    <div className="flex items-center gap-2">
+                      <div className="w-[24px] h-[8px] bg-[#27AE60]"></div>
+
+                      <p className="text-[#828282] font-normal text-[12px]">
+                        BVN Verified [234]
+                      </p>
+                    </div>
+
+                    <div className="flex items-center gap-2">
+                      <div className="w-[24px] h-[8px] bg-[#E52929]"></div>
+
+                      <p className="text-[#828282] font-normal text-[12px]">
+                        NIN Verified [234]
+                      </p>
+                    </div>
+
+                    <div className="flex items-center gap-2">
+                      <div className="w-[24px] h-[8px] bg-[#BD00FF]"></div>
+
+                      <p className="text-[#828282] font-normal text-[12px]">
+                        Not Verified [234]
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </Item>
+              <Item sx={{ mt: "10px" }}>
+                <Box sx={{ alignItems: "start", pt: "10px", px: "10px " }}>
+                  <Typography
+                    sx={{
+                      fontWeight: "500",
+                      fontSize: "20px",
+                      color: "#1e1e1e",
+                      py: "10px",
+                    }}
+                  >
+                    General Customer Transaction Insight
+                  </Typography>
+                </Box>
+                <div className="w-full flex gap-5 p-3 items-start">
+                  <div className="flex items-start flex-col gap-2">
+                    <div className="flex items-center gap-2">
+                      <div className="w-[24px] h-[8px] bg-[#27AE60]"></div>
+
+                      <p className="text-[#828282] font-normal text-[12px]">
+                        Inward Transfer [234]
+                      </p>
+                    </div>
+
+                    <div className="flex items-center gap-2">
+                      <div className="w-[24px] h-[8px] bg-[#E52929]"></div>
+
+                      <p className="text-[#828282] font-normal text-[12px]">
+                        Outward Transfer [234]
+                      </p>
+                    </div>
+
+                    <div className="flex items-center gap-2">
+                      <div className="w-[24px] h-[8px] bg-[#BD00FF]"></div>
+
+                      <p className="text-[#828282] font-normal text-[12px]">
+                        Wallet to Wallet [234]
+                      </p>
+                    </div>
+                    <div className="flex items-center gap-2">
+                      <div className="w-[24px] h-[8px] bg-[#BD00FF]"></div>
+
+                      <p className="text-[#828282] font-normal text-[12px]">
+                        Mycliq [234]
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </Item>
             </Grid>
           </Grid>
         ) : (
-          <CustomerProfile />
+          <CustomerProfile
+            customerDataById={customerDataById || []}
+            showCustomerProfile={showCustomerProfile}
+            handleCloseShowCustomerProfile={handleCloseShowCustomerProfile}
+          />
         )}
       </Box>
     </Box>

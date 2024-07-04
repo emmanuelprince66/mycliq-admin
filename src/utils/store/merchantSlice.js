@@ -6,6 +6,7 @@ const merchantSlice = createSlice({
   initialState: {
     userDetails: {},
     transactionDetails: {},
+    customersData:{},
     bankDetails: {},
     selectedDates: {
       startDate: new Date(),
@@ -20,6 +21,9 @@ const merchantSlice = createSlice({
     },
     fillSelectedDates: (state, action) => {
       state.selectedDates = action.payload;
+    },
+    fillCustomersData: (state, action) => {
+      state.customersData = action.payload;
     },
     fillBankDetails: (state, action) => {
       state.bankDetails = action.payload;
@@ -44,6 +48,7 @@ export const {
   fillSelectedDates,
   selectedDates,
   fillBankDetails,
+  fillCustomersData,
   fillBills,
   saveTransactionData,
   userDetails,

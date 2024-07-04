@@ -10,16 +10,28 @@ import SupportIcon from "../assets/images/sidebar/support";
 import Mode from "../assets/images/sidebar/mode";
 import SunIcon from "../assets/images/ColorMode/sun.svg";
 import CabinRoundedIcon from "@mui/icons-material/CabinRounded";
-import Cookies from "js-cookie"
+import Cookies from "js-cookie";
 import checkIcon from "../assets/images/logo.png";
 import LockIcon from "@mui/icons-material/Lock";
 import cliqIcon from "../assets/images/admin/cliqIcon.png";
 import NotificationsRoundedIcon from "@mui/icons-material/NotificationsRounded";
 import AddHomeIcon from "@mui/icons-material/AddHome";
 import PeopleAltRoundedIcon from "@mui/icons-material/PeopleAltRounded";
+import Accordion from "@mui/material/Accordion";
+import AccordionActions from "@mui/material/AccordionActions";
+import AccordionSummary from "@mui/material/AccordionSummary";
+import HomeIcon from "@mui/icons-material/Home";
+import AccordionDetails from "@mui/material/AccordionDetails";
+import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
+import DirectionsCarFilledRoundedIcon from "@mui/icons-material/DirectionsCarFilledRounded";
+import ConfirmationNumberRoundedIcon from "@mui/icons-material/ConfirmationNumberRounded";
+import FestivalRoundedIcon from "@mui/icons-material/FestivalRounded";
+import SummarizeRoundedIcon from "@mui/icons-material/SummarizeRounded";
+import Button from "@mui/material/Button";
 export const Sidebar = () => {
   const navigate = useNavigate();
   const location = window.location.pathname;
+  console.log(location);
   const [theme, setTheme] = useState("dark");
   const mainMenu = [
     {
@@ -29,15 +41,16 @@ export const Sidebar = () => {
       ),
       link: "customers",
     },
+
+    {
+      name: "Merchants",
+      component: <CabinRoundedIcon isRightLink={location === "/merchants"} />,
+      link: "gmerchants",
+    },
     {
       name: "Transactions",
       component: <TransactionIcon isRightLink={location === "/transaction"} />,
       link: "transaction",
-    },
-    {
-      name: "Merchants",
-      component: <CabinRoundedIcon isRightLink={location === "/gmerchants"} />,
-      link: "gmerchants",
     },
     {
       name: "Billers",
@@ -55,6 +68,43 @@ export const Sidebar = () => {
     //   link: "withdrawal",
     // },
   ];
+
+  const generalMerchants = [
+    {
+      name: "General",
+      component: <CabinRoundedIcon isRightLink={location === "/merchants"} />,
+      link: "merchants",
+    },
+    {
+      name: "Vendor",
+      component: <FestivalRoundedIcon isRightLink={location === "/gvendors"} />,
+      link: "gvendors",
+    },
+    {
+      name: "Ticket",
+      component: (
+        <ConfirmationNumberRoundedIcon isRightLink={location === "/gtickets"} />
+      ),
+      link: "gtickets",
+    },
+    {
+      name: "Transportation",
+      component: (
+        <DirectionsCarFilledRoundedIcon
+          isRightLink={location === "/gtransportations"}
+        />
+      ),
+      link: "gtransportations",
+    },
+    {
+      name: "Association",
+      component: (
+        <SummarizeRoundedIcon isRightLink={location === "/gassociations"} />
+      ),
+      link: "gassociations",
+    },
+  ];
+
   const adminMenu = [
     {
       name: "Push Notifications",
@@ -96,11 +146,10 @@ export const Sidebar = () => {
   function logOut() {
     navigate("/");
     Cookies.remove("authToken");
-  Cookies.remove("refreshToken");
-    
+    Cookies.remove("refreshToken");
   }
   return (
-    <aside className="flex h-full pl-[2em] py-[3em]  border-r border-border_light pr-[1em] flex-col bg-white">
+    <aside className="flex h-screen overflow-scroll bg-white pl-[2em] py-[3em]  border-r border-border_light pr-[1em] flex-col ">
       <img src={cliqIcon} className="w-[100px] mt-[-40px] " alt="check icon" />
 
       <div className="pt-5 pb-3  border-b border-solid ">
@@ -123,23 +172,91 @@ export const Sidebar = () => {
         <div>
           {mainMenu.map((item) => {
             return (
-              <div
-                key={item.name}
-                className={`${
-                  location === `/${item.link}`
-                    ? "bg-brown_1  text-white"
-                    : "bg-transparent text-grey_2"
-                } p-2 w-full mb-2  rounded-[10px]`}
-              >
-                <Link
-                  to={`/${item.link}`}
-                  className="flex flex-row items-center gap-2  "
-                >
-                  {item.component}
+              <>
+                {item.name === "Merchants" ? (
+                  <>
+                    <Accordion
+                      sx={{
+                        boxShadow: "none", // Remove box shadow
+                        border: "none",
+                        "&:before": {
+                          display: "none", // Remove the divider line above the expanded accordion
+                        },
+                      }}
+                    >
+                      <AccordionSummary
+                        expandIcon={<ExpandMoreIcon />}
+                        aria-controls="panel1-content"
+                        id="panel1-header"
+                        sx={{
+                          borderBottom: "none", // Remove bottom border of the summary
+                          display: "flex",
+                          alignItems: "center",
+                          width: "100%",
+                          px: "5px",
+                        }}
+                      >
+                        <CabinRoundedIcon
+                          sx={{ marginRight: 1 }}
+                          className="text-grey_2"
+                        />
+                        <p className="text-grey_2 pt-1">{item.name}</p>
+                      </AccordionSummary>
+                      <AccordionDetails
+                        sx={{
+                          borderTop: "none", // Remove top border of the details
+                        }}
+                      >
+                        <div className="W-[70%]">
+                          <ul>
+                            {generalMerchants.map((items) => {
+                              return (
+                                <>
+                                  <li
+                                    key={items.name}
+                                    className={`${
+                                      location === `/${items.link}`
+                                        ? "bg-brown_1  text-white"
+                                        : "bg-transparent text-grey_2"
+                                    } p-2 w-full mb-1  rounded-[10px]`}
+                                  >
+                                    <Link
+                                      to={`/${items.link}`}
+                                      className="flex flex-row items-center gap-2  "
+                                    >
+                                      {items.component}
 
-                  {item.name}
-                </Link>
-              </div>
+                                      {items.name}
+                                    </Link>
+                                  </li>
+                                </>
+                              );
+                            })}
+                          </ul>
+                        </div>
+                      </AccordionDetails>
+                    </Accordion>
+                  </>
+                ) : (
+                  <div
+                    key={item.name}
+                    className={`${
+                      location === `/${item.link}`
+                        ? "bg-brown_1  text-white"
+                        : "bg-transparent text-grey_2"
+                    } p-2 w-full mb-2  rounded-[10px]`}
+                  >
+                    <Link
+                      to={`/${item.link}`}
+                      className="flex flex-row items-center gap-2  "
+                    >
+                      {item.component}
+
+                      {item.name}
+                    </Link>
+                  </div>
+                )}
+              </>
             );
           })}
         </div>

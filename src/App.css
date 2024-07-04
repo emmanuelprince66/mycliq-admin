@@ -19,13 +19,11 @@ button:active {
 ::-webkit-scrollbar {
   width: 6px; /* Set the desired width for the vertical scrollbar */
   height: 0px; /* Set height to 0 to remove horizontal scrollbar */
-}:nth-last-of-type()
-
-
-body {
+}
+:nth-last-of-type() body {
   background-color: #fffcfc;
   min-height: fit-content;
-overflow-y: auto;  
+  overflow-y: auto;
 }
 .fd {
   width: 100%;
@@ -41,4 +39,3 @@ overflow-y: auto;
     transform: translateY(0);
   }
 }
-

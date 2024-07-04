@@ -32,7 +32,7 @@ import successIcon from "../assets/successIcon.svg";
 import PersonOutlineRoundedIcon from "@mui/icons-material/PersonOutlineRounded";
 import { BaseAxios } from "../helpers/axiosInstance";
 
-const AssoContact = ({ onSubmit }) => {
+const VentureContact = ({ onSubmit }) => {
   const [buttonDisabled, setButtonDisabled] = useState(false);
   const [success, setSuccess] = useState(false);
   const handleCloseSuccess = () => setSuccess(false);
@@ -54,35 +54,7 @@ const AssoContact = ({ onSubmit }) => {
     });
   };
   // use mutation hook
-  const registerAssociationMutation = useMutation({
-    mutationFn: async (payLoad) => {
-      try {
-        const response = await BaseAxios({
-          url: "/account/register",
-          method: "POST",
-          data: payLoad,
-        });
-
-        return response.data;
-      } catch (error) {
-        setButtonDisabled(false);
-        notifyError(error?.response?.data?.message);
-        console.log(error);
-        throw new Error(error.response.data.message);
-        // throw new Error(error.response.data.message);
-      }
-    },
-    onSuccess: (data) => {
-      console.log(data);
-      setSuccess(true);
-      setButtonDisabled(false);
-      onStepSubmit();
-    },
-    onError: (error) => {
-      console.log(error);
-      setButtonDisabled(false);
-    },
-  });
+  //
   const {
     handleSubmit,
     control,
@@ -91,35 +63,11 @@ const AssoContact = ({ onSubmit }) => {
   } = useForm({ mode: "all" });
 
   const onStepSubmit = (data) => {
-    onSubmit(data); // Pass data back to parent component
+    const payLoad = {
+      contactPerson: data,
+    };
+    onSubmit(payLoad); // Pass data back to parent component
   };
-
-  // const formSubmit = (data) => {
-  //     const {
-  //       firstName,
-  //       lastName,
-  //       phoneNumberTwo,
-  //       email,
-  //       phoneNumber,
-  //       gender,
-  //     } = data;
-
-  //     const payLoad = {
-  //       firstName,
-  //       lastName,
-  //       phoneNumberTwo,
-  //       email,
-  //       role: "merchant",
-  //       phoneNumber,
-  //       gender: gender,
-  //       isAttendant: true,
-  //     };
-  //     registerAssociationMutation.mutate(payLoad);
-  //     setButtonDisabled(true);
-
-  //     console.log(payLoad)
-
-  // };
 
   return (
     <Box
@@ -312,7 +260,7 @@ const AssoContact = ({ onSubmit }) => {
           Company Phone Number
         </Typography>
         <Controller
-          name="phoneNumber"
+          name="phone"
           control={control}
           defaultValue=""
           rules={{ required: true, minLength: 11, maxLength: 11 }}
@@ -340,9 +288,9 @@ const AssoContact = ({ onSubmit }) => {
                   </InputAdornment>
                 ),
               }}
-              error={!!errors.phoneNumber} // Apply error state based on validation result
+              error={!!errors.phone} // Apply error state based on validation result
               helperText={
-                errors.phoneNumber ? "Phone number must be 11 digits" : null
+                errors.phone ? "Phone number must be 11 digits" : null
               } // Display error message
             />
           )}
@@ -353,7 +301,7 @@ const AssoContact = ({ onSubmit }) => {
           Alt phone Number
         </Typography>
         <Controller
-          name="phoneNumberTwo"
+          name="altPhone"
           control={control}
           defaultValue=""
           rules={{ required: true, minLength: 11, maxLength: 11 }}
@@ -381,9 +329,9 @@ const AssoContact = ({ onSubmit }) => {
                   </InputAdornment>
                 ),
               }}
-              error={!!errors.phoneNumber} // Apply error state based on validation result
+              error={!!errors.altPhone} // Apply error state based on validation result
               helperText={
-                errors.phoneNumber ? "Phone number must be 11 digits" : null
+                errors.altPhone ? "Phone number must be 11 digits" : null
               } // Display error message
             />
           )}
@@ -415,17 +363,14 @@ const AssoContact = ({ onSubmit }) => {
         </Box>
 
         <Button
-          disabled={
-            !isValid || registerAssociationMutation.isLoading || buttonDisabled
-          }
+          disabled={!isValid}
           type="submit"
           sx={{
             background: "#333333",
             padding: "10px",
-            borderRadius: "8px",
+
             mt: "10px",
             width: "100%",
-            color: "#fff",
             "&:hover": {
               backgroundColor: "#333333",
             },
@@ -433,19 +378,16 @@ const AssoContact = ({ onSubmit }) => {
             fontWeight: "500",
           }}
         >
-          {registerAssociationMutation.isLoading || buttonDisabled ? (
-            <CircularProgress size="1.2rem" sx={{ color: "white" }} />
-          ) : (
-            <Typography
-              sx={{
-                fontWeight: "400",
-                fontSize: "16px",
-                color: "#fff",
-              }}
-            >
-              Save and Proceed
-            </Typography>
-          )}
+          <Typography
+            sx={{
+              fontWeight: "400",
+              fontSize: "16px",
+              borderRadius: "8px",
+              color: !isValid ? "grey" : "#fff",
+            }}
+          >
+            Save and Proceed
+          </Typography>
         </Button>
       </form>
 
@@ -544,4 +486,4 @@ const AssoContact = ({ onSubmit }) => {
   );
 };
 
-export default AssoContact;
+export default VentureContact;

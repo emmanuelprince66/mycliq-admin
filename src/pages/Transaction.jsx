@@ -28,7 +28,8 @@ const Transaction= () => {
       try {
         const response = await AuthAxios.get("/user");
         console.log(response);
-        dispatch(fillUserDetails(response.data));
+        
+        // dispatch(fillUserDetails(response.data));
       } catch (error) {
         console.log(error);
       }
@@ -66,10 +67,8 @@ const Transaction= () => {
     <Box
       sx={{
         width: "100%",
-
       }}
     >
-
       <TableCom />
     </Box>
   );

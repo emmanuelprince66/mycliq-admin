@@ -1,6 +1,7 @@
 import React from "react";
 import { useForm } from "react-hook-form";
 import { Button } from "@mui/material";
+import { useState } from "react";
 import {
   Box,
   Typography,
@@ -11,6 +12,7 @@ import {
   MenuItem,
   Modal,
   Select,
+  CircularProgress,
   FormControl,
   Backdrop,
   RadioGroup,
@@ -23,12 +25,19 @@ import LocalPhoneOutlinedIcon from "@mui/icons-material/LocalPhoneOutlined";
 import CabinRoundedIcon from "@mui/icons-material/CabinRounded";
 import TableRestaurantRoundedIcon from "@mui/icons-material/TableRestaurantRounded";
 import info from "../assets/images/admin/info.svg";
+import { useMutation, useQuery } from "@tanstack/react-query";
+import { BaseAxios } from "../helpers/axiosInstance";
+import Cookies from "js-cookie";
+
 
 import { Controller } from "react-hook-form";
 
 import PersonOutlineRoundedIcon from "@mui/icons-material/PersonOutlineRounded";
 
-const AssoBank = ({ onSubmit , handleBack }) => {
+const BankDetailsForm = () => {
+  const [showSpinner, setShowSpinner] = useState(false);
+
+const token = Cookies.get("authToken")
   const {
     handleSubmit,
     control,
@@ -36,14 +45,61 @@ const AssoBank = ({ onSubmit , handleBack }) => {
     formState: { isValid, errors },
   } = useForm({ mode: "all" });
 
-  const onStepSubmit = (data) => {
-    onSubmit(data); // Pass data back to parent component
+
+    const notifyError = (msg) => {
+      toast.error(msg, {
+        position: toast.POSITION.TOP_RIGHT,
+        autoClose: 6000, // Time in milliseconds
+      });
+    };
+    // use mutation hook
+    const registerBankDetailsMutation = useMutation({
+      mutationFn: async (payLoad) => {
+        try {
+          const response = await BaseAxios({
+            url: "",
+            method: "POST",
+            data: payLoad,
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          });
+
+          return response.data;
+        } catch (error) {
+          notifyError(error?.response?.data?.message);
+          console.log(error);
+          setShowSpinner(false);
+          handleReset();
+          throw new Error(error.response.data.message);
+          // throw new Error(error.response.data.message);
+        }
+      },
+      onSuccess: (data) => {
+        console.log(data);
+        setSuccess(true);
+        setShowSpinner(false);
+        handleReset();
+      },
+      onError: (error) => {
+        console.log(error);
+        setShowSpinner(false);
+        handleReset();
+      },
+    });
+
+  const handleFormSubmit = (data) => {
+  console.log(data)
   };
+
+
+
 
   return (
     <Box
       sx={{
-        width: "100%",
+        width: "55%",
+        margin: "auto",
         display: "flex",
         flexDirection: "column",
         alignItems: "center",
@@ -57,7 +113,7 @@ const AssoBank = ({ onSubmit , handleBack }) => {
       <Typography sx={{ color: "#C57600", fontWeight: "500" }}>
         DESIGNATED BANK ACCOUNT
       </Typography>
-      <form onSubmit={handleSubmit(onStepSubmit)} className="w-full">
+      <form onSubmit={handleSubmit(handleFormSubmit)} className="w-full">
         <Typography
           sx={{ color: "#344054", fontSize: "14px", mt: "20px", mb: "5px" }}
         >
@@ -191,7 +247,7 @@ const AssoBank = ({ onSubmit , handleBack }) => {
           )}
         />
         <Button
-          disabled={!isValid}
+        disabled={showSpinner || registerBankDetailsMutation.isLoading}
           type="submit"
           sx={{
             background: "#333333",
@@ -207,30 +263,15 @@ const AssoBank = ({ onSubmit , handleBack }) => {
             fontWeight: "500",
           }}
         >
-          Submit
-        </Button>
-        <Button
-        onClick={handleBack}
-          sx={{
-            width: "50%",
-            my: "10px",
-            mx: "auto",
-            padding: "10px",
-            borderRadius: "8px",
-            color: "#333333",
-            borderColor: "#ff7f00",
-            textTransform: "none",
-            "&:hover": {
-              borderColor: "#ff7f00",
-            },
-          }}
-          variant="outlined"
-        >
-          Back
+          {showSpinner || registerBankDetailsMutation.isLoading ? (
+            <CircularProgress size="1.2rem" sx={{ color: "white" }} />
+          ) : (
+            "Submit"
+          )}
         </Button>
       </form>
     </Box>
   );
 };
 
-export default AssoBank;
+export default BankDetailsForm;

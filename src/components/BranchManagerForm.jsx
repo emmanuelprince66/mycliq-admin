@@ -47,8 +47,6 @@ const BranchManagerForm = ({ onSubmit }) => {
         alignItems: "center",
         justifyContent: "content",
         my: "3rem",
-        overflowY: "scroll",
-        maxHeight: "70vh",
         pb: "2rem",
       }}
     >
