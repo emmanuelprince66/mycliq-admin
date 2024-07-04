@@ -19,7 +19,7 @@ import EmailOutlinedIcon from "@mui/icons-material/EmailOutlined";
 
 import { Input } from "@mui/icons-material";
 
-const AssoIimage = ({ onSubmit , handleBack , showSpinner }) => {
+const AssoIimage = ({ onSubmit, handleBack, showSpinner }) => {
   const [imagePreview, setImagePreview] = useState(null);
   const {
     handleSubmit,
@@ -29,48 +29,44 @@ const AssoIimage = ({ onSubmit , handleBack , showSpinner }) => {
   } = useForm({ mode: "all" });
 
   const handleImageChange = (e) => {
-    console.log("handleImageChange called"); // Add this line
     const file = e.target.files[0];
 
-    console.log(file, "hello");
     if (file && file.type.substr(0, 5) === "image") {
       setImagePreview(URL.createObjectURL(file));
     } else {
       setImagePreview(null);
     }
   };
-const onStepSubmit = async (data, formPayLoad) => {
-  // Create a new FormData object
-  console.log(data);
-  console.log(formPayLoad);
-  const formData = new FormData();
+  const onStepSubmit = async (data, formPayLoad) => {
+    // Create a new FormData object
+    const formData = new FormData();
 
-  // Append form data to the FormData object
-  Object.keys(data).forEach((key) => {
-    formData.append(key, data[key]);
-  });
-
-  // Append the image file to the FormData object
-  if (imagePreview) {
-    const file = await fetch(imagePreview).then((r) => r.blob());
-    const reader = new FileReader();
-    reader.readAsDataURL(file);
-    const venturesLogo = await new Promise((resolve) => {
-      reader.onloadend = () => {
-        resolve(reader.result);
-      };
+    // Append form data to the FormData object
+    Object.keys(data).forEach((key) => {
+      formData.append(key, data[key]);
     });
 
-    const formDatta = {
-      ...data,
-      venturesLogo, // This will be a string
-      tags: ["association"],
-    };
+    // Append the image file to the FormData object
+    if (imagePreview) {
+      const file = await fetch(imagePreview).then((r) => r.blob());
+      const reader = new FileReader();
+      reader.readAsDataURL(file);
+      const venturesLogo = await new Promise((resolve) => {
+        reader.onloadend = () => {
+          resolve(reader.result);
+        };
+      });
 
-    // Call the onSubmit function with the FormData object
-    onSubmit(formDatta);
-  }
-};
+      const formDatta = {
+        ...data,
+        venturesLogo, // This will be a string
+        tags: ["association"],
+      };
+
+      // Call the onSubmit function with the FormData object
+      onSubmit(formDatta);
+    }
+  };
   return (
     <Box
       sx={{
@@ -80,7 +76,7 @@ const onStepSubmit = async (data, formPayLoad) => {
         alignItems: "center",
         justifyContent: "content",
         my: "3rem",
-        height:"100%",
+        height: "100%",
         pb: "2rem",
       }}
     >

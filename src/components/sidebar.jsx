@@ -31,7 +31,6 @@ import Button from "@mui/material/Button";
 export const Sidebar = () => {
   const navigate = useNavigate();
   const location = window.location.pathname;
-  console.log(location);
   const [theme, setTheme] = useState("dark");
   const mainMenu = [
     {

@@ -30,11 +30,8 @@ const Students = () => {
     async function getUserDetails() {
       try {
         const response = await AuthAxios.get("/user");
-        console.log(response);
         dispatch(fillUserDetails(response.data));
-      } catch (error) {
-        console.log(error);
-      }
+      } catch (error) {}
     }
     getUserDetails();
   }, [dispatch]);
@@ -46,8 +43,6 @@ const Students = () => {
       key: "selection",
     };
     setSelectedRange(dateRange);
-
-    console.log("Selected Date Range:", ranges);
   }
   const modStartDate = new Date(selectedDates.startDate).toLocaleDateString();
   const modEndDate = new Date(selectedDates.endDate).toLocaleDateString();

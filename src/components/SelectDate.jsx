@@ -13,7 +13,6 @@ import { parse } from "date-fns";
 const SelectDate = () => {
   const { selectedDates } = useSelector((state) => state);
   const dispatch = useDispatch();
-  console.log(selectedDates);
 
   const current = new Date();
   const timeZone = "Africa/Lagos"; // Nigerian time zone
@@ -35,7 +34,6 @@ const SelectDate = () => {
     new Date()
   );
 
-  console.log(startOfMonth, endOfMonth);
   const [dateVisible, setDateVisible] = useState(false);
   const [selectedRange, setSelectedRange] = useState({
     startDate: selectedDates.startDate,
@@ -47,11 +45,8 @@ const SelectDate = () => {
     async function getUserDetails() {
       try {
         const response = await AuthAxios.get("/user");
-        console.log(response);
         dispatch(fillUserDetails(response.data));
-      } catch (error) {
-        console.log(error);
-      }
+      } catch (error) {}
     }
     getUserDetails();
   }, [dispatch]);
@@ -64,14 +59,9 @@ const SelectDate = () => {
     };
 
     setSelectedRange(dateRange);
-
-    console.log("Selected Date Range:", ranges);
   }
   const modStartDate = new Date(selectedDates.startDate).toLocaleDateString();
   const modEndDate = new Date(selectedDates.endDate).toLocaleDateString();
-
-  console.log(modStartDate, modEndDate);
-  console.log(selectedRange);
 
   function openDateRange() {
     setDateVisible(!dateVisible);
@@ -80,10 +70,6 @@ const SelectDate = () => {
     // setDateVisible(!dateVisible);
   }
   function handleDateChange() {
-    console.log(
-      new Date(selectedRange.startDate).toLocaleDateString(),
-      new Date(selectedRange.endDate).toLocaleDateString()
-    );
     dispatch(
       fillSelectedDates({
         startDate: new Date(selectedRange.startDate),

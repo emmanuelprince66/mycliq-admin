@@ -29,7 +29,6 @@ import { useMutation, useQuery } from "@tanstack/react-query";
 import { BaseAxios } from "../helpers/axiosInstance";
 import Cookies from "js-cookie";
 
-
 import { Controller } from "react-hook-form";
 
 import PersonOutlineRoundedIcon from "@mui/icons-material/PersonOutlineRounded";
@@ -37,7 +36,7 @@ import PersonOutlineRoundedIcon from "@mui/icons-material/PersonOutlineRounded";
 const BankDetailsForm = () => {
   const [showSpinner, setShowSpinner] = useState(false);
 
-const token = Cookies.get("authToken")
+  const token = Cookies.get("authToken");
   const {
     handleSubmit,
     control,
@@ -45,55 +44,46 @@ const token = Cookies.get("authToken")
     formState: { isValid, errors },
   } = useForm({ mode: "all" });
 
-
-    const notifyError = (msg) => {
-      toast.error(msg, {
-        position: toast.POSITION.TOP_RIGHT,
-        autoClose: 6000, // Time in milliseconds
-      });
-    };
-    // use mutation hook
-    const registerBankDetailsMutation = useMutation({
-      mutationFn: async (payLoad) => {
-        try {
-          const response = await BaseAxios({
-            url: "",
-            method: "POST",
-            data: payLoad,
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
-          });
-
-          return response.data;
-        } catch (error) {
-          notifyError(error?.response?.data?.message);
-          console.log(error);
-          setShowSpinner(false);
-          handleReset();
-          throw new Error(error.response.data.message);
-          // throw new Error(error.response.data.message);
-        }
-      },
-      onSuccess: (data) => {
-        console.log(data);
-        setSuccess(true);
-        setShowSpinner(false);
-        handleReset();
-      },
-      onError: (error) => {
-        console.log(error);
-        setShowSpinner(false);
-        handleReset();
-      },
+  const notifyError = (msg) => {
+    toast.error(msg, {
+      position: toast.POSITION.TOP_RIGHT,
+      autoClose: 6000, // Time in milliseconds
     });
-
-  const handleFormSubmit = (data) => {
-  console.log(data)
   };
+  // use mutation hook
+  const registerBankDetailsMutation = useMutation({
+    mutationFn: async (payLoad) => {
+      try {
+        const response = await BaseAxios({
+          url: "",
+          method: "POST",
+          data: payLoad,
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
 
+        return response.data;
+      } catch (error) {
+        notifyError(error?.response?.data?.message);
+        setShowSpinner(false);
+        handleReset();
+        throw new Error(error.response.data.message);
+        // throw new Error(error.response.data.message);
+      }
+    },
+    onSuccess: (data) => {
+      setSuccess(true);
+      setShowSpinner(false);
+      handleReset();
+    },
+    onError: (error) => {
+      setShowSpinner(false);
+      handleReset();
+    },
+  });
 
-
+  const handleFormSubmit = (data) => {};
 
   return (
     <Box
@@ -247,7 +237,7 @@ const token = Cookies.get("authToken")
           )}
         />
         <Button
-        disabled={showSpinner || registerBankDetailsMutation.isLoading}
+          disabled={showSpinner || registerBankDetailsMutation.isLoading}
           type="submit"
           sx={{
             background: "#333333",

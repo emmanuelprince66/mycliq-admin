@@ -114,7 +114,6 @@ const TableStudents = () => {
         });
 
         if (response) {
-          console.log(response);
           setLoading(false);
 
           const paidData = response?.data?.queryResult.filter(
@@ -145,13 +144,10 @@ const TableStudents = () => {
 
           // Apply specific filters (transactions, paid, verified)
           if (showPaid === "paid") {
-            console.log("paid");
             filteredItems = filteredItems.filter(
               (item) => item?.remittance?.paymentStatus === "PAID"
             );
           } else if (showPaid === "verified") {
-            console.log("verif");
-
             filteredItems = filteredItems.filter(
               (item) => item?.remittance?.paymentStatus === "VERIFIED"
             );
@@ -176,7 +172,6 @@ const TableStudents = () => {
           dispatch(saveTransactionData(response?.data));
         }
       } catch (error) {
-        console.log(error);
         if (error.response && error.response.status === 401) {
           navigate("/");
           localStorage.clear();

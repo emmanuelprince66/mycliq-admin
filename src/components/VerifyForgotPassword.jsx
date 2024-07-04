@@ -136,19 +136,16 @@ const VerifyForgotPassword = ({ phoneNo, setShowOTP, setShowVerifyUser }) => {
 
   const mutationOTP = useMutation({
     mutationFn: async (phone) => {
-      console.log(phoneNo);
       try {
         const response = await axios.post(
-          "https://mycliq-staging-6cffceb00c13.herokuapp.com/api/auth/request-otp",
+          "https://mycliq-backend-prod-a.onrender.com/api/auth/password-reset",
           {
             phone: phone, // Replace with your phone data
-            otpType: "password-reset",
           }
         );
 
         return response.data;
       } catch (error) {
-        console.log(error);
         setDisableButton(false);
         notifyErr(error.response.data.message);
         throw new Error(error.response);
@@ -161,7 +158,6 @@ const VerifyForgotPassword = ({ phoneNo, setShowOTP, setShowVerifyUser }) => {
       // Handle success, update state, or perform further actions
     },
     onError: (error) => {
-      console.log(error);
       setButtonDisabled(false);
       //   notifyError(String(error));
     },
@@ -188,7 +184,7 @@ const VerifyForgotPassword = ({ phoneNo, setShowOTP, setShowVerifyUser }) => {
     mutationFn: async (code) => {
       try {
         const response = await axios.post(
-          "https://mycliq-staging-6cffceb00c13.herokuapp.com/api/auth/verify-otp",
+          "https://mycliq-backend-prod-a.onrender.com/api/account/verify-pin",
           {
             code: code,
             phone: phoneNo, // Replace with your phone data
@@ -203,15 +199,12 @@ const VerifyForgotPassword = ({ phoneNo, setShowOTP, setShowVerifyUser }) => {
 
         return response.data;
       } catch (error) {
-        console.log(error.response.data.message);
         setDisableButton(false);
         notifyErr(error.response.data.message);
         throw new Error(error.response);
       }
     },
     onSuccess: (response) => {
-      console.log(response);
-      console.log("hello");
       setShowVerifyOTP(false);
       setDisableButton(false);
       notify(response.message);
@@ -232,12 +225,10 @@ const VerifyForgotPassword = ({ phoneNo, setShowOTP, setShowVerifyUser }) => {
 
     // Loop through each instance and perform the check
     const allPinsEntered = pins.every((pin) => pin !== "");
-    console.log(allPinsEntered);
 
     if (allPinsEntered) {
       // api call
       const verifyPinsOTP = pins.join("");
-      console.log(verifyPinsOTP);
       mutationVerifyOTP.mutate(verifyPinsOTP);
     } else {
       notifyErr("Please enter all six PIN digits.");

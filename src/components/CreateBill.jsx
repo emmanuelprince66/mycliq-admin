@@ -60,17 +60,15 @@ const CreateBill = () => {
         expiryDate: pickedDate,
       };
       const response = await AuthAxios.post("association-bill/add", form);
-      console.log(response);
       if (response.status === 201) {
         setOpen1(true);
         setOpen2(false);
         reset();
-        setLoading(false)
-        setPickedDate(new Date())
+        setLoading(false);
+        setPickedDate(new Date());
       }
     } catch (error) {
-      console.log(error);
-      setLoading(false)
+      setLoading(false);
     }
   };
   const {
@@ -88,11 +86,8 @@ const CreateBill = () => {
   }, [billName, fresherAmount, staylitesAmount]);
 
   const handleFormSubmit = (value) => {
-    console.log(value);
     setFormContent(value);
-    console.log(pickedDate);
     const dateForForm = new Date(pickedDate).toISOString();
-    console.log(dateForForm);
     setDateToBeSent(dateForForm);
     setOpen2(true);
   };
@@ -541,7 +536,8 @@ const CreateBill = () => {
                 lineHeight: "24px",
               }}
             >
-              Are you sure you want to create the new bill {`"${formContent.billName}"`}?
+              Are you sure you want to create the new bill{" "}
+              {`"${formContent.billName}"`}?
             </Typography>
 
             <Box

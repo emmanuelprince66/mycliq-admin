@@ -111,8 +111,6 @@ const CustomerProfile = ({
   showCustomerProfile,
   handleCloseShowCustomerProfile,
 }) => {
-  console.log(customerDataById);
-
   const {
     data: customerTrx,
     error,
@@ -124,19 +122,14 @@ const CustomerProfile = ({
         const response = await AuthAxios.get(
           `/admin/trx/${customerDataById?.id}`
         );
-        console.log(response);
         return response?.data?.data?.records;
       } catch (error) {
         throw new Error("Failed to fetch customer data");
       }
     },
-    onSuccess: (data) => {
-      console.log(data);
-    },
+    onSuccess: (data) => {},
     staleTime: 5000, // Cache data for 5 seconds
   });
-
-  console.log(customerTrx);
 
   const [showProfileDetails, setShowProfileDetails] = useState(false);
   const handleCloseProfileDetails = () => setShowProfileDetails(false);

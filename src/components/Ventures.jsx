@@ -24,18 +24,16 @@ import VentureContact from "./VentureContact";
 import VentureImage from "./VentureImage";
 import VentureBank from "./VentureBank";
 
-
-
 // const steps = ["Step 1", "Step 2"];
 const steps = ["Step 1", "Step 2", "Step 3"];
 
 const Ventures = () => {
-const token = Cookies.get("authToken")
+  const token = Cookies.get("authToken");
   const [activeStep, setActiveStep] = useState(0);
   const [completedSteps, setCompletedSteps] = useState(new Set()); // Step 1
   const [collectedData, setCollectedData] = useState({});
   const [resetForm, setResetForm] = useState(false);
-  const [showSpinner , setShowSpinner] = useState(false)
+  const [showSpinner, setShowSpinner] = useState(false);
 
   const CustomStepConnector = () => (
     <StepConnector
@@ -72,26 +70,21 @@ const token = Cookies.get("authToken")
         return response.data;
       } catch (error) {
         notifyError(error?.response?.data?.message);
-        console.log(error);
         setShowSpinner(false);
-        handleReset()
+        handleReset();
         throw new Error(error.response.data.message);
         // throw new Error(error.response.data.message);
       }
     },
     onSuccess: (data) => {
-      console.log(data);
-      notifySuccess(data?.message)
+      notifySuccess(data?.message);
       // setSuccess(true);
       setShowSpinner(false);
       handleReset();
-      
     },
     onError: (error) => {
-      console.log(error);
       setShowSpinner(false);
       handleReset();
-      
     },
   });
   const handleNext = (data) => {
@@ -101,14 +94,10 @@ const token = Cookies.get("authToken")
     setCompletedSteps((prev) => new Set(prev).add(activeStep)); // Step 2
 
     if (activeStep === steps.length - 1) {
-      console.log("Final submission data:", newData);
-      
-      console.log(newData)
-      registerVenturesMutation.mutate(newData)
-      setShowSpinner(true)
+      registerVenturesMutation.mutate(newData);
+      setShowSpinner(true);
 
       //   setResetForm(true);
-
     } else {
       setActiveStep((prevActiveStep) => prevActiveStep + 1);
     }
@@ -128,19 +117,17 @@ const token = Cookies.get("authToken")
   const getStepContent = (step) => {
     switch (step) {
       case 0:
-        return <VentureContact onSubmit={handleNext} 
-        />;
+        return <VentureContact onSubmit={handleNext} />;
       case 1:
+        return <VentureImage onSubmit={handleNext} handleBack={handleBack} />;
+      case 2:
         return (
-          <VentureImage
+          <VentureBank
             onSubmit={handleNext}
             handleBack={handleBack}
+            showSpinner={showSpinner}
           />
         );
-      case 2:
-        return <VentureBank onSubmit={handleNext} handleBack={handleBack} 
-        showSpinner={showSpinner}
-        />;
       default:
         return null;
     }

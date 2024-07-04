@@ -80,16 +80,13 @@ const Customer = () => {
         throw new Error("Failed to fetch customer data");
       }
     },
-    onSuccess: (data) => {
-      console.log(data);
-    },
+    onSuccess: (data) => {},
     staleTime: 5000, // Cache data for 5 seconds
   });
 
   const handleShowCustomerProfile = () => setShowCustomerProfile(true);
   const handleCloseShowCustomerProfile = () => setShowCustomerProfile(false);
   const handleOpenCustomerProfile = (id) => {
-    console.log(id);
     setCustomerDataById(customers[id]);
     setProfileActive(true);
     handleShowCustomerProfile();

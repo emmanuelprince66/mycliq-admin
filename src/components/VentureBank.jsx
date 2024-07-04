@@ -87,7 +87,6 @@ const VentureBank = ({ onSubmit, handleBack, showSpinner }) => {
         //   throw new Error(response.data.message);
         // }
 
-        console.log(response);
         return response;
       } catch (error) {
         setVerifyError(error?.response?.data?.message);
@@ -102,12 +101,9 @@ const VentureBank = ({ onSubmit, handleBack, showSpinner }) => {
       setVerifyLoading(false);
       // Handle success, update state, or perform further actions
     },
-    onError: (error) => {
-      console.log(error);
-    },
+    onError: (error) => {},
   });
 
-  console.log(acctName);
   // Fetch Bank Details
   const handleSetBankDetails = (bcode, bname) => {
     setBankCode(bcode);
@@ -161,7 +157,6 @@ const VentureBank = ({ onSubmit, handleBack, showSpinner }) => {
 
   const onStepSubmit = (data) => {
     onSubmit(data); // Pass data back to parent component
-    console.log(data);
   };
 
   useEffect(() => {
@@ -196,7 +191,6 @@ const VentureBank = ({ onSubmit, handleBack, showSpinner }) => {
       bankCode: bankCode,
     };
 
-    console.log(formData);
     const payload = {
       bankAccount: formData,
     };

@@ -68,7 +68,6 @@ export const Login = () => {
   };
   const loginMutation = useMutation({
     mutationFn: async (formData) => {
-      console.log(formData);
       try {
         const response = await BaseAxios({
           url: "/auth/login",
@@ -82,17 +81,14 @@ export const Login = () => {
 
         return response;
       } catch (error) {
-        console.log(error);
         throw new Error(error.response.data.message);
       }
     },
     onSuccess: (data) => {
-      console.log("Login successful:", data);
       navigate("/overview");
 
       // Store data in cookies
 
-      console.log(data?.data?.data?.access_token);
       Cookies.set("authToken", data?.data?.data?.access_token);
       Cookies.set("refreshToken", data?.data?.data?.refreshToken);
       // Cookies.set("companyName", data.companyName);
@@ -116,10 +112,8 @@ export const Login = () => {
 
   const onSubmit = (formData) => {
     // Handle form submission here
-    console.log("Form data:", formData);
 
     setButtonDisabled(true);
-    console.log(formData);
 
     // Call the mutation to trigger the login process
     loginMutation.mutate(formData);

@@ -45,7 +45,6 @@ const VerifyOTP = ({ setShowVerifyUser, setShowLoginImage }) => {
         });
         return response.data;
       } catch (error) {
-        console.log(error);
         setDisableButton(false);
         notifyErr(error.response.data.message);
         throw new Error(error.response);
@@ -58,7 +57,6 @@ const VerifyOTP = ({ setShowVerifyUser, setShowLoginImage }) => {
       // Handle success, update state, or perform further actions
     },
     onError: (error) => {
-      console.log(error);
       setButtonDisabled(false);
       //   notifyError(String(error));
     },
@@ -67,12 +65,10 @@ const VerifyOTP = ({ setShowVerifyUser, setShowLoginImage }) => {
   const handleGetOTP = () => {
     setDisableButton(true);
     if (phoneNo && phoneNo.length === 11) {
-    
-    const payload  = {
-    phone : phoneNo
-    }
+      const payload = {
+        phone: phoneNo,
+      };
       mutationOTP.mutate(payload);
-      
     } else if (phoneNo.length < 11) {
       notifyErr("Phone number is too short");
       setDisableButton(false);
@@ -300,7 +296,6 @@ const VerifyOTP = ({ setShowVerifyUser, setShowLoginImage }) => {
               </Box>
             </Button>
           </Box>
-
 
           <ToastContainer />
         </Box>

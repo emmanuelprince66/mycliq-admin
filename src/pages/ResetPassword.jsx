@@ -54,11 +54,9 @@ const ResetPassword = () => {
     if (newPasswordInput === value) {
       setConfirmError("");
       setTextThree(false);
-      console.log("bey");
     } else {
       setConfirmError("Password do not match");
       setTextThree(true);
-      console.log("hey");
     }
   };
   const handleClickShowPassword = () => setShowPassword((show) => !show);
@@ -172,7 +170,6 @@ const ResetPassword = () => {
       // Handle success, update state, or perform further actions
     },
     onError: (error) => {
-      console.log(error);
       setButtonDisabled(false);
       //   notifyError(String(error));
     },
@@ -241,11 +238,10 @@ const ResetPassword = () => {
       return;
     }
     if (newPasswordInput === confirmPasswordInput) {
-    
-    const payload = {
-      currentPassword:currentPasswordInput,
-      newPassword:newPasswordInput
-      }
+      const payload = {
+        currentPassword: currentPasswordInput,
+        newPassword: newPasswordInput,
+      };
 
       mutationReset.mutate(payload);
     } else {

@@ -6,14 +6,14 @@ import "react-date-range/dist/theme/default.css";
 import { Box, Button, Typography } from "@mui/material";
 import { CalendarMonthOutlined } from "@mui/icons-material";
 import { Calendar, DateRangePicker } from "react-date-range";
-import AccountCircleIcon from '@mui/icons-material/AccountCircle';
+import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import { useDispatch } from "react-redux";
 import { fillSelectedDates } from "../utils/store/merchantSlice";
 import { fillUserDetails } from "../utils/store/merchantSlice";
-import ArrowForwardIosRoundedIcon from '@mui/icons-material/ArrowForwardIosRounded';
+import ArrowForwardIosRoundedIcon from "@mui/icons-material/ArrowForwardIosRounded";
 import { useSelector } from "react-redux";
 
-const Transaction= () => {
+const Transaction = () => {
   const [dateVisible, setDateVisible] = useState(false);
   const [selectedRange, setSelectedRange] = useState({
     startDate: new Date(),
@@ -27,12 +27,9 @@ const Transaction= () => {
     async function getUserDetails() {
       try {
         const response = await AuthAxios.get("/user");
-        console.log(response);
-        
+
         // dispatch(fillUserDetails(response.data));
-      } catch (error) {
-        console.log(error);
-      }
+      } catch (error) {}
     }
     getUserDetails();
   }, [dispatch]);
@@ -44,8 +41,6 @@ const Transaction= () => {
       key: "selection",
     };
     setSelectedRange(dateRange);
-
-    console.log("Selected Date Range:", ranges);
   }
   const modStartDate = new Date(selectedDates.startDate).toLocaleDateString();
   const modEndDate = new Date(selectedDates.endDate).toLocaleDateString();
@@ -54,15 +49,18 @@ const Transaction= () => {
     setDateVisible(!dateVisible);
   }
   function showChange(data) {
-  setDateVisible(!dateVisible);
+    setDateVisible(!dateVisible);
   }
-  function handleDateChange(){
+  function handleDateChange() {
     dispatch(
-      fillSelectedDates({ startDate: new Date( selectedRange.startDate).toLocaleDateString(), endDate: new Date( selectedRange.endDate).toLocaleDateString() })
-    )
+      fillSelectedDates({
+        startDate: new Date(selectedRange.startDate).toLocaleDateString(),
+        endDate: new Date(selectedRange.endDate).toLocaleDateString(),
+      })
+    );
     setDateVisible(false);
   }
-  
+
   return (
     <Box
       sx={{

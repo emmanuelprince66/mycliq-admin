@@ -99,7 +99,6 @@ const TableCom = () => {
 
   const handleSearchChange = (event) => {
     setSearchTerm(event.target.value);
-    console.log(searchTerm);
     setPage(0);
   };
 
@@ -120,8 +119,6 @@ const TableCom = () => {
   const dispatch = useDispatch();
   const { transactionDetails } = useSelector((state) => state);
 
-  console.log(transactionDetails);
-
   const handleTransactionFilter = (val) => {
     setTransactionFilter(val);
   };
@@ -135,15 +132,12 @@ const TableCom = () => {
     queryFn: async () => {
       try {
         const response = await AuthAxios.get("/admin/trx");
-        console.log(response);
         return response?.data?.data?.records;
       } catch (error) {
         throw new Error("Failed to fetch customer data");
       }
     },
-    onSuccess: (data) => {
-      console.log(data);
-    },
+    onSuccess: (data) => {},
     staleTime: 5000, // Cache data for 5 seconds
   });
 
@@ -160,7 +154,6 @@ const TableCom = () => {
       // setVerifiedDataState(verifiedData.length);
 
       let filteredItems = transactions;
-      console.log(filteredItems);
 
       // Filter by name (if searchTerm exists)
       if (searchTerm) {
@@ -195,8 +188,6 @@ const TableCom = () => {
     }
   }, [transactions, dispatch, selectedDates, searchTerm]);
 
-  console.log(transactionData);
-
   useEffect(() => {
     const amtOfTotalDeposit =
       transactions &&
@@ -205,7 +196,6 @@ const TableCom = () => {
         0
       );
 
-    console.log(amtOfTotalDeposit);
     setTotalDeposits(amtOfTotalDeposit);
   }, [transactionDetails, totalDeposits]);
 

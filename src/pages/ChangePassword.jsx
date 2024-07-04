@@ -32,7 +32,6 @@ const ChangePassWord = ({ phoneNo, setShowVerifyUser }) => {
     setShowVerifyUser((prev) => !prev);
   };
 
-  console.log(passwordInput, confirmPasswordInput);
   const weakPassword = new RegExp("(?=.{3,})");
   const weakPasswordIcon = new RegExp("(?=.{7,})");
   const mediumPassword = new RegExp("(?=.*[A-Z])");
@@ -117,8 +116,6 @@ const ChangePassWord = ({ phoneNo, setShowVerifyUser }) => {
 
         return response.data;
       } catch (error) {
-        console.log("hey");
-        console.log(error);
         setDisableButton(false);
         setPasswordInput("");
         setConfirmPasswordInput("");
@@ -128,14 +125,12 @@ const ChangePassWord = ({ phoneNo, setShowVerifyUser }) => {
     },
     onSuccess: (response) => {
       notify(response.message);
-      console.log(response);
       setPasswordInput("");
       setConfirmPasswordInput("");
       setDisableButton(false);
       setShowVerifyUser((prev) => !prev);
     },
     onError: (error) => {
-      console.log(error);
       notifyErr(response.message);
       setDisableButton(false);
 

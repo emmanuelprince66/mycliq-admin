@@ -69,7 +69,6 @@ const WithdrawFunds = () => {
     }
     if (parseFloat(data.withdrawalAmount) > transactionDetails.walletBalance) {
       setErrorAmount("Amount cannot be greater than wallet balance");
-      console.log("Amount cannot be greater than wallet balance");
     }
     if (!isNarrationValid(data.narration)) {
       setErrorNarration("Narration should be more than a word!");
@@ -79,7 +78,6 @@ const WithdrawFunds = () => {
       setErrorAmount("");
       setErrorNarration("");
     }
-    console.log(data);
     setWithdrawDetails(data);
   }
 

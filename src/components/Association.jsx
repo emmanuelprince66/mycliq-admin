@@ -17,17 +17,16 @@ import { useMutation, useQuery } from "@tanstack/react-query";
 import CheckRoundedIcon from "@mui/icons-material/CheckRounded";
 import { BaseAxios } from "../helpers/axiosInstance";
 
-
-const steps = ["Step 1", "Step 2" , "Step 3"];
+const steps = ["Step 1", "Step 2", "Step 3"];
 
 const Association = () => {
-const token = Cookies.get("authToken");
+  const token = Cookies.get("authToken");
 
   const [activeStep, setActiveStep] = useState(0);
   const [completedSteps, setCompletedSteps] = useState(new Set()); // Step 1
   const [collectedData, setCollectedData] = useState({});
   const [resetForm, setResetForm] = useState(false);
-  const [showSpinner , setShowSpinner] = useState(false)
+  const [showSpinner, setShowSpinner] = useState(false);
 
   const CustomStepConnector = () => (
     <StepConnector
@@ -36,52 +35,48 @@ const token = Cookies.get("authToken");
       }}
     />
   );
-    const notifyError = (msg) => {
-      toast.error(msg, {
-        position: toast.POSITION.TOP_RIGHT,
-        autoClose: 6000, // Time in milliseconds
-      });
-    };
-    // use mutation hook
-    const registerAssociationMutation = useMutation({
-      mutationFn: async (payLoad) => {
-        try {
-          const response = await BaseAxios({
-            url: "/admin/merchant/onboard",
-            method: "POST",
-            data: payLoad,
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
-          });
-
-          return response.data;
-        } catch (error) {
-          notifyError(error?.response?.data?.message);
-          console.log(error);
-          setShowSpinner(false);
-          handleReset();
-          throw new Error(error.response.data.message);
-          // throw new Error(error.response.data.message);
-        }
-      },
-      onSuccess: (data) => {
-        console.log(data);
-        setSuccess(true);
-        setShowSpinner(false);
-        handleReset();
-      },
-      onError: (error) => {
-        console.log(error);
-        setShowSpinner(false);
-        handleReset();
-      },
+  const notifyError = (msg) => {
+    toast.error(msg, {
+      position: toast.POSITION.TOP_RIGHT,
+      autoClose: 6000, // Time in milliseconds
     });
+  };
+  // use mutation hook
+  const registerAssociationMutation = useMutation({
+    mutationFn: async (payLoad) => {
+      try {
+        const response = await BaseAxios({
+          url: "/admin/merchant/onboard",
+          method: "POST",
+          data: payLoad,
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+
+        return response.data;
+      } catch (error) {
+        notifyError(error?.response?.data?.message);
+        setShowSpinner(false);
+        handleReset();
+        throw new Error(error.response.data.message);
+        // throw new Error(error.response.data.message);
+      }
+    },
+    onSuccess: (data) => {
+      setSuccess(true);
+      setShowSpinner(false);
+      handleReset();
+    },
+    onError: (error) => {
+      setShowSpinner(false);
+      handleReset();
+    },
+  });
 
   const handleNext = (data) => {
     const newData = { ...collectedData, ...data };
     setCollectedData(newData);
-    
 
     setCompletedSteps((prev) => new Set(prev).add(activeStep)); // Step 2
 

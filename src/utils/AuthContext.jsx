@@ -1,5 +1,5 @@
-  import React, { useState, useEffect } from "react";
-  import { Navigate } from "react-router-dom";
+import React, { useState, useEffect } from "react";
+import { Navigate } from "react-router-dom";
 import { Box, CircularProgress } from "@mui/material";
 import { useDispatch } from "react-redux";
 import { fillUserDetails } from "./store/merchantSlice";
@@ -11,9 +11,8 @@ export function AuthProvider({ children }) {
   const dispatch = useDispatch();
   const [showSpinner, setShowSpinner] = useState(false);
   const [redirectToLogin, setRedirectToLogin] = useState(false);
-  
-  const token = getCookie("authToken")
-  console.log(token)
+
+  const token = getCookie("authToken");
 
   useEffect(() => {
     setShowSpinner(true); // Show spinner initially
@@ -31,7 +30,6 @@ export function AuthProvider({ children }) {
           dispatch(fillUserDetails(user));
         }
       } catch (error) {
-        console.error("Error fetching user details:", error.message);
         setRedirectToLogin(true); // Redirect to login on error
       }
     }

@@ -67,19 +67,16 @@ const AssoContact = ({ onSubmit }) => {
       } catch (error) {
         setButtonDisabled(false);
         notifyError(error?.response?.data?.message);
-        console.log(error);
         throw new Error(error.response.data.message);
         // throw new Error(error.response.data.message);
       }
     },
     onSuccess: (data) => {
-      console.log(data);
       setSuccess(true);
       setButtonDisabled(false);
       onStepSubmit();
     },
     onError: (error) => {
-      console.log(error);
       setButtonDisabled(false);
     },
   });
@@ -116,8 +113,6 @@ const AssoContact = ({ onSubmit }) => {
   //     };
   //     registerAssociationMutation.mutate(payLoad);
   //     setButtonDisabled(true);
-
-  //     console.log(payLoad)
 
   // };
 

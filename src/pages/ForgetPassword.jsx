@@ -30,7 +30,6 @@ const ForgetPassword = () => {
 
   const mutationOTP = useMutation({
     mutationFn: async (phone) => {
-      console.log(phoneNo);
       try {
         const response = await BaseAxios({
           url: "/auth/password-reset",
@@ -53,7 +52,6 @@ const ForgetPassword = () => {
       // Handle success, update state, or perform further actions
     },
     onError: (error) => {
-      console.log(error);
       setButtonDisabled(false);
       //   notifyError(String(error));
     },

@@ -41,11 +41,7 @@ const CreateOffer = () => {
     formState: { errors },
   } = useForm();
 
-  const onSubmit = (formData) => {
-    console.log(formData);
-
-    console.log(payLoad);
-  };
+  const onSubmit = (formData) => {};
 
   return (
     <Box sx={style}>
