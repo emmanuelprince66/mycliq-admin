@@ -54,7 +54,7 @@ const VentureContact = ({ onSubmit }) => {
     });
   };
   // use mutation hook
-// 
+  //
   const {
     handleSubmit,
     control,
@@ -63,12 +63,11 @@ const VentureContact = ({ onSubmit }) => {
   } = useForm({ mode: "all" });
 
   const onStepSubmit = (data) => {
-  const payLoad = {
-    contactPerson : data
-  }
+    const payLoad = {
+      contactPerson: data,
+    };
     onSubmit(payLoad); // Pass data back to parent component
   };
-
 
   return (
     <Box
@@ -364,17 +363,14 @@ const VentureContact = ({ onSubmit }) => {
         </Box>
 
         <Button
-          disabled={
-            !isValid 
-          }
+          disabled={!isValid}
           type="submit"
           sx={{
             background: "#333333",
             padding: "10px",
-            borderRadius: "8px",
+
             mt: "10px",
             width: "100%",
-            color: "#fff",
             "&:hover": {
               backgroundColor: "#333333",
             },
@@ -382,15 +378,16 @@ const VentureContact = ({ onSubmit }) => {
             fontWeight: "500",
           }}
         >
-            <Typography
-              sx={{
-                fontWeight: "400",
-                fontSize: "16px",
-                color: "#fff",
-              }}
-            >
-              Save and Proceed
-            </Typography>
+          <Typography
+            sx={{
+              fontWeight: "400",
+              fontSize: "16px",
+              borderRadius: "8px",
+              color: !isValid ? "grey" : "#fff",
+            }}
+          >
+            Save and Proceed
+          </Typography>
         </Button>
       </form>
 

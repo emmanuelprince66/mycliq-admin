@@ -85,7 +85,10 @@ const myRoutes = [
 
 const theme = createTheme({
   typography: {
-    fontFamily: ["Poppins", "Arial", "sans-serif"].join(","),
+    fontFamily: "Poppins",
+    "&::placeholder": {
+      fontFamily: "Poppins",
+    },
   },
   components: {
     MuiButton: {

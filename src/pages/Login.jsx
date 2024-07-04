@@ -329,7 +329,6 @@ export const Login = () => {
                       <Grid item>
                         <Typography
                           onClick={() => setShowVerifyUser(true)}
-                          variant="body2"
                           className="text-error_2 cursor-pointer"
                           component="a"
                           textDecoration={"none"}

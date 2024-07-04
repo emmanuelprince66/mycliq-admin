@@ -14,6 +14,10 @@ import {
 } from "@mui/material";
 import InsertPhotoRoundedIcon from "@mui/icons-material/InsertPhotoRounded";
 import LocalPhoneOutlinedIcon from "@mui/icons-material/LocalPhoneOutlined";
+import { BaseAxios } from "../helpers/axiosInstance";
+import { useMutation, useQuery, useInfiniteQuery } from "@tanstack/react-query";
+import { toast, ToastContainer } from "react-toastify";
+import Cookie from "js-cookie";
 
 import AddBusinessRoundedIcon from "@mui/icons-material/AddBusinessRounded";
 import EmailOutlinedIcon from "@mui/icons-material/EmailOutlined";
@@ -22,6 +26,10 @@ import { Input } from "@mui/icons-material";
 
 const VentureImage = ({ onSubmit, handleBack }) => {
   const [imagePreview, setImagePreview] = useState(null);
+  const token = Cookie.get("authToken");
+  const [uploadingingFile, setUploadingFile] = useState(false);
+  const [imgUrl, setImageUrl] = useState("");
+
   const {
     handleSubmit,
     control,
@@ -29,12 +37,95 @@ const VentureImage = ({ onSubmit, handleBack }) => {
     formState: { isValid, errors },
   } = useForm({ mode: "all" });
 
-  const handleImageChange = (e) => {
-    console.log("handleImageChange called"); // Add this line
-    const file = e.target.files[0];
+  const notifyError = (msg) => {
+    toast.error(msg, {
+      position: toast.POSITION.TOP_RIGHT,
+      autoClose: 6000, // Time in milliseconds
+    });
+  };
+  // upload file
 
+  const uploadFileMutation = useMutation({
+    mutationFn: async (formData) => {
+      console.log(formData);
+      try {
+        const response = await BaseAxios({
+          url: "/misc/fs/upload",
+          method: "POST",
+          data: formData,
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "multipart/form-data",
+          },
+        });
+
+        if (response.status !== 201) {
+          setUploadingFile(false);
+
+          notifyError(response?.data?.message);
+          throw new Error(response.data.message);
+        }
+
+        return response;
+      } catch (error) {
+        console.log(error);
+        setUploadingFile(false);
+
+        throw new Error(error.response.data.message);
+      }
+    },
+    onSuccess: (data) => {
+      setImageUrl(data?.data?.data?.publicUrl);
+      setUploadingFile(false);
+      // Handle success, update state, or perform further actions
+    },
+    onError: (error) => {
+      console.log(error);
+    },
+  });
+
+  // fetch all schools
+  const {
+    data: schoolDetails,
+    error,
+    isLoading: schoolLoading,
+  } = useQuery({
+    queryKey: "schoolDetails",
+    queryFn: async () => {
+      try {
+        const config = {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        };
+        const response = await BaseAxios.get(
+          "merchant/bill/institutions",
+          config
+        );
+        return response?.data?.data?.records;
+      } catch (error) {
+        throw new Error("Failed to fetch customer data");
+      }
+    },
+    onSuccess: (data) => {
+      console.log(data);
+    },
+    staleTime: 1000 * 60 * 10, // Cache data for 10 minutes
+  });
+  //
+
+  const handleImageChange = (e) => {
+    const file = e.target.files[0];
     if (file && file.type.substr(0, 5) === "image") {
       setImagePreview(URL.createObjectURL(file));
+
+      const formData = new FormData();
+      formData.append("file", file); // Append the file directly as a Blob
+
+      console.log(formData);
+
+      uploadFileMutation.mutate(formData);
+      setUploadingFile(true);
     } else {
       setImagePreview(null);
     }
@@ -46,33 +137,22 @@ const VentureImage = ({ onSubmit, handleBack }) => {
 
   const onStepSubmit = async (data) => {
     // Create a new FormData object
-    console.log(data);
-    const formData = new FormData();
 
-    // Append form data to the FormData object
-    Object.keys(data).forEach((key) => {
-      formData.append(key, data[key]);
-    });
+    if (imgUrl === "") {
+      console.log(imgUrl);
+      notifyError("Please upload an image");
+    } else {
+      const formData = new FormData();
 
-    // Append the image file to the FormData object
-    if (imagePreview) {
-      const file = await fetch(imagePreview).then((r) => r.blob());
-      const reader = new FileReader();
-      reader.readAsDataURL(file);
-      const venturesLogo = await new Promise((resolve) => {
-        reader.onloadend = () => {
-          resolve(reader.result);
-        };
-      });
+      const formDatta = {
+        ...data,
+        venturesLogo: imgUrl,
+        tags: [`${data?.ventureTag}`],
+      };
 
-const formDatta = {
-  ...data,
-  venturesLogo,
-  tags: [`${data?.ventureTag}`],
-};
+      const newFormDatta = { ...formDatta };
+      delete newFormDatta.ventureTag;
 
-const newFormDatta = { ...formDatta };
-delete newFormDatta.ventureTag;
       onSubmit(newFormDatta);
     }
   };
@@ -90,7 +170,7 @@ delete newFormDatta.ventureTag;
       }}
     >
       <Typography sx={{ color: "#C57600", fontWeight: "500" }}>
-        TRANSPORTATION INFORMATION
+        Venture INFORMATION
       </Typography>
 
       <form
@@ -107,11 +187,15 @@ delete newFormDatta.ventureTag;
               mb: "2px",
             }}
           >
-            Logo Preview
+            {uploadingingFile ? (
+              <CircularProgress size="1.2rem" sx={{ color: "#DC0019" }} />
+            ) : (
+              "  Logo Preview"
+            )}
           </Typography>
 
           <Box className="w-full h-full flex justify-center items-center bg-gray-100 rounded-md  border-[2px] p-2 ">
-            {imagePreview ? (
+            {imagePreview && !uploadingingFile && imgUrl !== "" ? (
               <img
                 src={imagePreview}
                 alt="Preview"
@@ -134,7 +218,7 @@ delete newFormDatta.ventureTag;
                 my: "5px",
               }}
             >
-              Transportation Logo
+              Venture Logo
             </Typography>
             <TextField
               onChange={handleImageChange}
@@ -192,17 +276,16 @@ delete newFormDatta.ventureTag;
                       School/Institution
                     </Box>
                   </MenuItem>
-                  <MenuItem value="FUNAAB">
-                    Federal University of Agriculture
-                  </MenuItem>
-                  <MenuItem value="PCU">
-                    Precious Conerstone University
-                  </MenuItem>
-                  <MenuItem value="AAUA">Adekunle Ajasin University</MenuItem>
-                  <MenuItem value="BC">Babcock University</MenuItem>
-                  <MenuItem value="CU">Covenant University</MenuItem>
-                  <MenuItem value="LCU">Lead City University</MenuItem>
-                  <MenuItem value="UI">University Of Ibadan</MenuItem>
+
+                  {schoolLoading ? (
+                    <CircularProgress sx={{ my: "5px" }} />
+                  ) : (
+                    schoolDetails?.map((item) => (
+                      <MenuItem key={item?.id} value={item?.id}>
+                        {item?.name}
+                      </MenuItem>
+                    ))
+                  )}
                 </Select>
               )}
             />
@@ -238,18 +321,12 @@ delete newFormDatta.ventureTag;
                 >
                   <MenuItem value="" disabled>
                     <Box>
-                      <AddBusinessRoundedIcon /> &nbsp; | Select
-                      Venture
+                      <AddBusinessRoundedIcon /> &nbsp; | Select Venture
                     </Box>
                   </MenuItem>
-                  <MenuItem value="transportation">
-                    Transportation
-                  </MenuItem>
-                  <MenuItem value="association">
-               Association
-                  </MenuItem>
+                  <MenuItem value="Venture">Venture</MenuItem>
+                  <MenuItem value="association">Association</MenuItem>
                   <MenuItem value="ticketing">Ticketing</MenuItem>
-
                 </Select>
               )}
             />
@@ -262,7 +339,7 @@ delete newFormDatta.ventureTag;
               my: "5px",
             }}
           >
-            Name Of Transportation
+            Name Of Venture
           </Typography>
           <Controller
             name="venturesName"
@@ -271,7 +348,7 @@ delete newFormDatta.ventureTag;
             render={({ field }) => (
               <TextField
                 {...field}
-                placeholder="Enter Transportation Name"
+                placeholder="Enter Venture Name"
                 sx={{
                   width: "100%",
                   "& .MuiOutlinedInput-root": {
@@ -317,7 +394,7 @@ delete newFormDatta.ventureTag;
             render={({ field }) => (
               <TextField
                 {...field}
-                placeholder="Enter Transportation Acronym e.g NASSA"
+                placeholder="Enter Venture Acronym e.g NASSA"
                 sx={{
                   width: "100%",
                   "& .MuiOutlinedInput-root": {
@@ -356,7 +433,7 @@ delete newFormDatta.ventureTag;
               mt: "15px",
             }}
           >
-            Transportation Email Address
+            Venture Email Address
           </Typography>
           <Controller
             name="venturesEmail"
@@ -406,7 +483,7 @@ delete newFormDatta.ventureTag;
               mt: "15px",
             }}
           >
-            Transportation Phone Number
+            Venture Phone Number
           </Typography>
           <Controller
             name="venturesPhone"
@@ -515,7 +592,7 @@ delete newFormDatta.ventureTag;
               sx={{
                 fontWeight: "400",
                 fontSize: "16px",
-                color: "#fff",
+                color: !isValid ? "grey" : "#fff",
               }}
             >
               Save and Proceed

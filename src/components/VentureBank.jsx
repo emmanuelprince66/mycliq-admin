@@ -28,108 +28,181 @@ import info from "../assets/images/admin/info.svg";
 import { BaseAxios } from "../helpers/axiosInstance";
 import { useMutation, useQuery, useInfiniteQuery } from "@tanstack/react-query";
 import { toast, ToastContainer } from "react-toastify";
-import Cookie from 'js-cookie'
+import Cookie from "js-cookie";
 import axios from "axios";
-import { useState , useRef , useEffect} from "react";
+import { useState, useRef, useEffect } from "react";
 import AddBusinessRoundedIcon from "@mui/icons-material/AddBusinessRounded";
 import KeyboardArrowDownRoundedIcon from "@mui/icons-material/KeyboardArrowDownRounded";
-
-
 
 import { Controller } from "react-hook-form";
 
 import PersonOutlineRoundedIcon from "@mui/icons-material/PersonOutlineRounded";
 
-const VentureBank = ({ onSubmit, handleBack , showSpinner }) => {
-   const [searchTerm, setSearchTerm] = useState("");
-    const [anchorEl, setAnchorEl] = useState(null);
-  const [filteredItems , setFilteredItems] = useState(null)
-  const [bankName , setBankName] = useState("")
-  const [bankCode , setBankCode] = useState("")
+const VentureBank = ({ onSubmit, handleBack, showSpinner }) => {
+  const [searchTerm, setSearchTerm] = useState("");
+  const [anchorEl, setAnchorEl] = useState(null);
+  const [filteredItems, setFilteredItems] = useState(null);
+  const [bankName, setBankName] = useState("");
+  const [bankCode, setBankCode] = useState("");
   const token = Cookie.get("authToken");
-  
+  const [acctNumber, setAcctNumber] = useState("");
+  const [verifyLoading, setVerifyLoading] = useState(false);
+  const [verifyError, setVerifyError] = useState("");
+  const [verifyError2, setVerifyError2] = useState("");
+  const [acctName, setAcctName] = useState("");
+
+  const notifyError = (msg) => {
+    toast.error(msg, {
+      position: toast.POSITION.TOP_RIGHT,
+      autoClose: 6000, // Time in milliseconds
+    });
+  };
+  // Step 3: Define onChange Function
+  const handleAcctNumberChange = (event) => {
+    setAcctNumber(event.target.value);
+  };
 
   const {
     handleSubmit,
     control,
     formState: { isValid, errors },
   } = useForm({ mode: "all" });
-  
 
-// Fetch Bank Details
-const handleSetBankDetails = (bname , bcode) => {
-  setBankName(bname);
-  setBankCode(bcode);
-  setAnchorEl((prev) => !prev);
-};
+  // Validate acct number
+  const verifyBankDetails = useMutation({
+    mutationFn: async (formData) => {
+      try {
+        const response = await BaseAxios({
+          url: "/bank/trf/resolve-acct",
+          method: "POST",
+          data: formData,
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
 
-const {
-  data: bankDetails,
-  error,
-  isLoading,
-} = useQuery({
-  queryKey: "bankDetails",
-  queryFn: async () => {
-    try {
-      const config = {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      };
-      const response = await BaseAxios.get("bank", config);
-      return response?.data?.data?.records;
-    } catch (error) {
-      throw new Error("Failed to fetch customer data");
+        // if (response.status !== 201) {
+        //   setVerifyLoading(false);
+
+        //   throw new Error(response.data.message);
+        // }
+
+        console.log(response);
+        return response;
+      } catch (error) {
+        setVerifyError(error?.response?.data?.message);
+        setAcctName("");
+        setVerifyLoading(false);
+
+        throw new Error(error.response.data.message);
+      }
+    },
+    onSuccess: (data) => {
+      setAcctName(data?.data?.data?.accountName);
+      setVerifyLoading(false);
+      // Handle success, update state, or perform further actions
+    },
+    onError: (error) => {
+      console.log(error);
+    },
+  });
+
+  console.log(acctName);
+  // Fetch Bank Details
+  const handleSetBankDetails = (bcode, bname) => {
+    setBankCode(bcode);
+    setBankName(bname);
+
+    setAnchorEl((prev) => !prev);
+  };
+
+  useEffect(() => {
+    if (bankCode !== "") {
+      if (acctNumber.length === 10) {
+        const payload = {
+          bankCode: bankCode,
+          acctNumber: acctNumber,
+        };
+        setVerifyLoading(true);
+        setVerifyError("");
+        verifyBankDetails.mutate(payload);
+      } else {
+        setVerifyError("Acct number must be 10 digits");
+        setVerifyLoading(false);
+      }
+    } else {
+      setVerifyLoading(false);
     }
-  },
-  onSuccess: (data) => {
-    console.log(data);
-  },
-  staleTime: 1000 * 60 * 10, // Cache data for 10 minutes
-});
-  console.log(bankDetails)
-// 
+  }, [acctNumber, bankCode]);
+
+  const {
+    data: bankDetails,
+    error,
+    isLoading,
+  } = useQuery({
+    queryKey: "bankDetails",
+    queryFn: async () => {
+      try {
+        const config = {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        };
+        const response = await BaseAxios.get("bank", config);
+        return response?.data?.data?.records;
+      } catch (error) {
+        throw new Error("Failed to fetch customer data");
+      }
+    },
+    onSuccess: (data) => {},
+    staleTime: 1000 * 60 * 10, // Cache data for 10 minutes
+  });
+  //
 
   const onStepSubmit = (data) => {
     onSubmit(data); // Pass data back to parent component
-    console.log(data)
+    console.log(data);
   };
-  
-  useEffect(() => {
-  
-  if(searchTerm === "") {
-   setFilteredItems(bankDetails)
-  } else {
-  const items = bankDetails?.filter((bank) =>
-    bank.name.toLowerCase().includes(searchTerm.toLowerCase())
-  );
-  setFilteredItems(items)
-  }
-    
-  } , [searchTerm , bankDetails])
-  
-   const handleInputClick = (event) => {
-     setAnchorEl(anchorEl ? null : event.currentTarget);
-   };
-  
 
+  useEffect(() => {
+    if (searchTerm === "") {
+      setFilteredItems(bankDetails);
+    } else {
+      const items = bankDetails?.filter((bank) =>
+        bank.name.toLowerCase().includes(searchTerm.toLowerCase())
+      );
+      setFilteredItems(items);
+    }
+  }, [searchTerm, bankDetails]);
+
+  const handleInputClick = (event) => {
+    setAnchorEl(anchorEl ? null : event.currentTarget);
+  };
 
   const onFormSubmit = (data) => {
-    
-    const {acname , acnumber } = data
+    if (
+      acctName === "" ||
+      acctNumber === "" ||
+      bankCode === "" ||
+      verifyError !== ""
+    ) {
+      notifyError("Please enter valid details");
+      return;
+    }
+    const { acname, acnumber } = data;
     const formData = {
       accountNumber: acnumber,
-      accountName: acname,
+      accountName: acctName,
       bankCode: bankCode,
     };
+
+    console.log(formData);
     const payload = {
-      bankAccount: formData
-    } 
-    
+      bankAccount: formData,
+    };
+
     onSubmit(payload);
-    
-    
-  }
+  };
 
   return (
     <Box
@@ -191,7 +264,6 @@ const {
             />
           )}
         /> */}
-
         <Box
           sx={{ position: "relative", width: "100%" }}
           onClick={handleInputClick}
@@ -262,7 +334,7 @@ const {
                     <MenuItem
                       key={index}
                       onClick={() =>
-                        handleSetBankDetails(bank?.name, bank?.bankCode)
+                        handleSetBankDetails(bank?.bankCode, bank?.name)
                       }
                     >
                       {bank.name}
@@ -279,64 +351,25 @@ const {
         <Typography
           sx={{ color: "#344054", fontSize: "14px", mt: "20px", mb: "5px" }}
         >
-          Account Name
-        </Typography>
-        <Controller
-          name="acname"
-          control={control}
-          defaultValue=""
-          rules={{
-            validate: (value) =>
-              /^[^\d]+$/.test(value) || " Account Name cannot contain digits",
-          }}
-          render={({ field }) => (
-            <TextField
-              {...field}
-              placeholder="Enter bank name"
-              sx={{
-                width: "100%",
-                "& .MuiOutlinedInput-root": {
-                  "& fieldset": {
-                    borderRadius: "10px",
-                  },
-                  "&:hover fieldset": {
-                    borderColor: "#ff7f00",
-                  },
-                  "&.Mui-focused fieldset": {
-                    borderColor: "#ff7f00",
-                  },
-                },
-              }}
-              InputProps={{
-                startAdornment: (
-                  <InputAdornment position="start">
-                    <CabinRoundedIcon />
-                    &nbsp;|
-                  </InputAdornment>
-                ),
-              }}
-              error={!!errors.acname}
-              helperText={errors.acname && errors.acname.message}
-            />
-          )}
-        />
-        <Typography
-          sx={{ color: "#344054", fontSize: "14px", mt: "20px", mb: "5px" }}
-        >
           Account Number
         </Typography>
         <Controller
           name="acnumber"
           control={control}
-          defaultValue=""
-          //   rules={{
-          //     validate: (value) =>
-          //       /^[^\d]+$/.test(value) || " First Name cannot contain digits",
-          //   }}
+          rules={
+            {
+              // validate: (value) =>
+              //   /^\d+$/.test(value) || "Account number must only contain digits",
+            }
+          }
           render={({ field }) => (
             <TextField
               {...field}
               placeholder="Enter Account Number"
+              onChange={(event) => {
+                field.onChange(event);
+                handleAcctNumberChange(event);
+              }}
               sx={{
                 width: "100%",
                 "& .MuiOutlinedInput-root": {
@@ -359,11 +392,61 @@ const {
                   </InputAdornment>
                 ),
               }}
-              error={!!errors.acnumber}
-              helperText={errors.acnumber && errors.acnumber.message}
+              // error={!!errors.acnumber}
+              // helperText={errors.acnumber && errors.acnumber.message}
             />
           )}
         />
+        <p className="text-red-600 text-[10px] mt-1">
+          {verifyError !== "" && verifyError}
+        </p>
+        <Typography
+          sx={{ color: "#344054", fontSize: "14px", mt: "20px", mb: "5px" }}
+        >
+          Account Name
+        </Typography>
+        <Controller
+          name="acname"
+          disabled
+          control={control}
+          // rules={{
+          //   validate: (value) =>
+          //     /^[^\d]+$/.test(value) || " Account Name cannot contain digits",
+          // }}
+          render={({ field }) => (
+            <TextField
+              {...field}
+              placeholder="Enter bank name"
+              value={acctName}
+              sx={{
+                width: "100%",
+                "& .MuiOutlinedInput-root": {
+                  "& fieldset": {
+                    borderRadius: "10px",
+                  },
+                  "&:hover fieldset": {
+                    borderColor: "#ff7f00",
+                  },
+                  "&.Mui-focused fieldset": {
+                    borderColor: "#ff7f00",
+                  },
+                },
+              }}
+              InputProps={{
+                startAdornment: (
+                  <InputAdornment position="start">
+                    <CabinRoundedIcon />
+                    &nbsp;|
+                  </InputAdornment>
+                ),
+              }}
+              // error={!!errors.acname}
+            />
+          )}
+        />
+        {verifyLoading ? (
+          <CircularProgress size="10px" sx={{ color: "#ff7f00" }} />
+        ) : null}
         <Button
           disabled={!isValid || showSpinner}
           type="submit"
@@ -373,7 +456,7 @@ const {
             borderRadius: "8px",
             mt: "10px",
             width: "100%",
-            color: "#fff",
+            color: !isValid ? "grey" : "#fff",
             "&:hover": {
               backgroundColor: "#333333",
             },

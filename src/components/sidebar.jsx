@@ -200,7 +200,7 @@ export const Sidebar = () => {
                           sx={{ marginRight: 1 }}
                           className="text-grey_2"
                         />
-                        <p className="text-grey_2">{item.name}</p>
+                        <p className="text-grey_2 pt-1">{item.name}</p>
                       </AccordionSummary>
                       <AccordionDetails
                         sx={{
