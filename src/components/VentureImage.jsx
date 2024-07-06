@@ -324,7 +324,7 @@ const VentureImage = ({ onSubmit, handleBack }) => {
                       <AddBusinessRoundedIcon /> &nbsp; | Select Venture
                     </Box>
                   </MenuItem>
-                  <MenuItem value="Venture">Venture</MenuItem>
+                  <MenuItem value="Transportation">Transportation</MenuItem>
                   <MenuItem value="association">Association</MenuItem>
                   <MenuItem value="ticketing">Ticketing</MenuItem>
                 </Select>

@@ -95,10 +95,6 @@ export const Login = () => {
       console.log(data?.data?.data?.access_token);
       Cookies.set("authToken", data?.data?.data?.access_token);
       Cookies.set("refreshToken", data?.data?.data?.refreshToken);
-      // Cookies.set("companyName", data.companyName);
-      // Cookies.set("registeredName", data.registeredName);
-
-      // Handle success, update state, or perform further actions
     },
     onError: (error) => {
       console.log(error);
@@ -116,7 +112,6 @@ export const Login = () => {
 
   const onSubmit = (formData) => {
     // Handle form submission here
-    console.log("Form data:", formData);
 
     setButtonDisabled(true);
     console.log(formData);
