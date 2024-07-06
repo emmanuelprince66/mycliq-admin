@@ -91,10 +91,6 @@ export const Login = () => {
 
       Cookies.set("authToken", data?.data?.data?.access_token);
       Cookies.set("refreshToken", data?.data?.data?.refreshToken);
-      // Cookies.set("companyName", data.companyName);
-      // Cookies.set("registeredName", data.registeredName);
-
-      // Handle success, update state, or perform further actions
     },
     onError: (error) => {
       console.log(error);

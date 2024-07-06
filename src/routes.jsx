@@ -86,15 +86,40 @@ const myRoutes = [
 const theme = createTheme({
   typography: {
     fontFamily: "Poppins",
-    "&::placeholder": {
-      fontFamily: "Poppins",
-    },
   },
   components: {
+    MuiTextField: {
+      styleOverrides: {
+        root: {
+          fontFamily: "Poppins",
+          "& .MuiInputBase-input": {
+            fontFamily: "Poppins",
+          },
+          "& .MuiInputBase-input::placeholder": {
+            fontFamily: "Poppins",
+          },
+        },
+      },
+    },
+    MuiInputLabel: {
+      styleOverrides: {
+        root: {
+          fontFamily: "Poppins",
+        },
+      },
+    },
+    MuiFormHelperText: {
+      styleOverrides: {
+        root: {
+          fontFamily: "Poppins",
+        },
+      },
+    },
     MuiButton: {
       styleOverrides: {
         root: {
           textTransform: "capitalize",
+          fontFamily: "Poppins",
         },
       },
     },
