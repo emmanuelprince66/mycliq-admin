@@ -59,6 +59,7 @@ import DepositDetails from "./DepositDetails";
 import WithdrawalDetails from "./WithdrawalDetails";
 import DiscountDetails from "./DiscountDetails";
 import CreateOffer from "./CreateOffer";
+import CustomPagination from "./CustomPagination";
 const TableCom = () => {
   const [transactionData, setTransactionData] = useState([]);
   const [open1, setOpen1] = React.useState(false);
@@ -68,13 +69,11 @@ const TableCom = () => {
   const [totalDeposits, setTotalDeposits] = useState(null);
   const [searchTerm, setSearchTerm] = useState("");
   const [showPaid, setShowPaid] = useState(null);
-  const [page, setPage] = useState(0);
   const [loading, setLoading] = useState(true);
   const [index, setIndex] = useState(0);
   const [details, setDetails] = useState({});
   const { selectedDates } = useSelector((state) => state);
 
-  const [rowsPerPage, setRowsPerPage] = useState(5);
   const [anchorEl, setAnchorEl] = React.useState(null);
   const open = Boolean(anchorEl);
 
@@ -82,6 +81,10 @@ const TableCom = () => {
   const [withdrawalDetails, setWithdrawalDetails] = useState(false);
   const [discountDetails, setDiscountDetails] = useState(false);
   const [createOffer, setCreateOffer] = useState(false);
+
+  const totalPages = 8;
+  const rowsPerPage = 20;
+  const [currentPage, setCurrentPage] = useState(1);
 
   const [transactionFilter, setTransactionFilter] = useState("All");
 
@@ -107,15 +110,6 @@ const TableCom = () => {
     setPage(0);
   };
 
-  const handleChangePage = (event, newPage) => {
-    setPage(newPage);
-  };
-
-  const handleChangeRowsPerPage = (event) => {
-    setRowsPerPage(parseInt(event.target.value, 10));
-    setPage(0);
-  };
-
   const dispatch = useDispatch();
   const { transactionDetails } = useSelector((state) => state);
 
@@ -123,26 +117,35 @@ const TableCom = () => {
     setTransactionFilter(val);
   };
 
+  const fetchTransactions = async ({ queryKey }) => {
+    const [_key, { page, limit }] = queryKey;
+    try {
+      const response = await AuthAxios.get(
+        `/admin/trx?page=${page}&limit=${limit}`
+      );
+      return response?.data?.data;
+    } catch (error) {
+      throw new Error("Failed to fetch customer data");
+    }
+  };
+
   const {
     data: transactions,
     error,
     isLoading,
   } = useQuery({
-    queryKey: "transactions",
-    queryFn: async () => {
-      try {
-        const response = await AuthAxios.get("/admin/trx");
-        return response?.data?.data?.records;
-      } catch (error) {
-        throw new Error("Failed to fetch customer data");
-      }
-    },
-    onSuccess: (data) => {},
+    queryKey: ["transactions", { page: currentPage, limit: rowsPerPage }],
+    queryFn: fetchTransactions,
+    keepPreviousData: true,
     staleTime: 5000, // Cache data for 5 seconds
   });
 
+  const handlePageChange = (page) => {
+    setCurrentPage(page);
+  };
+
   useEffect(() => {
-    if (transactions) {
+    if (transactions?.records) {
       // const paidData = response?.data?.queryResult.filter(
       //   (item) => item?.remittance?.paymentStatus === "PAID"
       // );
@@ -153,7 +156,7 @@ const TableCom = () => {
       // );
       // setVerifiedDataState(verifiedData.length);
 
-      let filteredItems = transactions;
+      let filteredItems = transactions?.records;
 
       // Filter by name (if searchTerm exists)
       if (searchTerm) {
@@ -184,13 +187,13 @@ const TableCom = () => {
       //   });
       // }
       setTransactionData(filteredItems);
-      dispatch(saveTransactionData(transactions));
+      dispatch(saveTransactionData(transactions?.records));
     }
-  }, [transactions, dispatch, selectedDates, searchTerm]);
+  }, [transactions?.records, dispatch, selectedDates, searchTerm]);
 
   useEffect(() => {
     const amtOfTotalDeposit =
-      transactions &&
+      transactions?.records &&
       transactionDetails.reduce(
         (prev, curr) => prev + JSON.parse(curr?.amount),
         0
@@ -520,8 +523,8 @@ const TableCom = () => {
               </p>
               <span className="py-1 px-2 bg-[#FFEFD6] rounded-md">
                 <p className="text-[12px] text-[#A86500] font-[500]">
-                  {!isLoading && transactions?.length > 0 ? (
-                    transactions?.length
+                  {!isLoading && transactions?.records?.length > 0 ? (
+                    transactions?.totalRecords
                   ) : (
                     <CircularProgress
                       size="1rem"
@@ -603,81 +606,18 @@ const TableCom = () => {
 
         <TableContainer component={Paper}>
           <Table sx={{ minWidth: 650, padding: "8px" }}>
-            <TableHead
-              sx={{
-                background: "#F8F8F8",
-              }}
-            >
+            <TableHead sx={{ background: "#F8F8F8" }}>
               <TableRow>
                 <TableCell>S/N</TableCell>
                 <TableCell>Name</TableCell>
                 <TableCell>User</TableCell>
                 <TableCell>Type</TableCell>
                 <TableCell>Amount(N)</TableCell>
-                <TableCell>Wallet Balance(N)</TableCell>
                 <TableCell>Status</TableCell>
                 <TableCell>Action</TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
-              {/* {filteredItems
-                .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                .map((item) => (
-                  <TableRow key={item.id}>
-                    <TableCell>{item.id}</TableCell>
-                    <TableCell>{item.tid}</TableCell>
-                    <TableCell>{item.user}</TableCell>
-                    <TableCell>{item.type}</TableCell>
-                    <TableCell>{item.amt}</TableCell>
-                    <TableCell>
-                      {" "}
-                      <Box
-                        sx={{
-                          textTransform: "capitalize",
-                          color: "#DC0019",
-                          background:
-                            item.status === "paid" ? "#EBFFF3" : "#EBF3FF",
-                          color: item.status === "paid" ? "#1E854A" : "#1367D8",
-                          width: item.status === "paid" ? "67px" : "87px",
-                          fontWeight: "500",
-                          fontSize: "12px",
-                          border: "none",
-                          padding: "4px 8px 4px 8px",
-                          borderRadius: "8px",
-                          display: "flex",
-                          alignItems: "center",
-                          gap: "5px",
-                          border: "1px solid #E0E0E0",
-                        }}
-                      >
-                        <CheckCircleOutlineRoundedIcon
-                          sx={{ fontSize: "12px" }}
-                        />{" "}
-                        {item.status}
-                      </Box>
-                    </TableCell>
-                    <TableCell>
-                      <Button
-                        onClick={() => setOpen1(true)}
-                        variant="outlined"
-                        sx={{
-                          textTransform: "capitalize",
-                          color: "#DC0019",
-                          fontWeight: "600",
-                          fontSize: "14px",
-                          border: "1px solid #E0E0E0",
-                          "&:hover": {
-                            backgroundColor: "#fff",
-                            border: "1px solid #E0E0E0",
-                          },
-                          // lineHeight: "26.4px",
-                        }}
-                      >
-                        View More
-                      </Button>
-                    </TableCell>
-                  </TableRow>
-                ))} */}
               {isLoading ? (
                 <TableRow>
                   <CircularProgress
@@ -690,41 +630,40 @@ const TableCom = () => {
                   />
                 </TableRow>
               ) : transactionData?.length > 0 ? (
-                transactionData.map((item, i) => (
+                transactionData?.map((item, i) => (
                   <TableRow key={item.id}>
-                    <TableCell>{i + 1}</TableCell>
+                    <TableCell>
+                      {i + 1 + (currentPage - 1) * rowsPerPage}
+                    </TableCell>
                     <TableCell>John Doe</TableCell>
                     <TableCell>{item?.origin?.accountName}</TableCell>
                     <TableCell>{item?.type}</TableCell>
                     <TableCell>
                       <FormattedPrice amount={item?.amount} />
                     </TableCell>
-                    <TableCell>{item?.fees}</TableCell>
                     <TableCell>
-                      {" "}
                       <Box
                         sx={{
                           textTransform: "capitalize",
                           background:
                             item?.status === "pending" ||
-                            item.status === "processing"
-                              ? "#FF7F00"
+                            item.status === "incoming"
+                              ? "#FFF0F0"
                               : item?.status === "failed"
                               ? "#DC0019"
                               : "#EBFFF3",
                           color:
                             item?.status === "pending" ||
-                            item.status === "processing"
-                              ? "#fff"
+                            item.status === "incoming"
+                              ? "#CDA11E"
                               : item.status === "success"
                               ? "#1E854A"
                               : "#fff",
                           fontWeight: "500",
                           fontSize: "12px",
-                          padding: "4px 8px 4px 8px",
+                          padding: "4px 8px",
                           borderRadius: "8px",
                           display: "flex",
-                          minWidth: "fit-content",
                           alignItems: "center",
                           gap: "5px",
                           border: "1px solid #E0E0E0",
@@ -750,7 +689,6 @@ const TableCom = () => {
                             backgroundColor: "#fff",
                             border: "1px solid #E0E0E0",
                           },
-                          // lineHeight: "26.4px",
                         }}
                       >
                         View More
@@ -759,22 +697,17 @@ const TableCom = () => {
                   </TableRow>
                 ))
               ) : (
-                <Typography className="flex self-center p-3  min-w-full">
+                <Typography className="flex self-center p-3 min-w-full">
                   No transactions yet.
                 </Typography>
               )}
             </TableBody>
           </Table>
         </TableContainer>
-
-        <TablePagination
-          rowsPerPageOptions={[5, 10, 25]}
-          component="div"
-          count={transactionData.length}
-          rowsPerPage={rowsPerPage}
-          page={page}
-          onPageChange={handleChangePage}
-          onRowsPerPageChange={handleChangeRowsPerPage}
+        <CustomPagination
+          currentPage={currentPage}
+          totalPages={totalPages}
+          onPageChange={handlePageChange}
         />
 
         {/* Moda;l for detailsl */}

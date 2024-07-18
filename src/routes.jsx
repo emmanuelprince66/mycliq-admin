@@ -25,6 +25,7 @@ import Gtransportaton from "./components/Gtransportaton";
 import Gassociation from "./components/Gassociation";
 import Gticket from "./components/Gticket";
 import Gvendor from "./components/Gvendor";
+import Compliance from "./pages/Compliance";
 
 const myRoutes = [
   { component: <Login />, path: "/", name: "Login Page" },
@@ -74,6 +75,11 @@ const myRoutes = [
     component: <Onboarding />,
     path: "/onboarding",
     name: "Onboarding",
+  },
+  {
+    component: <Compliance />,
+    path: "/compliance",
+    name: "Compliance",
   },
   { component: <ManageBills />, path: "/manage-bills", name: "Manage Bills" },
   { component: <Transaction />, path: "/transaction", name: "transaction" },

@@ -1,7 +1,10 @@
 import { TextField } from "@mui/material";
 import React from "react";
 import Avatar from "../assets/images/Avatar.svg";
-export const Topbar = () => {
+export const Topbar = ({ setSearchTerm }) => {
+  const handleSearchChange = (e) => {
+    setSearchTerm(e.target.value);
+  };
   const acronym = localStorage.getItem("registeredName");
   return (
     <header className="flex justify-between  p-3 items-center bg-white  w-full border-b border-border_light px-[2em] max-h-[20vh] ">
@@ -16,6 +19,9 @@ export const Topbar = () => {
           type="search"
           className="w-full focus:outline-none "
           placeholder="Search"
+          onChange={(e) => {
+            handleSearchChange(e);
+          }}
         />
       </div>
       <div>

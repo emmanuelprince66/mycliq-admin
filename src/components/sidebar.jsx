@@ -28,6 +28,7 @@ import ConfirmationNumberRoundedIcon from "@mui/icons-material/ConfirmationNumbe
 import FestivalRoundedIcon from "@mui/icons-material/FestivalRounded";
 import SummarizeRoundedIcon from "@mui/icons-material/SummarizeRounded";
 import Button from "@mui/material/Button";
+import ComplianceIcon from "./ComplianceIcon";
 export const Sidebar = () => {
   const navigate = useNavigate();
   const location = window.location.pathname;
@@ -120,9 +121,19 @@ export const Sidebar = () => {
       link: "onboarding",
     },
     {
+      name: "Compliance",
+      component: <ComplianceIcon isRightLink={location === "/compliance"} />,
+      link: "compliance",
+    },
+    {
       name: "Support",
       component: <SupportIcon isRightLink={location === "/support"} />,
       link: "support",
+    },
+    {
+      name: "SuperAdmin",
+      component: <CustomerIcon isRightLink={location === "/super-admin"} />,
+      link: "super-admin",
     },
     {
       name: "Reset Password",
