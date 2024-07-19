@@ -43,7 +43,7 @@ import AccessTimeOutlinedIcon from "@mui/icons-material/AccessTimeOutlined";
 import AddSuperAdmin from "../components/AddSuperAdmin";
 import CustomModal from "../components/CustomModal";
 import CustomRequestModal from "../components/CustomRequestModal";
-import bigAvatar from "../assets/images/bigAvatar.svg";
+import bigAvatar from "../assets/images/bigavatar.svg";
 const SuperAdmin = () => {
   const adminData = [
     {
