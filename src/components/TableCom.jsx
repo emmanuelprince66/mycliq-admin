@@ -20,6 +20,9 @@ import {
   Typography,
   Modal,
 } from "@mui/material";
+import CheckCircleOutlineOutlinedIcon from "@mui/icons-material/CheckCircleOutlineOutlined";
+import ReportOutlinedIcon from "@mui/icons-material/ReportOutlined";
+import HourglassBottomOutlinedIcon from "@mui/icons-material/HourglassBottomOutlined";
 import Divider from "@mui/material/Divider";
 import InputAdornment from "@mui/material/InputAdornment";
 import ArrowForwardIosRoundedIcon from "@mui/icons-material/ArrowForwardIosRounded";
@@ -609,7 +612,6 @@ const TableCom = () => {
             <TableHead sx={{ background: "#F8F8F8" }}>
               <TableRow>
                 <TableCell>S/N</TableCell>
-                <TableCell>Name</TableCell>
                 <TableCell>User</TableCell>
                 <TableCell>Type</TableCell>
                 <TableCell>Amount(N)</TableCell>
@@ -635,7 +637,6 @@ const TableCom = () => {
                     <TableCell>
                       {i + 1 + (currentPage - 1) * rowsPerPage}
                     </TableCell>
-                    <TableCell>John Doe</TableCell>
                     <TableCell>{item?.origin?.accountName}</TableCell>
                     <TableCell>{item?.type}</TableCell>
                     <TableCell>
@@ -646,32 +647,53 @@ const TableCom = () => {
                         sx={{
                           textTransform: "capitalize",
                           background:
-                            item?.status === "pending" ||
-                            item.status === "incoming"
+                            item?.status === "failed"
                               ? "#FFF0F0"
-                              : item?.status === "failed"
-                              ? "#DC0019"
-                              : "#EBFFF3",
+                              : item.status === "success"
+                              ? "#EBFFF3"
+                              : item?.status === "pending" ||
+                                item?.status === "incoming"
+                              ? "#FFF0F0"
+                              : "",
                           color:
-                            item?.status === "pending" ||
-                            item.status === "incoming"
-                              ? "#CDA11E"
+                            item?.status === "failed"
+                              ? "#E52929"
                               : item.status === "success"
                               ? "#1E854A"
-                              : "#fff",
+                              : item?.status === "pending" ||
+                                item?.status === "incoming"
+                              ? "#CDA11E"
+                              : "",
                           fontWeight: "500",
                           fontSize: "12px",
                           padding: "4px 8px",
                           borderRadius: "8px",
                           display: "flex",
+                          justifyContent: "center",
                           alignItems: "center",
                           gap: "5px",
                           border: "1px solid #E0E0E0",
                         }}
                       >
-                        <CheckCircleOutlineRoundedIcon
-                          sx={{ fontSize: "12px" }}
-                        />{" "}
+                        {item?.status === "failed" && (
+                          <ReportOutlinedIcon sx={{ fontSize: "12px" }} />
+                        )}
+                        {item?.status === "success" && (
+                          <CheckCircleOutlineRoundedIcon
+                            sx={{ fontSize: "12px" }}
+                          />
+                        )}
+                        {item?.status === "incoming" && (
+                          <HourglassBottomOutlinedIcon
+                            sx={{ fontSize: "12px" }}
+                          />
+                        )}
+                        {item?.status === "pending" && (
+                          <HourglassBottomOutlinedIcon
+                            sx={{ fontSize: "12px" }}
+                          />
+                        )}
+
                         {item?.status}
                       </Box>
                     </TableCell>

@@ -58,6 +58,8 @@ export const TransactionDetails = ({ handleClose1, details }) => {
     bgcolor: "background.paper",
     p: 3,
   };
+
+  console.log(details);
   function modDate(value) {
     const date = new Date(value);
     const day = date.getDay();
@@ -71,6 +73,38 @@ export const TransactionDetails = ({ handleClose1, details }) => {
     return `${day} - ${month} - ${year} at ${formattedHours}:${mins} ${period}`;
   }
 
+  const renderDetail = (label, value, type) => {
+    return (
+      <Box
+        key={label}
+        sx={{
+          display: "flex",
+          gap: "2rem",
+          alignItems: "center",
+        }}
+      >
+        <Typography
+          sx={{
+            fontWeight: "500",
+            color: "#828282",
+            fontSize: "14px",
+            minWidth: "130px",
+          }}
+        >
+          {label}:
+        </Typography>
+        <Typography
+          sx={{
+            color: "#1E1E1E",
+            fontWeight: "600",
+            fontSize: "14px",
+          }}
+        >
+          {value ?? " ..."}
+        </Typography>
+      </Box>
+    );
+  };
   return (
     <Box sx={style}>
       <Box
@@ -98,303 +132,7 @@ export const TransactionDetails = ({ handleClose1, details }) => {
       </Box>
 
       {/* stale data */}
-      <Box
-        sx={{
-          width: "100%",
-          border: "1px solid #E0E0E0",
-          p: "20px",
-          display: "flex",
-          flexDirection: "column",
-          gap: ".4em",
-          justifyContent: "start",
-          borderRadius: "8px",
-          my: "1rem",
-        }}
-      >
-        <Box
-          sx={{
-            display: "flex",
-            gap: "2rem",
-            alignItems: "center",
-          }}
-        >
-          <Typography
-            sx={{
-              fomtWeight: "500",
-              color: "#828282",
-              fontSize: "14px",
-              minWidth: "130px",
-            }}
-          >
-            User:
-          </Typography>
-
-          <Typography
-            sx={{
-              color: "#1E1E1E",
-              fontWeight: "600",
-              fontSize: "14px",
-            }}
-          >
-            {details?.approvedBy?.lastName +
-              " " +
-              details?.approvedBy?.firstName ?? " ..."}
-          </Typography>
-        </Box>
-        <Box
-          sx={{
-            display: "flex",
-            gap: "2rem",
-            alignItems: "center",
-          }}
-        >
-          <Typography
-            sx={{
-              fomtWeight: "500",
-              color: "#828282",
-              fontSize: "14px",
-              minWidth: "130px",
-            }}
-          >
-            Email Address:
-          </Typography>
-
-          <Typography
-            sx={{
-              color: "#1E1E1E",
-              fontWeight: "600",
-              fontSize: "14px",
-            }}
-          >
-            {details?.approvedBy?.email ?? " ..."}
-          </Typography>
-        </Box>
-        <Box
-          sx={{
-            display: "flex",
-            gap: "2rem",
-            alignItems: "center",
-          }}
-        >
-          <Typography
-            sx={{
-              fomtWeight: "500",
-              color: "#828282",
-              fontSize: "14px",
-              minWidth: "130px",
-            }}
-          >
-            Phone Number:
-          </Typography>
-
-          <Typography
-            sx={{
-              color: "#1E1E1E",
-              fontWeight: "600",
-              fontSize: "14px",
-            }}
-          >
-            {details?.approvedBy?.phoneNumber ?? " ..."}
-          </Typography>
-        </Box>
-        <Box
-          sx={{
-            display: "flex",
-            gap: "2rem",
-            alignItems: "center",
-          }}
-        >
-          <Typography
-            sx={{
-              fomtWeight: "500",
-              color: "#828282",
-              fontSize: "14px",
-              minWidth: "130px",
-            }}
-          >
-            Category:
-          </Typography>
-
-          <Typography
-            sx={{
-              color: "#1E1E1E",
-              fontWeight: "600",
-              fontSize: "14px",
-            }}
-          >
-            {details?.approvedBy?.role ?? " ..."}
-          </Typography>
-        </Box>
-        <Box
-          sx={{
-            display: "flex",
-            gap: "2rem",
-            alignItems: "center",
-          }}
-        >
-          <Typography
-            sx={{
-              fomtWeight: "500",
-              color: "#828282",
-              fontSize: "14px",
-              minWidth: "130px",
-            }}
-          >
-            Transaction Type:
-          </Typography>
-
-          <Typography
-            sx={{
-              color: "#1E1E1E",
-              fontWeight: "600",
-              fontSize: "14px",
-            }}
-          >
-            {details?.transactionType ?? "..."}
-          </Typography>
-        </Box>
-        <Box
-          sx={{
-            display: "flex",
-            gap: "2rem",
-            alignItems: "center",
-          }}
-        >
-          <Typography
-            sx={{
-              fomtWeight: "500",
-              color: "#828282",
-              fontSize: "14px",
-              minWidth: "130px",
-            }}
-          >
-            Transaction ID:
-          </Typography>
-
-          <Typography
-            sx={{
-              color: "#1E1E1E",
-              fontWeight: "600",
-              fontSize: "14px",
-            }}
-          >
-            {details?.transactionRef ?? "..."}
-          </Typography>
-        </Box>
-        <Box
-          sx={{
-            display: "flex",
-            gap: "2rem",
-            alignItems: "center",
-          }}
-        >
-          <Typography
-            sx={{
-              fomtWeight: "500",
-              color: "#828282",
-              fontSize: "14px",
-              minWidth: "130px",
-            }}
-          >
-            Date & Time:
-          </Typography>
-
-          <Typography
-            sx={{
-              color: "#1E1E1E",
-              fontWeight: "600",
-              fontSize: "14px",
-            }}
-          >
-            {modDate(details?.approvedBy?.createdAt)}
-          </Typography>
-        </Box>
-        <Box
-          sx={{
-            display: "flex",
-            gap: "2rem",
-            alignItems: "center",
-          }}
-        >
-          <Typography
-            sx={{
-              fomtWeight: "500",
-              color: "#828282",
-              fontSize: "14px",
-              minWidth: "130px",
-            }}
-          >
-            Recipient:
-          </Typography>
-
-          <Typography
-            sx={{
-              color: "#1E1E1E",
-              fontWeight: "600",
-              fontSize: "14px",
-            }}
-          >
-            {details?.remittance?.phoneNumber ?? "..."}
-          </Typography>
-        </Box>
-
-        <Box
-          sx={{
-            display: "flex",
-            gap: "2rem",
-            alignItems: "center",
-          }}
-        >
-          <Typography
-            sx={{
-              fomtWeight: "500",
-              color: "#828282",
-              fontSize: "14px",
-              minWidth: "130px",
-            }}
-          >
-            Amount:
-          </Typography>
-
-          <Typography
-            sx={{
-              color: "#CDA11E",
-              fontWeight: "600",
-              fontSize: "14px",
-            }}
-          >
-            {details?.remittance?.amount ?? "..."}
-          </Typography>
-        </Box>
-        <Box
-          sx={{
-            display: "flex",
-            gap: "2rem",
-            alignItems: "center",
-          }}
-        >
-          <Typography
-            sx={{
-              fomtWeight: "500",
-              color: "#828282",
-              fontSize: "14px",
-              minWidth: "130px",
-            }}
-          >
-            Transaction Status:
-          </Typography>
-
-          <Typography
-            sx={{
-              color: "#1e1e1e",
-              fontWeight: "600",
-              fontSize: "14px",
-            }}
-          >
-            {details?.transactionStatus ?? "..."}
-          </Typography>
-        </Box>
-      </Box>
+      {/* {renderDetail("Sender's Name", details)} */}
       {/* state data end */}
 
       <Box

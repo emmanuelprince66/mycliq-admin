@@ -87,6 +87,8 @@ const Customer = () => {
   const handleShowCustomerProfile = () => setShowCustomerProfile(true);
   const handleCloseShowCustomerProfile = () => setShowCustomerProfile(false);
   const handleOpenCustomerProfile = (id) => {
+    console.log(id);
+    console.log(customers[id]);
     setCustomerDataById(customers[id]);
     setProfileActive(true);
     handleShowCustomerProfile();

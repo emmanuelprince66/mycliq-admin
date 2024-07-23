@@ -135,6 +135,12 @@ const CustomerProfile = ({
   const handleCloseProfileDetails = () => setShowProfileDetails(false);
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(100);
+
+  useEffect(() => {}, [customerDataById]);
+
+  if (!showCustomerProfile) {
+    return null;
+  }
   return (
     <Box className="w-full ">
       <Grid container spacing={2}>
@@ -201,7 +207,7 @@ const CustomerProfile = ({
                       fontSize: "13px",
                     }}
                   >
-                    emmanuel
+                    {customerDataById?.lastName} {customerDataById?.firstName}
                   </Typography>
                 </Box>
                 <Box className="flex items-center mt-1 mb-1 justify-between ">
@@ -227,7 +233,7 @@ const CustomerProfile = ({
                       fontSize: "13px",
                     }}
                   >
-                    Male
+                    {customerDataById?.gender ?? "null"}
                   </Typography>
                 </Box>
                 <Box className="flex  items-center mt-1 mb-1 justify-between ">
@@ -254,7 +260,7 @@ const CustomerProfile = ({
                         fontSize: "13px",
                       }}
                     >
-                      e@gmail.com
+                      {customerDataById?.email}
                     </Typography>
 
                     <div className="bg-[#FFF0F0]  px-2 flex items-center gap-1 rounded-md">
@@ -292,18 +298,30 @@ const CustomerProfile = ({
                         fontSize: "13px",
                       }}
                     >
-                      0815524624624
+                      {customerDataById?.phoneNumber}
                     </Typography>
 
-                    <div className="bg-[#EBFFF3]  px-2 flex items-center gap-1 rounded-md">
-                      <VerifiedOutlinedIcon
-                        sx={{ fontSize: "15px" }}
-                        className="text-[#1E854A] text-[10px] font-[500]"
-                      />
-                      <p className="text-[#1E854A] text-[10px] font-[500]">
-                        Verified
-                      </p>
-                    </div>
+                    {customerDataById?.ninVerified ? (
+                      <div className="bg-[#EBFFF3]  px-2 flex items-center gap-1 rounded-md">
+                        <VerifiedOutlinedIcon
+                          sx={{ fontSize: "15px" }}
+                          className="text-[#1E854A] text-[10px] font-[500]"
+                        />
+                        <p className="text-[#1E854A] text-[10px] font-[500]">
+                          Verified
+                        </p>
+                      </div>
+                    ) : (
+                      <div className="bg-[#FFF0F0]  px-2 flex items-center gap-1 rounded-md">
+                        <ReportProblemOutlinedIcon
+                          sx={{ fontSize: "15px" }}
+                          className="text-[#E52929] font-[500]"
+                        />
+                        <p className="text-[#E52929] text-[10px] font-[500]">
+                          Unverified
+                        </p>
+                      </div>
+                    )}
                   </div>
                 </Box>
                 <Box className="flex  items-center mt-1 mb-1 justify-between ">
@@ -330,7 +348,7 @@ const CustomerProfile = ({
                     }}
                   >
                     {" "}
-                    address is here
+                    {customerDataById?.address ?? "null"}
                   </Typography>
                 </Box>
               </Box>
