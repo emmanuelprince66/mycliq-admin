@@ -147,7 +147,7 @@ const BillersProfile = ({ setShowBillersProfile }) => {
             </Box>
             <Typography
               sx={{
-                fomtWeight: "500",
+                fontWeight: "500",
                 fontSize: "14px",
                 color: "#4F4F4F",
               }}
@@ -160,7 +160,7 @@ const BillersProfile = ({ setShowBillersProfile }) => {
           <Box>
             <Typography
               sx={{
-                fomtWeight: "600",
+                fontWeight: "600",
                 fontSize: "24px",
                 color: "#1E1E1E",
               }}
@@ -203,7 +203,7 @@ const BillersProfile = ({ setShowBillersProfile }) => {
               </Box>
               <Typography
                 sx={{
-                  fomtWeight: "500",
+                  fontWeight: "500",
                   fontSize: "14px",
                   color: "#4F4F4F",
                 }}
@@ -217,7 +217,7 @@ const BillersProfile = ({ setShowBillersProfile }) => {
           <Box>
             <Typography
               sx={{
-                fomtWeight: "600",
+                fontWeight: "600",
                 fontSize: "24px",
                 color: "##1E1E1E",
               }}
@@ -252,7 +252,7 @@ const BillersProfile = ({ setShowBillersProfile }) => {
             </Box>
             <Typography
               sx={{
-                fomtWeight: "500",
+                fontWeight: "500",
                 fontSize: "14px",
                 color: "#4F4F4F",
               }}
@@ -266,7 +266,7 @@ const BillersProfile = ({ setShowBillersProfile }) => {
           <Box>
             <Typography
               sx={{
-                fomtWeight: "600",
+                fontWeight: "600",
                 fontSize: "24px",
                 color: "##1E1E1E",
               }}
@@ -301,7 +301,7 @@ const BillersProfile = ({ setShowBillersProfile }) => {
             </Box>
             <Typography
               sx={{
-                fomtWeight: "500",
+                fontWeight: "500",
                 fontSize: "14px",
                 color: "#4F4F4F",
               }}
@@ -315,7 +315,7 @@ const BillersProfile = ({ setShowBillersProfile }) => {
           <Box>
             <Typography
               sx={{
-                fomtWeight: "600",
+                fontWeight: "600",
                 fontSize: "24px",
                 color: "##1E1E1E",
               }}
@@ -869,7 +869,7 @@ const BillersProfile = ({ setShowBillersProfile }) => {
                           <TableCell>
                             <Typography
                               sx={{
-                                fomtWeight: "400",
+                                fontWeight: "400",
                                 fontSize: "16px",
                                 color: "#828282",
                               }}
@@ -880,7 +880,7 @@ const BillersProfile = ({ setShowBillersProfile }) => {
                           <TableCell>
                             <Typography
                               sx={{
-                                fomtWeight: "400",
+                                fontWeight: "400",
                                 fontSize: "16px",
                                 color: "#828282",
                               }}

@@ -46,8 +46,30 @@ import {
 } from "../utils/store/merchantSlice";
 import { useNavigate } from "react-router-dom";
 import { AuthAxios } from "../helpers/axiosInstance";
+import { useQuery } from "@tanstack/react-query";
 
-export const TransactionDetails = ({ handleClose1, details }) => {
+export const TransactionDetails = ({ handleClose1, index }) => {
+  const [trxId, setTrxId] = useState("");
+
+  const apiUrl = `/admin/trx/${trxId}`;
+
+  const fetchSingleTransactionData = async (url) => {
+    try {
+      const response = await AuthAxios.get(apiUrl);
+      return response?.data?.data;
+    } catch (error) {
+      throw new Error("Error fetching data...");
+    }
+  };
+
+  const { isLoading, data } = useQuery({
+    queryKey: ["fetchSingleTransactionData", apiUrl],
+    queryFn: () => fetchSingleTransactionData(apiUrl),
+    keepPreviousData: true,
+    staleTime: 5000, // Cache data for 5 seconds
+  });
+
+  console.log(data);
   const style = {
     position: "absolute",
     top: "50%",
@@ -59,7 +81,9 @@ export const TransactionDetails = ({ handleClose1, details }) => {
     p: 3,
   };
 
-  console.log(details);
+  useEffect(() => {
+    setTrxId(index);
+  }, [index]);
   function modDate(value) {
     const date = new Date(value);
     const day = date.getDay();
@@ -117,7 +141,7 @@ export const TransactionDetails = ({ handleClose1, details }) => {
       >
         <Typography
           sx={{
-            fomtWeight: "900",
+            fontWeight: "900",
             color: "#1E1E1E",
             fontWeight: "500",
             fontSize: "20px",
@@ -189,7 +213,7 @@ export const TransactionDetails = ({ handleClose1, details }) => {
      >
        <Typography
          sx={{
-           fomtWeight: "500",
+           fontWeight: "500",
            color: "#828282",
            fontSize: "14px",
            minWidth: "130px",
@@ -217,7 +241,7 @@ export const TransactionDetails = ({ handleClose1, details }) => {
      >
        <Typography
          sx={{
-           fomtWeight: "500",
+           fontWeight: "500",
            color: "#828282",
            fontSize: "14px",
            minWidth: "130px",
@@ -246,7 +270,7 @@ export const TransactionDetails = ({ handleClose1, details }) => {
      >
        <Typography
          sx={{
-           fomtWeight: "500",
+           fontWeight: "500",
            color: "#828282",
            fontSize: "14px",
            minWidth: "130px",
@@ -305,7 +329,7 @@ export const TransactionDetails = ({ handleClose1, details }) => {
      >
        <Typography
          sx={{
-           fomtWeight: "500",
+           fontWeight: "500",
            color: "#828282",
            fontSize: "14px",
            minWidth: "130px",

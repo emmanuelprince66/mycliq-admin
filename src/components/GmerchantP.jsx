@@ -240,7 +240,7 @@ const GmerchantP = () => {
                   </Box>
                   <Typography
                     sx={{
-                      fomtWeight: "500",
+                      fontWeight: "500",
                       fontSize: "14px",
                       color: "#4F4F4F",
                     }}
@@ -291,7 +291,7 @@ const GmerchantP = () => {
                 </Box>
                 <Typography
                   sx={{
-                    fomtWeight: "500",
+                    fontWeight: "500",
                     fontSize: "14px",
                     color: "#4F4F4F",
                   }}
@@ -1263,7 +1263,7 @@ const GmerchantP = () => {
                           <TableCell>
                             <Typography
                               sx={{
-                                fomtWeight: "400",
+                                fontWeight: "400",
                                 fontSize: "16px",
                                 color: "#828282",
                               }}
@@ -1274,7 +1274,7 @@ const GmerchantP = () => {
                           <TableCell>
                             <Typography
                               sx={{
-                                fomtWeight: "400",
+                                fontWeight: "400",
                                 fontSize: "16px",
                                 color: "#828282",
                               }}
@@ -1285,7 +1285,7 @@ const GmerchantP = () => {
                           <TableCell>
                             <Typography
                               sx={{
-                                fomtWeight: "400",
+                                fontWeight: "400",
                                 fontSize: "16px",
                                 color: "#828282",
                               }}

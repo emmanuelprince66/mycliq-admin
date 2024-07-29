@@ -170,7 +170,7 @@ const WithdrawFunds = () => {
 
       <Typography
         sx={{
-          fomtWeight: "400",
+          fontWeight: "400",
           fontSize: "16px",
           color: "#828282",
           mb: "1rem",
@@ -211,7 +211,7 @@ const WithdrawFunds = () => {
             >
               <Typography
                 sx={{
-                  fomtWeight: "500",
+                  fontWeight: "500",
                   fontSize: "16px",
                   color: "#1E1E1E",
                   lineHeight: "22.4px",
@@ -221,7 +221,7 @@ const WithdrawFunds = () => {
               </Typography>
               <Typography
                 sx={{
-                  fomtWeight: "500",
+                  fontWeight: "500",
                   fontSize: "16px",
                   color: "#C57600",
                   lineHeight: "22.4px",
@@ -233,7 +233,7 @@ const WithdrawFunds = () => {
 
             <Typography
               sx={{
-                fomtWeight: "400",
+                fontWeight: "400",
                 fontSize: "16px",
                 color: "#828282",
                 lineHeight: "22.4px",
@@ -383,7 +383,7 @@ const WithdrawFunds = () => {
           >
             <Typography
               sx={{
-                fomtWeight: "900",
+                fontWeight: "900",
                 color: "#1E1E1E",
                 fontWeight: "500",
                 fontSize: "20px",
@@ -421,7 +421,7 @@ const WithdrawFunds = () => {
               </Typography>
               <Typography
                 sx={{
-                  fomtWeight: "600",
+                  fontWeight: "600",
                   fontSize: "14px",
                   color: "#C57600",
                 }}
@@ -442,7 +442,7 @@ const WithdrawFunds = () => {
               </Typography>
               <Typography
                 sx={{
-                  fomtWeight: "600",
+                  fontWeight: "600",
                   fontSize: "14px",
                 }}
               >
@@ -465,7 +465,7 @@ const WithdrawFunds = () => {
           >
             <Typography
               sx={{
-                fomtWeight: "900",
+                fontWeight: "900",
                 color: "#1E1E1E",
                 fontWeight: "500",
                 fontSize: "14px",
@@ -485,7 +485,7 @@ const WithdrawFunds = () => {
             >
               <Typography
                 sx={{
-                  fomtWeight: "500",
+                  fontWeight: "500",
                   color: "#828282",
                   fontSize: "14px",
                   minWidth: "122px",
@@ -513,7 +513,7 @@ const WithdrawFunds = () => {
             >
               <Typography
                 sx={{
-                  fomtWeight: "500",
+                  fontWeight: "500",
                   color: "#828282",
                   fontSize: "14px",
                   minWidth: "122px",
@@ -541,7 +541,7 @@ const WithdrawFunds = () => {
             >
               <Typography
                 sx={{
-                  fomtWeight: "500",
+                  fontWeight: "500",
                   color: "#828282",
                   fontSize: "14px",
                   minWidth: "122px",
@@ -576,7 +576,7 @@ const WithdrawFunds = () => {
             <img src={exLogo} alt="ex-logo" />
             <Typography
               sx={{
-                fomtWeight: "400",
+                fontWeight: "400",
                 color: "#CDA11E",
                 fontSize: "14px",
               }}
@@ -661,7 +661,7 @@ const WithdrawFunds = () => {
           >
             <Typography
               sx={{
-                fomtWeight: "900",
+                fontWeight: "900",
                 color: "#1E1E1E",
                 fontWeight: "500",
                 fontSize: "20px",
@@ -686,7 +686,7 @@ const WithdrawFunds = () => {
           >
             <Typography
               sx={{
-                fomtWeight: "600",
+                fontWeight: "600",
                 fontSize: "16px",
                 color: "#4F4F4F",
                 lineHeight: "24px",
@@ -777,7 +777,7 @@ const WithdrawFunds = () => {
           >
             <Typography
               sx={{
-                fomtWeight: "900",
+                fontWeight: "900",
                 color: "#1E1E1E",
                 fontWeight: "500",
                 fontSize: "20px",
@@ -806,7 +806,7 @@ const WithdrawFunds = () => {
 
             <Typography
               sx={{
-                fomtWeight: "400",
+                fontWeight: "400",
                 fontSize: "16px",
                 color: "#4F4F4F",
                 lineHeight: "24px",

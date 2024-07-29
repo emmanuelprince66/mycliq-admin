@@ -78,7 +78,7 @@ const Withdrawal = () => {
 
                   <Typography
                     sx={{
-                      fomtWeight: "500",
+                      fontWeight: "500",
                       fontSize: "14px",
                     }}
                   >
@@ -130,7 +130,7 @@ const Withdrawal = () => {
 
                   <Typography
                     sx={{
-                      fomtWeight: "500",
+                      fontWeight: "500",
                       fontSize: "14px",
                     }}
                   >

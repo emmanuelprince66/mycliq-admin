@@ -100,7 +100,7 @@ const CreateBill = () => {
     >
       <Typography
         sx={{
-          fomtWeight: "500",
+          fontWeight: "500",
           fontSize: "20px",
           color: "#1E1E1E",
           lineHeight: "30px",
@@ -505,7 +505,7 @@ const CreateBill = () => {
           >
             <Typography
               sx={{
-                fomtWeight: "900",
+                fontWeight: "900",
                 color: "#1E1E1E",
                 fontWeight: "500",
                 fontSize: "20px",
@@ -615,7 +615,7 @@ const CreateBill = () => {
           >
             <Typography
               sx={{
-                fomtWeight: "900",
+                fontWeight: "900",
                 color: "#1E1E1E",
                 fontWeight: "500",
                 fontSize: "20px",
@@ -644,7 +644,7 @@ const CreateBill = () => {
 
             <Typography
               sx={{
-                fomtWeight: "400",
+                fontWeight: "400",
                 fontSize: "16px",
                 color: "#4F4F4F",
                 lineHeight: "24px",

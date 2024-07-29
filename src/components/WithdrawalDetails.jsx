@@ -8,8 +8,8 @@ import {
   RadioGroup,
   FormControlLabel,
 } from "@mui/material";
-import info from "../assets/images/admin/info.svg"
-import copyIcon from "../assets/images/admin/copyIcon.svg"
+import info from "../assets/images/admin/info.svg";
+import copyIcon from "../assets/images/admin/copyIcon.svg";
 const WithdrawalDetails = ({ setWithdrawalDetails }) => {
   const style = {
     position: "absolute",
@@ -34,7 +34,7 @@ const WithdrawalDetails = ({ setWithdrawalDetails }) => {
         >
           <Typography
             sx={{
-              fomtWeight: "900",
+              fontWeight: "900",
               color: "#1E1E1E",
               fontWeight: "500",
               fontSize: "20px",
@@ -90,7 +90,7 @@ const WithdrawalDetails = ({ setWithdrawalDetails }) => {
             >
               <Typography
                 sx={{
-                  fomtWeight: "500",
+                  fontWeight: "500",
                   color: "#828282",
                   fontSize: "14px",
                   minWidth: "130px",
@@ -121,7 +121,7 @@ const WithdrawalDetails = ({ setWithdrawalDetails }) => {
             >
               <Typography
                 sx={{
-                  fomtWeight: "500",
+                  fontWeight: "500",
                   color: "#828282",
                   fontSize: "14px",
                   minWidth: "130px",
@@ -149,7 +149,7 @@ const WithdrawalDetails = ({ setWithdrawalDetails }) => {
             >
               <Typography
                 sx={{
-                  fomtWeight: "500",
+                  fontWeight: "500",
                   color: "#828282",
                   fontSize: "14px",
                   minWidth: "130px",
@@ -178,7 +178,7 @@ const WithdrawalDetails = ({ setWithdrawalDetails }) => {
             >
               <Typography
                 sx={{
-                  fomtWeight: "500",
+                  fontWeight: "500",
                   color: "#828282",
                   fontSize: "14px",
                   minWidth: "130px",
@@ -206,7 +206,7 @@ const WithdrawalDetails = ({ setWithdrawalDetails }) => {
             >
               <Typography
                 sx={{
-                  fomtWeight: "500",
+                  fontWeight: "500",
                   color: "#828282",
                   fontSize: "14px",
                   minWidth: "130px",
@@ -234,7 +234,7 @@ const WithdrawalDetails = ({ setWithdrawalDetails }) => {
             >
               <Typography
                 sx={{
-                  fomtWeight: "500",
+                  fontWeight: "500",
                   color: "#828282",
                   fontSize: "14px",
                   minWidth: "130px",
@@ -262,7 +262,7 @@ const WithdrawalDetails = ({ setWithdrawalDetails }) => {
             >
               <Typography
                 sx={{
-                  fomtWeight: "500",
+                  fontWeight: "500",
                   color: "#828282",
                   fontSize: "14px",
                   minWidth: "130px",
@@ -290,7 +290,7 @@ const WithdrawalDetails = ({ setWithdrawalDetails }) => {
             >
               <Typography
                 sx={{
-                  fomtWeight: "500",
+                  fontWeight: "500",
                   color: "#828282",
                   fontSize: "14px",
                   minWidth: "130px",
@@ -319,7 +319,7 @@ const WithdrawalDetails = ({ setWithdrawalDetails }) => {
             >
               <Typography
                 sx={{
-                  fomtWeight: "500",
+                  fontWeight: "500",
                   color: "#828282",
                   fontSize: "14px",
                   minWidth: "130px",
@@ -374,7 +374,7 @@ const WithdrawalDetails = ({ setWithdrawalDetails }) => {
           >
             <Typography
               sx={{
-                fomtWeight: "500",
+                fontWeight: "500",
                 color: "#828282",
                 fontSize: "14px",
                 minWidth: "130px",
@@ -405,7 +405,7 @@ const WithdrawalDetails = ({ setWithdrawalDetails }) => {
           >
             <Typography
               sx={{
-                fomtWeight: "500",
+                fontWeight: "500",
                 color: "#828282",
                 fontSize: "14px",
                 minWidth: "130px",
@@ -433,7 +433,7 @@ const WithdrawalDetails = ({ setWithdrawalDetails }) => {
           >
             <Typography
               sx={{
-                fomtWeight: "500",
+                fontWeight: "500",
                 color: "#828282",
                 fontSize: "14px",
                 minWidth: "130px",
@@ -579,7 +579,7 @@ const WithdrawalDetails = ({ setWithdrawalDetails }) => {
 
           <Typography
             sx={{
-              fomtWeight: "400",
+              fontWeight: "400",
               color: "#CDA11E",
               fontSize: "14px",
             }}
@@ -591,13 +591,22 @@ const WithdrawalDetails = ({ setWithdrawalDetails }) => {
 
         {/* button */}
 
-        <Box sx={{ width: "100%", gap:"10px", display: "flex", alignItems: "center" , my:"1rem", justifyContent:"space-between"}}>
+        <Box
+          sx={{
+            width: "100%",
+            gap: "10px",
+            display: "flex",
+            alignItems: "center",
+            my: "1rem",
+            justifyContent: "space-between",
+          }}
+        >
           <Button
             sx={{
               background: "#fff",
               padding: "10px",
               borderRadius: "8px",
-              width:"100%",
+              width: "100%",
               borderColor: "#333333",
 
               color: "#000",
@@ -609,15 +618,14 @@ const WithdrawalDetails = ({ setWithdrawalDetails }) => {
             }}
             variant="outlined"
           >
-         
-                Cancel
+            Cancel
           </Button>
           <Button
             sx={{
               background: "#FF7F00",
               padding: "10px",
               borderRadius: "8px",
-              width:"100%",
+              width: "100%",
               color: "#fff",
               "&:hover": {
                 backgroundColor: "#FF7F00",
@@ -625,7 +633,7 @@ const WithdrawalDetails = ({ setWithdrawalDetails }) => {
               textTransform: "capitalize",
             }}
           >
-          Update Status
+            Update Status
           </Button>
         </Box>
       </Box>

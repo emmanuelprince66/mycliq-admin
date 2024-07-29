@@ -151,7 +151,7 @@ const Billers = () => {
                 </Box>
                 <Typography
                   sx={{
-                    fomtWeight: "500",
+                    fontWeight: "500",
                     fontSize: "14px",
                     color: "#4F4F4F",
                   }}
@@ -207,7 +207,7 @@ const Billers = () => {
                   </Box>
                   <Typography
                     sx={{
-                      fomtWeight: "500",
+                      fontWeight: "500",
                       fontSize: "14px",
                       color: "#4F4F4F",
                     }}
@@ -221,7 +221,7 @@ const Billers = () => {
               <Box>
                 <Typography
                   sx={{
-                    fomtWeight: "600",
+                    fontWeight: "600",
                     fontSize: "24px",
                     color: "##1E1E1E",
                   }}
@@ -256,7 +256,7 @@ const Billers = () => {
                 </Box>
                 <Typography
                   sx={{
-                    fomtWeight: "500",
+                    fontWeight: "500",
                     fontSize: "14px",
                     color: "#4F4F4F",
                   }}
@@ -270,7 +270,7 @@ const Billers = () => {
               <Box>
                 <Typography
                   sx={{
-                    fomtWeight: "600",
+                    fontWeight: "600",
                     fontSize: "24px",
                     color: "##1E1E1E",
                   }}
@@ -305,7 +305,7 @@ const Billers = () => {
                 </Box>
                 <Typography
                   sx={{
-                    fomtWeight: "500",
+                    fontWeight: "500",
                     fontSize: "14px",
                     color: "#4F4F4F",
                   }}
@@ -319,7 +319,7 @@ const Billers = () => {
               <Box>
                 <Typography
                   sx={{
-                    fomtWeight: "600",
+                    fontWeight: "600",
                     fontSize: "24px",
                     color: "##1E1E1E",
                   }}

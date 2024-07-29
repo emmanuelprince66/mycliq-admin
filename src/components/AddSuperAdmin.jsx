@@ -154,7 +154,7 @@ const AddSuperAdmin = () => {
               />
             </div>
           </Grid>
-          <Grid item xs={4}>
+          <Grid item xs={5}>
             <Typography
               sx={{
                 color: "#1e1e1e",
@@ -198,7 +198,7 @@ const AddSuperAdmin = () => {
               />
             </FormControl>
           </Grid>
-          <Grid item xs={8}>
+          <Grid item xs={7}>
             <Typography
               sx={{
                 color: "#1e1e1e",

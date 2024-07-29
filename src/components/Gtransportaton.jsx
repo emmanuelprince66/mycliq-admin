@@ -579,7 +579,6 @@ const Gtransportaton = () => {
                       sx={{
                         borderRadius: "10px",
                         width: "100%",
-                        // padding: { xs: "4px", sm: "12px 16px", md: " 12px 16px" },
                         color: "#D1D1D1",
                         "& .MuiOutlinedInput-root": {
                           padding: "8px", // Adjust padding to reduce height
@@ -668,7 +667,7 @@ const Gtransportaton = () => {
                                     </Box>
                                     <Typography
                                       sx={{
-                                        fomtWeight: "400",
+                                        fontWeight: "400",
                                         fontSize: "16px",
                                         color: "#828282",
                                       }}

@@ -32,7 +32,7 @@ const CustomerProfileDetails = ({ setShowProfileDetails }) => {
       >
         <Typography
           sx={{
-            fomtWeight: "900",
+            fontWeight: "900",
             color: "#1E1E1E",
             fontWeight: "500",
             fontSize: "20px",
@@ -72,7 +72,7 @@ const CustomerProfileDetails = ({ setShowProfileDetails }) => {
         >
           <Typography
             sx={{
-              fomtWeight: "500",
+              fontWeight: "500",
               color: "#828282",
               fontSize: "14px",
               minWidth: "130px",
@@ -100,7 +100,7 @@ const CustomerProfileDetails = ({ setShowProfileDetails }) => {
         >
           <Typography
             sx={{
-              fomtWeight: "500",
+              fontWeight: "500",
               color: "#828282",
               fontSize: "14px",
               minWidth: "130px",
@@ -128,7 +128,7 @@ const CustomerProfileDetails = ({ setShowProfileDetails }) => {
         >
           <Typography
             sx={{
-              fomtWeight: "500",
+              fontWeight: "500",
               color: "#828282",
               fontSize: "14px",
               minWidth: "130px",
@@ -156,7 +156,7 @@ const CustomerProfileDetails = ({ setShowProfileDetails }) => {
         >
           <Typography
             sx={{
-              fomtWeight: "500",
+              fontWeight: "500",
               color: "#828282",
               fontSize: "14px",
               minWidth: "130px",
@@ -184,7 +184,7 @@ const CustomerProfileDetails = ({ setShowProfileDetails }) => {
         >
           <Typography
             sx={{
-              fomtWeight: "500",
+              fontWeight: "500",
               color: "#828282",
               fontSize: "14px",
               minWidth: "130px",
@@ -212,7 +212,7 @@ const CustomerProfileDetails = ({ setShowProfileDetails }) => {
         >
           <Typography
             sx={{
-              fomtWeight: "500",
+              fontWeight: "500",
               color: "#828282",
               fontSize: "14px",
               minWidth: "130px",
@@ -240,7 +240,7 @@ const CustomerProfileDetails = ({ setShowProfileDetails }) => {
         >
           <Typography
             sx={{
-              fomtWeight: "500",
+              fontWeight: "500",
               color: "#828282",
               fontSize: "14px",
               minWidth: "130px",
@@ -268,7 +268,7 @@ const CustomerProfileDetails = ({ setShowProfileDetails }) => {
         >
           <Typography
             sx={{
-              fomtWeight: "500",
+              fontWeight: "500",
               color: "#828282",
               fontSize: "14px",
               minWidth: "130px",
@@ -297,7 +297,7 @@ const CustomerProfileDetails = ({ setShowProfileDetails }) => {
         >
           <Typography
             sx={{
-              fomtWeight: "500",
+              fontWeight: "500",
               color: "#828282",
               fontSize: "14px",
               minWidth: "130px",
@@ -325,7 +325,7 @@ const CustomerProfileDetails = ({ setShowProfileDetails }) => {
         >
           <Typography
             sx={{
-              fomtWeight: "500",
+              fontWeight: "500",
               color: "#828282",
               fontSize: "14px",
               minWidth: "130px",

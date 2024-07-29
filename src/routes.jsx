@@ -26,6 +26,9 @@ import Gassociation from "./components/Gassociation";
 import Gticket from "./components/Gticket";
 import Gvendor from "./components/Gvendor";
 import Compliance from "./pages/Compliance";
+import AcctNumber from "./pages/acct-num/AcctNumber";
+import Profitability from "./pages/profit/Profitability";
+import Commission from "./pages/commission/Commission";
 
 const myRoutes = [
   { component: <Login />, path: "/", name: "Login Page" },
@@ -85,6 +88,17 @@ const myRoutes = [
   { component: <Transaction />, path: "/transaction", name: "transaction" },
   { component: <Withdrawal />, path: "/withdrawal", name: "withdrawal" },
   { component: <SuperAdmin />, path: "/super-admin", name: "SuperAdmin" },
+  { component: <AcctNumber />, path: "/acct-number", name: "AcctNumber" },
+  {
+    component: <Profitability />,
+    path: "/profitability",
+    name: "Profitability",
+  },
+  {
+    component: <Commission />,
+    path: "/commission",
+    name: "Commission",
+  },
   { component: <Support />, path: "/support", name: "Support" },
   { component: <ResetPassword />, path: "/reset", name: "Reset" },
 ];

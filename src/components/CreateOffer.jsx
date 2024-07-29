@@ -55,7 +55,7 @@ const CreateOffer = () => {
       >
         <Typography
           sx={{
-            fomtWeight: "900",
+            fontWeight: "900",
             color: "#1E1E1E",
             fontWeight: "500",
             fontSize: "20px",
@@ -144,7 +144,7 @@ const CreateOffer = () => {
             >
               <Typography
                 sx={{
-                  fomtWeight: "900",
+                  fontWeight: "900",
                   color: "#A86500",
                   fontWeight: "500",
                   fontSize: "16px",
@@ -444,7 +444,7 @@ const CreateOffer = () => {
                       <Box sx={{ textAlign: "left" }}>
                         <Typography
                           sx={{
-                            fomtWeight: "900",
+                            fontWeight: "900",
                             color: "#A86500",
                             fontWeight: "500",
                             fontSize: "16px",

@@ -224,7 +224,7 @@ const SuperAdmin = () => {
                             </Box>
                             <Typography
                               sx={{
-                                fomtWeight: "400",
+                                fontWeight: "400",
                                 fontSize: "16px",
                                 color: "#828282",
                               }}

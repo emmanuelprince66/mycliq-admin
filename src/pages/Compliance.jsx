@@ -872,7 +872,7 @@ const Compliance = () => {
         )}
         <Divider
           sx={{
-            marginTop: "-30px",
+            marginTop: "-28px",
             mb: "1rem",
             width: "100%",
           }}

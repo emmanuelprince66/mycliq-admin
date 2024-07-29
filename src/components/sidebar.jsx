@@ -29,6 +29,10 @@ import FestivalRoundedIcon from "@mui/icons-material/FestivalRounded";
 import SummarizeRoundedIcon from "@mui/icons-material/SummarizeRounded";
 import Button from "@mui/material/Button";
 import ComplianceIcon from "./ComplianceIcon";
+import aOne from "../assets/images/admin/acct-name/aOne.svg";
+import AcctNumberIcon from "../assets/images/sidebar/AcctNumberIcon";
+import ProfitIcon from "../assets/images/admin/profit/ProfitIcon";
+import CommissionIcon from "../assets/images/admin/commission/CommissionIcon";
 export const Sidebar = () => {
   const navigate = useNavigate();
   const location = window.location.pathname;
@@ -134,6 +138,21 @@ export const Sidebar = () => {
       name: "SuperAdmin",
       component: <CustomerIcon isRightLink={location === "/super-admin"} />,
       link: "super-admin",
+    },
+    {
+      name: "Account Numbers",
+      component: <AcctNumberIcon isRightLink={location === "/acct-number"} />,
+      link: "acct-number",
+    },
+    {
+      name: "Profitability",
+      component: <ProfitIcon isRightLink={location === "/profitability"} />,
+      link: "profitability",
+    },
+    {
+      name: "Commission",
+      component: <CommissionIcon isRightLink={location === "/commission"} />,
+      link: "commission",
     },
     {
       name: "Reset Password",

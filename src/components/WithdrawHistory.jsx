@@ -1,5 +1,5 @@
 import React from "react";
-import { useState ,useEffect} from "react";
+import { useState, useEffect } from "react";
 import {
   Table,
   Box,
@@ -104,40 +104,40 @@ const WithdrawHistory = () => {
       status: "pending",
     },
   ]);
-const {transactionDetails} = useSelector(state=>state)
+  const { transactionDetails } = useSelector((state) => state);
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
   };
-  const withdrawalData = transactionDetails.queryResult.filter(item=>item.transactionType === 'WITHDRAWAL')
-console.log(withdrawalData)
+  const withdrawalData = transactionDetails.queryResult.filter(
+    (item) => item.transactionType === "WITHDRAWAL"
+  );
+  console.log(withdrawalData);
   const handleChangeRowsPerPage = (event) => {
     setRowsPerPage(parseInt(event.target.value, 10));
     setPage(0);
   };
-  function modDate(value){
-    const date = new Date(value)
-    const day = date.getDay()
-    const month = date.getMonth()
-    const year  = date.getFullYear()
-    const hrs = date.getHours()
-    const mins = date.getMinutes()
-    const period = hrs >= 12 ? 'pm' : 'am';
+  function modDate(value) {
+    const date = new Date(value);
+    const day = date.getDay();
+    const month = date.getMonth();
+    const year = date.getFullYear();
+    const hrs = date.getHours();
+    const mins = date.getMinutes();
+    const period = hrs >= 12 ? "pm" : "am";
     const formattedHours = hrs % 12 || 12;
-  
-    return `${day} - ${month} - ${year} at ${formattedHours}:${mins} ${period}`;}
-  function viewDetails(i){
-    setIndex(i)
-    setOpen1(true)
+
+    return `${day} - ${month} - ${year} at ${formattedHours}:${mins} ${period}`;
+  }
+  function viewDetails(i) {
+    setIndex(i);
+    setOpen1(true);
   }
 
   useEffect(() => {
-    
-  setTimeout(() => {
-    setLoading(false)
-  }, 500);
-  
-  }, [])
-  
+    setTimeout(() => {
+      setLoading(false);
+    }, 500);
+  }, []);
 
   return (
     <Box
@@ -150,7 +150,7 @@ console.log(withdrawalData)
     >
       <Typography
         sx={{
-          fomtWeight: "500",
+          fontWeight: "500",
           fontSize: "20px",
           color: "#1E1E1E",
           margin: "0 0 2rem 0",
@@ -174,10 +174,8 @@ console.log(withdrawalData)
             </TableRow>
           </TableHead>
           <TableBody>
-
-            {
- withdrawalData.length > 0 ?
-              withdrawalData.map((item,i) => (
+            {withdrawalData.length > 0 ? (
+              withdrawalData.map((item, i) => (
                 <TableRow key={item.id}>
                   <TableCell>{i + 1}</TableCell>
                   <TableCell>{item?.amount}</TableCell>
@@ -242,7 +240,7 @@ console.log(withdrawalData)
 
                   <TableCell>
                     <Button
-                      onClick={()=>viewDetails(i)}
+                      onClick={() => viewDetails(i)}
                       variant="outlined"
                       sx={{
                         textTransform: "capitalize",
@@ -262,12 +260,11 @@ console.log(withdrawalData)
                   </TableCell>
                 </TableRow>
               ))
-              : (
-                <Typography className="flex self-center p-3  min-w-full">
-                  No transactions yet.
-                </Typography>
-              )
-              }
+            ) : (
+              <Typography className="flex self-center p-3  min-w-full">
+                No transactions yet.
+              </Typography>
+            )}
           </TableBody>
         </Table>
       </TableContainer>
@@ -306,7 +303,7 @@ console.log(withdrawalData)
           >
             <Typography
               sx={{
-                fomtWeight: "900",
+                fontWeight: "900",
                 color: "#1E1E1E",
                 fontWeight: "500",
                 fontSize: "20px",
@@ -342,7 +339,7 @@ console.log(withdrawalData)
             >
               <Typography
                 sx={{
-                  fomtWeight: "500",
+                  fontWeight: "500",
                   color: "#828282",
                   fontSize: "14px",
                 }}
@@ -357,7 +354,7 @@ console.log(withdrawalData)
                   fontSize: "14px",
                 }}
               >
-              ID:{withdrawalData[index]?.id.slice(1,12)}
+                ID:{withdrawalData[index]?.id.slice(1, 12)}
               </Typography>
             </Box>
             <Box
@@ -369,7 +366,7 @@ console.log(withdrawalData)
             >
               <Typography
                 sx={{
-                  fomtWeight: "500",
+                  fontWeight: "500",
                   color: "#828282",
                   fontSize: "14px",
                 }}
@@ -397,7 +394,7 @@ console.log(withdrawalData)
             >
               <Typography
                 sx={{
-                  fomtWeight: "500",
+                  fontWeight: "500",
                   color: "#828282",
                   fontSize: "14px",
                 }}
@@ -435,60 +432,60 @@ console.log(withdrawalData)
               </Typography>
 
               <Box
-                      sx={{
-                        textTransform: "capitalize",
-                        color: "#DC0019",
-                        background:
-                          withdrawalData[index]?.transactionStatus === "SUCCESS"
-                            ? "#EBFFF3"
-                            : withdrawalData[index]?.transactionStatus === "PENDING"
-                            ? "#FFF0F0"
-                            : "#FFF0F0",
-                        color:
-                          withdrawalData[index]?.transactionStatus === "SUCCESS"
-                            ? "#1E854A"
-                            : withdrawalData[index]?.transactionStatus === "PENDING"
-                            ? "#CDA11E"
-                            : "#E52929",
-                        width:
-                          withdrawalData[index]?.transactionStatus === "SUCCESS"
-                            ? "105px"
-                            : withdrawalData[index]?.transactionStatus === "PENDING"
-                            ? "90px"
-                            : "90px",
-                        fontWeight: "500",
-                        fontSize: "12px",
-                        border: "none",
-                        padding: "4px 8px 4px 8px",
-                        borderRadius: "8px",
-                        display: "flex",
-                        alignItems: "center",
-                        gap: "5px",
-                        border: "1px solid #E0E0E0",
-                      }}
-                    >
-                      {withdrawalData[index]?.transactionStatus === "SUCCESS" ? (
-                        <CheckCircleOutlineRoundedIcon
-                          sx={{
-                            fontSize: "12px",
-                          }}
-                        />
-                      ) : withdrawalData[index]?.transactionStatus === "PENDING" ? (
-                        <HourglassTopRoundedIcon
-                          sx={{
-                            fontSize: "12px",
-                          }}
-                        />
-                      ) : (
-                        <InfoOutlinedIcon
-                          sx={{
-                            fontSize: "12px",
-                          }}
-                        />
-                      )}
+                sx={{
+                  textTransform: "capitalize",
+                  color: "#DC0019",
+                  background:
+                    withdrawalData[index]?.transactionStatus === "SUCCESS"
+                      ? "#EBFFF3"
+                      : withdrawalData[index]?.transactionStatus === "PENDING"
+                      ? "#FFF0F0"
+                      : "#FFF0F0",
+                  color:
+                    withdrawalData[index]?.transactionStatus === "SUCCESS"
+                      ? "#1E854A"
+                      : withdrawalData[index]?.transactionStatus === "PENDING"
+                      ? "#CDA11E"
+                      : "#E52929",
+                  width:
+                    withdrawalData[index]?.transactionStatus === "SUCCESS"
+                      ? "105px"
+                      : withdrawalData[index]?.transactionStatus === "PENDING"
+                      ? "90px"
+                      : "90px",
+                  fontWeight: "500",
+                  fontSize: "12px",
+                  border: "none",
+                  padding: "4px 8px 4px 8px",
+                  borderRadius: "8px",
+                  display: "flex",
+                  alignItems: "center",
+                  gap: "5px",
+                  border: "1px solid #E0E0E0",
+                }}
+              >
+                {withdrawalData[index]?.transactionStatus === "SUCCESS" ? (
+                  <CheckCircleOutlineRoundedIcon
+                    sx={{
+                      fontSize: "12px",
+                    }}
+                  />
+                ) : withdrawalData[index]?.transactionStatus === "PENDING" ? (
+                  <HourglassTopRoundedIcon
+                    sx={{
+                      fontSize: "12px",
+                    }}
+                  />
+                ) : (
+                  <InfoOutlinedIcon
+                    sx={{
+                      fontSize: "12px",
+                    }}
+                  />
+                )}
 
-                      {withdrawalData[index]?.transactionStatus}
-                    </Box>
+                {withdrawalData[index]?.transactionStatus}
+              </Box>
             </Box>
           </Box>
 
@@ -508,7 +505,7 @@ console.log(withdrawalData)
           >
             <Typography
               sx={{
-                fomtWeight: "500",
+                fontWeight: "500",
                 color: "#1E1E1E",
                 fontWeight: "500",
                 fontSize: "14px",
@@ -528,7 +525,7 @@ console.log(withdrawalData)
             >
               <Typography
                 sx={{
-                  fomtWeight: "500",
+                  fontWeight: "500",
                   color: "#828282",
                   fontSize: "14px",
                 }}
@@ -555,7 +552,7 @@ console.log(withdrawalData)
             >
               <Typography
                 sx={{
-                  fomtWeight: "500",
+                  fontWeight: "500",
                   color: "#828282",
                   fontSize: "14px",
                 }}
@@ -570,7 +567,7 @@ console.log(withdrawalData)
                   fontSize: "14px",
                 }}
               >
-                  {withdrawalData[index]?.bankDetails.accountNumber}
+                {withdrawalData[index]?.bankDetails.accountNumber}
               </Typography>
             </Box>
             <Box
@@ -583,7 +580,7 @@ console.log(withdrawalData)
             >
               <Typography
                 sx={{
-                  fomtWeight: "500",
+                  fontWeight: "500",
                   color: "#828282",
                   fontSize: "14px",
                 }}

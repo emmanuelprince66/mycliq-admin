@@ -76,7 +76,7 @@ const ManageBills = () => {
 
     //               <Typography
     //                 sx={{
-    //                   fomtWeight: "500",
+    //                   fontWeight: "500",
     //                   fontSize: "14px",
     //                 }}
     //               >
@@ -127,7 +127,7 @@ const ManageBills = () => {
 
     //               <Typography
     //                 sx={{
-    //                   fomtWeight: "500",
+    //                   fontWeight: "500",
     //                   fontSize: "14px",
     //                 }}
     //               >

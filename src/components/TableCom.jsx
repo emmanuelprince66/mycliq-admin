@@ -63,6 +63,7 @@ import WithdrawalDetails from "./WithdrawalDetails";
 import DiscountDetails from "./DiscountDetails";
 import CreateOffer from "./CreateOffer";
 import CustomPagination from "./CustomPagination";
+import { AirtimeModal } from "../pages/trx/AirtimeModal";
 const TableCom = () => {
   const [transactionData, setTransactionData] = useState([]);
   const [open1, setOpen1] = React.useState(false);
@@ -76,7 +77,7 @@ const TableCom = () => {
   const [index, setIndex] = useState(0);
   const [details, setDetails] = useState({});
   const { selectedDates } = useSelector((state) => state);
-
+  const [openAirtimeModal, setOpenAirtimeModal] = useState(false);
   const [anchorEl, setAnchorEl] = React.useState(null);
   const open = Boolean(anchorEl);
 
@@ -92,6 +93,7 @@ const TableCom = () => {
   const [transactionFilter, setTransactionFilter] = useState("All");
 
   const handleCloseDepositDetails = () => setDepositDetails(false);
+  const handleCloseAirtimeModal = () => setOpenAirtimeModal(false);
   const handleCloseWithdrawalDetails = () => setWithdrawalDetails(false);
   const handleCloseDiscountDetails = () => setDiscountDetails(false);
   const handleCloseCreateOffer = () => setCreateOffer(false);
@@ -205,10 +207,16 @@ const TableCom = () => {
     setTotalDeposits(amtOfTotalDeposit);
   }, [transactionDetails, totalDeposits]);
 
-  async function viewDetails(i) {
-    setOpen1(true);
+  async function viewDetails(i, type) {
     setIndex(i);
+
+    switch (type) {
+      case "airtime":
+        setOpenAirtimeModal(true);
+    }
+    // setOpen1(true);
   }
+
   return (
     <Box
       sx={{
@@ -252,7 +260,7 @@ const TableCom = () => {
             </Box>
             <Typography
               sx={{
-                fomtWeight: "500",
+                fontWeight: "500",
                 fontSize: "14px",
                 color: "#4F4F4F",
               }}
@@ -265,7 +273,7 @@ const TableCom = () => {
           <Box>
             <Typography
               sx={{
-                fomtWeight: "500",
+                fontWeight: "500",
                 fontSize: "20px",
                 color: "#1E1E1E",
               }}
@@ -313,7 +321,7 @@ const TableCom = () => {
               </Box>
               <Typography
                 sx={{
-                  fomtWeight: "500",
+                  fontWeight: "500",
                   fontSize: "14px",
                   color: "#4F4F4F",
                 }}
@@ -327,7 +335,7 @@ const TableCom = () => {
           <Box>
             <Typography
               sx={{
-                fomtWeight: "500",
+                fontWeight: "500",
                 fontSize: "20px",
                 color: "##1E1E1E",
               }}
@@ -379,7 +387,7 @@ const TableCom = () => {
           <Box>
             <Typography
               sx={{
-                fomtWeight: "500",
+                fontWeight: "500",
                 fontSize: "20px",
                 color: "##1E1E1E",
               }}
@@ -416,7 +424,7 @@ const TableCom = () => {
             </Box>
             <Typography
               sx={{
-                fomtWeight: "500",
+                fontWeight: "500",
                 fontSize: "14px",
                 color: "#4F4F4F",
               }}
@@ -428,7 +436,7 @@ const TableCom = () => {
           <Box>
             <Typography
               sx={{
-                fomtWeight: "500",
+                fontWeight: "500",
                 fontSize: "20px",
                 color: "##1E1E1E",
               }}
@@ -699,7 +707,7 @@ const TableCom = () => {
                     </TableCell>
                     <TableCell>
                       <Button
-                        onClick={() => viewDetails(i)}
+                        onClick={() => viewDetails(item?.id, item?.subType)}
                         variant="outlined"
                         sx={{
                           textTransform: "capitalize",
@@ -746,9 +754,26 @@ const TableCom = () => {
             },
           }}
         >
-          <TransactionDetails
-            handleClose1={handleClose1}
-            details={transactionData[index]}
+          <TransactionDetails index={index} handleClose1={handleClose1} />
+        </Modal>
+        {/* Modal ends */}
+        {/* Moda;l for detailsl */}
+
+        <Modal
+          open={openAirtimeModal}
+          onClose={handleCloseAirtimeModal}
+          aria-labelledby="modal-modal-title"
+          aria-describedby="modal-modal-description"
+          PaperProps={{
+            sx: {
+              border: "none", // Remove the border
+              boxShadow: "none", // Remove the box shadow
+            },
+          }}
+        >
+          <AirtimeModal
+            handleCloseAirtimeModal={handleCloseAirtimeModal}
+            index={index}
           />
         </Modal>
         {/* Modal ends */}

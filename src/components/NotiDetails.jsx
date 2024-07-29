@@ -41,7 +41,7 @@ const NotiDetails = ({ handleCloseNotiDetails }) => {
       >
         <Typography
           sx={{
-            fomtWeight: "900",
+            fontWeight: "900",
             color: "#1E1E1E",
             fontWeight: "500",
             fontSize: "20px",

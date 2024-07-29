@@ -1,11 +1,7 @@
-import React from 'react'
-import closeIcon from "../assets/images/closeIcon.svg"
-import {
-  Box,
-  Button,
-  Typography,
-} from "@mui/material";
-const DepositDetails = ({setDepositDetails}) => {
+import React from "react";
+import closeIcon from "../assets/images/closeIcon.svg";
+import { Box, Button, Typography } from "@mui/material";
+const DepositDetails = ({ setDepositDetails }) => {
   const style = {
     position: "absolute",
     top: "50%",
@@ -28,7 +24,7 @@ const DepositDetails = ({setDepositDetails}) => {
       >
         <Typography
           sx={{
-            fomtWeight: "900",
+            fontWeight: "900",
             color: "#1E1E1E",
             fontWeight: "500",
             fontSize: "20px",
@@ -37,7 +33,10 @@ const DepositDetails = ({setDepositDetails}) => {
           Transaction Details
         </Typography>
 
-        <Box onClick={() => setDepositDetails(false)} className="cursor-pointer">
+        <Box
+          onClick={() => setDepositDetails(false)}
+          className="cursor-pointer"
+        >
           <img src={closeIcon} alt="c-icon" />
         </Box>
       </Box>
@@ -65,7 +64,7 @@ const DepositDetails = ({setDepositDetails}) => {
         >
           <Typography
             sx={{
-              fomtWeight: "500",
+              fontWeight: "500",
               color: "#828282",
               fontSize: "14px",
               minWidth: "130px",
@@ -83,7 +82,8 @@ const DepositDetails = ({setDepositDetails}) => {
           >
             {/* {details?.transferFrom?.lastName +
               " " +
-              details?.transferFrom?.firstName ?? " ..."} */}emma
+              details?.transferFrom?.firstName ?? " ..."} */}
+            emma
           </Typography>
         </Box>
         <Box
@@ -95,7 +95,7 @@ const DepositDetails = ({setDepositDetails}) => {
         >
           <Typography
             sx={{
-              fomtWeight: "500",
+              fontWeight: "500",
               color: "#828282",
               fontSize: "14px",
               minWidth: "130px",
@@ -123,7 +123,7 @@ const DepositDetails = ({setDepositDetails}) => {
         >
           <Typography
             sx={{
-              fomtWeight: "500",
+              fontWeight: "500",
               color: "#828282",
               fontSize: "14px",
               minWidth: "130px",
@@ -151,7 +151,7 @@ const DepositDetails = ({setDepositDetails}) => {
         >
           <Typography
             sx={{
-              fomtWeight: "500",
+              fontWeight: "500",
               color: "#828282",
               fontSize: "14px",
               minWidth: "130px",
@@ -179,7 +179,7 @@ const DepositDetails = ({setDepositDetails}) => {
         >
           <Typography
             sx={{
-              fomtWeight: "500",
+              fontWeight: "500",
               color: "#828282",
               fontSize: "14px",
               minWidth: "130px",
@@ -207,7 +207,7 @@ const DepositDetails = ({setDepositDetails}) => {
         >
           <Typography
             sx={{
-              fomtWeight: "500",
+              fontWeight: "500",
               color: "#828282",
               fontSize: "14px",
               minWidth: "130px",
@@ -235,7 +235,7 @@ const DepositDetails = ({setDepositDetails}) => {
         >
           <Typography
             sx={{
-              fomtWeight: "500",
+              fontWeight: "500",
               color: "#828282",
               fontSize: "14px",
               minWidth: "130px",
@@ -263,7 +263,7 @@ const DepositDetails = ({setDepositDetails}) => {
         >
           <Typography
             sx={{
-              fomtWeight: "500",
+              fontWeight: "500",
               color: "#828282",
               fontSize: "14px",
               minWidth: "130px",
@@ -292,7 +292,7 @@ const DepositDetails = ({setDepositDetails}) => {
         >
           <Typography
             sx={{
-              fomtWeight: "500",
+              fontWeight: "500",
               color: "#828282",
               fontSize: "14px",
               minWidth: "130px",
@@ -320,7 +320,7 @@ const DepositDetails = ({setDepositDetails}) => {
         >
           <Typography
             sx={{
-              fomtWeight: "500",
+              fontWeight: "500",
               color: "#828282",
               fontSize: "14px",
               minWidth: "130px",
@@ -350,7 +350,7 @@ const DepositDetails = ({setDepositDetails}) => {
         }}
       >
         <Button
-        //   onClick={handleClose1}
+          //   onClick={handleClose1}
           sx={{
             background: "#dc0019",
             padding: "10px",
@@ -396,7 +396,7 @@ const DepositDetails = ({setDepositDetails}) => {
      >
        <Typography
          sx={{
-           fomtWeight: "500",
+           fontWeight: "500",
            color: "#828282",
            fontSize: "14px",
            minWidth: "130px",
@@ -424,7 +424,7 @@ const DepositDetails = ({setDepositDetails}) => {
      >
        <Typography
          sx={{
-           fomtWeight: "500",
+           fontWeight: "500",
            color: "#828282",
            fontSize: "14px",
            minWidth: "130px",
@@ -453,7 +453,7 @@ const DepositDetails = ({setDepositDetails}) => {
      >
        <Typography
          sx={{
-           fomtWeight: "500",
+           fontWeight: "500",
            color: "#828282",
            fontSize: "14px",
            minWidth: "130px",
@@ -512,7 +512,7 @@ const DepositDetails = ({setDepositDetails}) => {
      >
        <Typography
          sx={{
-           fomtWeight: "500",
+           fontWeight: "500",
            color: "#828282",
            fontSize: "14px",
            minWidth: "130px",
@@ -546,6 +546,6 @@ const DepositDetails = ({setDepositDetails}) => {
    </Box> */}
     </Box>
   );
-}
+};
 
-export default DepositDetails
+export default DepositDetails;

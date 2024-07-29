@@ -1,5 +1,5 @@
-import React from 'react'
-import { useState } from 'react';
+import React from "react";
+import { useState } from "react";
 import {
   Box,
   Button,
@@ -21,33 +21,30 @@ import closeIcon from "../assets/images/closeIcon.svg";
 
 const pickUp = [
   {
-  id:1,
+    id: 1,
     name: "spaghetti",
     qty: 2,
     price: 400,
   },
   {
-   id:2,
+    id: 2,
     name: "jollof rice",
     qty: 3,
     price: 500,
   },
   {
-    id:3,
+    id: 3,
     name: "Beef",
     qty: 4,
     price: 500,
   },
   {
-  id:4,
+    id: 4,
     name: "salad",
     qty: 3,
     price: 5000,
   },
 ];
-
-
-
 
 const DiscountDetails = () => {
   const [page, setPage] = useState(0);
@@ -85,7 +82,7 @@ const DiscountDetails = () => {
         >
           <Typography
             sx={{
-              fomtWeight: "900",
+              fontWeight: "900",
               color: "#1E1E1E",
               fontWeight: "500",
               fontSize: "20px",
@@ -809,12 +806,12 @@ const DiscountDetails = () => {
               fontWeight: "500",
             }}
           >
-         Okay
+            Okay
           </Button>
         </Box>
       </Box>
     </Box>
   );
-}
+};
 
-export default DiscountDetails
+export default DiscountDetails;

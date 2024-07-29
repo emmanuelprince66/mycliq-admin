@@ -890,7 +890,7 @@ const CustomerProfile = ({
                           <TableCell>
                             <Typography
                               sx={{
-                                fomtWeight: "400",
+                                fontWeight: "400",
                                 fontSize: "16px",
                                 color: "#828282",
                               }}
@@ -901,7 +901,7 @@ const CustomerProfile = ({
                           <TableCell>
                             <Typography
                               sx={{
-                                fomtWeight: "400",
+                                fontWeight: "400",
                                 fontSize: "16px",
                                 color: "#828282",
                               }}
@@ -912,7 +912,7 @@ const CustomerProfile = ({
                           <TableCell>
                             <Typography
                               sx={{
-                                fomtWeight: "400",
+                                fontWeight: "400",
                                 fontSize: "16px",
                                 color: "#828282",
                               }}

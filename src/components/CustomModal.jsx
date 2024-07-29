@@ -3,7 +3,7 @@ import { Modal } from "@mui/material";
 import { useState } from "react";
 import { Padding } from "@mui/icons-material";
 
-const CustomModal = ({ children, open, closeModal }) => {
+const CustomModal = ({ children, open, closeModal, cwidth }) => {
   const style = {
     position: "absolute",
     top: "50%",
@@ -12,7 +12,7 @@ const CustomModal = ({ children, open, closeModal }) => {
     maxHeight: "95%",
     padding: "1rem",
     overflowY: "auto",
-    width: "50%",
+    width: cwidth ? cwidth : "50%",
     transform: "translate(-50%, -50%)",
     borderRadius: "12px",
     bgcolor: "background.paper",

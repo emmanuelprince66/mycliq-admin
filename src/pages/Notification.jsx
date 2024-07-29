@@ -48,7 +48,7 @@ const Notification = () => {
       >
         <Typography
           sx={{
-            fomtWeight: "900",
+            fontWeight: "900",
             color: "#1E1E1E",
             fontWeight: "500",
             fontSize: "20px",
@@ -720,7 +720,7 @@ const Notification = () => {
             >
               <Typography
                 sx={{
-                  fomtWeight: "900",
+                  fontWeight: "900",
                   color: "#1E1E1E",
                   fontWeight: "500",
                   fontSize: "20px",
@@ -759,7 +759,7 @@ const Notification = () => {
 
                 <Typography
                   sx={{
-                    fomtWeight: "400",
+                    fontWeight: "400",
                     color: "#CDA11E",
                     fontSize: "14px",
                   }}

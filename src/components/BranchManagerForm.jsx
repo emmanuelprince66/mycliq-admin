@@ -321,7 +321,7 @@ const BranchManagerForm = ({ onSubmit }) => {
 
           <Typography
             sx={{
-              fomtWeight: "400",
+              fontWeight: "400",
               color: "#CDA11E",
               fontSize: "14px",
             }}

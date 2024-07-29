@@ -240,7 +240,7 @@ const TableStudents = () => {
             </Typography>
             <Typography
               sx={{
-                fomtWeight: "600",
+                fontWeight: "600",
                 fontSize: "12px",
                 color: "#A86500",
                 lineHeight: "18px",
@@ -663,7 +663,7 @@ const TableStudents = () => {
             >
               <Typography
                 sx={{
-                  fomtWeight: "900",
+                  fontWeight: "900",
                   color: "#1E1E1E",
                   fontWeight: "500",
                   fontSize: "20px",

@@ -23,7 +23,7 @@ const OfferHistory = () => {
         <>
           <Typography
             sx={{
-              fomtWeight: "900",
+              fontWeight: "900",
               color: "#000",
               fontWeight: "500",
               fontSize: "16px",
@@ -60,7 +60,7 @@ const OfferHistory = () => {
               >
                 <Typography
                   sx={{
-                    fomtWeight: "900",
+                    fontWeight: "900",
                     color: "#000",
                     fontWeight: "500",
                     fontSize: "14px",
@@ -71,7 +71,7 @@ const OfferHistory = () => {
 
                 <Typography
                   sx={{
-                    fomtWeight: "900",
+                    fontWeight: "900",
                     color: "#828282",
                     fontWeight: "500",
                     fontSize: "12px",
@@ -81,7 +81,7 @@ const OfferHistory = () => {
                 </Typography>
                 <Typography
                   sx={{
-                    fomtWeight: "900",
+                    fontWeight: "900",
                     color: "#828282",
                     fontWeight: "500",
                     fontSize: "12px",
@@ -148,7 +148,7 @@ const OfferHistory = () => {
               >
                 <Typography
                   sx={{
-                    fomtWeight: "900",
+                    fontWeight: "900",
                     color: "#000",
                     fontWeight: "500",
                     fontSize: "14px",
@@ -159,7 +159,7 @@ const OfferHistory = () => {
 
                 <Typography
                   sx={{
-                    fomtWeight: "900",
+                    fontWeight: "900",
                     color: "#828282",
                     fontWeight: "500",
                     fontSize: "12px",
@@ -169,7 +169,7 @@ const OfferHistory = () => {
                 </Typography>
                 <Typography
                   sx={{
-                    fomtWeight: "900",
+                    fontWeight: "900",
                     color: "#828282",
                     fontWeight: "500",
                     fontSize: "12px",
@@ -236,7 +236,7 @@ const OfferHistory = () => {
               >
                 <Typography
                   sx={{
-                    fomtWeight: "900",
+                    fontWeight: "900",
                     color: "#000",
                     fontWeight: "500",
                     fontSize: "14px",
@@ -247,7 +247,7 @@ const OfferHistory = () => {
 
                 <Typography
                   sx={{
-                    fomtWeight: "900",
+                    fontWeight: "900",
                     color: "#828282",
                     fontWeight: "500",
                     fontSize: "12px",
@@ -257,7 +257,7 @@ const OfferHistory = () => {
                 </Typography>
                 <Typography
                   sx={{
-                    fomtWeight: "900",
+                    fontWeight: "900",
                     color: "#828282",
                     fontWeight: "500",
                     fontSize: "12px",
@@ -324,7 +324,7 @@ const OfferHistory = () => {
               >
                 <Typography
                   sx={{
-                    fomtWeight: "900",
+                    fontWeight: "900",
                     color: "#000",
                     fontWeight: "500",
                     fontSize: "14px",
@@ -335,7 +335,7 @@ const OfferHistory = () => {
 
                 <Typography
                   sx={{
-                    fomtWeight: "900",
+                    fontWeight: "900",
                     color: "#828282",
                     fontWeight: "500",
                     fontSize: "12px",
@@ -345,7 +345,7 @@ const OfferHistory = () => {
                 </Typography>
                 <Typography
                   sx={{
-                    fomtWeight: "900",
+                    fontWeight: "900",
                     color: "#828282",
                     fontWeight: "500",
                     fontSize: "12px",
@@ -412,7 +412,7 @@ const OfferHistory = () => {
               >
                 <Typography
                   sx={{
-                    fomtWeight: "900",
+                    fontWeight: "900",
                     color: "#000",
                     fontWeight: "500",
                     fontSize: "14px",
@@ -423,7 +423,7 @@ const OfferHistory = () => {
 
                 <Typography
                   sx={{
-                    fomtWeight: "900",
+                    fontWeight: "900",
                     color: "#828282",
                     fontWeight: "500",
                     fontSize: "12px",
@@ -433,7 +433,7 @@ const OfferHistory = () => {
                 </Typography>
                 <Typography
                   sx={{
-                    fomtWeight: "900",
+                    fontWeight: "900",
                     color: "#828282",
                     fontWeight: "500",
                     fontSize: "12px",
