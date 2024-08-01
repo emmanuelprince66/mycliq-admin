@@ -16,10 +16,13 @@ import {
 } from "@mui/material";
 import CustomPagination from "../../components/CustomPagination";
 import CustomModal from "../../components/CustomModal";
-import UpdateAcctNumber from "./UpdateAcctNumber";
+import AddActivity from "./AddActivity";
+import UpdateActivity from "./UpdateActivity";
 const AcctNumber = () => {
-  const [showUpdateAcctNo, setShowUpdateAcctNo] = useState(false);
-  const handleCloseUpdateAcctNo = () => setShowUpdateAcctNo(false);
+  const [showUpdateActivity, setShowUpdateActivity] = useState(false);
+  const handleCloseUpdateActivity = () => setShowUpdateActivity(false);
+  const [showAddActivity, setShowAddActivity] = useState(false);
+  const handleCloseAddActivity = () => setShowAddActivity(false);
   const totalPages = 8;
   const rowsPerPage = 20;
   const [currentPage, setCurrentPage] = useState(1);
@@ -212,14 +215,25 @@ const AcctNumber = () => {
 
       {/* Add activity Modal */}
 
-      {/* update act number modal */}
+      {/* add activity act number modal */}
       <CustomModal
-        open={!showUpdateAcctNo}
-        closeModal={handleCloseUpdateAcctNo}
+        cwidth="40%"
+        open={showAddActivity}
+        closeModal={handleCloseAddActivity}
       >
-        <UpdateAcctNumber handleCloseUpdateAcctNo={handleCloseUpdateAcctNo} />
+        <AddActivity handleCloseAddActivity={handleCloseAddActivity} />
       </CustomModal>
-      {/* update act number modal ends */}
+      {/* add activity number modal ends */}
+
+      {/* update activity */}
+      <CustomModal
+        cwidth="40%"
+        open={showUpdateActivity}
+        closeModal={handleCloseUpdateActivity}
+      >
+        <UpdateActivity handleCloseUpdateActivity={handleCloseUpdateActivity} />
+      </CustomModal>
+      {/* update activity ends */}
     </div>
   );
 };
