@@ -9,6 +9,7 @@ import {
   TableContainer,
   TableHead,
   TableRow,
+  CircularProgress,
   Paper,
   Grid,
   Container,
@@ -44,6 +45,14 @@ import ReportProblemOutlinedIcon from "@mui/icons-material/ReportProblemOutlined
 import VerifiedOutlinedIcon from "@mui/icons-material/VerifiedOutlined";
 import Switch from "@mui/material/Switch";
 import compliance from "../assets/images/generalMerchants/compliance.svg";
+import FormattedPrice from "./FormattedPrice";
+import fdown from "../assets/fdown.svg";
+import upcolor from "../assets/images/admin/upcolor.svg";
+import wallet from "../assets/images/generalMerchants/wallet.svg";
+import percent from "../assets/images/generalMerchants/percent.svg";
+
+
+
 const dummyCustomers = [
   {
     id: 1,
@@ -107,10 +116,42 @@ const dummyCustomers = [
   },
 ];
 const CustomerProfile = ({
-  customerDataById,
+  id,
   showCustomerProfile,
   handleCloseShowCustomerProfile,
 }) => {
+  const [apiId , setApiId] = useState("")
+  const [showProfileDetails, setShowProfileDetails] = useState(false);
+  const handleCloseProfileDetails = () => setShowProfileDetails(false);
+  const [page, setPage] = useState(0);
+  const [rowsPerPage, setRowsPerPage] = useState(100);
+
+
+  const {
+    data: customerDataById,
+    error:isError,
+    isLoading:dataLoading,
+  } = useQuery({
+    queryKey: "customerDataById",
+    queryFn: async () => {
+      try {
+        const response = await AuthAxios.get(
+          `/admin/user/${apiId}/de-profile?analytics=include`
+        );
+        console.log(response)
+        return response?.data?.data;
+      } catch (error) {
+        throw new Error("Failed to fetch customer data");
+      }
+    },
+    onSuccess: (data) => {},
+    staleTime: 5000, // Cache data for 5 seconds
+  });
+
+  console.log(customerDataById)
+
+
+
   const {
     data: customerTrx,
     error,
@@ -120,7 +161,7 @@ const CustomerProfile = ({
     queryFn: async () => {
       try {
         const response = await AuthAxios.get(
-          `/admin/trx/${customerDataById?.id}`
+          `/admin/trx/${apiId}`
         );
         return response?.data?.data?.records;
       } catch (error) {
@@ -131,12 +172,13 @@ const CustomerProfile = ({
     staleTime: 5000, // Cache data for 5 seconds
   });
 
-  const [showProfileDetails, setShowProfileDetails] = useState(false);
-  const handleCloseProfileDetails = () => setShowProfileDetails(false);
-  const [page, setPage] = useState(0);
-  const [rowsPerPage, setRowsPerPage] = useState(100);
 
-  useEffect(() => {}, [customerDataById]);
+
+
+  useEffect(()=> {
+    setApiId(id)
+
+} , [id])
 
   if (!showCustomerProfile) {
     return null;
@@ -144,7 +186,350 @@ const CustomerProfile = ({
   return (
     <Box className="w-full ">
       <Grid container spacing={2}>
-        <Grid xs={12}></Grid>
+        <Grid xs={12}>
+        <Box
+            sx={{
+              width: "100%",
+              display: "flex",
+              gap: "0.5rem",
+              mb: "1rem",
+            }}
+          >
+            <Card
+              sx={{
+                display: "flex",
+                flexDirection: "column",
+                padding: "16px",
+                // width: "356px",
+                width: "100%",
+                gap: "0.8rem",
+              }}
+            >
+              <Box
+                sx={{
+                  display: "flex",
+                  alignItems: "center",
+                  gap: "15px",
+                }}
+              >
+                <Box
+                  sx={{
+                    width: "28px",
+                    height: "28px",
+                  }}
+                >
+                  <img src={fdown} className="fd" alt="f-down" />
+                </Box>
+                <Typography
+                  sx={{
+                    fontWeight: 500,
+                    fontSize: "14px",
+                    color: "#4F4F4F",
+                  }}
+                >
+                  Customer Inflow
+                </Typography>
+              </Box>
+
+              <Box className="flex flex-col items-start gap-1 w-full">
+                <Box className="flex flex-col gap-1 items-start">
+                  <Typography
+                    sx={{
+                      fontSize: "12px",
+                      color: "#4F4F4F",
+                    }}
+                  >
+                    All-Time:
+                  </Typography>
+                  <Typography
+                    sx={{
+                      fontSize: "20px",
+                      fontWeight: 500,
+                      color: "#000",
+                    }}
+                  >
+                         {dataLoading ? 
+                <CircularProgress size="0.6rem" sx={{ color: "#DC0019" }} />
+                :
+                <FormattedPrice amount={customerDataById?.analytics?.totalInwardsSum || 0} />
+                }
+                  </Typography>
+                </Box>
+                <Box className="flex flex-col gap-2 items-start">
+                  <Typography
+                    sx={{
+                      fontSize: "12px",
+                      color: "#4F4F4F",
+                    }}
+                  >
+                    By-Filter:
+                  </Typography>
+                  <Typography
+                    sx={{
+                      fontSize: "20px",
+                      fontWeight: 500,
+                      color: "#000",
+                    }}
+                  >
+                               {dataLoading ? 
+                <CircularProgress size="0.6rem" sx={{ color: "#DC0019" }} />
+                :
+                <FormattedPrice amount={customerDataById?.analytics?.filterInwardsSum || 0} />
+                }
+                  </Typography>
+                </Box>
+              </Box>
+            </Card>
+            <Card
+              sx={{
+                display: "flex",
+                flexDirection: "column",
+                padding: "16px",
+                // width: "356px",
+                width: "100%",
+                gap: "0.8rem",
+              }}
+            >
+              <Box
+                sx={{
+                  display: "flex",
+                  alignItems: "start",
+                  justifyContent: "space-between",
+                  gap: "15px",
+                }}
+              >
+                <Box
+                  sx={{
+                    display: "flex",
+                    alignItems: "center",
+                    gap: "15px",
+                  }}
+                >
+                  <Box
+                    sx={{
+                      width: "28px",
+                      height: "28px",
+                    }}
+                  >
+                    <img src={upcolor} className="fd" alt="f-down" />
+                  </Box>
+                  <Typography
+                    sx={{
+                      fontWeight: "500",
+                      fontSize: "14px",
+                      color: "#4F4F4F",
+                    }}
+                  >
+                    Customer Outflow
+                  </Typography>
+                </Box>
+              </Box>
+
+              <Box className="flex flex-col items-start gap-1 w-full">
+                <Box className="flex flex-col gap-1 items-start">
+                  <Typography
+                    sx={{
+                      fontSize: "12px",
+                      color: "#4F4F4F",
+                    }}
+                  >
+                    All-Time:
+                  </Typography>
+                  <Typography
+                    sx={{
+                      fontSize: "20px",
+                      fontWeight: 500,
+                      color: "#000",
+                    }}
+                  >
+                                        {dataLoading ? 
+                <CircularProgress size="0.6rem" sx={{ color: "#DC0019" }} />
+                :
+                <FormattedPrice amount={customerDataById?.analytics?.totalOutwardsSum || 0} />
+                }
+                  </Typography>
+                </Box>
+                <Box className="flex flex-col gap-2 items-start">
+                  <Typography
+                    sx={{
+                      fontSize: "12px",
+                      color: "#4F4F4F",
+                    }}
+                  >
+                    By-Filter:
+                  </Typography>
+                  <Typography
+                    sx={{
+                      fontSize: "20px",
+                      fontWeight: 500,
+                      color: "#000",
+                    }}
+                  >
+                                            {dataLoading ? 
+                <CircularProgress size="0.6rem" sx={{ color: "#DC0019" }} />
+                :
+                <FormattedPrice amount={customerDataById?.analytics?.filterOutwardsSum || 0} />
+                }
+                  </Typography>
+                </Box>
+              </Box>
+            </Card>
+            <Card
+              sx={{
+                display: "flex",
+                flexDirection: "column",
+                padding: "16px",
+                // width: "356px",
+                width: "100%",
+                gap: "0.8rem",
+              }}
+            >
+              <Box
+                sx={{
+                  display: "flex",
+                  alignItems: "center",
+                  gap: "15px",
+                }}
+              >
+                <Box
+                  sx={{
+                    width: "28px",
+                    height: "28px",
+                  }}
+                >
+                  <img src={wallet} className="fd" alt="f-down" />
+                </Box>
+                <Typography
+                  sx={{
+                    fontWeight: "500",
+                    fontSize: "14px",
+                    color: "#4F4F4F",
+                  }}
+                >
+                  Customer Wallet Balance
+                </Typography>
+              </Box>
+
+              <Box className="flex flex-col items-start gap-1 w-full">
+                <Box className="flex flex-col gap-1 items-start">
+                  <Typography
+                    sx={{
+                      fontSize: "12px",
+                      color: "#4F4F4F",
+                    }}
+                  >
+                    All-Time:
+                  </Typography>
+                  <Typography
+                    sx={{
+                      fontSize: "20px",
+                      fontWeight: 500,
+                      color: "#000",
+                    }}
+                  >
+                    <FormattedPrice amount={3000000} />
+                  </Typography>
+                </Box>
+                <Box className="flex flex-col gap-2 items-start">
+                  <Typography
+                    sx={{
+                      fontSize: "12px",
+                      color: "#4F4F4F",
+                    }}
+                  >
+                    By-Filter:
+                  </Typography>
+                  <Typography
+                    sx={{
+                      fontSize: "20px",
+                      fontWeight: 500,
+                      color: "#000",
+                    }}
+                  >
+                    <FormattedPrice amount={3000000} />
+                  </Typography>
+                </Box>
+              </Box>
+            </Card>
+            <Card
+              sx={{
+                display: "flex",
+                flexDirection: "column",
+                padding: "16px",
+                // width: "356px",
+                width: "100%",
+                gap: "0.8rem",
+              }}
+            >
+              <Box
+                sx={{
+                  display: "flex",
+                  alignItems: "center",
+                  gap: "15px",
+                }}
+              >
+                <Box
+                  sx={{
+                    width: "28px",
+                    height: "28px",
+                  }}
+                >
+                  <img src={percent} className="fd" alt="f-down" />
+                </Box>
+                <Typography
+                  sx={{
+                    fontWeight: "500",
+                    fontSize: "14px",
+                    color: "#4F4F4F",
+                  }}
+                >
+                  {" "}
+                  Commission
+                </Typography>
+              </Box>
+              <Box className="flex flex-col items-start gap-1 w-full">
+                <Box className="flex flex-col gap-1 items-start">
+                  <Typography
+                    sx={{
+                      fontSize: "12px",
+                      color: "#4F4F4F",
+                    }}
+                  >
+                    All-Time:
+                  </Typography>
+                  <Typography
+                    sx={{
+                      fontSize: "20px",
+                      fontWeight: 500,
+                      color: "#000",
+                    }}
+                  >
+                    <FormattedPrice amount={3000000} />
+                  </Typography>
+                </Box>
+                <Box className="flex flex-col gap-2 items-start">
+                  <Typography
+                    sx={{
+                      fontSize: "12px",
+                      color: "#4F4F4F",
+                    }}
+                  >
+                    By-Filter:
+                  </Typography>
+                  <Typography
+                    sx={{
+                      fontSize: "20px",
+                      fontWeight: 500,
+                      color: "#000",
+                    }}
+                  >
+                    <FormattedPrice amount={3000000} />
+                  </Typography>
+                </Box>
+              </Box>
+            </Card>
+          </Box>
+        </Grid>
         <Grid item xs={7}>
           <Box className="w-full bg-white rounded-md p-4 flex-col border-grey-400 border-[1px]  overflow-y-scroll items-start justify-center">
             <div className="flex w-full items-center justify-between ">
@@ -207,7 +592,12 @@ const CustomerProfile = ({
                       fontSize: "13px",
                     }}
                   >
-                    {customerDataById?.lastName} {customerDataById?.firstName}
+                       {dataLoading ? 
+                <CircularProgress size="0.6rem" sx={{ color: "#DC0019" }} />
+                :
+                customerDataById?.userProfile?.lastName} {customerDataById?.userProfile?.firstName
+                }
+                    
                   </Typography>
                 </Box>
                 <Box className="flex items-center mt-1 mb-1 justify-between ">
@@ -233,7 +623,11 @@ const CustomerProfile = ({
                       fontSize: "13px",
                     }}
                   >
-                    {customerDataById?.gender ?? "null"}
+                             {dataLoading ? 
+                <CircularProgress size="0.6rem" sx={{ color: "#DC0019" }} />
+                :
+                customerDataById?.userProfile?.gender || "null"
+                }
                   </Typography>
                 </Box>
                 <Box className="flex  items-center mt-1 mb-1 justify-between ">
@@ -260,18 +654,28 @@ const CustomerProfile = ({
                         fontSize: "13px",
                       }}
                     >
-                      {customerDataById?.email}
+                                {dataLoading ? 
+                <CircularProgress size="0.6rem" sx={{ color: "#DC0019" }} />
+                :
+                customerDataById?.userProfile?.email
+                }
                     </Typography>
-
-                    <div className="bg-[#FFF0F0]  px-2 flex items-center gap-1 rounded-md">
-                      <ReportProblemOutlinedIcon
-                        sx={{ fontSize: "15px" }}
-                        className="text-[#E52929] font-[500]"
-                      />
-                      <p className="text-[#E52929] text-[10px] font-[500]">
-                        Unverified
-                      </p>
-                    </div>
+                         
+                    {dataLoading ? 
+                <CircularProgress size="0.6rem" sx={{ color: "#DC0019" }} />
+                :
+                customerDataById?.userProfile?.emailVerified ? "" : 
+                <div className="bg-[#FFF0F0]  px-2 flex items-center gap-1 rounded-md">
+                <ReportProblemOutlinedIcon
+                  sx={{ fontSize: "15px" }}
+                  className="text-[#E52929] font-[500]"
+                />
+                <p className="text-[#E52929] text-[10px] font-[500]">
+                  Unverified
+                </p>
+              </div>
+                }
+                   
                   </div>
                 </Box>
                 <Box className="flex  items-center mt-1 mb-1 justify-between ">
@@ -298,10 +702,14 @@ const CustomerProfile = ({
                         fontSize: "13px",
                       }}
                     >
-                      {customerDataById?.phoneNumber}
+                                     {dataLoading ? 
+                <CircularProgress size="0.6rem" sx={{ color: "#DC0019" }} />
+                :
+                customerDataById?.userProfile?.phoneNumber || "null"
+                }
                     </Typography>
 
-                    {customerDataById?.ninVerified ? (
+                    {customerDataById?.userProfile?.ninVerified ? (
                       <div className="bg-[#EBFFF3]  px-2 flex items-center gap-1 rounded-md">
                         <VerifiedOutlinedIcon
                           sx={{ fontSize: "15px" }}
@@ -348,7 +756,11 @@ const CustomerProfile = ({
                     }}
                   >
                     {" "}
-                    {customerDataById?.address ?? "null"}
+                    {dataLoading ? 
+                <CircularProgress size="0.6rem" sx={{ color: "#DC0019" }} />
+                :
+                customerDataById?.userProfile?.address || "null"
+                }
                   </Typography>
                 </Box>
               </Box>
@@ -387,7 +799,11 @@ const CustomerProfile = ({
                     fontSize: "13px",
                   }}
                 >
-                  emmanuel
+                                 {dataLoading ? 
+                <CircularProgress size="0.6rem" sx={{ color: "#DC0019" }} />
+                :
+                customerDataById?.bvnProfile?.firstName} {customerDataById?.bvnProfile?.lastName
+                }
                 </Typography>
               </Box>
               <Box className="flex items-center mt-1 mb-1 justify-between ">
@@ -413,7 +829,11 @@ const CustomerProfile = ({
                     fontSize: "13px",
                   }}
                 >
-                  Male
+                                      {dataLoading ? 
+                <CircularProgress size="0.6rem" sx={{ color: "#DC0019" }} />
+                :
+                customerDataById?.bvnProfile?.gender
+                }
                 </Typography>
               </Box>
               <Box className="flex  items-center mt-1 mb-1 justify-between ">
@@ -438,10 +858,14 @@ const CustomerProfile = ({
                       fontSize: "13px",
                     }}
                   >
-                    e@gmail.com
+                                            {dataLoading ? 
+                <CircularProgress size="0.6rem" sx={{ color: "#DC0019" }} />
+                :
+                customerDataById?.bvnProfile?.email
+                }  
                   </Typography>
 
-                  <div className="bg-[#FFF0F0]  px-2 flex items-center gap-1 rounded-md">
+                  {/* <div className="bg-[#FFF0F0]  px-2 flex items-center gap-1 rounded-md">
                     <ReportProblemOutlinedIcon
                       sx={{ fontSize: "15px" }}
                       className="text-[#E52929] font-[500]"
@@ -449,7 +873,7 @@ const CustomerProfile = ({
                     <p className="text-[#E52929] text-[10px] font-[500]">
                       Unverified
                     </p>
-                  </div>
+                  </div> */}
                 </div>
               </Box>
               <Box className="flex  items-center mt-1 mb-1 justify-between ">
@@ -476,10 +900,14 @@ const CustomerProfile = ({
                       fontSize: "13px",
                     }}
                   >
-                    0815524624624
+                                            {dataLoading ? 
+                <CircularProgress size="0.6rem" sx={{ color: "#DC0019" }} />
+                :
+                customerDataById?.bvnProfile?.phoneNumber 
+                }
                   </Typography>
 
-                  <div className="bg-[#EBFFF3]  px-2 flex items-center gap-1 rounded-md">
+                  {/* <div className="bg-[#EBFFF3]  px-2 flex items-center gap-1 rounded-md">
                     <VerifiedOutlinedIcon
                       sx={{ fontSize: "15px" }}
                       className="text-[#1E854A] text-[10px] font-[500]"
@@ -487,7 +915,7 @@ const CustomerProfile = ({
                     <p className="text-[#1E854A] text-[10px] font-[500]">
                       Verified
                     </p>
-                  </div>
+                  </div> */}
                 </div>
               </Box>
               <Box className="flex  items-center mt-1 mb-1 justify-between ">
@@ -513,8 +941,11 @@ const CustomerProfile = ({
                     fontSize: "13px",
                   }}
                 >
-                  {" "}
-                  address is here
+                                         {dataLoading ? 
+                <CircularProgress size="0.6rem" sx={{ color: "#DC0019" }} />
+                :
+                customerDataById?.bvnProfile?.address
+                }
                 </Typography>
               </Box>
             </Box>
@@ -549,7 +980,11 @@ const CustomerProfile = ({
                     fontSize: "13px",
                   }}
                 >
-                  Providus Bank
+                                            {dataLoading ? 
+                <CircularProgress size="0.6rem" sx={{ color: "#DC0019" }} />
+                :
+                customerDataById?.bankProfile?.accountName
+                }
                 </Typography>
               </Box>
               <Box className="flex items-center mt-1 mb-1 justify-between ">
@@ -575,7 +1010,11 @@ const CustomerProfile = ({
                     fontSize: "13px",
                   }}
                 >
-                  2211223445
+                                                 {dataLoading ? 
+                <CircularProgress size="0.6rem" sx={{ color: "#DC0019" }} />
+                :
+                customerDataById?.bankProfile?.accountNumber
+                }
                 </Typography>
               </Box>
               <Box className="flex items-center mt-1 mb-1 ">
@@ -599,7 +1038,11 @@ const CustomerProfile = ({
                     fontSize: "13px",
                   }}
                 >
-                  Safe Haven
+                                                 {dataLoading ? 
+                <CircularProgress size="0.6rem" sx={{ color: "#DC0019" }} />
+                :
+                customerDataById?.bankProfile?.bankName
+                }
                 </Typography>
               </Box>
             </Box>
@@ -681,7 +1124,13 @@ const CustomerProfile = ({
                   }}
                 >
                   <img src={bage1} alt="b-img" />
-                  <span className="font-bold ml-2 text-[13px]">Tier 1</span>
+                  <span className="font-bold ml-2 text-[13px]">
+                  {dataLoading ? 
+                <CircularProgress size="0.6rem" sx={{ color: "#DC0019" }} />
+                :
+                customerDataById?.userProfile?.tier
+                }
+                  </span>
                 </Typography>
               </Box>
               <Box className="flex  items-center mt-2 mb-1 ">
@@ -707,7 +1156,11 @@ const CustomerProfile = ({
                     fontSize: "13px",
                   }}
                 >
-                  01/05/2023 at 08:54 PM
+                                                 {dataLoading ? 
+                <CircularProgress size="0.6rem" sx={{ color: "#DC0019" }} />
+                :
+                customerDataById?.bankProfile?.createdAt
+                }
                 </Typography>
               </Box>
               <Box className="flex  items-center mt-2 mb-1  ">
@@ -733,7 +1186,11 @@ const CustomerProfile = ({
                     fontSize: "13px",
                   }}
                 >
-                  01/05/2023 at 08:54 PM
+                                                 {dataLoading ? 
+                <CircularProgress size="0.6rem" sx={{ color: "#DC0019" }} />
+                :
+                customerDataById?.bankProfile?.lastLogin
+                }
                 </Typography>
               </Box>
 
@@ -806,7 +1263,11 @@ const CustomerProfile = ({
                     <div className="w-[24px] h-[8px] bg-[#27AE60]"></div>
 
                     <p className="text-[#828282] font-normal text-[12px]">
-                      Inward Transfer [234]
+                      Inward Transfer           {dataLoading ? 
+                <CircularProgress size="0.3rem" sx={{ color: "#DC0019" }} />
+                :
+                `[${customerDataById?.analytics?.totalInwardsCount || 0}]`
+                }
                     </p>
                   </div>
 
@@ -814,7 +1275,12 @@ const CustomerProfile = ({
                     <div className="w-[24px] h-[8px] bg-[#E52929]"></div>
 
                     <p className="text-[#828282] font-normal text-[12px]">
-                      Outward Transfer [234]
+                      Outward Transfer
+                      {dataLoading ? 
+                <CircularProgress size="0.3rem" sx={{ color: "#DC0019" }} />
+                :
+                `[${customerDataById?.analytics?.totalOutwardsCount || 0}]`
+                }
                     </p>
                   </div>
 
@@ -822,14 +1288,24 @@ const CustomerProfile = ({
                     <div className="w-[24px] h-[8px] bg-[#BD00FF]"></div>
 
                     <p className="text-[#828282] font-normal text-[12px]">
-                      Wallet to Wallet [234]
+                      Wallet to Wallet 
+                      {dataLoading ? 
+                <CircularProgress size="0.3rem" sx={{ color: "#DC0019" }} />
+                :
+                `[${customerDataById?.analytics?.totalWalletCount || 0}]`
+                }
                     </p>
                   </div>
                   <div className="flex items-center gap-2">
                     <div className="w-[24px] h-[8px] bg-[#BD00FF]"></div>
 
                     <p className="text-[#828282] font-normal text-[12px]">
-                      Mycliq [234]
+                      Mycliq 
+                      {dataLoading ? 
+                <CircularProgress size="0.3rem" sx={{ color: "#DC0019" }} />
+                :
+                `[${customerDataById?.analytics?.totalCliqPayCount || 0}]`
+                }
                     </p>
                   </div>
                 </div>
@@ -872,7 +1348,7 @@ const CustomerProfile = ({
                     </TableRow>
                   </TableHead>
                   <TableBody>
-                    {!dummyCustomers ? (
+                    {!isLoading ? (
                       <CircularProgress
                         size="4.2rem"
                         sx={{
@@ -881,10 +1357,10 @@ const CustomerProfile = ({
                           padding: "1em",
                         }}
                       />
-                    ) : dummyCustomers &&
-                      Array.isArray(dummyCustomers) &&
-                      dummyCustomers.length > 0 ? (
-                      dummyCustomers.map((item, i) => (
+                    ) : customerTrx &&
+                      Array.isArray(customerTrx) &&
+                      customerTrx?.length > 0 ? (
+                        customerTrx?.map((item, i) => (
                         <TableRow key={item.id}>
                           <TableCell>{page * rowsPerPage + i + 1}</TableCell>
                           <TableCell>

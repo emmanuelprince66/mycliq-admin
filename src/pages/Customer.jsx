@@ -23,6 +23,7 @@ import {
 import avatar from "../assets/avatar.svg";
 import divideNew from "../assets/images/admin/divide-new.svg";
 import profileNew from "../assets/images/admin/profile-new.svg";
+import { formatToIsoDateStr } from "../utils/formatIsoDateString";
 
 import search from "../../src/assets/search.svg";
 import ChevronRightRoundedIcon from "@mui/icons-material/ChevronRightRounded";
@@ -45,10 +46,14 @@ import DoughnutChart from "../components/DoughnutChart";
 import { styled } from "@mui/material/styles";
 import ArrowBackRoundedIcon from "@mui/icons-material/ArrowBackRounded";
 import { useDispatch } from "react-redux";
+import { useSelector } from "react-redux";  
+
+
 import { fillCustomersData } from "../utils/store/merchantSlice";
 import wallet from "../assets/images/generalMerchants/wallet.svg";
 import percent from "../assets/images/generalMerchants/percent.svg";
 import CustomerProfile from "../components/CustomerProfile";
+import AllCustomers from "./customers/AllCustomers";
 const Item = styled(Box)(({ theme }) => ({
   backgroundColor: theme.palette.mode === "dark" ? "#1A2027" : "#fff",
   ...theme.typography.body2,
@@ -60,22 +65,34 @@ const Item = styled(Box)(({ theme }) => ({
 const Customer = () => {
   const dispatch = useDispatch();
 
+  const { selectedDates } = useSelector((state) => state);
+
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(100);
   const [showCustomerProfile, setShowCustomerProfile] = useState(false);
   const [profileAcive, setProfileActive] = useState(false);
   const [customerData, setCustomerData] = useState([]);
   const [customerDataById, setCustomerDataById] = useState([]);
+  const startDate = formatToIsoDateStr(selectedDates?.startDate)
+  const endDate = formatToIsoDateStr(selectedDates?.endDate)
+  const [ id  , setId] = useState("")
+
   const {
     data: customers,
     error,
     isLoading,
   } = useQuery({
-    queryKey: "customers",
+     queryKey: ["customers", startDate, endDate],
     queryFn: async () => {
       try {
-        const response = await AuthAxios.get("/admin/user");
-        return response?.data?.data?.records;
+        const response = await AuthAxios.get(`/admin/analytics/user`, {
+          params: {
+            startDate: startDate,
+            endDate:endDate,
+          },
+        });
+        console.log(response);
+        return response?.data?.data;
       } catch (error) {
         throw new Error("Failed to fetch customer data");
       }
@@ -88,8 +105,7 @@ const Customer = () => {
   const handleCloseShowCustomerProfile = () => setShowCustomerProfile(false);
   const handleOpenCustomerProfile = (id) => {
     console.log(id);
-    console.log(customers[id]);
-    setCustomerDataById(customers[id]);
+    setId(id);
     setProfileActive(true);
     handleShowCustomerProfile();
   };
@@ -145,7 +161,7 @@ const Customer = () => {
       </Box>
       {!profileAcive ? (
         <>
-          <Box
+              <Box
             sx={{
               width: "100%",
               display: "flex",
@@ -201,7 +217,12 @@ const Customer = () => {
                       color: "#000",
                     }}
                   >
-                    <FormattedPrice amount={3000000} />
+                            {isLoading ? 
+                <CircularProgress size="0.6rem" sx={{ color: "#DC0019" }} />
+                :
+                <FormattedPrice amount={customers?.transactions?.totalInwardsSum || 0} />
+
+                }
                   </Typography>
                 </Box>
               </Box>
@@ -263,7 +284,14 @@ const Customer = () => {
                       color: "#000",
                     }}
                   >
-                    <FormattedPrice amount={3000000} />
+                          {isLoading ? 
+                <CircularProgress size="0.6rem" sx={{ color: "#DC0019" }} />
+                :
+                <FormattedPrice amount={customers?.transactions?.totalOutwardsSum ||  0} />
+
+                }
+                    
+
                   </Typography>
                 </Box>
               </Box>
@@ -313,7 +341,15 @@ const Customer = () => {
                       color: "#000",
                     }}
                   >
-                    <FormattedPrice amount={3000000} />
+                    
+                    {isLoading ? 
+                <CircularProgress size="0.6rem" sx={{ color: "#DC0019" }} />
+                :
+                <FormattedPrice amount={customers?.transactions?.totalWalletCount  || 0} />
+
+                }
+                    
+            
                   </Typography>
                 </Box>
               </Box>
@@ -363,7 +399,15 @@ const Customer = () => {
                       color: "#000",
                     }}
                   >
-                    <FormattedPrice amount={3000000} />
+
+{isLoading ? 
+                <CircularProgress size="0.6rem" sx={{ color: "#DC0019" }} />
+                :
+                <FormattedPrice amount={customers?.commissions?.totalInwardsSum || 0} />
+
+                }
+                    
+              
                   </Typography>
                 </Box>
               </Box>
@@ -412,7 +456,14 @@ const Customer = () => {
                       color: "#000",
                     }}
                   >
-                    4564
+
+{isLoading ? 
+                <CircularProgress size="0.6rem" sx={{ color: "#DC0019" }} />
+                :
+              <FormattedPrice amount={customers?.users?.totalUserCount  || 0} />
+
+                }    
+
                   </Typography>
                 </Box>
               </Box>
@@ -421,332 +472,7 @@ const Customer = () => {
         </>
       ) : (
         <>
-          <Box
-            sx={{
-              width: "100%",
-              display: "flex",
-              gap: "0.5rem",
-              mb: "1rem",
-            }}
-          >
-            <Card
-              sx={{
-                display: "flex",
-                flexDirection: "column",
-                padding: "16px",
-                // width: "356px",
-                width: "100%",
-                gap: "0.8rem",
-              }}
-            >
-              <Box
-                sx={{
-                  display: "flex",
-                  alignItems: "center",
-                  gap: "15px",
-                }}
-              >
-                <Box
-                  sx={{
-                    width: "28px",
-                    height: "28px",
-                  }}
-                >
-                  <img src={fdown} className="fd" alt="f-down" />
-                </Box>
-                <Typography
-                  sx={{
-                    fontWeight: 500,
-                    fontSize: "14px",
-                    color: "#4F4F4F",
-                  }}
-                >
-                  Customer Inflow
-                </Typography>
-              </Box>
-
-              <Box className="flex flex-col items-start gap-1 w-full">
-                <Box className="flex flex-col gap-1 items-start">
-                  <Typography
-                    sx={{
-                      fontSize: "12px",
-                      color: "#4F4F4F",
-                    }}
-                  >
-                    All-Time:
-                  </Typography>
-                  <Typography
-                    sx={{
-                      fontSize: "20px",
-                      fontWeight: 500,
-                      color: "#000",
-                    }}
-                  >
-                    <FormattedPrice amount={3000000} />
-                  </Typography>
-                </Box>
-                <Box className="flex flex-col gap-2 items-start">
-                  <Typography
-                    sx={{
-                      fontSize: "12px",
-                      color: "#4F4F4F",
-                    }}
-                  >
-                    By-Filter:
-                  </Typography>
-                  <Typography
-                    sx={{
-                      fontSize: "20px",
-                      fontWeight: 500,
-                      color: "#000",
-                    }}
-                  >
-                    <FormattedPrice amount={3000000} />
-                  </Typography>
-                </Box>
-              </Box>
-            </Card>
-            <Card
-              sx={{
-                display: "flex",
-                flexDirection: "column",
-                padding: "16px",
-                // width: "356px",
-                width: "100%",
-                gap: "0.8rem",
-              }}
-            >
-              <Box
-                sx={{
-                  display: "flex",
-                  alignItems: "start",
-                  justifyContent: "space-between",
-                  gap: "15px",
-                }}
-              >
-                <Box
-                  sx={{
-                    display: "flex",
-                    alignItems: "center",
-                    gap: "15px",
-                  }}
-                >
-                  <Box
-                    sx={{
-                      width: "28px",
-                      height: "28px",
-                    }}
-                  >
-                    <img src={upcolor} className="fd" alt="f-down" />
-                  </Box>
-                  <Typography
-                    sx={{
-                      fontWeight: "500",
-                      fontSize: "14px",
-                      color: "#4F4F4F",
-                    }}
-                  >
-                    Customer Outflow
-                  </Typography>
-                </Box>
-              </Box>
-
-              <Box className="flex flex-col items-start gap-1 w-full">
-                <Box className="flex flex-col gap-1 items-start">
-                  <Typography
-                    sx={{
-                      fontSize: "12px",
-                      color: "#4F4F4F",
-                    }}
-                  >
-                    All-Time:
-                  </Typography>
-                  <Typography
-                    sx={{
-                      fontSize: "20px",
-                      fontWeight: 500,
-                      color: "#000",
-                    }}
-                  >
-                    <FormattedPrice amount={3000000} />
-                  </Typography>
-                </Box>
-                <Box className="flex flex-col gap-2 items-start">
-                  <Typography
-                    sx={{
-                      fontSize: "12px",
-                      color: "#4F4F4F",
-                    }}
-                  >
-                    By-Filter:
-                  </Typography>
-                  <Typography
-                    sx={{
-                      fontSize: "20px",
-                      fontWeight: 500,
-                      color: "#000",
-                    }}
-                  >
-                    <FormattedPrice amount={3000000} />
-                  </Typography>
-                </Box>
-              </Box>
-            </Card>
-            <Card
-              sx={{
-                display: "flex",
-                flexDirection: "column",
-                padding: "16px",
-                // width: "356px",
-                width: "100%",
-                gap: "0.8rem",
-              }}
-            >
-              <Box
-                sx={{
-                  display: "flex",
-                  alignItems: "center",
-                  gap: "15px",
-                }}
-              >
-                <Box
-                  sx={{
-                    width: "28px",
-                    height: "28px",
-                  }}
-                >
-                  <img src={wallet} className="fd" alt="f-down" />
-                </Box>
-                <Typography
-                  sx={{
-                    fontWeight: "500",
-                    fontSize: "14px",
-                    color: "#4F4F4F",
-                  }}
-                >
-                  Customer Wallet Balance
-                </Typography>
-              </Box>
-
-              <Box className="flex flex-col items-start gap-1 w-full">
-                <Box className="flex flex-col gap-1 items-start">
-                  <Typography
-                    sx={{
-                      fontSize: "12px",
-                      color: "#4F4F4F",
-                    }}
-                  >
-                    All-Time:
-                  </Typography>
-                  <Typography
-                    sx={{
-                      fontSize: "20px",
-                      fontWeight: 500,
-                      color: "#000",
-                    }}
-                  >
-                    <FormattedPrice amount={3000000} />
-                  </Typography>
-                </Box>
-                <Box className="flex flex-col gap-2 items-start">
-                  <Typography
-                    sx={{
-                      fontSize: "12px",
-                      color: "#4F4F4F",
-                    }}
-                  >
-                    By-Filter:
-                  </Typography>
-                  <Typography
-                    sx={{
-                      fontSize: "20px",
-                      fontWeight: 500,
-                      color: "#000",
-                    }}
-                  >
-                    <FormattedPrice amount={3000000} />
-                  </Typography>
-                </Box>
-              </Box>
-            </Card>
-            <Card
-              sx={{
-                display: "flex",
-                flexDirection: "column",
-                padding: "16px",
-                // width: "356px",
-                width: "100%",
-                gap: "0.8rem",
-              }}
-            >
-              <Box
-                sx={{
-                  display: "flex",
-                  alignItems: "center",
-                  gap: "15px",
-                }}
-              >
-                <Box
-                  sx={{
-                    width: "28px",
-                    height: "28px",
-                  }}
-                >
-                  <img src={percent} className="fd" alt="f-down" />
-                </Box>
-                <Typography
-                  sx={{
-                    fontWeight: "500",
-                    fontSize: "14px",
-                    color: "#4F4F4F",
-                  }}
-                >
-                  {" "}
-                  Commission
-                </Typography>
-              </Box>
-              <Box className="flex flex-col items-start gap-1 w-full">
-                <Box className="flex flex-col gap-1 items-start">
-                  <Typography
-                    sx={{
-                      fontSize: "12px",
-                      color: "#4F4F4F",
-                    }}
-                  >
-                    All-Time:
-                  </Typography>
-                  <Typography
-                    sx={{
-                      fontSize: "20px",
-                      fontWeight: 500,
-                      color: "#000",
-                    }}
-                  >
-                    <FormattedPrice amount={3000000} />
-                  </Typography>
-                </Box>
-                <Box className="flex flex-col gap-2 items-start">
-                  <Typography
-                    sx={{
-                      fontSize: "12px",
-                      color: "#4F4F4F",
-                    }}
-                  >
-                    By-Filter:
-                  </Typography>
-                  <Typography
-                    sx={{
-                      fontSize: "20px",
-                      fontWeight: 500,
-                      color: "#000",
-                    }}
-                  >
-                    <FormattedPrice amount={3000000} />
-                  </Typography>
-                </Box>
-              </Box>
-            </Card>
-          </Box>
+      
         </>
       )}
 
@@ -756,256 +482,7 @@ const Customer = () => {
         {!showCustomerProfile ? (
           <Grid container spacing={3}>
             <Grid item xs={8}>
-              <Box className="w-full bg-white rounded-md p-2 flex-col border-grey-400 border-[1px] items-start justify-center">
-                <Box className="flex w-full justify-between items-center">
-                  <Typography
-                    sx={{
-                      color: "#1E1E1E",
-                      fontWeight: "500",
-                      fontSize: "20px",
-                      display: "flex",
-                      gap: "6px",
-                      alignItems: "center",
-                    }}
-                  >
-                    All Customers
-                    <span
-                      className={`p-1 px-2 rounded-full 
-                  bg-orange-200 text-orange-500
-                 text-[10px]`}
-                    >
-                      {!isLoading && customers?.length > 0 ? (
-                        customers?.length
-                      ) : (
-                        <CircularProgress
-                          size="1rem"
-                          sx={{
-                            color: "#f78105",
-                            marginLeft: "auto",
-                          }}
-                        />
-                      )}
-                    </span>
-                  </Typography>
-
-                  <Button
-                    sx={{
-                      textTransform: "capitalize",
-                      fontWeight: "400",
-                      fontSize: "12px",
-                      display: "flex",
-                      alignItems: "center",
-                      gap: "4px",
-                      color: "#DC0019",
-                    }}
-                  >
-                    <img src={download} className="d-icon" alt="d-icon" />
-                    download
-                  </Button>
-                </Box>
-
-                {/* <div className="flex gap-[5rem]  mt-4 items-center">
-                  <Typography
-                    sx={{
-                      color: "#4F4F4F",
-                      fontWeight: "500",
-                      fontSize: "15px",
-                      display: "flex",
-                      gap: "6px",
-                      alignItems: "center",
-                    }}
-                  >
-                    Suspended Accounts
-                    <span
-                      className={`p-1 px-2 rounded-full 
-                  bg-orange-200 text-orange-500
-                 text-[10px]`}
-                    >
-                      {!isLoading && customers?.length > 0 ? (
-                        // customers?.length
-                        0
-                      ) : (
-                        <CircularProgress
-                          size="1rem"
-                          sx={{
-                            color: "#f78105",
-                            marginLeft: "auto",
-                          }}
-                        />
-                      )}
-                    </span>
-                  </Typography>
-                  <Typography
-                    sx={{
-                      color: "#4F4F4F",
-                      fontWeight: "500",
-                      fontSize: "15px",
-                      display: "flex",
-                      gap: "6px",
-                      alignItems: "center",
-                    }}
-                  >
-                    Reactivated Accounts
-                    <span
-                      className={`p-1 px-2 rounded-full 
-                  bg-orange-200 text-orange-500
-                 text-[10px]`}
-                    >
-                      {!isLoading && customers?.length > 0 ? (
-                        // customers?.length
-                        0
-                      ) : (
-                        <CircularProgress
-                          size="1rem"
-                          sx={{
-                            color: "#f78105",
-                            marginLeft: "auto",
-                          }}
-                        />
-                      )}
-                    </span>
-                  </Typography>
-                </div> */}
-
-                {/* search  */}
-                <Box className="my-[1rem]">
-                  <TextField
-                    sx={{
-                      borderRadius: "10px",
-                      width: "100%",
-                      // padding: { xs: "4px", sm: "12px 16px", md: " 12px 16px" },
-                      color: "#D1D1D1",
-                      "& .MuiOutlinedInput-root": {
-                        padding: "8px", // Adjust padding to reduce height
-                        height: "36px", // Set the desired height here
-                        lineHeight: "36px", // Match the height to avoid overflow
-                        "& fieldset": {
-                          borderColor: "#D1D1D1", // Set the desired border color here
-                          borderRadius: "10px",
-                        },
-                        "&:hover fieldset": {
-                          borderColor: "#FF7F00", // Set the border color on hover here
-                        },
-                        "&.Mui-focused fieldset": {
-                          borderColor: "#FF7F00", // Set the border color on focus here
-                        },
-                      },
-                    }}
-                    placeholder="Search Customer..."
-                    variant="outlined"
-                    required
-                    id="firstName-input"
-                    InputProps={{
-                      style: { color: "#818181" },
-                      startAdornment: (
-                        <InputAdornment>
-                          <img src={search} alt="s-logo" />
-                          &nbsp;&nbsp;&nbsp;
-                        </InputAdornment>
-                      ),
-                    }}
-                    aria-describedby="outlined-weight-helper-text"
-                    inputProps={{
-                      "aria-label": "weight",
-                    }}
-                  />
-                </Box>
-
-                {/* customers  */}
-                <Box className="max-h-[87vh] overflow-y-auto">
-                  <TableContainer component={Paper}>
-                    <Table sx={{ minWidth: 100, padding: "8px" }}>
-                      <TableBody>
-                        {!customers || customers?.length === 0 || isLoading ? (
-                          <CircularProgress
-                            size="4.2rem"
-                            sx={{
-                              color: "#f78105",
-                              marginLeft: "auto",
-                              padding: "1em",
-                            }}
-                          />
-                        ) : customers &&
-                          Array.isArray(customers) &&
-                          customers?.length > 0 ? (
-                          customers?.map((item, i) => (
-                            <TableRow
-                              key={item.id}
-                              className="cursor-pointer"
-                              onClick={() => handleOpenCustomerProfile(i)}
-                            >
-                              <TableCell sx={{ width: "50px" }}>
-                                {page * rowsPerPage + i + 1}
-                              </TableCell>
-                              <TableCell>
-                                <Box className="flex items-center gap-2 ">
-                                  <Box
-                                    sx={{
-                                      border: "1px solid #E0E0E0",
-                                      borderRadius: "8px",
-                                      p: "5px",
-                                    }}
-                                  >
-                                    {item?.img === "" ? (
-                                      <img
-                                        src={avatar}
-                                        className="cat-img"
-                                        alt="p-img"
-                                      />
-                                    ) : (
-                                      <img
-                                        src={item?.img}
-                                        className="cat-img"
-                                        alt="p-img"
-                                      />
-                                    )}
-                                  </Box>
-                                  <Typography
-                                    sx={{
-                                      fontWeight: "400",
-                                      fontSize: "16px",
-                                      color: "#828282",
-                                    }}
-                                  >
-                                    {`${item?.lastName}  ${item?.firstName}`}
-                                  </Typography>
-                                </Box>
-                              </TableCell>
-                              <TableCell>
-                                <Box
-                                  sx={{
-                                    cursor: "pointer",
-                                    width: "100%",
-                                    display: "flex",
-                                    justifyContent: "end",
-                                  }}
-                                >
-                                  <img src={ArrowRight} alt="a-right" />
-                                </Box>
-                              </TableCell>
-                            </TableRow>
-                          ))
-                        ) : (
-                          <TableRow>
-                            <TableCell colSpan="7">No data found</TableCell>
-                          </TableRow>
-                        )}
-                      </TableBody>
-                    </Table>
-                  </TableContainer>
-
-                  <TablePagination
-                    rowsPerPageOptions={[]}
-                    component="div"
-                    count={customers?.totalCount || 0}
-                    rowsPerPage={rowsPerPage}
-                    page={page}
-                    onPageChange={(event, newPage) => setPage(newPage)}
-                    // onRowsPerPageChange is removed as the number of rows per page is fixed
-                  />
-                </Box>
-                {/* customers end */}
-              </Box>
+           <AllCustomers handleOpenCustomerProfile={handleOpenCustomerProfile} />
             </Grid>
 
             <Grid item xs={4}>
@@ -1029,7 +506,12 @@ const Customer = () => {
 
                       <div className="flex items-center justify-between w-full">
                         <p className="text-[#828282] font-normal text-[12px]">
-                          General Active Customers [234]
+                          General Active Customers
+                          {isLoading ? 
+                <CircularProgress size="0.3rem" sx={{ color: "#DC0019" }} />
+                :
+                `[${customers?.users?.activeUserCount || 0}]`
+                }
                         </p>
                         <span className="text-[#F78105] cursor-pointer text-[12px] hover:text-[#333333]">
                           View More
@@ -1042,7 +524,12 @@ const Customer = () => {
 
                       <div className="flex items-center justify-between w-full">
                         <p className="text-[#828282] font-normal text-[12px]">
-                          General Inactive Customers [234]
+                          General Inactive Customers
+                          {isLoading ? 
+                <CircularProgress size="0.3rem" sx={{ color: "#DC0019" }} />
+                :
+                `[${customers?.users?.inactiveUserCount || 0}]`
+                }
                         </p>
                         <span className="text-[#F78105] cursor-pointer text-[12px] hover:text-[#333333]">
                           View More
@@ -1055,7 +542,12 @@ const Customer = () => {
 
                       <div className="flex items-center justify-between w-full">
                         <p className="text-[#828282] font-normal text-[12px]">
-                          General Suspended Customers [234]
+                          General Suspended Customers 
+                          {isLoading ? 
+                <CircularProgress size="0.3rem" sx={{ color: "#DC0019" }} />
+                :
+                `[${customers?.users?.suspendedUserCount || 0}]`
+                }
                         </p>
                         <span className="text-[#F78105] cursor-pointer text-[12px] hover:text-[#333333]">
                           View More
@@ -1079,7 +571,13 @@ const Customer = () => {
 
                       <div className="flex items-center justify-between w-full">
                         <p className="text-[#828282] font-normal text-[12px]">
-                          General Closed Customers [234]
+                          General Closed Customers 
+
+                          {isLoading ? 
+                <CircularProgress size="0.3rem" sx={{ color: "#DC0019" }} />
+                :
+                `[${customers?.users?.disabledUserCount || 0}]`
+                }
                         </p>
                         <span className="text-[#F78105] cursor-pointer text-[12px] hover:text-[#333333]">
                           View More
@@ -1108,7 +606,12 @@ const Customer = () => {
                       <div className="w-[24px] h-[8px] bg-[#27AE60]"></div>
 
                       <p className="text-[#828282] font-normal text-[12px]">
-                        BVN Verified [234]
+                        BVN Verified 
+                        {isLoading ? 
+                <CircularProgress size="0.3rem" sx={{ color: "#DC0019" }} />
+                :
+                `[${customers?.users?.bvnVerifiedCount || 0}]`
+                }
                       </p>
                     </div>
 
@@ -1116,7 +619,13 @@ const Customer = () => {
                       <div className="w-[24px] h-[8px] bg-[#E52929]"></div>
 
                       <p className="text-[#828282] font-normal text-[12px]">
-                        NIN Verified [234]
+                        NIN Verified 
+                        {isLoading ? 
+                <CircularProgress size="0.3rem" sx={{ color: "#DC0019" }} />
+                :
+                `[${customers?.users?.ninVerifiedCount || 0}]`
+                }
+                   
                       </p>
                     </div>
 
@@ -1124,7 +633,14 @@ const Customer = () => {
                       <div className="w-[24px] h-[8px] bg-[#BD00FF]"></div>
 
                       <p className="text-[#828282] font-normal text-[12px]">
-                        Not Verified [234]
+                        Not Verified 
+
+                        {isLoading ? 
+                <CircularProgress size="0.3rem" sx={{ color: "#DC0019" }} />
+                :
+                `[${customers?.users?.unverifiedCount || 0}]`
+                }
+                   
                       </p>
                     </div>
                   </div>
@@ -1149,7 +665,13 @@ const Customer = () => {
                       <div className="w-[24px] h-[8px] bg-[#27AE60]"></div>
 
                       <p className="text-[#828282] font-normal text-[12px]">
-                        Inward Transfer [234]
+                        Inward Transfer 
+                        {isLoading ? 
+                <CircularProgress size="0.3rem" sx={{ color: "#DC0019" }} />
+                :
+                `[${customers?.transactions?.totalInwardsCount || 0}]`
+                }
+                   
                       </p>
                     </div>
 
@@ -1157,7 +679,12 @@ const Customer = () => {
                       <div className="w-[24px] h-[8px] bg-[#E52929]"></div>
 
                       <p className="text-[#828282] font-normal text-[12px]">
-                        Outward Transfer [234]
+                        Outward Transfer 
+                        {isLoading ? 
+                <CircularProgress size="0.3rem" sx={{ color: "#DC0019" }} />
+                :
+                `[${customers?.transactions?.totalOutwardsCount || 0}]`
+                }
                       </p>
                     </div>
 
@@ -1165,14 +692,24 @@ const Customer = () => {
                       <div className="w-[24px] h-[8px] bg-[#BD00FF]"></div>
 
                       <p className="text-[#828282] font-normal text-[12px]">
-                        Wallet to Wallet [234]
+                        Wallet to Wallet 
+                        {isLoading ? 
+                <CircularProgress size="0.3rem" sx={{ color: "#DC0019" }} />
+                :
+                `[${customers?.transactions?.totalWalletCount || 0}]`
+                }
                       </p>
                     </div>
                     <div className="flex items-center gap-2">
                       <div className="w-[24px] h-[8px] bg-[#BD00FF]"></div>
 
                       <p className="text-[#828282] font-normal text-[12px]">
-                        Mycliq [234]
+                        Mycliq 
+                        {isLoading ? 
+                <CircularProgress size="0.3rem" sx={{ color: "#DC0019" }} />
+                :
+                `[${customers?.transactions?.totalCliqPayCount || 0}]`
+                }
                       </p>
                     </div>
                   </div>
@@ -1182,7 +719,7 @@ const Customer = () => {
           </Grid>
         ) : (
           <CustomerProfile
-            customerDataById={customerDataById || []}
+             id={id}
             showCustomerProfile={showCustomerProfile}
             handleCloseShowCustomerProfile={handleCloseShowCustomerProfile}
           />

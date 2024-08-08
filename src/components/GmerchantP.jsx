@@ -23,6 +23,7 @@ import {
   Typography,
   Modal,
   Divider,
+  CircularProgress,
 } from "@mui/material";
 import CalendarMonthRoundedIcon from "@mui/icons-material/CalendarMonthRounded";
 import bage1 from "../assets/bage1.svg";
@@ -53,6 +54,8 @@ import Accordion from "@mui/material/Accordion";
 import AccordionActions from "@mui/material/AccordionActions";
 import { styled } from "@mui/material/styles";
 import AccordionSummary from "@mui/material/AccordionSummary";
+import { formatToIsoDateStr } from "../utils/formatIsoDateString";
+import modDate from "../utils/moddate";
 const Item = styled(Box)(({ theme }) => ({
   backgroundColor: theme.palette.mode === "dark" ? "#1A2027" : "#fff",
   ...theme.typography.body2,
@@ -124,7 +127,7 @@ const dummyCustomers = [
   },
 ];
 
-const GmerchantP = () => {
+const GmerchantP = ({merchantDataById , dataLoading}) => {
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(100);
@@ -200,7 +203,11 @@ const GmerchantP = () => {
                       color: "#000",
                     }}
                   >
-                    <FormattedPrice amount={3000000} />
+                              {dataLoading ? 
+                <CircularProgress size="0.6rem" sx={{ color: "#DC0019" }} />
+                :
+                <FormattedPrice amount={merchantDataById?.analytics?.totalInwardsSum || 0} />
+                }
                   </Typography>
                 </Box>
               </Box>
@@ -259,7 +266,11 @@ const GmerchantP = () => {
                       color: "#000",
                     }}
                   >
-                    <FormattedPrice amount={3000000} />
+                                     {dataLoading ? 
+                <CircularProgress size="0.6rem" sx={{ color: "#DC0019" }} />
+                :
+                <FormattedPrice amount={merchantDataById?.analytics?.totalOutwardsSum || 0} />
+                }
                   </Typography>
                 </Box>
               </Box>
@@ -309,7 +320,11 @@ const GmerchantP = () => {
                       color: "#000",
                     }}
                   >
-                    <FormattedPrice amount={3000000} />
+                                          {dataLoading ? 
+                <CircularProgress size="0.6rem" sx={{ color: "#DC0019" }} />
+                :
+                <FormattedPrice amount={merchantDataById?.analytics?.totalWalletCount || 0} />
+                }
                   </Typography>
                 </Box>
               </Box>
@@ -359,7 +374,11 @@ const GmerchantP = () => {
                       color: "#000",
                     }}
                   >
-                    <FormattedPrice amount={3000000} />
+                                          {dataLoading ? 
+                <CircularProgress size="0.6rem" sx={{ color: "#DC0019" }} />
+                :
+                <FormattedPrice amount={merchantDataById?.analytics?.totalInwardsSum || 0} />
+                }
                   </Typography>
                 </Box>
               </Box>
@@ -468,7 +487,11 @@ const GmerchantP = () => {
                                 fontSize: "13px",
                               }}
                             >
-                              emmanuel
+                                     {dataLoading ? 
+                <CircularProgress size="0.6rem" sx={{ color: "#DC0019" }} />
+                :
+                merchantDataById?.userProfile?.lastName} {merchantDataById?.userProfile?.firstName
+                }
                             </Typography>
                           </Box>
                           <Box className="flex items-center mt-1 mb-1 justify-between ">
@@ -494,7 +517,12 @@ const GmerchantP = () => {
                                 fontSize: "13px",
                               }}
                             >
-                              Male
+                                                    {dataLoading ? 
+                <CircularProgress size="0.6rem" sx={{ color: "#DC0019" }} />
+                :
+                merchantDataById?.userProfile?.gender 
+                }
+                    
                             </Typography>
                           </Box>
                           <Box className="flex  items-center mt-1 mb-1 justify-between ">
@@ -521,18 +549,28 @@ const GmerchantP = () => {
                                   fontSize: "13px",
                                 }}
                               >
-                                e@gmail.com
+                                                         {dataLoading ? 
+                <CircularProgress size="0.6rem" sx={{ color: "#DC0019" }} />
+                :
+                merchantDataById?.userProfile?.email
+                }
+                    
                               </Typography>
 
-                              <div className="bg-[#FFF0F0]  px-2 flex items-center gap-1 rounded-md">
-                                <ReportProblemOutlinedIcon
-                                  sx={{ fontSize: "15px" }}
-                                  className="text-[#E52929] font-[500]"
-                                />
-                                <p className="text-[#E52929] text-[10px] font-[500]">
-                                  Unverified
-                                </p>
-                              </div>
+                              {dataLoading ? 
+                <CircularProgress size="0.6rem" sx={{ color: "#DC0019" }} />
+                :
+                merchantDataById?.userProfile?.emailVerified ? "" : 
+                <div className="bg-[#FFF0F0]  px-2 flex items-center gap-1 rounded-md">
+                <ReportProblemOutlinedIcon
+                  sx={{ fontSize: "15px" }}
+                  className="text-[#E52929] font-[500]"
+                />
+                <p className="text-[#E52929] text-[10px] font-[500]">
+                  Unverified
+                </p>
+              </div>
+                }
                             </div>
                           </Box>
                           <Box className="flex  items-center mt-1 mb-1 justify-between ">
@@ -559,18 +597,34 @@ const GmerchantP = () => {
                                   fontSize: "13px",
                                 }}
                               >
-                                0815524624624
+                                         {dataLoading ? 
+                <CircularProgress size="0.6rem" sx={{ color: "#DC0019" }} />
+                :
+                merchantDataById?.userProfile?.phoneNumber || "null"
+                }
                               </Typography>
 
-                              <div className="bg-[#EBFFF3]  px-2 flex items-center gap-1 rounded-md">
-                                <VerifiedOutlinedIcon
-                                  sx={{ fontSize: "15px" }}
-                                  className="text-[#1E854A] text-[10px] font-[500]"
-                                />
-                                <p className="text-[#1E854A] text-[10px] font-[500]">
-                                  Verified
-                                </p>
-                              </div>
+                              {merchantDataById?.userProfile?.ninVerified ? (
+                      <div className="bg-[#EBFFF3]  px-2 flex items-center gap-1 rounded-md">
+                        <VerifiedOutlinedIcon
+                          sx={{ fontSize: "15px" }}
+                          className="text-[#1E854A] text-[10px] font-[500]"
+                        />
+                        <p className="text-[#1E854A] text-[10px] font-[500]">
+                          Verified
+                        </p>
+                      </div>
+                    ) : (
+                      <div className="bg-[#FFF0F0]  px-2 flex items-center gap-1 rounded-md">
+                        <ReportProblemOutlinedIcon
+                          sx={{ fontSize: "15px" }}
+                          className="text-[#E52929] font-[500]"
+                        />
+                        <p className="text-[#E52929] text-[10px] font-[500]">
+                          Unverified
+                        </p>
+                      </div>
+                    )}
                             </div>
                           </Box>
                           <Box className="flex  items-center mt-1 mb-1 justify-between ">
@@ -597,7 +651,11 @@ const GmerchantP = () => {
                               }}
                             >
                               {" "}
-                              address is here
+                              {dataLoading ? 
+                <CircularProgress size="0.6rem" sx={{ color: "#DC0019" }} />
+                :
+                merchantDataById?.userProfile?.address || "null"
+                }
                             </Typography>
                           </Box>
                         </Box>
@@ -636,7 +694,11 @@ const GmerchantP = () => {
                               fontSize: "13px",
                             }}
                           >
-                            emmanuel
+                                          {dataLoading ? 
+                <CircularProgress size="0.6rem" sx={{ color: "#DC0019" }} />
+                :
+                merchantDataById?.bvnProfile?.firstName} {merchantDataById?.bvnProfile?.lastName
+                }
                           </Typography>
                         </Box>
                         <Box className="flex items-center mt-1 mb-1 justify-between ">
@@ -662,7 +724,11 @@ const GmerchantP = () => {
                               fontSize: "13px",
                             }}
                           >
-                            Male
+                                                   {dataLoading ? 
+                <CircularProgress size="0.6rem" sx={{ color: "#DC0019" }} />
+                :
+                merchantDataById?.bvnProfile?.gender
+                }
                           </Typography>
                         </Box>
                         <Box className="flex  items-center mt-1 mb-1 justify-between ">
@@ -689,7 +755,13 @@ const GmerchantP = () => {
                                 fontSize: "13px",
                               }}
                             >
-                              e@gmail.com
+                                                 
+                                                   {dataLoading ? 
+                <CircularProgress size="0.6rem" sx={{ color: "#DC0019" }} />
+                :
+                merchantDataById?.bvnProfile?.email
+                }
+                     
                             </Typography>
 
                             <div className="bg-[#FFF0F0]  px-2 flex items-center gap-1 rounded-md">
@@ -727,7 +799,11 @@ const GmerchantP = () => {
                                 fontSize: "13px",
                               }}
                             >
-                              0815524624624
+                                                                 {dataLoading ? 
+                <CircularProgress size="0.6rem" sx={{ color: "#DC0019" }} />
+                :
+                merchantDataById?.bvnProfile?.phoneNumber
+                }
                             </Typography>
 
                             <div className="bg-[#EBFFF3]  px-2 flex items-center gap-1 rounded-md">
@@ -765,7 +841,11 @@ const GmerchantP = () => {
                             }}
                           >
                             {" "}
-                            address is here
+                            {dataLoading ? 
+                <CircularProgress size="0.6rem" sx={{ color: "#DC0019" }} />
+                :
+                merchantDataById?.bvnProfile?.address
+                }
                           </Typography>
                         </Box>
                       </Box>
@@ -847,7 +927,11 @@ const GmerchantP = () => {
                         >
                           <img src={bage1} alt="b-img" />
                           <span className="font-bold ml-2 text-[13px]">
-                            Tier 1
+                          {dataLoading ? 
+                <CircularProgress size="0.6rem" sx={{ color: "#DC0019" }} />
+                :
+                merchantDataById?.userProfile?.tier
+                }
                           </span>
                         </Typography>
                       </Box>
@@ -874,7 +958,11 @@ const GmerchantP = () => {
                             fontSize: "13px",
                           }}
                         >
-                          01/05/2023 at 08:54 PM
+                                      {dataLoading ? 
+                <CircularProgress size="0.6rem" sx={{ color: "#DC0019" }} />
+                :
+               modDate(merchantDataById?.userProfile?.createdAt)
+                }
                         </Typography>
                       </Box>
                       <Box className="flex  items-center mt-2 mb-1  ">
@@ -900,7 +988,11 @@ const GmerchantP = () => {
                             fontSize: "13px",
                           }}
                         >
-                          01/05/2023 at 08:54 PM
+                                                 {dataLoading ? 
+                <CircularProgress size="0.6rem" sx={{ color: "#DC0019" }} />
+                :
+               modDate(merchantDataById?.userProfile?.lastLogin)
+                }
                         </Typography>
                       </Box>
 
@@ -982,7 +1074,11 @@ const GmerchantP = () => {
                             fontSize: "13px",
                           }}
                         >
-                          Providus Bank
+                                               {dataLoading ? 
+                <CircularProgress size="0.6rem" sx={{ color: "#DC0019" }} />
+                :
+                   merchantDataById?.bankProfile?.name || ""
+                }
                         </Typography>
                       </Box>
                       <Box className="flex items-center mt-1 mb-1 justify-between ">
@@ -1071,7 +1167,13 @@ const GmerchantP = () => {
                             fontSize: "13px",
                           }}
                         >
-                          emmanuel
+                                                 {dataLoading ? 
+                <CircularProgress size="0.6rem" sx={{ color: "#DC0019" }} />
+                :
+               merchantDataById?.bvnProfile?.firstName }
+               {merchantDataById?.bvnProfile?.lastName
+
+                }
                         </Typography>
                       </Box>
                       <Box className="flex items-center mt-1 mb-1 justify-between ">
@@ -1097,7 +1199,12 @@ const GmerchantP = () => {
                             fontSize: "13px",
                           }}
                         >
-                          Male
+                                                            {dataLoading ? 
+                <CircularProgress size="0.6rem" sx={{ color: "#DC0019" }} />
+                :
+               merchantDataById?.bvnProfile?.gender
+
+                }
                         </Typography>
                       </Box>
                       <Box className="flex  items-center mt-1 mb-1 justify-between ">
@@ -1124,10 +1231,15 @@ const GmerchantP = () => {
                               fontSize: "13px",
                             }}
                           >
-                            e@gmail.com
+                                                                         {dataLoading ? 
+                <CircularProgress size="0.6rem" sx={{ color: "#DC0019" }} />
+                :
+               merchantDataById?.bvnProfile?.email
+
+                }
                           </Typography>
 
-                          <div className="bg-[#FFF0F0]  px-2 flex items-center gap-1 rounded-md">
+                          {/* <div className="bg-[#FFF0F0]  px-2 flex items-center gap-1 rounded-md">
                             <ReportProblemOutlinedIcon
                               sx={{ fontSize: "15px" }}
                               className="text-[#E52929] font-[500]"
@@ -1135,7 +1247,7 @@ const GmerchantP = () => {
                             <p className="text-[#E52929] text-[10px] font-[500]">
                               Unverified
                             </p>
-                          </div>
+                          </div> */}
                         </div>
                       </Box>
                       <Box className="flex  items-center mt-1 mb-1 justify-between ">
@@ -1162,7 +1274,12 @@ const GmerchantP = () => {
                               fontSize: "13px",
                             }}
                           >
-                            0815524624624
+                                                                                     {dataLoading ? 
+                <CircularProgress size="0.6rem" sx={{ color: "#DC0019" }} />
+                :
+               merchantDataById?.bvnProfile?.phoneNumber
+
+                }
                           </Typography>
 
                           <div className="bg-[#EBFFF3]  px-2 flex items-center gap-1 rounded-md">
@@ -1200,7 +1317,11 @@ const GmerchantP = () => {
                           }}
                         >
                           {" "}
-                          address is here
+                          {dataLoading ? 
+                <CircularProgress size="0.6rem" sx={{ color: "#DC0019" }} />
+                :
+                merchantDataById?.bvnProfile?.address
+                }
                         </Typography>
                       </Box>
                     </Box>

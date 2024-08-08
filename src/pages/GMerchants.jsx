@@ -55,17 +55,22 @@ import cancelled from "../assets/images/cancelled.svg";
 import completed from "../assets/images/completed.svg";
 import search from "../../src/assets/search.svg";
 import { useNavigate } from "react-router-dom";
+import { useMutation, useQuery } from "@tanstack/react-query";
 
 import ChevronRightRoundedIcon from "@mui/icons-material/ChevronRightRounded";
 import avatar from "../assets/avatar.svg";
 import DoughnutChart from "../components/DoughnutChart";
 import { styled } from "@mui/material/styles";
+import { AuthAxios } from "../helpers/axiosInstance";
+import { useSelector } from "react-redux";
 import SelectDate from "../components/SelectDate";
 import fdown from "../assets/fdown.svg";
 import profileNew from "../assets/images/admin/profile-new.svg";
 import GmerchantProfile from "../components/GmerchantProfile";
 import house from "../assets/images/outletHouseIcon.svg";
 import arrRight from "../assets/images/arrow-right.svg";
+import { formatToIsoDateStr } from "../utils/formatIsoDateString";
+import AllMerchants from "./merchants/AllMerchants";
 const Item = styled(Box)(({ theme }) => ({
   backgroundColor: theme.palette.mode === "dark" ? "#1A2027" : "#fff",
   ...theme.typography.body2,
@@ -76,74 +81,44 @@ const Item = styled(Box)(({ theme }) => ({
 }));
 const GMerchants = () => {
   const navigate = useNavigate();
-  const dummyCustomers = [
-    {
-      id: 1,
-      name: "Eleanor Poe",
-      img: "",
-    },
-    {
-      id: 2,
-      name: "Pleanor Poe",
-      img: "",
-    },
-    {
-      id: 3,
-      name: "Sleanor Poe",
-      img: "",
-    },
-    {
-      id: 4,
-      name: "Bleanor Poe",
-      img: "",
-    },
-    {
-      id: 5,
-      name: "Gleanor Poe",
-      img: "",
-    },
-    {
-      id: 6,
-      name: "Gleanor Poe",
-      img: "",
-    },
-    {
-      id: 7,
-      name: "Gleanor Poe",
-      img: "",
-    },
-    {
-      id: 8,
-      name: "Gleanor Poe",
-      img: "",
-    },
-    {
-      id: 9,
-      name: "Gleanor Poe",
-      img: "",
-    },
-    {
-      id: 10,
-      name: "Gleanor Poe",
-      img: "",
-    },
-    {
-      id: 11,
-      name: "Gleanor Poe",
-      img: "",
-    },
-    {
-      id: 12,
-      name: "Gleanor Poe",
-      img: "",
-    },
-  ];
+
+
+
+  const { selectedDates } = useSelector((state) => state);
+
+  const startDate = formatToIsoDateStr(selectedDates?.startDate)
+  const endDate = formatToIsoDateStr(selectedDates?.endDate)
+
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(100);
   const [showInStore, setShowInStore] = useState(true);
   const [isLoading, setIsLoading] = useState(false);
+  const [merchantId , setMerchantId] = useState("")
 
   const [showMerchantProfile, setShowMerchantProfile] = useState(false);
+
+  const {
+    data: merchantData,
+    error,
+    isLoading:merchantLoading,
+  } = useQuery({
+    queryKey: ["merchantData", startDate, endDate],
+    queryFn: async () => {
+      try {
+        const response = await AuthAxios.get(`/admin/analytics/merchant`, {
+          params: {
+            startDate: startDate,
+            endDate:endDate,
+          },
+        });
+        return response?.data?.data;
+      } catch (error) {
+        throw new Error("Failed to fetch merchant data");
+      }
+    },
+    onSuccess: (data) => {},
+    staleTime: 5000, // Cache data for 5 seconds
+  });
 
   const handleClose = () => {
     setShowMerchantProfile(false);
@@ -152,6 +127,20 @@ const GMerchants = () => {
   const handleNavigateMerchant = (link) => {
     navigate(link);
   };
+
+
+  const handleOpenCustomerProfile = (id) => {
+    setMerchantId(id)
+    setShowMerchantProfile((prev) => !prev)
+    
+  }
+
+
+
+
+
+  console.log(merchantData)
+
   return (
     <Box
       sx={{
@@ -160,7 +149,7 @@ const GMerchants = () => {
       }}
     >
       {showMerchantProfile ? (
-        <GmerchantProfile setShowMerchantProfile={setShowMerchantProfile} />
+        <GmerchantProfile merchantId={merchantId} setShowMerchantProfile={setShowMerchantProfile} />
       ) : (
         <>
           {/* card */}
@@ -243,7 +232,11 @@ const GMerchants = () => {
                     color: "#1E1E1E",
                   }}
                 >
-                  <FormattedPrice amount={2000} />
+                     {merchantLoading ? 
+                <CircularProgress size="0.6rem" sx={{ color: "#DC0019" }} />
+                :
+                <FormattedPrice amount={merchantData?.transactions?.totalInwardsSum || 0} />
+                }
                 </Typography>
               </Box>
             </Card>
@@ -300,7 +293,11 @@ const GMerchants = () => {
                     color: "#1E1E1E",
                   }}
                 >
-                  <FormattedPrice amount={1000} />
+                        {merchantLoading ? 
+                <CircularProgress size="0.6rem" sx={{ color: "#DC0019" }} />
+                :
+                <FormattedPrice amount={merchantData?.transactions?.totalOutwardsSum || 0} />
+                }
                 </Typography>
               </Box>
             </Card>
@@ -349,7 +346,11 @@ const GMerchants = () => {
                     color: "#1E1E1E",
                   }}
                 >
-                  <FormattedPrice amount={Number(200000 || 0)} />
+                        {merchantLoading ? 
+                <CircularProgress size="0.6rem" sx={{ color: "#DC0019" }} />
+                :
+                <FormattedPrice amount={merchantData?.transactions?.totalWalletCount || 0} />
+                }
                 </Typography>
               </Box>
             </Card>
@@ -384,9 +385,8 @@ const GMerchants = () => {
                     color: "#4F4F4F",
                   }}
                 >
-                  Total Merchant
-                  <br />
-                  Onboarded{" "}
+               General Merchant's
+                Commission{" "}
                 </Typography>
               </Box>
 
@@ -398,7 +398,7 @@ const GMerchants = () => {
                     color: "#1E1E1E",
                   }}
                 >
-                  <FormattedPrice amount={Number(20000 || 0)} />
+                  {  merchantData?.commissions?.totalInwardSum || 0}
                 </Typography>
               </Box>
             </Card>
@@ -447,7 +447,11 @@ const GMerchants = () => {
                     color: "#1E1E1E",
                   }}
                 >
-                  <FormattedPrice amount={Number(20000 || 0)} />
+                         {merchantLoading ? 
+                <CircularProgress size="0.6rem" sx={{ color: "#DC0019" }} />
+                :
+               merchantData?.merchants?.totalMerchantCount || 0
+                }
                 </Typography>
               </Box>
             </Card>
@@ -809,256 +813,7 @@ const GMerchants = () => {
           <Box className="w-full  mt-3">
             <Grid container spacing={2}>
               <Grid item xs={8}>
-                <Box className="w-full bg-white rounded-md p-2 flex-col border-grey-400 border-[1px] items-start justify-center">
-                  <Box className="flex w-full justify-between items-center">
-                    <Typography
-                      sx={{
-                        color: "#1E1E1E",
-                        fontWeight: "500",
-                        fontSize: "20px",
-                        display: "flex",
-                        gap: "6px",
-                        alignItems: "center",
-                      }}
-                    >
-                      All Merchant
-                      <span
-                        className={`p-1 px-2 rounded-full 
-                  bg-orange-200 text-orange-500
-                 text-[10px]`}
-                      >
-                        {!isLoading && dummyCustomers?.length > 0 ? (
-                          dummyCustomers?.length
-                        ) : (
-                          <CircularProgress
-                            size="1rem"
-                            sx={{
-                              color: "#f78105",
-                              marginLeft: "auto",
-                            }}
-                          />
-                        )}
-                      </span>
-                    </Typography>
-
-                    <Button
-                      sx={{
-                        textTransform: "capitalize",
-                        fontWeight: "400",
-                        fontSize: "12px",
-                        display: "flex",
-                        alignItems: "center",
-                        gap: "4px",
-                        color: "#DC0019",
-                      }}
-                    >
-                      <img src={download} className="d-icon" alt="d-icon" />
-                      download
-                    </Button>
-                  </Box>
-
-                  {/* <div className="flex gap-[5rem]  mt-4 items-center">
-                <Typography
-                  sx={{
-                    color: "#4F4F4F",
-                    fontWeight: "500",
-                    fontSize: "15px",
-                    display: "flex",
-                    gap: "6px",
-                    alignItems: "center",
-                  }}
-                >
-                  Suspended Accounts
-                  <span
-                    className={`p-1 px-2 rounded-full 
-                  bg-orange-200 text-orange-500
-                 text-[10px]`}
-                  >
-                    {!isLoading && dummyCustomers?.length > 0 ? (
-                      // customers?.length
-                      0
-                    ) : (
-                      <CircularProgress
-                        size="1rem"
-                        sx={{
-                          color: "#f78105",
-                          marginLeft: "auto",
-                        }}
-                      />
-                    )}
-                  </span>
-                </Typography>
-                <Typography
-                  sx={{
-                    color: "#4F4F4F",
-                    fontWeight: "500",
-                    fontSize: "15px",
-                    display: "flex",
-                    gap: "6px",
-                    alignItems: "center",
-                  }}
-                >
-                  Reactivated Accounts
-                  <span
-                    className={`p-1 px-2 rounded-full 
-                  bg-orange-200 text-orange-500
-                 text-[10px]`}
-                  >
-                    {!isLoading && dummyCustomers?.length > 0 ? (
-                      // customers?.length
-                      0
-                    ) : (
-                      <CircularProgress
-                        size="1rem"
-                        sx={{
-                          color: "#f78105",
-                          marginLeft: "auto",
-                        }}
-                      />
-                    )}
-                  </span>
-                </Typography>
-              </div> */}
-
-                  {/* search  */}
-                  <Box className="my-[1rem]">
-                    <TextField
-                      sx={{
-                        borderRadius: "10px",
-                        width: "100%",
-                        // padding: { xs: "4px", sm: "12px 16px", md: " 12px 16px" },
-                        color: "#D1D1D1",
-                        "& .MuiOutlinedInput-root": {
-                          padding: "8px", // Adjust padding to reduce height
-                          height: "36px", // Set the desired height here
-                          lineHeight: "36px", // Match the height to avoid overflow
-                          "& fieldset": {
-                            borderColor: "#D1D1D1", // Set the desired border color here
-                            borderRadius: "10px",
-                          },
-                          "&:hover fieldset": {
-                            borderColor: "#FF7F00", // Set the border color on hover here
-                          },
-                          "&.Mui-focused fieldset": {
-                            borderColor: "#FF7F00", // Set the border color on focus here
-                          },
-                        },
-                      }}
-                      placeholder="Search Merchant..."
-                      variant="outlined"
-                      required
-                      id="firstName-input"
-                      InputProps={{
-                        style: { color: "#818181" },
-                        startAdornment: (
-                          <InputAdornment>
-                            <img src={search} alt="s-logo" />
-                            &nbsp;&nbsp;&nbsp;
-                          </InputAdornment>
-                        ),
-                      }}
-                      aria-describedby="outlined-weight-helper-text"
-                      inputProps={{
-                        "aria-label": "weight",
-                      }}
-                    />
-                  </Box>
-
-                  {/* customers  */}
-                  <Box className="max-h-[87vh] overflow-y-auto">
-                    <TableContainer component={Paper}>
-                      <Table sx={{ minWidth: 100, padding: "8px" }}>
-                        <TableBody>
-                          {dummyCustomers?.length === 0 ? (
-                            <CircularProgress
-                              size="4.2rem"
-                              sx={{
-                                color: "#f78105",
-                                marginLeft: "auto",
-                                padding: "1em",
-                              }}
-                            />
-                          ) : dummyCustomers &&
-                            Array.isArray(dummyCustomers) &&
-                            dummyCustomers?.length > 0 ? (
-                            dummyCustomers?.map((item, i) => (
-                              <TableRow
-                                onClick={() => setShowMerchantProfile(true)}
-                                key={item.id}
-                                className="cursor-pointer"
-                              >
-                                <TableCell sx={{ width: "50px" }}>
-                                  {page * rowsPerPage + i + 1}
-                                </TableCell>
-                                <TableCell>
-                                  <Box className="flex items-center gap-2 ">
-                                    <Box
-                                      sx={{
-                                        border: "1px solid #E0E0E0",
-                                        borderRadius: "8px",
-                                        p: "5px",
-                                      }}
-                                    >
-                                      {item?.img === "" ? (
-                                        <img
-                                          src={avatar}
-                                          className="cat-img"
-                                          alt="p-img"
-                                        />
-                                      ) : (
-                                        <img
-                                          src={item?.img}
-                                          className="cat-img"
-                                          alt="p-img"
-                                        />
-                                      )}
-                                    </Box>
-                                    <Typography
-                                      sx={{
-                                        fontWeight: "400",
-                                        fontSize: "16px",
-                                        color: "#828282",
-                                      }}
-                                    >
-                                      {item?.name}
-                                    </Typography>
-                                  </Box>
-                                </TableCell>
-                                <TableCell>
-                                  <Box
-                                    sx={{
-                                      cursor: "pointer",
-                                      width: "100%",
-                                      display: "flex",
-                                      justifyContent: "end",
-                                    }}
-                                  >
-                                    <img src={ArrowRight} alt="a-right" />
-                                  </Box>
-                                </TableCell>
-                              </TableRow>
-                            ))
-                          ) : (
-                            <TableRow>
-                              <TableCell colSpan="7">No data found</TableCell>
-                            </TableRow>
-                          )}
-                        </TableBody>
-                      </Table>
-                    </TableContainer>
-
-                    <TablePagination
-                      rowsPerPageOptions={[]}
-                      component="div"
-                      // count={customers?.totalCount || 0}
-                      rowsPerPage={rowsPerPage}
-                      page={page}
-                      onPageChange={(event, newPage) => setPage(newPage)}
-                      // onRowsPerPageChange is removed as the number of rows per page is fixed
-                    />
-                  </Box>
-                  {/* customers end */}
-                </Box>
+               <AllMerchants  handleOpenCustomerProfile={handleOpenCustomerProfile}/>
               </Grid>
 
               <Grid item xs={4}>

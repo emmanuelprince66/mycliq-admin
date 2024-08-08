@@ -52,6 +52,8 @@ import MenuItem from "@mui/material/MenuItem";
 import Fade from "@mui/material/Fade";
 import GmerchantP from "./GmerchantP";
 import SelectDate from "./SelectDate";
+import { useQuery } from "@tanstack/react-query";
+import { AuthAxios } from "../helpers/axiosInstance";
 
 const Item = styled(Box)(({ theme }) => ({
   backgroundColor: theme.palette.mode === "dark" ? "#1A2027" : "#fff",
@@ -123,10 +125,11 @@ const dummyCustomers = [
     img: "",
   },
 ];
-const GmerchantProfile = ({ setShowMerchantProfile }) => {
+const GmerchantProfile = ({ setShowMerchantProfile , merchantId }) => {
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [showOutLet, setShowOutLet] = useState(false);
   const [outletValue, setOutletValue] = useState("");
+  const [apiId , setApiId] = useState("")
 
   const open = Boolean(anchorEl);
   const handleClick = (event) => {
@@ -159,6 +162,37 @@ const GmerchantProfile = ({ setShowMerchantProfile }) => {
     setOutletValue(value);
     setShowOutLet((prev) => !prev);
   };
+
+
+  // fetch merchant data
+  const {
+    data: merchantDataById,
+    error:isError,
+    isLoading:dataLoading,
+  } = useQuery({
+    queryKey: "merchantDataById",
+    queryFn: async () => {
+      try {
+        const response = await AuthAxios.get(
+          `/admin/user/${apiId}/de-profile?analytics=include`
+        );
+        console.log(response)
+        return response?.data?.data;
+      } catch (error) {
+        throw new Error("Failed to fetch merchant data");
+      }
+    },
+    onSuccess: (data) => {},
+    staleTime: 5000, // Cache data for 5 seconds
+  });
+
+
+  console.log(merchantDataById)
+
+
+  useEffect(()=> {
+    setApiId(merchantId)
+} , [merchantId])
 
   return (
     <div>
@@ -230,7 +264,7 @@ const GmerchantProfile = ({ setShowMerchantProfile }) => {
           </FormControl>
         </div>
       </div>
-      {showOutLet ? <GmerchantOutLet /> : <GmerchantP />}
+      {showOutLet ? <GmerchantOutLet /> : <GmerchantP dataLoading={dataLoading}  merchantDataById={merchantDataById} />}
     </div>
   );
 };
