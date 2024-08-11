@@ -82,25 +82,23 @@ const Item = styled(Box)(({ theme }) => ({
 const GMerchants = () => {
   const navigate = useNavigate();
 
-
-
   const { selectedDates } = useSelector((state) => state);
 
-  const startDate = formatToIsoDateStr(selectedDates?.startDate)
-  const endDate = formatToIsoDateStr(selectedDates?.endDate)
+  const startDate = formatToIsoDateStr(selectedDates?.startDate);
+  const endDate = formatToIsoDateStr(selectedDates?.endDate);
 
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(100);
   const [showInStore, setShowInStore] = useState(true);
   const [isLoading, setIsLoading] = useState(false);
-  const [merchantId , setMerchantId] = useState("")
+  const [merchantId, setMerchantId] = useState("");
 
   const [showMerchantProfile, setShowMerchantProfile] = useState(false);
 
   const {
     data: merchantData,
     error,
-    isLoading:merchantLoading,
+    isLoading: merchantLoading,
   } = useQuery({
     queryKey: ["merchantData", startDate, endDate],
     queryFn: async () => {
@@ -108,7 +106,7 @@ const GMerchants = () => {
         const response = await AuthAxios.get(`/admin/analytics/merchant`, {
           params: {
             startDate: startDate,
-            endDate:endDate,
+            endDate: endDate,
           },
         });
         return response?.data?.data;
@@ -128,18 +126,12 @@ const GMerchants = () => {
     navigate(link);
   };
 
-
   const handleOpenCustomerProfile = (id) => {
-    setMerchantId(id)
-    setShowMerchantProfile((prev) => !prev)
-    
-  }
+    setMerchantId(id);
+    setShowMerchantProfile((prev) => !prev);
+  };
 
-
-
-
-
-  console.log(merchantData)
+  console.log(merchantData);
 
   return (
     <Box
@@ -149,7 +141,10 @@ const GMerchants = () => {
       }}
     >
       {showMerchantProfile ? (
-        <GmerchantProfile merchantId={merchantId} setShowMerchantProfile={setShowMerchantProfile} />
+        <GmerchantProfile
+          merchantId={merchantId}
+          setShowMerchantProfile={setShowMerchantProfile}
+        />
       ) : (
         <>
           {/* card */}
@@ -232,11 +227,13 @@ const GMerchants = () => {
                     color: "#1E1E1E",
                   }}
                 >
-                     {merchantLoading ? 
-                <CircularProgress size="0.6rem" sx={{ color: "#DC0019" }} />
-                :
-                <FormattedPrice amount={merchantData?.transactions?.totalInwardsSum || 0} />
-                }
+                  {merchantLoading ? (
+                    <CircularProgress size="0.6rem" sx={{ color: "#DC0019" }} />
+                  ) : (
+                    <FormattedPrice
+                      amount={merchantData?.transactions?.totalInwardsSum || 0}
+                    />
+                  )}
                 </Typography>
               </Box>
             </Card>
@@ -293,11 +290,13 @@ const GMerchants = () => {
                     color: "#1E1E1E",
                   }}
                 >
-                        {merchantLoading ? 
-                <CircularProgress size="0.6rem" sx={{ color: "#DC0019" }} />
-                :
-                <FormattedPrice amount={merchantData?.transactions?.totalOutwardsSum || 0} />
-                }
+                  {merchantLoading ? (
+                    <CircularProgress size="0.6rem" sx={{ color: "#DC0019" }} />
+                  ) : (
+                    <FormattedPrice
+                      amount={merchantData?.transactions?.totalOutwardsSum || 0}
+                    />
+                  )}
                 </Typography>
               </Box>
             </Card>
@@ -346,11 +345,13 @@ const GMerchants = () => {
                     color: "#1E1E1E",
                   }}
                 >
-                        {merchantLoading ? 
-                <CircularProgress size="0.6rem" sx={{ color: "#DC0019" }} />
-                :
-                <FormattedPrice amount={merchantData?.transactions?.totalWalletCount || 0} />
-                }
+                  {merchantLoading ? (
+                    <CircularProgress size="0.6rem" sx={{ color: "#DC0019" }} />
+                  ) : (
+                    <FormattedPrice
+                      amount={merchantData?.transactions?.totalWalletCount || 0}
+                    />
+                  )}
                 </Typography>
               </Box>
             </Card>
@@ -385,8 +386,7 @@ const GMerchants = () => {
                     color: "#4F4F4F",
                   }}
                 >
-               General Merchant's
-                Commission{" "}
+                  General Merchant's Commission{" "}
                 </Typography>
               </Box>
 
@@ -398,7 +398,7 @@ const GMerchants = () => {
                     color: "#1E1E1E",
                   }}
                 >
-                  {  merchantData?.commissions?.totalInwardSum || 0}
+                  {merchantData?.commissions?.totalInwardSum || 0}
                 </Typography>
               </Box>
             </Card>
@@ -447,11 +447,11 @@ const GMerchants = () => {
                     color: "#1E1E1E",
                   }}
                 >
-                         {merchantLoading ? 
-                <CircularProgress size="0.6rem" sx={{ color: "#DC0019" }} />
-                :
-               merchantData?.merchants?.totalMerchantCount || 0
-                }
+                  {merchantLoading ? (
+                    <CircularProgress size="0.6rem" sx={{ color: "#DC0019" }} />
+                  ) : (
+                    merchantData?.merchants?.totalMerchantCount || 0
+                  )}
                 </Typography>
               </Box>
             </Card>
@@ -813,7 +813,9 @@ const GMerchants = () => {
           <Box className="w-full  mt-3">
             <Grid container spacing={2}>
               <Grid item xs={8}>
-               <AllMerchants  handleOpenCustomerProfile={handleOpenCustomerProfile}/>
+                <AllMerchants
+                  handleOpenCustomerProfile={handleOpenCustomerProfile}
+                />
               </Grid>
 
               <Grid item xs={4}>
@@ -836,7 +838,17 @@ const GMerchants = () => {
                         <div className="w-[24px] h-[8px] bg-[#27AE60]"></div>
 
                         <p className="text-[#828282] font-normal text-[14px]">
-                          General Active Merchant [234]
+                          General Active Merchant
+                          {isLoading ? (
+                            <CircularProgress
+                              size="0.3rem"
+                              sx={{ color: "#DC0019" }}
+                            />
+                          ) : (
+                            `[${
+                              merchantData?.merchants?.activeMerchantCount || 0
+                            }]`
+                          )}
                         </p>
                       </div>
 
@@ -844,7 +856,18 @@ const GMerchants = () => {
                         <div className="w-[24px] h-[8px] bg-[#E52929]"></div>
 
                         <p className="text-[#828282] font-normal text-[14px]">
-                          General Inactive Merchant [234]
+                          General Inactive Merchant
+                          {isLoading ? (
+                            <CircularProgress
+                              size="0.3rem"
+                              sx={{ color: "#DC0019" }}
+                            />
+                          ) : (
+                            `[${
+                              merchantData?.merchants?.inactiveMerchantCount ||
+                              0
+                            }]`
+                          )}
                         </p>
                       </div>
 
@@ -852,7 +875,18 @@ const GMerchants = () => {
                         <div className="w-[24px] h-[8px] bg-[#BD00FF]"></div>
 
                         <p className="text-[#828282] font-normal text-[14px]">
-                          General Suspended Merchant [234]
+                          General Suspended Merchant
+                          {isLoading ? (
+                            <CircularProgress
+                              size="0.3rem"
+                              sx={{ color: "#DC0019" }}
+                            />
+                          ) : (
+                            `[${
+                              merchantData?.merchants?.suspendedMerchantCount ||
+                              0
+                            }]`
+                          )}
                         </p>
                       </div>
                       <div className="flex items-center gap-2">
@@ -866,7 +900,18 @@ const GMerchants = () => {
                         <div className="w-[24px] h-[8px] bg-black"></div>
 
                         <p className="text-[#828282] font-normal text-[14px]">
-                          General Closed Merchant [234]
+                          General Closed Merchant
+                          {isLoading ? (
+                            <CircularProgress
+                              size="0.3rem"
+                              sx={{ color: "#DC0019" }}
+                            />
+                          ) : (
+                            `[${
+                              merchantData?.merchants?.disabledMerchantCount ||
+                              0
+                            }]`
+                          )}
                         </p>
                       </div>
                     </div>
@@ -891,7 +936,17 @@ const GMerchants = () => {
                         <div className="w-[24px] h-[8px] bg-[#27AE60]"></div>
 
                         <p className="text-[#828282] font-normal text-[14px]">
-                          BVN Verified [234]
+                          BVN Verified
+                          {isLoading ? (
+                            <CircularProgress
+                              size="0.3rem"
+                              sx={{ color: "#DC0019" }}
+                            />
+                          ) : (
+                            `[${
+                              merchantData?.merchants?.bvnVerifiedCount || 0
+                            }]`
+                          )}
                         </p>
                       </div>
 
@@ -899,7 +954,15 @@ const GMerchants = () => {
                         <div className="w-[24px] h-[8px] bg-[#E52929]"></div>
 
                         <p className="text-[#828282] font-normal text-[14px]">
-                          NIN Verified [234]
+                          NIN Verified
+                          {isLoading ? (
+                            <CircularProgress
+                              size="0.3rem"
+                              sx={{ color: "#DC0019" }}
+                            />
+                          ) : (
+                            `[${merchantData?.merchants?.ninVerfiedCount || 0}]`
+                          )}
                         </p>
                       </div>
 
@@ -907,7 +970,15 @@ const GMerchants = () => {
                         <div className="w-[24px] h-[8px] bg-[#BD00FF]"></div>
 
                         <p className="text-[#828282] font-normal text-[14px]">
-                          Not Verified [234]
+                          Not Verified
+                          {isLoading ? (
+                            <CircularProgress
+                              size="0.3rem"
+                              sx={{ color: "#DC0019" }}
+                            />
+                          ) : (
+                            `[${merchantData?.merchants?.unverifiedCount || 0}]`
+                          )}
                         </p>
                       </div>
                     </div>
@@ -932,7 +1003,17 @@ const GMerchants = () => {
                         <div className="w-[24px] h-[8px] bg-[#27AE60]"></div>
 
                         <p className="text-[#828282] font-normal text-[14px]">
-                          Inward Transfer [234]
+                          Inward Transfer
+                          {isLoading ? (
+                            <CircularProgress
+                              size="0.3rem"
+                              sx={{ color: "#DC0019" }}
+                            />
+                          ) : (
+                            `[${
+                              merchantData?.transactions?.totalInwardCount || 0
+                            }]`
+                          )}
                         </p>
                       </div>
 
@@ -940,7 +1021,18 @@ const GMerchants = () => {
                         <div className="w-[24px] h-[8px] bg-[#E52929]"></div>
 
                         <p className="text-[#828282] font-normal text-[14px]">
-                          Outward Transfer [234]
+                          Outward Transfer
+                          {isLoading ? (
+                            <CircularProgress
+                              size="0.3rem"
+                              sx={{ color: "#DC0019" }}
+                            />
+                          ) : (
+                            `[${
+                              merchantData?.transactions?.totalOutwardsCount ||
+                              0
+                            }]`
+                          )}
                         </p>
                       </div>
 
@@ -948,14 +1040,34 @@ const GMerchants = () => {
                         <div className="w-[24px] h-[8px] bg-[#BD00FF]"></div>
 
                         <p className="text-[#828282] font-normal text-[14px]">
-                          Wallet to Wallet [234]
+                          Wallet to Wallet
+                          {isLoading ? (
+                            <CircularProgress
+                              size="0.3rem"
+                              sx={{ color: "#DC0019" }}
+                            />
+                          ) : (
+                            `[${
+                              merchantData?.transactions?.totalWalletCount || 0
+                            }]`
+                          )}
                         </p>
                       </div>
                       <div className="flex items-center gap-2">
                         <div className="w-[24px] h-[8px] bg-[#BD00FF]"></div>
 
                         <p className="text-[#828282] font-normal text-[14px]">
-                          Mycliq [234]
+                          Mycliq
+                          {isLoading ? (
+                            <CircularProgress
+                              size="0.3rem"
+                              sx={{ color: "#DC0019" }}
+                            />
+                          ) : (
+                            `[${
+                              merchantData?.transactions?.totalCliqPayCount || 0
+                            }]`
+                          )}
                         </p>
                       </div>
                     </div>

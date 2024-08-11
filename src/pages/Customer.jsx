@@ -460,7 +460,7 @@ const Customer = () => {
 {isLoading ? 
                 <CircularProgress size="0.6rem" sx={{ color: "#DC0019" }} />
                 :
-              <FormattedPrice amount={customers?.users?.totalUserCount  || 0} />
+            customers?.users?.totalUserCount  || 0
 
                 }    
 

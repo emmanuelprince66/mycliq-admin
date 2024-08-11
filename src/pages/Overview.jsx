@@ -329,7 +329,7 @@ export const Overview = () => {
                     {isLoading ? 
                 <CircularProgress size="0.6rem" sx={{ color: "#DC0019" }} />
                 :
-                <FormattedPrice amount={overviewData?.users?.totalUserCount || 0} />
+          overviewData?.users?.totalUserCount || 0
                 }
               </Typography>
             </Box>
@@ -352,7 +352,7 @@ export const Overview = () => {
                         {isLoading ? 
                 <CircularProgress size="0.6rem" sx={{ color: "#DC0019" }} />
                 :
-                <FormattedPrice amount={overviewData?.users?.filterUserCount || 0} />
+             overviewData?.users?.filterUserCount || 0
                 }
               </Typography>
             </Box>
@@ -413,7 +413,7 @@ export const Overview = () => {
                          {isLoading ? 
                 <CircularProgress size="0.6rem" sx={{ color: "#DC0019" }} />
                 :
-                <FormattedPrice amount={overviewData?.merchants?.totalMerchantCount || 0} />
+                overviewData?.merchants?.totalMerchantCount || 0
                 }
               </Typography>
             </Box>
@@ -436,7 +436,8 @@ export const Overview = () => {
                         {isLoading ? 
                 <CircularProgress size="0.6rem" sx={{ color: "#DC0019" }} />
                 :
-                <FormattedPrice amount={overviewData?.transactions?.filterMerchantCount || 0} />
+              overviewData?.transactions?.filterMerchantCount || 0
+
                 }
               </Typography>
             </Box>
@@ -636,7 +637,12 @@ export const Overview = () => {
 
                       <div className="flex items-center justify-between w-full">
                         <p className="text-[#828282] font-normal text-[14px]">
-                          Total Closed Users [234]
+                          Total Closed Users 
+                                             {isLoading ? 
+                <CircularProgress size="0.3rem" sx={{ color: "#DC0019" }} />
+                :
+                `[${overviewData?.users?.unverifiedCount || 0}]`
+                }
                         </p>
                         <span className="text-[#F78105]  cursor-pointer text-[12px] hover:text-[#333333]">
                           View More
