@@ -87,10 +87,11 @@ export const Login = () => {
     onSuccess: (data) => {
       navigate("/overview");
 
-      // Store data in cookies
+      // // Store data in cookies
 
       Cookies.set("authToken", data?.data?.data?.access_token);
       Cookies.set("refreshToken", data?.data?.data?.refreshToken);
+      localStorage.setItem("user", JSON.stringify(data?.data?.data?.user));
     },
     onError: (error) => {
       console.log(error);

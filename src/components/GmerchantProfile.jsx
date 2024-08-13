@@ -125,11 +125,14 @@ const dummyCustomers = [
     img: "",
   },
 ];
-const GmerchantProfile = ({ setShowMerchantProfile , merchantId }) => {
+const GmerchantProfile = ({ setShowMerchantProfile, merchantId }) => {
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [showOutLet, setShowOutLet] = useState(false);
   const [outletValue, setOutletValue] = useState("");
-  const [apiId , setApiId] = useState("")
+  const [apiId, setApiId] = useState("");
+
+  const rowsPerPage = 10;
+  const [currentPage, setCurrentPage] = useState(1);
 
   const open = Boolean(anchorEl);
   const handleClick = (event) => {
@@ -144,9 +147,11 @@ const GmerchantProfile = ({ setShowMerchantProfile , merchantId }) => {
     register,
     formState: { isValid, errors },
   } = useForm({ mode: "all" });
-  const [page, setPage] = useState(0);
-  const [rowsPerPage, setRowsPerPage] = useState(100);
+
   const [showProfileDetails, setShowProfileDetails] = useState(true);
+  const handlePageChange = (page) => {
+    setCurrentPage(page);
+  };
 
   const handleBackHome = () => {
     if (outletValue === "") {
@@ -163,12 +168,11 @@ const GmerchantProfile = ({ setShowMerchantProfile , merchantId }) => {
     setShowOutLet((prev) => !prev);
   };
 
-
   // fetch merchant data
   const {
     data: merchantDataById,
-    error:isError,
-    isLoading:dataLoading,
+    error: isError,
+    isLoading: dataLoading,
   } = useQuery({
     queryKey: "merchantDataById",
     queryFn: async () => {
@@ -176,7 +180,7 @@ const GmerchantProfile = ({ setShowMerchantProfile , merchantId }) => {
         const response = await AuthAxios.get(
           `/admin/user/${apiId}/de-profile?analytics=include`
         );
-        console.log(response)
+        console.log(response);
         return response?.data?.data;
       } catch (error) {
         throw new Error("Failed to fetch merchant data");
@@ -186,13 +190,36 @@ const GmerchantProfile = ({ setShowMerchantProfile , merchantId }) => {
     staleTime: 5000, // Cache data for 5 seconds
   });
 
+  const fetchMerchantTrx = async ({ queryKey }) => {
+    const [_key, { page, limit, entityId }] = queryKey;
+    try {
+      const response = await AuthAxios.get(
+        `/admin/trx?page=${page}&limit=${limit}&entityId=${entityId}`
+      );
+      return response?.data?.data;
+    } catch (error) {
+      throw new Error("Failed to fetch customer data");
+    }
+  };
 
-  console.log(merchantDataById)
+  const {
+    data: merchantTrx,
+    error,
+    isLoading,
+  } = useQuery({
+    queryKey: [
+      "fetchMerchantTrx",
+      { page: currentPage, limit: rowsPerPage, entityId: apiId },
+    ],
+    queryFn: fetchMerchantTrx,
+    keepPreviousData: true,
+    staleTime: 5000, // Cache data for 5 seconds
+  });
+  const totalPages = merchantTrx?.totalPages ?? 0;
 
-
-  useEffect(()=> {
-    setApiId(merchantId)
-} , [merchantId])
+  useEffect(() => {
+    setApiId(merchantId);
+  }, [merchantId]);
 
   return (
     <div>
@@ -264,7 +291,20 @@ const GmerchantProfile = ({ setShowMerchantProfile , merchantId }) => {
           </FormControl>
         </div>
       </div>
-      {showOutLet ? <GmerchantOutLet /> : <GmerchantP dataLoading={dataLoading}  merchantDataById={merchantDataById} />}
+      {showOutLet ? (
+        <GmerchantOutLet />
+      ) : (
+        <GmerchantP
+          merchantTrx={merchantTrx}
+          handlePageChange={handlePageChange}
+          isLoadng={isLoading}
+          totalPages={totalPages}
+          currentPage={currentPage}
+          dataLoading={dataLoading}
+          rowsPerPage={rowsPerPage}
+          merchantDataById={merchantDataById}
+        />
+      )}
     </div>
   );
 };

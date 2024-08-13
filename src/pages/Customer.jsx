@@ -46,8 +46,7 @@ import DoughnutChart from "../components/DoughnutChart";
 import { styled } from "@mui/material/styles";
 import ArrowBackRoundedIcon from "@mui/icons-material/ArrowBackRounded";
 import { useDispatch } from "react-redux";
-import { useSelector } from "react-redux";  
-
+import { useSelector } from "react-redux";
 
 import { fillCustomersData } from "../utils/store/merchantSlice";
 import wallet from "../assets/images/generalMerchants/wallet.svg";
@@ -73,22 +72,22 @@ const Customer = () => {
   const [profileAcive, setProfileActive] = useState(false);
   const [customerData, setCustomerData] = useState([]);
   const [customerDataById, setCustomerDataById] = useState([]);
-  const startDate = formatToIsoDateStr(selectedDates?.startDate)
-  const endDate = formatToIsoDateStr(selectedDates?.endDate)
-  const [ id  , setId] = useState("")
+  const startDate = formatToIsoDateStr(selectedDates?.startDate);
+  const endDate = formatToIsoDateStr(selectedDates?.endDate);
+  const [id, setId] = useState("");
 
   const {
     data: customers,
     error,
     isLoading,
   } = useQuery({
-     queryKey: ["customers", startDate, endDate],
+    queryKey: ["customers", startDate, endDate],
     queryFn: async () => {
       try {
         const response = await AuthAxios.get(`/admin/analytics/user`, {
           params: {
             startDate: startDate,
-            endDate:endDate,
+            endDate: endDate,
           },
         });
         console.log(response);
@@ -104,7 +103,6 @@ const Customer = () => {
   const handleShowCustomerProfile = () => setShowCustomerProfile(true);
   const handleCloseShowCustomerProfile = () => setShowCustomerProfile(false);
   const handleOpenCustomerProfile = (id) => {
-    console.log(id);
     setId(id);
     setProfileActive(true);
     handleShowCustomerProfile();
@@ -161,7 +159,7 @@ const Customer = () => {
       </Box>
       {!profileAcive ? (
         <>
-              <Box
+          <Box
             sx={{
               width: "100%",
               display: "flex",
@@ -217,12 +215,16 @@ const Customer = () => {
                       color: "#000",
                     }}
                   >
-                            {isLoading ? 
-                <CircularProgress size="0.6rem" sx={{ color: "#DC0019" }} />
-                :
-                <FormattedPrice amount={customers?.transactions?.totalInwardsSum || 0} />
-
-                }
+                    {isLoading ? (
+                      <CircularProgress
+                        size="0.6rem"
+                        sx={{ color: "#DC0019" }}
+                      />
+                    ) : (
+                      <FormattedPrice
+                        amount={customers?.transactions?.totalInwardsSum || 0}
+                      />
+                    )}
                   </Typography>
                 </Box>
               </Box>
@@ -284,14 +286,16 @@ const Customer = () => {
                       color: "#000",
                     }}
                   >
-                          {isLoading ? 
-                <CircularProgress size="0.6rem" sx={{ color: "#DC0019" }} />
-                :
-                <FormattedPrice amount={customers?.transactions?.totalOutwardsSum ||  0} />
-
-                }
-                    
-
+                    {isLoading ? (
+                      <CircularProgress
+                        size="0.6rem"
+                        sx={{ color: "#DC0019" }}
+                      />
+                    ) : (
+                      <FormattedPrice
+                        amount={customers?.transactions?.totalOutwardsSum || 0}
+                      />
+                    )}
                   </Typography>
                 </Box>
               </Box>
@@ -317,6 +321,7 @@ const Customer = () => {
                   sx={{
                     width: "28px",
                     height: "28px",
+                    minHeight: "2.7rem",
                   }}
                 >
                   <img src={wallet} className="fd" alt="f-down" />
@@ -341,15 +346,16 @@ const Customer = () => {
                       color: "#000",
                     }}
                   >
-                    
-                    {isLoading ? 
-                <CircularProgress size="0.6rem" sx={{ color: "#DC0019" }} />
-                :
-                <FormattedPrice amount={customers?.transactions?.totalWalletCount  || 0} />
-
-                }
-                    
-            
+                    {isLoading ? (
+                      <CircularProgress
+                        size="0.6rem"
+                        sx={{ color: "#DC0019" }}
+                      />
+                    ) : (
+                      <FormattedPrice
+                        amount={customers?.transactions?.totalWalletCount || 0}
+                      />
+                    )}
                   </Typography>
                 </Box>
               </Box>
@@ -375,6 +381,7 @@ const Customer = () => {
                   sx={{
                     width: "28px",
                     height: "28px",
+                    minHeight: "2.7rem",
                   }}
                 >
                   <img src={percent} className="fd" alt="f-down" />
@@ -399,15 +406,16 @@ const Customer = () => {
                       color: "#000",
                     }}
                   >
-
-{isLoading ? 
-                <CircularProgress size="0.6rem" sx={{ color: "#DC0019" }} />
-                :
-                <FormattedPrice amount={customers?.commissions?.totalInwardsSum || 0} />
-
-                }
-                    
-              
+                    {isLoading ? (
+                      <CircularProgress
+                        size="0.6rem"
+                        sx={{ color: "#DC0019" }}
+                      />
+                    ) : (
+                      <FormattedPrice
+                        amount={customers?.commissions?.totalInwardsSum || 0}
+                      />
+                    )}
                   </Typography>
                 </Box>
               </Box>
@@ -433,6 +441,7 @@ const Customer = () => {
                   sx={{
                     width: "28px",
                     height: "28px",
+                    minHeight: "2.7rem",
                   }}
                 >
                   <img src={profileNew} className="fd" alt="f-down" />
@@ -456,14 +465,14 @@ const Customer = () => {
                       color: "#000",
                     }}
                   >
-
-{isLoading ? 
-                <CircularProgress size="0.6rem" sx={{ color: "#DC0019" }} />
-                :
-            customers?.users?.totalUserCount  || 0
-
-                }    
-
+                    {isLoading ? (
+                      <CircularProgress
+                        size="0.6rem"
+                        sx={{ color: "#DC0019" }}
+                      />
+                    ) : (
+                      customers?.users?.totalUserCount || 0
+                    )}
                   </Typography>
                 </Box>
               </Box>
@@ -471,9 +480,7 @@ const Customer = () => {
           </Box>
         </>
       ) : (
-        <>
-      
-        </>
+        <></>
       )}
 
       {/*  */}
@@ -482,7 +489,9 @@ const Customer = () => {
         {!showCustomerProfile ? (
           <Grid container spacing={3}>
             <Grid item xs={8}>
-           <AllCustomers handleOpenCustomerProfile={handleOpenCustomerProfile} />
+              <AllCustomers
+                handleOpenCustomerProfile={handleOpenCustomerProfile}
+              />
             </Grid>
 
             <Grid item xs={4}>
@@ -507,11 +516,14 @@ const Customer = () => {
                       <div className="flex items-center justify-between w-full">
                         <p className="text-[#828282] font-normal text-[12px]">
                           General Active Customers
-                          {isLoading ? 
-                <CircularProgress size="0.3rem" sx={{ color: "#DC0019" }} />
-                :
-                `[${customers?.users?.activeUserCount || 0}]`
-                }
+                          {isLoading ? (
+                            <CircularProgress
+                              size="0.3rem"
+                              sx={{ color: "#DC0019" }}
+                            />
+                          ) : (
+                            `[${customers?.users?.activeUserCount || 0}]`
+                          )}
                         </p>
                         <span className="text-[#F78105] cursor-pointer text-[12px] hover:text-[#333333]">
                           View More
@@ -525,11 +537,14 @@ const Customer = () => {
                       <div className="flex items-center justify-between w-full">
                         <p className="text-[#828282] font-normal text-[12px]">
                           General Inactive Customers
-                          {isLoading ? 
-                <CircularProgress size="0.3rem" sx={{ color: "#DC0019" }} />
-                :
-                `[${customers?.users?.inactiveUserCount || 0}]`
-                }
+                          {isLoading ? (
+                            <CircularProgress
+                              size="0.3rem"
+                              sx={{ color: "#DC0019" }}
+                            />
+                          ) : (
+                            `[${customers?.users?.inactiveUserCount || 0}]`
+                          )}
                         </p>
                         <span className="text-[#F78105] cursor-pointer text-[12px] hover:text-[#333333]">
                           View More
@@ -542,12 +557,15 @@ const Customer = () => {
 
                       <div className="flex items-center justify-between w-full">
                         <p className="text-[#828282] font-normal text-[12px]">
-                          General Suspended Customers 
-                          {isLoading ? 
-                <CircularProgress size="0.3rem" sx={{ color: "#DC0019" }} />
-                :
-                `[${customers?.users?.suspendedUserCount || 0}]`
-                }
+                          General Suspended Customers
+                          {isLoading ? (
+                            <CircularProgress
+                              size="0.3rem"
+                              sx={{ color: "#DC0019" }}
+                            />
+                          ) : (
+                            `[${customers?.users?.suspendedUserCount || 0}]`
+                          )}
                         </p>
                         <span className="text-[#F78105] cursor-pointer text-[12px] hover:text-[#333333]">
                           View More
@@ -571,13 +589,15 @@ const Customer = () => {
 
                       <div className="flex items-center justify-between w-full">
                         <p className="text-[#828282] font-normal text-[12px]">
-                          General Closed Customers 
-
-                          {isLoading ? 
-                <CircularProgress size="0.3rem" sx={{ color: "#DC0019" }} />
-                :
-                `[${customers?.users?.disabledUserCount || 0}]`
-                }
+                          General Closed Customers
+                          {isLoading ? (
+                            <CircularProgress
+                              size="0.3rem"
+                              sx={{ color: "#DC0019" }}
+                            />
+                          ) : (
+                            `[${customers?.users?.disabledUserCount || 0}]`
+                          )}
                         </p>
                         <span className="text-[#F78105] cursor-pointer text-[12px] hover:text-[#333333]">
                           View More
@@ -606,12 +626,15 @@ const Customer = () => {
                       <div className="w-[24px] h-[8px] bg-[#27AE60]"></div>
 
                       <p className="text-[#828282] font-normal text-[12px]">
-                        BVN Verified 
-                        {isLoading ? 
-                <CircularProgress size="0.3rem" sx={{ color: "#DC0019" }} />
-                :
-                `[${customers?.users?.bvnVerifiedCount || 0}]`
-                }
+                        BVN Verified
+                        {isLoading ? (
+                          <CircularProgress
+                            size="0.3rem"
+                            sx={{ color: "#DC0019" }}
+                          />
+                        ) : (
+                          `[${customers?.users?.bvnVerifiedCount || 0}]`
+                        )}
                       </p>
                     </div>
 
@@ -619,13 +642,15 @@ const Customer = () => {
                       <div className="w-[24px] h-[8px] bg-[#E52929]"></div>
 
                       <p className="text-[#828282] font-normal text-[12px]">
-                        NIN Verified 
-                        {isLoading ? 
-                <CircularProgress size="0.3rem" sx={{ color: "#DC0019" }} />
-                :
-                `[${customers?.users?.ninVerifiedCount || 0}]`
-                }
-                   
+                        NIN Verified
+                        {isLoading ? (
+                          <CircularProgress
+                            size="0.3rem"
+                            sx={{ color: "#DC0019" }}
+                          />
+                        ) : (
+                          `[${customers?.users?.ninVerifiedCount || 0}]`
+                        )}
                       </p>
                     </div>
 
@@ -633,14 +658,15 @@ const Customer = () => {
                       <div className="w-[24px] h-[8px] bg-[#BD00FF]"></div>
 
                       <p className="text-[#828282] font-normal text-[12px]">
-                        Not Verified 
-
-                        {isLoading ? 
-                <CircularProgress size="0.3rem" sx={{ color: "#DC0019" }} />
-                :
-                `[${customers?.users?.unverifiedCount || 0}]`
-                }
-                   
+                        Not Verified
+                        {isLoading ? (
+                          <CircularProgress
+                            size="0.3rem"
+                            sx={{ color: "#DC0019" }}
+                          />
+                        ) : (
+                          `[${customers?.users?.unverifiedCount || 0}]`
+                        )}
                       </p>
                     </div>
                   </div>
@@ -665,13 +691,15 @@ const Customer = () => {
                       <div className="w-[24px] h-[8px] bg-[#27AE60]"></div>
 
                       <p className="text-[#828282] font-normal text-[12px]">
-                        Inward Transfer 
-                        {isLoading ? 
-                <CircularProgress size="0.3rem" sx={{ color: "#DC0019" }} />
-                :
-                `[${customers?.transactions?.totalInwardsCount || 0}]`
-                }
-                   
+                        Inward Transfer
+                        {isLoading ? (
+                          <CircularProgress
+                            size="0.3rem"
+                            sx={{ color: "#DC0019" }}
+                          />
+                        ) : (
+                          `[${customers?.transactions?.totalInwardsCount || 0}]`
+                        )}
                       </p>
                     </div>
 
@@ -679,12 +707,17 @@ const Customer = () => {
                       <div className="w-[24px] h-[8px] bg-[#E52929]"></div>
 
                       <p className="text-[#828282] font-normal text-[12px]">
-                        Outward Transfer 
-                        {isLoading ? 
-                <CircularProgress size="0.3rem" sx={{ color: "#DC0019" }} />
-                :
-                `[${customers?.transactions?.totalOutwardsCount || 0}]`
-                }
+                        Outward Transfer
+                        {isLoading ? (
+                          <CircularProgress
+                            size="0.3rem"
+                            sx={{ color: "#DC0019" }}
+                          />
+                        ) : (
+                          `[${
+                            customers?.transactions?.totalOutwardsCount || 0
+                          }]`
+                        )}
                       </p>
                     </div>
 
@@ -692,24 +725,30 @@ const Customer = () => {
                       <div className="w-[24px] h-[8px] bg-[#BD00FF]"></div>
 
                       <p className="text-[#828282] font-normal text-[12px]">
-                        Wallet to Wallet 
-                        {isLoading ? 
-                <CircularProgress size="0.3rem" sx={{ color: "#DC0019" }} />
-                :
-                `[${customers?.transactions?.totalWalletCount || 0}]`
-                }
+                        Wallet to Wallet
+                        {isLoading ? (
+                          <CircularProgress
+                            size="0.3rem"
+                            sx={{ color: "#DC0019" }}
+                          />
+                        ) : (
+                          `[${customers?.transactions?.totalWalletCount || 0}]`
+                        )}
                       </p>
                     </div>
                     <div className="flex items-center gap-2">
                       <div className="w-[24px] h-[8px] bg-[#BD00FF]"></div>
 
                       <p className="text-[#828282] font-normal text-[12px]">
-                        Mycliq 
-                        {isLoading ? 
-                <CircularProgress size="0.3rem" sx={{ color: "#DC0019" }} />
-                :
-                `[${customers?.transactions?.totalCliqPayCount || 0}]`
-                }
+                        Mycliq
+                        {isLoading ? (
+                          <CircularProgress
+                            size="0.3rem"
+                            sx={{ color: "#DC0019" }}
+                          />
+                        ) : (
+                          `[${customers?.transactions?.totalCliqPayCount || 0}]`
+                        )}
                       </p>
                     </div>
                   </div>
@@ -719,7 +758,7 @@ const Customer = () => {
           </Grid>
         ) : (
           <CustomerProfile
-             id={id}
+            id={id}
             showCustomerProfile={showCustomerProfile}
             handleCloseShowCustomerProfile={handleCloseShowCustomerProfile}
           />

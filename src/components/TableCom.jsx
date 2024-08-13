@@ -149,6 +149,7 @@ const TableCom = () => {
     setCurrentPage(page);
   };
 
+  console.log(transactions);
   useEffect(() => {
     if (transactions?.records) {
       // const paidData = response?.data?.queryResult.filter(
@@ -213,6 +214,10 @@ const TableCom = () => {
     switch (type) {
       case "airtime":
         setOpenAirtimeModal(true);
+        break;
+      case "bank_transfer":
+        setWithdrawalDetails(true);
+        break;
     }
     // setOpen1(true);
   }
@@ -811,7 +816,10 @@ const TableCom = () => {
           },
         }}
       >
-        <WithdrawalDetails setWithdrawalDetails={setWithdrawalDetails} />
+        <WithdrawalDetails
+          index={index}
+          setWithdrawalDetails={setWithdrawalDetails}
+        />
       </Modal>
       {/* Modal withdrawal ends */}
       {/* Modal for  discount details */}

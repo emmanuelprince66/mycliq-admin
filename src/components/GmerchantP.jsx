@@ -56,6 +56,7 @@ import { styled } from "@mui/material/styles";
 import AccordionSummary from "@mui/material/AccordionSummary";
 import { formatToIsoDateStr } from "../utils/formatIsoDateString";
 import modDate from "../utils/moddate";
+import CustomPagination from "./CustomPagination";
 const Item = styled(Box)(({ theme }) => ({
   backgroundColor: theme.palette.mode === "dark" ? "#1A2027" : "#fff",
   ...theme.typography.body2,
@@ -127,10 +128,17 @@ const dummyCustomers = [
   },
 ];
 
-const GmerchantP = ({merchantDataById , dataLoading}) => {
+const GmerchantP = ({
+  merchantDataById,
+  dataLoading,
+  merchantTrx,
+  handlePageChange,
+  totalPages,
+  currentPage,
+  rowsPerPage,
+  isLoading,
+}) => {
   const [anchorEl, setAnchorEl] = React.useState(null);
-  const [page, setPage] = useState(0);
-  const [rowsPerPage, setRowsPerPage] = useState(100);
   const [outletValue, setOutletValue] = useState("");
   const open = Boolean(anchorEl);
   const handleClick = (event) => {
@@ -203,11 +211,18 @@ const GmerchantP = ({merchantDataById , dataLoading}) => {
                       color: "#000",
                     }}
                   >
-                              {dataLoading ? 
-                <CircularProgress size="0.6rem" sx={{ color: "#DC0019" }} />
-                :
-                <FormattedPrice amount={merchantDataById?.analytics?.totalInwardsSum || 0} />
-                }
+                    {dataLoading ? (
+                      <CircularProgress
+                        size="0.6rem"
+                        sx={{ color: "#DC0019" }}
+                      />
+                    ) : (
+                      <FormattedPrice
+                        amount={
+                          merchantDataById?.analytics?.totalInwardsSum || 0
+                        }
+                      />
+                    )}
                   </Typography>
                 </Box>
               </Box>
@@ -266,11 +281,18 @@ const GmerchantP = ({merchantDataById , dataLoading}) => {
                       color: "#000",
                     }}
                   >
-                                     {dataLoading ? 
-                <CircularProgress size="0.6rem" sx={{ color: "#DC0019" }} />
-                :
-                <FormattedPrice amount={merchantDataById?.analytics?.totalOutwardsSum || 0} />
-                }
+                    {dataLoading ? (
+                      <CircularProgress
+                        size="0.6rem"
+                        sx={{ color: "#DC0019" }}
+                      />
+                    ) : (
+                      <FormattedPrice
+                        amount={
+                          merchantDataById?.analytics?.totalOutwardsSum || 0
+                        }
+                      />
+                    )}
                   </Typography>
                 </Box>
               </Box>
@@ -320,11 +342,18 @@ const GmerchantP = ({merchantDataById , dataLoading}) => {
                       color: "#000",
                     }}
                   >
-                                          {dataLoading ? 
-                <CircularProgress size="0.6rem" sx={{ color: "#DC0019" }} />
-                :
-                <FormattedPrice amount={merchantDataById?.analytics?.totalWalletCount || 0} />
-                }
+                    {dataLoading ? (
+                      <CircularProgress
+                        size="0.6rem"
+                        sx={{ color: "#DC0019" }}
+                      />
+                    ) : (
+                      <FormattedPrice
+                        amount={
+                          merchantDataById?.analytics?.totalWalletCount || 0
+                        }
+                      />
+                    )}
                   </Typography>
                 </Box>
               </Box>
@@ -374,11 +403,18 @@ const GmerchantP = ({merchantDataById , dataLoading}) => {
                       color: "#000",
                     }}
                   >
-                                          {dataLoading ? 
-                <CircularProgress size="0.6rem" sx={{ color: "#DC0019" }} />
-                :
-                <FormattedPrice amount={merchantDataById?.analytics?.totalInwardsSum || 0} />
-                }
+                    {dataLoading ? (
+                      <CircularProgress
+                        size="0.6rem"
+                        sx={{ color: "#DC0019" }}
+                      />
+                    ) : (
+                      <FormattedPrice
+                        amount={
+                          merchantDataById?.analytics?.totalInwardsSum || 0
+                        }
+                      />
+                    )}
                   </Typography>
                 </Box>
               </Box>
@@ -487,11 +523,15 @@ const GmerchantP = ({merchantDataById , dataLoading}) => {
                                 fontSize: "13px",
                               }}
                             >
-                                     {dataLoading ? 
-                <CircularProgress size="0.6rem" sx={{ color: "#DC0019" }} />
-                :
-                merchantDataById?.userProfile?.lastName} {merchantDataById?.userProfile?.firstName
-                }
+                              {dataLoading ? (
+                                <CircularProgress
+                                  size="0.6rem"
+                                  sx={{ color: "#DC0019" }}
+                                />
+                              ) : (
+                                merchantDataById?.userProfile?.lastName
+                              )}{" "}
+                              {merchantDataById?.userProfile?.firstName}
                             </Typography>
                           </Box>
                           <Box className="flex items-center mt-1 mb-1 justify-between ">
@@ -517,12 +557,14 @@ const GmerchantP = ({merchantDataById , dataLoading}) => {
                                 fontSize: "13px",
                               }}
                             >
-                                                    {dataLoading ? 
-                <CircularProgress size="0.6rem" sx={{ color: "#DC0019" }} />
-                :
-                merchantDataById?.userProfile?.gender 
-                }
-                    
+                              {dataLoading ? (
+                                <CircularProgress
+                                  size="0.6rem"
+                                  sx={{ color: "#DC0019" }}
+                                />
+                              ) : (
+                                merchantDataById?.userProfile?.gender
+                              )}
                             </Typography>
                           </Box>
                           <Box className="flex  items-center mt-1 mb-1 justify-between ">
@@ -549,28 +591,35 @@ const GmerchantP = ({merchantDataById , dataLoading}) => {
                                   fontSize: "13px",
                                 }}
                               >
-                                                         {dataLoading ? 
-                <CircularProgress size="0.6rem" sx={{ color: "#DC0019" }} />
-                :
-                merchantDataById?.userProfile?.email
-                }
-                    
+                                {dataLoading ? (
+                                  <CircularProgress
+                                    size="0.6rem"
+                                    sx={{ color: "#DC0019" }}
+                                  />
+                                ) : (
+                                  merchantDataById?.userProfile?.email
+                                )}
                               </Typography>
 
-                              {dataLoading ? 
-                <CircularProgress size="0.6rem" sx={{ color: "#DC0019" }} />
-                :
-                merchantDataById?.userProfile?.emailVerified ? "" : 
-                <div className="bg-[#FFF0F0]  px-2 flex items-center gap-1 rounded-md">
-                <ReportProblemOutlinedIcon
-                  sx={{ fontSize: "15px" }}
-                  className="text-[#E52929] font-[500]"
-                />
-                <p className="text-[#E52929] text-[10px] font-[500]">
-                  Unverified
-                </p>
-              </div>
-                }
+                              {dataLoading ? (
+                                <CircularProgress
+                                  size="0.6rem"
+                                  sx={{ color: "#DC0019" }}
+                                />
+                              ) : merchantDataById?.userProfile
+                                  ?.emailVerified ? (
+                                ""
+                              ) : (
+                                <div className="bg-[#FFF0F0]  px-2 flex items-center gap-1 rounded-md">
+                                  <ReportProblemOutlinedIcon
+                                    sx={{ fontSize: "15px" }}
+                                    className="text-[#E52929] font-[500]"
+                                  />
+                                  <p className="text-[#E52929] text-[10px] font-[500]">
+                                    Unverified
+                                  </p>
+                                </div>
+                              )}
                             </div>
                           </Box>
                           <Box className="flex  items-center mt-1 mb-1 justify-between ">
@@ -597,34 +646,38 @@ const GmerchantP = ({merchantDataById , dataLoading}) => {
                                   fontSize: "13px",
                                 }}
                               >
-                                         {dataLoading ? 
-                <CircularProgress size="0.6rem" sx={{ color: "#DC0019" }} />
-                :
-                merchantDataById?.userProfile?.phoneNumber || "null"
-                }
+                                {dataLoading ? (
+                                  <CircularProgress
+                                    size="0.6rem"
+                                    sx={{ color: "#DC0019" }}
+                                  />
+                                ) : (
+                                  merchantDataById?.userProfile?.phoneNumber ||
+                                  "null"
+                                )}
                               </Typography>
 
                               {merchantDataById?.userProfile?.ninVerified ? (
-                      <div className="bg-[#EBFFF3]  px-2 flex items-center gap-1 rounded-md">
-                        <VerifiedOutlinedIcon
-                          sx={{ fontSize: "15px" }}
-                          className="text-[#1E854A] text-[10px] font-[500]"
-                        />
-                        <p className="text-[#1E854A] text-[10px] font-[500]">
-                          Verified
-                        </p>
-                      </div>
-                    ) : (
-                      <div className="bg-[#FFF0F0]  px-2 flex items-center gap-1 rounded-md">
-                        <ReportProblemOutlinedIcon
-                          sx={{ fontSize: "15px" }}
-                          className="text-[#E52929] font-[500]"
-                        />
-                        <p className="text-[#E52929] text-[10px] font-[500]">
-                          Unverified
-                        </p>
-                      </div>
-                    )}
+                                <div className="bg-[#EBFFF3]  px-2 flex items-center gap-1 rounded-md">
+                                  <VerifiedOutlinedIcon
+                                    sx={{ fontSize: "15px" }}
+                                    className="text-[#1E854A] text-[10px] font-[500]"
+                                  />
+                                  <p className="text-[#1E854A] text-[10px] font-[500]">
+                                    Verified
+                                  </p>
+                                </div>
+                              ) : (
+                                <div className="bg-[#FFF0F0]  px-2 flex items-center gap-1 rounded-md">
+                                  <ReportProblemOutlinedIcon
+                                    sx={{ fontSize: "15px" }}
+                                    className="text-[#E52929] font-[500]"
+                                  />
+                                  <p className="text-[#E52929] text-[10px] font-[500]">
+                                    Unverified
+                                  </p>
+                                </div>
+                              )}
                             </div>
                           </Box>
                           <Box className="flex  items-center mt-1 mb-1 justify-between ">
@@ -651,11 +704,14 @@ const GmerchantP = ({merchantDataById , dataLoading}) => {
                               }}
                             >
                               {" "}
-                              {dataLoading ? 
-                <CircularProgress size="0.6rem" sx={{ color: "#DC0019" }} />
-                :
-                merchantDataById?.userProfile?.address || "null"
-                }
+                              {dataLoading ? (
+                                <CircularProgress
+                                  size="0.6rem"
+                                  sx={{ color: "#DC0019" }}
+                                />
+                              ) : (
+                                merchantDataById?.userProfile?.address || "null"
+                              )}
                             </Typography>
                           </Box>
                         </Box>
@@ -694,11 +750,15 @@ const GmerchantP = ({merchantDataById , dataLoading}) => {
                               fontSize: "13px",
                             }}
                           >
-                                          {dataLoading ? 
-                <CircularProgress size="0.6rem" sx={{ color: "#DC0019" }} />
-                :
-                merchantDataById?.bvnProfile?.firstName} {merchantDataById?.bvnProfile?.lastName
-                }
+                            {dataLoading ? (
+                              <CircularProgress
+                                size="0.6rem"
+                                sx={{ color: "#DC0019" }}
+                              />
+                            ) : (
+                              merchantDataById?.bvnProfile?.firstName
+                            )}{" "}
+                            {merchantDataById?.bvnProfile?.lastName}
                           </Typography>
                         </Box>
                         <Box className="flex items-center mt-1 mb-1 justify-between ">
@@ -724,11 +784,14 @@ const GmerchantP = ({merchantDataById , dataLoading}) => {
                               fontSize: "13px",
                             }}
                           >
-                                                   {dataLoading ? 
-                <CircularProgress size="0.6rem" sx={{ color: "#DC0019" }} />
-                :
-                merchantDataById?.bvnProfile?.gender
-                }
+                            {dataLoading ? (
+                              <CircularProgress
+                                size="0.6rem"
+                                sx={{ color: "#DC0019" }}
+                              />
+                            ) : (
+                              merchantDataById?.bvnProfile?.gender
+                            )}
                           </Typography>
                         </Box>
                         <Box className="flex  items-center mt-1 mb-1 justify-between ">
@@ -755,13 +818,14 @@ const GmerchantP = ({merchantDataById , dataLoading}) => {
                                 fontSize: "13px",
                               }}
                             >
-                                                 
-                                                   {dataLoading ? 
-                <CircularProgress size="0.6rem" sx={{ color: "#DC0019" }} />
-                :
-                merchantDataById?.bvnProfile?.email
-                }
-                     
+                              {dataLoading ? (
+                                <CircularProgress
+                                  size="0.6rem"
+                                  sx={{ color: "#DC0019" }}
+                                />
+                              ) : (
+                                merchantDataById?.bvnProfile?.email
+                              )}
                             </Typography>
 
                             <div className="bg-[#FFF0F0]  px-2 flex items-center gap-1 rounded-md">
@@ -799,11 +863,14 @@ const GmerchantP = ({merchantDataById , dataLoading}) => {
                                 fontSize: "13px",
                               }}
                             >
-                                                                 {dataLoading ? 
-                <CircularProgress size="0.6rem" sx={{ color: "#DC0019" }} />
-                :
-                merchantDataById?.bvnProfile?.phoneNumber
-                }
+                              {dataLoading ? (
+                                <CircularProgress
+                                  size="0.6rem"
+                                  sx={{ color: "#DC0019" }}
+                                />
+                              ) : (
+                                merchantDataById?.bvnProfile?.phoneNumber
+                              )}
                             </Typography>
 
                             <div className="bg-[#EBFFF3]  px-2 flex items-center gap-1 rounded-md">
@@ -841,11 +908,14 @@ const GmerchantP = ({merchantDataById , dataLoading}) => {
                             }}
                           >
                             {" "}
-                            {dataLoading ? 
-                <CircularProgress size="0.6rem" sx={{ color: "#DC0019" }} />
-                :
-                merchantDataById?.bvnProfile?.address
-                }
+                            {dataLoading ? (
+                              <CircularProgress
+                                size="0.6rem"
+                                sx={{ color: "#DC0019" }}
+                              />
+                            ) : (
+                              merchantDataById?.bvnProfile?.address
+                            )}
                           </Typography>
                         </Box>
                       </Box>
@@ -927,11 +997,14 @@ const GmerchantP = ({merchantDataById , dataLoading}) => {
                         >
                           <img src={bage1} alt="b-img" />
                           <span className="font-bold ml-2 text-[13px]">
-                          {dataLoading ? 
-                <CircularProgress size="0.6rem" sx={{ color: "#DC0019" }} />
-                :
-                merchantDataById?.userProfile?.tier
-                }
+                            {dataLoading ? (
+                              <CircularProgress
+                                size="0.6rem"
+                                sx={{ color: "#DC0019" }}
+                              />
+                            ) : (
+                              merchantDataById?.userProfile?.tier
+                            )}
                           </span>
                         </Typography>
                       </Box>
@@ -958,11 +1031,14 @@ const GmerchantP = ({merchantDataById , dataLoading}) => {
                             fontSize: "13px",
                           }}
                         >
-                                      {dataLoading ? 
-                <CircularProgress size="0.6rem" sx={{ color: "#DC0019" }} />
-                :
-               modDate(merchantDataById?.userProfile?.createdAt)
-                }
+                          {dataLoading ? (
+                            <CircularProgress
+                              size="0.6rem"
+                              sx={{ color: "#DC0019" }}
+                            />
+                          ) : (
+                            modDate(merchantDataById?.userProfile?.createdAt)
+                          )}
                         </Typography>
                       </Box>
                       <Box className="flex  items-center mt-2 mb-1  ">
@@ -988,11 +1064,14 @@ const GmerchantP = ({merchantDataById , dataLoading}) => {
                             fontSize: "13px",
                           }}
                         >
-                                                 {dataLoading ? 
-                <CircularProgress size="0.6rem" sx={{ color: "#DC0019" }} />
-                :
-               modDate(merchantDataById?.userProfile?.lastLogin)
-                }
+                          {dataLoading ? (
+                            <CircularProgress
+                              size="0.6rem"
+                              sx={{ color: "#DC0019" }}
+                            />
+                          ) : (
+                            modDate(merchantDataById?.userProfile?.lastLogin)
+                          )}
                         </Typography>
                       </Box>
 
@@ -1074,11 +1153,14 @@ const GmerchantP = ({merchantDataById , dataLoading}) => {
                             fontSize: "13px",
                           }}
                         >
-                                               {dataLoading ? 
-                <CircularProgress size="0.6rem" sx={{ color: "#DC0019" }} />
-                :
-                   merchantDataById?.bankProfile?.name || ""
-                }
+                          {dataLoading ? (
+                            <CircularProgress
+                              size="0.6rem"
+                              sx={{ color: "#DC0019" }}
+                            />
+                          ) : (
+                            merchantDataById?.bankProfile?.name || ""
+                          )}
                         </Typography>
                       </Box>
                       <Box className="flex items-center mt-1 mb-1 justify-between ">
@@ -1167,13 +1249,15 @@ const GmerchantP = ({merchantDataById , dataLoading}) => {
                             fontSize: "13px",
                           }}
                         >
-                                                 {dataLoading ? 
-                <CircularProgress size="0.6rem" sx={{ color: "#DC0019" }} />
-                :
-               merchantDataById?.bvnProfile?.firstName }
-               {merchantDataById?.bvnProfile?.lastName
-
-                }
+                          {dataLoading ? (
+                            <CircularProgress
+                              size="0.6rem"
+                              sx={{ color: "#DC0019" }}
+                            />
+                          ) : (
+                            merchantDataById?.bvnProfile?.firstName
+                          )}
+                          {merchantDataById?.bvnProfile?.lastName}
                         </Typography>
                       </Box>
                       <Box className="flex items-center mt-1 mb-1 justify-between ">
@@ -1199,12 +1283,14 @@ const GmerchantP = ({merchantDataById , dataLoading}) => {
                             fontSize: "13px",
                           }}
                         >
-                                                            {dataLoading ? 
-                <CircularProgress size="0.6rem" sx={{ color: "#DC0019" }} />
-                :
-               merchantDataById?.bvnProfile?.gender
-
-                }
+                          {dataLoading ? (
+                            <CircularProgress
+                              size="0.6rem"
+                              sx={{ color: "#DC0019" }}
+                            />
+                          ) : (
+                            merchantDataById?.bvnProfile?.gender
+                          )}
                         </Typography>
                       </Box>
                       <Box className="flex  items-center mt-1 mb-1 justify-between ">
@@ -1231,12 +1317,14 @@ const GmerchantP = ({merchantDataById , dataLoading}) => {
                               fontSize: "13px",
                             }}
                           >
-                                                                         {dataLoading ? 
-                <CircularProgress size="0.6rem" sx={{ color: "#DC0019" }} />
-                :
-               merchantDataById?.bvnProfile?.email
-
-                }
+                            {dataLoading ? (
+                              <CircularProgress
+                                size="0.6rem"
+                                sx={{ color: "#DC0019" }}
+                              />
+                            ) : (
+                              merchantDataById?.bvnProfile?.email
+                            )}
                           </Typography>
 
                           {/* <div className="bg-[#FFF0F0]  px-2 flex items-center gap-1 rounded-md">
@@ -1274,12 +1362,14 @@ const GmerchantP = ({merchantDataById , dataLoading}) => {
                               fontSize: "13px",
                             }}
                           >
-                                                                                     {dataLoading ? 
-                <CircularProgress size="0.6rem" sx={{ color: "#DC0019" }} />
-                :
-               merchantDataById?.bvnProfile?.phoneNumber
-
-                }
+                            {dataLoading ? (
+                              <CircularProgress
+                                size="0.6rem"
+                                sx={{ color: "#DC0019" }}
+                              />
+                            ) : (
+                              merchantDataById?.bvnProfile?.phoneNumber
+                            )}
                           </Typography>
 
                           <div className="bg-[#EBFFF3]  px-2 flex items-center gap-1 rounded-md">
@@ -1317,11 +1407,14 @@ const GmerchantP = ({merchantDataById , dataLoading}) => {
                           }}
                         >
                           {" "}
-                          {dataLoading ? 
-                <CircularProgress size="0.6rem" sx={{ color: "#DC0019" }} />
-                :
-                merchantDataById?.bvnProfile?.address
-                }
+                          {dataLoading ? (
+                            <CircularProgress
+                              size="0.6rem"
+                              sx={{ color: "#DC0019" }}
+                            />
+                          ) : (
+                            merchantDataById?.bvnProfile?.address
+                          )}
                         </Typography>
                       </Box>
                     </Box>
@@ -1350,37 +1443,40 @@ const GmerchantP = ({merchantDataById , dataLoading}) => {
               </Box>
               <TableContainer component={Paper}>
                 <Table sx={{ minWidth: 100, padding: "8px" }}>
-                  <TableHead
-                    sx={{
-                      background: "#F8F8F8",
-                    }}
-                  >
+                  <TableHead sx={{ background: "#F8F8F8" }}>
                     <TableRow>
                       <TableCell>S/N</TableCell>
-                      <TableCell> Full Name</TableCell>
-                      <TableCell> Transaction ID</TableCell>
+                      <TableCell>Transaction ID</TableCell>
+                      <TableCell>User</TableCell>
                       <TableCell>Type</TableCell>
-                      <TableCell>Amount</TableCell>
+                      <TableCell>Amount(N)</TableCell>
+                      <TableCell>Wallet Balance(N)</TableCell>
                       <TableCell>Status</TableCell>
                       <TableCell>Action</TableCell>
                     </TableRow>
                   </TableHead>
                   <TableBody>
-                    {!dummyCustomers ? (
-                      <CircularProgress
-                        size="4.2rem"
-                        sx={{
-                          color: "#DC0019",
-                          marginLeft: "auto",
-                          padding: "1em",
-                        }}
-                      />
-                    ) : dummyCustomers &&
-                      Array.isArray(dummyCustomers) &&
-                      dummyCustomers.length > 0 ? (
-                      dummyCustomers.map((item, i) => (
+                    {isLoading ? (
+                      <TableRow>
+                        <TableCell colSpan={8} align="left">
+                          <CircularProgress
+                            size="4.2rem"
+                            sx={{
+                              color: "#DC0019",
+                              marginLeft: "auto",
+                              padding: "1em",
+                            }}
+                          />
+                        </TableCell>
+                      </TableRow>
+                    ) : merchantTrx &&
+                      Array.isArray(merchantTrx.records) &&
+                      merchantTrx.records.length > 0 ? (
+                      merchantTrx.records.map((item, i) => (
                         <TableRow key={item.id}>
-                          <TableCell>{page * rowsPerPage + i + 1}</TableCell>
+                          <TableCell>
+                            {i + 1 + (currentPage - 1) * rowsPerPage}
+                          </TableCell>
                           <TableCell>
                             <Typography
                               sx={{
@@ -1389,7 +1485,7 @@ const GmerchantP = ({merchantDataById , dataLoading}) => {
                                 color: "#828282",
                               }}
                             >
-                              item?.name
+                              {item.id.substring(0, 10) + "...."}
                             </Typography>
                           </TableCell>
                           <TableCell>
@@ -1400,7 +1496,7 @@ const GmerchantP = ({merchantDataById , dataLoading}) => {
                                 color: "#828282",
                               }}
                             >
-                              SN25553333
+                              {item.origin.accountName}
                             </Typography>
                           </TableCell>
                           <TableCell>
@@ -1411,31 +1507,70 @@ const GmerchantP = ({merchantDataById , dataLoading}) => {
                                 color: "#828282",
                               }}
                             >
-                              Funding{" "}
+                              {item.type}
                             </Typography>
                           </TableCell>
-                          <TableCell>200,000</TableCell>
                           <TableCell>
                             <Typography
                               sx={{
-                                color: "#1E1E1E",
+                                fontWeight: "400",
+                                fontSize: "16px",
+                                color: "#828282",
+                              }}
+                            >
+                              {item.amount}
+                            </Typography>
+                          </TableCell>
+                          <TableCell>...</TableCell>
+                          <TableCell>
+                            <Box
+                              sx={{
+                                textTransform: "capitalize",
+                                background:
+                                  item.status === "failed"
+                                    ? "#FFF0F0"
+                                    : item.status === "success"
+                                    ? "#EBFFF3"
+                                    : item.status === "pending" ||
+                                      item.status === "incoming"
+                                    ? "#FFF0F0"
+                                    : "",
+                                color:
+                                  item.status === "failed"
+                                    ? "#E52929"
+                                    : item.status === "success"
+                                    ? "#1E854A"
+                                    : item.status === "pending" ||
+                                      item.status === "incoming"
+                                    ? "#CDA11E"
+                                    : "",
                                 fontWeight: "500",
                                 fontSize: "12px",
-                                background: "#EBFFF3",
-                                py: "5px",
-                                px: "10px",
-                                color: "#1E854A",
-                                borderRadius: "10px",
+                                padding: "4px 8px",
+                                borderRadius: "8px",
                                 display: "flex",
-                                alignItems: "center",
-                                gap: "10px",
                                 justifyContent: "center",
-                                width: "120px",
+                                alignItems: "center",
+                                gap: "5px",
+                                border: "1px solid #E0E0E0",
                               }}
                             >
-                              <span className="w-[10px] h-[10px] rounded-full  bg-green-600" />
-                              Credit
-                            </Typography>
+                              {item.status === "failed" && (
+                                <ReportOutlinedIcon sx={{ fontSize: "12px" }} />
+                              )}
+                              {item.status === "success" && (
+                                <CheckCircleOutlineRoundedIcon
+                                  sx={{ fontSize: "12px" }}
+                                />
+                              )}
+                              {(item.status === "incoming" ||
+                                item.status === "pending") && (
+                                <HourglassBottomOutlinedIcon
+                                  sx={{ fontSize: "12px" }}
+                                />
+                              )}
+                              {item.status}
+                            </Box>
                           </TableCell>
                           <TableCell>
                             <Button
@@ -1454,7 +1589,6 @@ const GmerchantP = ({merchantDataById , dataLoading}) => {
                                   backgroundColor: "#fff",
                                   border: "1px solid #E0E0E0",
                                 },
-                                // lineHeight: "26.4px",
                               }}
                             >
                               View Profile
@@ -1464,21 +1598,18 @@ const GmerchantP = ({merchantDataById , dataLoading}) => {
                       ))
                     ) : (
                       <TableRow>
-                        <TableCell colSpan="7">No data found</TableCell>
+                        <TableCell colSpan={8} align="left">
+                          No data found
+                        </TableCell>
                       </TableRow>
                     )}
                   </TableBody>
                 </Table>
               </TableContainer>
-
-              <TablePagination
-                rowsPerPageOptions={[]}
-                component="div"
-                count={dummyCustomers?.totalCount || 0}
-                rowsPerPage={rowsPerPage}
-                page={page}
-                onPageChange={(event, newPage) => setPage(newPage)}
-                // onRowsPerPageChange is removed as the number of rows per page is fixed
+              <CustomPagination
+                currentPage={currentPage}
+                totalPages={totalPages}
+                onPageChange={handlePageChange}
               />
             </Box>
             {/* customers end */}

@@ -50,95 +50,33 @@ import fdown from "../assets/fdown.svg";
 import upcolor from "../assets/images/admin/upcolor.svg";
 import wallet from "../assets/images/generalMerchants/wallet.svg";
 import percent from "../assets/images/generalMerchants/percent.svg";
+import HourglassBottomOutlinedIcon from "@mui/icons-material/HourglassBottomOutlined";
+import ReportOutlinedIcon from "@mui/icons-material/ReportOutlined";
+import CustomPagination from "./CustomPagination";
 
-
-
-const dummyCustomers = [
-  {
-    id: 1,
-    name: "Eleanor Poe",
-    img: "",
-  },
-  {
-    id: 2,
-    name: "Pleanor Poe",
-    img: "",
-  },
-  {
-    id: 3,
-    name: "Sleanor Poe",
-    img: "",
-  },
-  {
-    id: 4,
-    name: "Bleanor Poe",
-    img: "",
-  },
-  {
-    id: 5,
-    name: "Gleanor Poe",
-    img: "",
-  },
-  {
-    id: 6,
-    name: "Gleanor Poe",
-    img: "",
-  },
-  {
-    id: 7,
-    name: "Gleanor Poe",
-    img: "",
-  },
-  {
-    id: 8,
-    name: "Gleanor Poe",
-    img: "",
-  },
-  {
-    id: 9,
-    name: "Gleanor Poe",
-    img: "",
-  },
-  {
-    id: 10,
-    name: "Gleanor Poe",
-    img: "",
-  },
-  {
-    id: 11,
-    name: "Gleanor Poe",
-    img: "",
-  },
-  {
-    id: 12,
-    name: "Gleanor Poe",
-    img: "",
-  },
-];
 const CustomerProfile = ({
   id,
   showCustomerProfile,
   handleCloseShowCustomerProfile,
 }) => {
-  const [apiId , setApiId] = useState("")
+  const [apiId, setApiId] = useState("");
   const [showProfileDetails, setShowProfileDetails] = useState(false);
   const handleCloseProfileDetails = () => setShowProfileDetails(false);
-  const [page, setPage] = useState(0);
-  const [rowsPerPage, setRowsPerPage] = useState(100);
-
+  const rowsPerPage = 10;
+  const [currentPage, setCurrentPage] = useState(1);
 
   const {
     data: customerDataById,
-    error:isError,
-    isLoading:dataLoading,
+    error: isError,
+    isLoading: dataLoading,
   } = useQuery({
-    queryKey: "customerDataById",
+    queryKey: ["customerDataById"],
     queryFn: async () => {
       try {
         const response = await AuthAxios.get(
-          `/admin/user/${apiId}/de-profile?analytics=include`
+          `/admin/trx?entityId=${apiId}&limit=10`
         );
-        console.log(response)
+        console.log(response);
         return response?.data?.data;
       } catch (error) {
         throw new Error("Failed to fetch customer data");
@@ -148,46 +86,51 @@ const CustomerProfile = ({
     staleTime: 5000, // Cache data for 5 seconds
   });
 
-  console.log(customerDataById)
-
-
+  const fetchCustomerTrx = async ({ queryKey }) => {
+    const [_key, { page, limit, entityId }] = queryKey;
+    try {
+      const response = await AuthAxios.get(
+        `/admin/trx?page=${page}&limit=${limit}&entityId=${entityId}`
+      );
+      return response?.data?.data;
+    } catch (error) {
+      throw new Error("Failed to fetch customer data");
+    }
+  };
 
   const {
     data: customerTrx,
     error,
     isLoading,
   } = useQuery({
-    queryKey: "customerTrx",
-    queryFn: async () => {
-      try {
-        const response = await AuthAxios.get(
-          `/admin/trx/${apiId}`
-        );
-        return response?.data?.data?.records;
-      } catch (error) {
-        throw new Error("Failed to fetch customer data");
-      }
-    },
-    onSuccess: (data) => {},
+    queryKey: [
+      "fetchCustomerTrx",
+      { page: currentPage, limit: rowsPerPage, entityId: apiId },
+    ],
+    queryFn: fetchCustomerTrx,
+    keepPreviousData: true,
     staleTime: 5000, // Cache data for 5 seconds
   });
 
+  useEffect(() => {
+    setApiId(id);
+  }, [id]);
 
-
-
-  useEffect(()=> {
-    setApiId(id)
-
-} , [id])
+  const totalPages = customerTrx?.totalPages ?? 0;
 
   if (!showCustomerProfile) {
     return null;
   }
+
+  const handlePageChange = (page) => {
+    setCurrentPage(page);
+  };
+
   return (
     <Box className="w-full ">
       <Grid container spacing={2}>
         <Grid xs={12}>
-        <Box
+          <Box
             sx={{
               width: "100%",
               display: "flex",
@@ -248,11 +191,18 @@ const CustomerProfile = ({
                       color: "#000",
                     }}
                   >
-                         {dataLoading ? 
-                <CircularProgress size="0.6rem" sx={{ color: "#DC0019" }} />
-                :
-                <FormattedPrice amount={customerDataById?.analytics?.totalInwardsSum || 0} />
-                }
+                    {dataLoading ? (
+                      <CircularProgress
+                        size="0.6rem"
+                        sx={{ color: "#DC0019" }}
+                      />
+                    ) : (
+                      <FormattedPrice
+                        amount={
+                          customerDataById?.analytics?.totalInwardsSum || 0
+                        }
+                      />
+                    )}
                   </Typography>
                 </Box>
                 <Box className="flex flex-col gap-2 items-start">
@@ -271,11 +221,18 @@ const CustomerProfile = ({
                       color: "#000",
                     }}
                   >
-                               {dataLoading ? 
-                <CircularProgress size="0.6rem" sx={{ color: "#DC0019" }} />
-                :
-                <FormattedPrice amount={customerDataById?.analytics?.filterInwardsSum || 0} />
-                }
+                    {dataLoading ? (
+                      <CircularProgress
+                        size="0.6rem"
+                        sx={{ color: "#DC0019" }}
+                      />
+                    ) : (
+                      <FormattedPrice
+                        amount={
+                          customerDataById?.analytics?.filterInwardsSum || 0
+                        }
+                      />
+                    )}
                   </Typography>
                 </Box>
               </Box>
@@ -342,11 +299,18 @@ const CustomerProfile = ({
                       color: "#000",
                     }}
                   >
-                                        {dataLoading ? 
-                <CircularProgress size="0.6rem" sx={{ color: "#DC0019" }} />
-                :
-                <FormattedPrice amount={customerDataById?.analytics?.totalOutwardsSum || 0} />
-                }
+                    {dataLoading ? (
+                      <CircularProgress
+                        size="0.6rem"
+                        sx={{ color: "#DC0019" }}
+                      />
+                    ) : (
+                      <FormattedPrice
+                        amount={
+                          customerDataById?.analytics?.totalOutwardsSum || 0
+                        }
+                      />
+                    )}
                   </Typography>
                 </Box>
                 <Box className="flex flex-col gap-2 items-start">
@@ -365,11 +329,18 @@ const CustomerProfile = ({
                       color: "#000",
                     }}
                   >
-                                            {dataLoading ? 
-                <CircularProgress size="0.6rem" sx={{ color: "#DC0019" }} />
-                :
-                <FormattedPrice amount={customerDataById?.analytics?.filterOutwardsSum || 0} />
-                }
+                    {dataLoading ? (
+                      <CircularProgress
+                        size="0.6rem"
+                        sx={{ color: "#DC0019" }}
+                      />
+                    ) : (
+                      <FormattedPrice
+                        amount={
+                          customerDataById?.analytics?.filterOutwardsSum || 0
+                        }
+                      />
+                    )}
                   </Typography>
                 </Box>
               </Box>
@@ -592,12 +563,15 @@ const CustomerProfile = ({
                       fontSize: "13px",
                     }}
                   >
-                       {dataLoading ? 
-                <CircularProgress size="0.6rem" sx={{ color: "#DC0019" }} />
-                :
-                customerDataById?.userProfile?.lastName} {customerDataById?.userProfile?.firstName
-                }
-                    
+                    {dataLoading ? (
+                      <CircularProgress
+                        size="0.6rem"
+                        sx={{ color: "#DC0019" }}
+                      />
+                    ) : (
+                      customerDataById?.userProfile?.lastName
+                    )}{" "}
+                    {customerDataById?.userProfile?.firstName}
                   </Typography>
                 </Box>
                 <Box className="flex items-center mt-1 mb-1 justify-between ">
@@ -623,11 +597,14 @@ const CustomerProfile = ({
                       fontSize: "13px",
                     }}
                   >
-                             {dataLoading ? 
-                <CircularProgress size="0.6rem" sx={{ color: "#DC0019" }} />
-                :
-                customerDataById?.userProfile?.gender || "null"
-                }
+                    {dataLoading ? (
+                      <CircularProgress
+                        size="0.6rem"
+                        sx={{ color: "#DC0019" }}
+                      />
+                    ) : (
+                      customerDataById?.userProfile?.gender || "null"
+                    )}
                   </Typography>
                 </Box>
                 <Box className="flex  items-center mt-1 mb-1 justify-between ">
@@ -654,28 +631,34 @@ const CustomerProfile = ({
                         fontSize: "13px",
                       }}
                     >
-                                {dataLoading ? 
-                <CircularProgress size="0.6rem" sx={{ color: "#DC0019" }} />
-                :
-                customerDataById?.userProfile?.email
-                }
+                      {dataLoading ? (
+                        <CircularProgress
+                          size="0.6rem"
+                          sx={{ color: "#DC0019" }}
+                        />
+                      ) : (
+                        customerDataById?.userProfile?.email
+                      )}
                     </Typography>
-                         
-                    {dataLoading ? 
-                <CircularProgress size="0.6rem" sx={{ color: "#DC0019" }} />
-                :
-                customerDataById?.userProfile?.emailVerified ? "" : 
-                <div className="bg-[#FFF0F0]  px-2 flex items-center gap-1 rounded-md">
-                <ReportProblemOutlinedIcon
-                  sx={{ fontSize: "15px" }}
-                  className="text-[#E52929] font-[500]"
-                />
-                <p className="text-[#E52929] text-[10px] font-[500]">
-                  Unverified
-                </p>
-              </div>
-                }
-                   
+
+                    {dataLoading ? (
+                      <CircularProgress
+                        size="0.6rem"
+                        sx={{ color: "#DC0019" }}
+                      />
+                    ) : customerDataById?.userProfile?.emailVerified ? (
+                      ""
+                    ) : (
+                      <div className="bg-[#FFF0F0]  px-2 flex items-center gap-1 rounded-md">
+                        <ReportProblemOutlinedIcon
+                          sx={{ fontSize: "15px" }}
+                          className="text-[#E52929] font-[500]"
+                        />
+                        <p className="text-[#E52929] text-[10px] font-[500]">
+                          Unverified
+                        </p>
+                      </div>
+                    )}
                   </div>
                 </Box>
                 <Box className="flex  items-center mt-1 mb-1 justify-between ">
@@ -702,11 +685,14 @@ const CustomerProfile = ({
                         fontSize: "13px",
                       }}
                     >
-                                     {dataLoading ? 
-                <CircularProgress size="0.6rem" sx={{ color: "#DC0019" }} />
-                :
-                customerDataById?.userProfile?.phoneNumber || "null"
-                }
+                      {dataLoading ? (
+                        <CircularProgress
+                          size="0.6rem"
+                          sx={{ color: "#DC0019" }}
+                        />
+                      ) : (
+                        customerDataById?.userProfile?.phoneNumber || "null"
+                      )}
                     </Typography>
 
                     {customerDataById?.userProfile?.ninVerified ? (
@@ -756,11 +742,14 @@ const CustomerProfile = ({
                     }}
                   >
                     {" "}
-                    {dataLoading ? 
-                <CircularProgress size="0.6rem" sx={{ color: "#DC0019" }} />
-                :
-                customerDataById?.userProfile?.address || "null"
-                }
+                    {dataLoading ? (
+                      <CircularProgress
+                        size="0.6rem"
+                        sx={{ color: "#DC0019" }}
+                      />
+                    ) : (
+                      customerDataById?.userProfile?.address || "null"
+                    )}
                   </Typography>
                 </Box>
               </Box>
@@ -799,11 +788,12 @@ const CustomerProfile = ({
                     fontSize: "13px",
                   }}
                 >
-                                 {dataLoading ? 
-                <CircularProgress size="0.6rem" sx={{ color: "#DC0019" }} />
-                :
-                customerDataById?.bvnProfile?.firstName} {customerDataById?.bvnProfile?.lastName
-                }
+                  {dataLoading ? (
+                    <CircularProgress size="0.6rem" sx={{ color: "#DC0019" }} />
+                  ) : (
+                    customerDataById?.bvnProfile?.firstName
+                  )}{" "}
+                  {customerDataById?.bvnProfile?.lastName}
                 </Typography>
               </Box>
               <Box className="flex items-center mt-1 mb-1 justify-between ">
@@ -829,11 +819,11 @@ const CustomerProfile = ({
                     fontSize: "13px",
                   }}
                 >
-                                      {dataLoading ? 
-                <CircularProgress size="0.6rem" sx={{ color: "#DC0019" }} />
-                :
-                customerDataById?.bvnProfile?.gender
-                }
+                  {dataLoading ? (
+                    <CircularProgress size="0.6rem" sx={{ color: "#DC0019" }} />
+                  ) : (
+                    customerDataById?.bvnProfile?.gender
+                  )}
                 </Typography>
               </Box>
               <Box className="flex  items-center mt-1 mb-1 justify-between ">
@@ -858,11 +848,14 @@ const CustomerProfile = ({
                       fontSize: "13px",
                     }}
                   >
-                                            {dataLoading ? 
-                <CircularProgress size="0.6rem" sx={{ color: "#DC0019" }} />
-                :
-                customerDataById?.bvnProfile?.email
-                }  
+                    {dataLoading ? (
+                      <CircularProgress
+                        size="0.6rem"
+                        sx={{ color: "#DC0019" }}
+                      />
+                    ) : (
+                      customerDataById?.bvnProfile?.email
+                    )}
                   </Typography>
 
                   {/* <div className="bg-[#FFF0F0]  px-2 flex items-center gap-1 rounded-md">
@@ -900,11 +893,14 @@ const CustomerProfile = ({
                       fontSize: "13px",
                     }}
                   >
-                                            {dataLoading ? 
-                <CircularProgress size="0.6rem" sx={{ color: "#DC0019" }} />
-                :
-                customerDataById?.bvnProfile?.phoneNumber 
-                }
+                    {dataLoading ? (
+                      <CircularProgress
+                        size="0.6rem"
+                        sx={{ color: "#DC0019" }}
+                      />
+                    ) : (
+                      customerDataById?.bvnProfile?.phoneNumber
+                    )}
                   </Typography>
 
                   {/* <div className="bg-[#EBFFF3]  px-2 flex items-center gap-1 rounded-md">
@@ -941,11 +937,11 @@ const CustomerProfile = ({
                     fontSize: "13px",
                   }}
                 >
-                                         {dataLoading ? 
-                <CircularProgress size="0.6rem" sx={{ color: "#DC0019" }} />
-                :
-                customerDataById?.bvnProfile?.address
-                }
+                  {dataLoading ? (
+                    <CircularProgress size="0.6rem" sx={{ color: "#DC0019" }} />
+                  ) : (
+                    customerDataById?.bvnProfile?.address
+                  )}
                 </Typography>
               </Box>
             </Box>
@@ -980,11 +976,11 @@ const CustomerProfile = ({
                     fontSize: "13px",
                   }}
                 >
-                                            {dataLoading ? 
-                <CircularProgress size="0.6rem" sx={{ color: "#DC0019" }} />
-                :
-                customerDataById?.bankProfile?.accountName
-                }
+                  {dataLoading ? (
+                    <CircularProgress size="0.6rem" sx={{ color: "#DC0019" }} />
+                  ) : (
+                    customerDataById?.bankProfile?.accountName
+                  )}
                 </Typography>
               </Box>
               <Box className="flex items-center mt-1 mb-1 justify-between ">
@@ -1010,11 +1006,11 @@ const CustomerProfile = ({
                     fontSize: "13px",
                   }}
                 >
-                                                 {dataLoading ? 
-                <CircularProgress size="0.6rem" sx={{ color: "#DC0019" }} />
-                :
-                customerDataById?.bankProfile?.accountNumber
-                }
+                  {dataLoading ? (
+                    <CircularProgress size="0.6rem" sx={{ color: "#DC0019" }} />
+                  ) : (
+                    customerDataById?.bankProfile?.accountNumber
+                  )}
                 </Typography>
               </Box>
               <Box className="flex items-center mt-1 mb-1 ">
@@ -1038,11 +1034,11 @@ const CustomerProfile = ({
                     fontSize: "13px",
                   }}
                 >
-                                                 {dataLoading ? 
-                <CircularProgress size="0.6rem" sx={{ color: "#DC0019" }} />
-                :
-                customerDataById?.bankProfile?.bankName
-                }
+                  {dataLoading ? (
+                    <CircularProgress size="0.6rem" sx={{ color: "#DC0019" }} />
+                  ) : (
+                    customerDataById?.bankProfile?.bankName
+                  )}
                 </Typography>
               </Box>
             </Box>
@@ -1125,11 +1121,14 @@ const CustomerProfile = ({
                 >
                   <img src={bage1} alt="b-img" />
                   <span className="font-bold ml-2 text-[13px]">
-                  {dataLoading ? 
-                <CircularProgress size="0.6rem" sx={{ color: "#DC0019" }} />
-                :
-                customerDataById?.userProfile?.tier
-                }
+                    {dataLoading ? (
+                      <CircularProgress
+                        size="0.6rem"
+                        sx={{ color: "#DC0019" }}
+                      />
+                    ) : (
+                      customerDataById?.userProfile?.tier
+                    )}
                   </span>
                 </Typography>
               </Box>
@@ -1156,11 +1155,11 @@ const CustomerProfile = ({
                     fontSize: "13px",
                   }}
                 >
-                                                 {dataLoading ? 
-                <CircularProgress size="0.6rem" sx={{ color: "#DC0019" }} />
-                :
-                customerDataById?.bankProfile?.createdAt
-                }
+                  {dataLoading ? (
+                    <CircularProgress size="0.6rem" sx={{ color: "#DC0019" }} />
+                  ) : (
+                    customerDataById?.bankProfile?.createdAt
+                  )}
                 </Typography>
               </Box>
               <Box className="flex  items-center mt-2 mb-1  ">
@@ -1186,11 +1185,11 @@ const CustomerProfile = ({
                     fontSize: "13px",
                   }}
                 >
-                                                 {dataLoading ? 
-                <CircularProgress size="0.6rem" sx={{ color: "#DC0019" }} />
-                :
-                customerDataById?.bankProfile?.lastLogin
-                }
+                  {dataLoading ? (
+                    <CircularProgress size="0.6rem" sx={{ color: "#DC0019" }} />
+                  ) : (
+                    customerDataById?.bankProfile?.lastLogin
+                  )}
                 </Typography>
               </Box>
 
@@ -1263,11 +1262,17 @@ const CustomerProfile = ({
                     <div className="w-[24px] h-[8px] bg-[#27AE60]"></div>
 
                     <p className="text-[#828282] font-normal text-[12px]">
-                      Inward Transfer           {dataLoading ? 
-                <CircularProgress size="0.3rem" sx={{ color: "#DC0019" }} />
-                :
-                `[${customerDataById?.analytics?.totalInwardsCount || 0}]`
-                }
+                      Inward Transfer{" "}
+                      {dataLoading ? (
+                        <CircularProgress
+                          size="0.3rem"
+                          sx={{ color: "#DC0019" }}
+                        />
+                      ) : (
+                        `[${
+                          customerDataById?.analytics?.totalInwardsCount || 0
+                        }]`
+                      )}
                     </p>
                   </div>
 
@@ -1276,11 +1281,16 @@ const CustomerProfile = ({
 
                     <p className="text-[#828282] font-normal text-[12px]">
                       Outward Transfer
-                      {dataLoading ? 
-                <CircularProgress size="0.3rem" sx={{ color: "#DC0019" }} />
-                :
-                `[${customerDataById?.analytics?.totalOutwardsCount || 0}]`
-                }
+                      {dataLoading ? (
+                        <CircularProgress
+                          size="0.3rem"
+                          sx={{ color: "#DC0019" }}
+                        />
+                      ) : (
+                        `[${
+                          customerDataById?.analytics?.totalOutwardsCount || 0
+                        }]`
+                      )}
                     </p>
                   </div>
 
@@ -1288,24 +1298,34 @@ const CustomerProfile = ({
                     <div className="w-[24px] h-[8px] bg-[#BD00FF]"></div>
 
                     <p className="text-[#828282] font-normal text-[12px]">
-                      Wallet to Wallet 
-                      {dataLoading ? 
-                <CircularProgress size="0.3rem" sx={{ color: "#DC0019" }} />
-                :
-                `[${customerDataById?.analytics?.totalWalletCount || 0}]`
-                }
+                      Wallet to Wallet
+                      {dataLoading ? (
+                        <CircularProgress
+                          size="0.3rem"
+                          sx={{ color: "#DC0019" }}
+                        />
+                      ) : (
+                        `[${
+                          customerDataById?.analytics?.totalWalletCount || 0
+                        }]`
+                      )}
                     </p>
                   </div>
                   <div className="flex items-center gap-2">
                     <div className="w-[24px] h-[8px] bg-[#BD00FF]"></div>
 
                     <p className="text-[#828282] font-normal text-[12px]">
-                      Mycliq 
-                      {dataLoading ? 
-                <CircularProgress size="0.3rem" sx={{ color: "#DC0019" }} />
-                :
-                `[${customerDataById?.analytics?.totalCliqPayCount || 0}]`
-                }
+                      Mycliq
+                      {dataLoading ? (
+                        <CircularProgress
+                          size="0.3rem"
+                          sx={{ color: "#DC0019" }}
+                        />
+                      ) : (
+                        `[${
+                          customerDataById?.analytics?.totalCliqPayCount || 0
+                        }]`
+                      )}
                     </p>
                   </div>
                 </div>
@@ -1331,38 +1351,40 @@ const CustomerProfile = ({
               </Box>
               <TableContainer component={Paper}>
                 <Table sx={{ minWidth: 100, padding: "8px" }}>
-                  <TableHead
-                    sx={{
-                      background: "#F8F8F8",
-                    }}
-                  >
+                  <TableHead sx={{ background: "#F8F8F8" }}>
                     <TableRow>
                       <TableCell>S/N</TableCell>
-                      <TableCell> Full Name</TableCell>
-                      <TableCell> Transaction ID</TableCell>
-                      <TableCell>Amount(N)</TableCell>
+                      <TableCell>Transaction ID</TableCell>
+                      <TableCell>User</TableCell>
                       <TableCell>Type</TableCell>
+                      <TableCell>Amount(N)</TableCell>
                       <TableCell>Wallet Balance(N)</TableCell>
                       <TableCell>Status</TableCell>
                       <TableCell>Action</TableCell>
                     </TableRow>
                   </TableHead>
                   <TableBody>
-                    {!isLoading ? (
-                      <CircularProgress
-                        size="4.2rem"
-                        sx={{
-                          color: "#DC0019",
-                          marginLeft: "auto",
-                          padding: "1em",
-                        }}
-                      />
+                    {isLoading ? (
+                      <TableRow>
+                        <TableCell colSpan={8} align="left">
+                          <CircularProgress
+                            size="4.2rem"
+                            sx={{
+                              color: "#DC0019",
+                              marginLeft: "auto",
+                              padding: "1em",
+                            }}
+                          />
+                        </TableCell>
+                      </TableRow>
                     ) : customerTrx &&
-                      Array.isArray(customerTrx) &&
-                      customerTrx?.length > 0 ? (
-                        customerTrx?.map((item, i) => (
+                      Array.isArray(customerTrx.records) &&
+                      customerTrx.records.length > 0 ? (
+                      customerTrx.records.map((item, i) => (
                         <TableRow key={item.id}>
-                          <TableCell>{page * rowsPerPage + i + 1}</TableCell>
+                          <TableCell>
+                            {i + 1 + (currentPage - 1) * rowsPerPage}
+                          </TableCell>
                           <TableCell>
                             <Typography
                               sx={{
@@ -1371,7 +1393,7 @@ const CustomerProfile = ({
                                 color: "#828282",
                               }}
                             >
-                              {item?.name}
+                              {item.id.substring(0, 10) + "...."}
                             </Typography>
                           </TableCell>
                           <TableCell>
@@ -1382,7 +1404,7 @@ const CustomerProfile = ({
                                 color: "#828282",
                               }}
                             >
-                              SN25553333
+                              {item.origin.accountName}
                             </Typography>
                           </TableCell>
                           <TableCell>
@@ -1393,32 +1415,70 @@ const CustomerProfile = ({
                                 color: "#828282",
                               }}
                             >
-                              200,000
+                              {item.type}
                             </Typography>
                           </TableCell>
-                          <TableCell>Funding</TableCell>
-                          <TableCell>20000</TableCell>
                           <TableCell>
                             <Typography
                               sx={{
-                                color: "#1E1E1E",
+                                fontWeight: "400",
+                                fontSize: "16px",
+                                color: "#828282",
+                              }}
+                            >
+                              {item.amount}
+                            </Typography>
+                          </TableCell>
+                          <TableCell>...</TableCell>
+                          <TableCell>
+                            <Box
+                              sx={{
+                                textTransform: "capitalize",
+                                background:
+                                  item.status === "failed"
+                                    ? "#FFF0F0"
+                                    : item.status === "success"
+                                    ? "#EBFFF3"
+                                    : item.status === "pending" ||
+                                      item.status === "incoming"
+                                    ? "#FFF0F0"
+                                    : "",
+                                color:
+                                  item.status === "failed"
+                                    ? "#E52929"
+                                    : item.status === "success"
+                                    ? "#1E854A"
+                                    : item.status === "pending" ||
+                                      item.status === "incoming"
+                                    ? "#CDA11E"
+                                    : "",
                                 fontWeight: "500",
                                 fontSize: "12px",
-                                background: "#EBFFF3",
-                                py: "5px",
-                                px: "10px",
-                                color: "#1E854A",
-                                borderRadius: "10px",
+                                padding: "4px 8px",
+                                borderRadius: "8px",
                                 display: "flex",
-                                alignItems: "center",
-                                gap: "10px",
                                 justifyContent: "center",
-                                width: "120px",
+                                alignItems: "center",
+                                gap: "5px",
+                                border: "1px solid #E0E0E0",
                               }}
                             >
-                              <span className="w-[10px] h-[10px] rounded-full  bg-green-600" />
-                              Successfull
-                            </Typography>
+                              {item.status === "failed" && (
+                                <ReportOutlinedIcon sx={{ fontSize: "12px" }} />
+                              )}
+                              {item.status === "success" && (
+                                <CheckCircleOutlineRoundedIcon
+                                  sx={{ fontSize: "12px" }}
+                                />
+                              )}
+                              {(item.status === "incoming" ||
+                                item.status === "pending") && (
+                                <HourglassBottomOutlinedIcon
+                                  sx={{ fontSize: "12px" }}
+                                />
+                              )}
+                              {item.status}
+                            </Box>
                           </TableCell>
                           <TableCell>
                             <Button
@@ -1437,7 +1497,6 @@ const CustomerProfile = ({
                                   backgroundColor: "#fff",
                                   border: "1px solid #E0E0E0",
                                 },
-                                // lineHeight: "26.4px",
                               }}
                             >
                               View Profile
@@ -1447,21 +1506,18 @@ const CustomerProfile = ({
                       ))
                     ) : (
                       <TableRow>
-                        <TableCell colSpan="7">No data found</TableCell>
+                        <TableCell colSpan={8} align="left">
+                          No data found
+                        </TableCell>
                       </TableRow>
                     )}
                   </TableBody>
                 </Table>
               </TableContainer>
-
-              <TablePagination
-                rowsPerPageOptions={[]}
-                component="div"
-                count={dummyCustomers?.totalCount || 0}
-                rowsPerPage={rowsPerPage}
-                page={page}
-                onPageChange={(event, newPage) => setPage(newPage)}
-                // onRowsPerPageChange is removed as the number of rows per page is fixed
+              <CustomPagination
+                currentPage={currentPage}
+                totalPages={totalPages}
+                onPageChange={handlePageChange}
               />
             </Box>
             {/* customers end */}

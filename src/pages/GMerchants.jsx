@@ -131,8 +131,6 @@ const GMerchants = () => {
     setShowMerchantProfile((prev) => !prev);
   };
 
-  console.log(merchantData);
-
   return (
     <Box
       sx={{
@@ -383,6 +381,7 @@ const GMerchants = () => {
                   sx={{
                     fontWeight: "500",
                     fontSize: "14px",
+                    minHeight: "2.7rem",
                     color: "#4F4F4F",
                   }}
                 >

@@ -1,5 +1,6 @@
 import React from "react";
 import closeIcon from "../assets/images/closeIcon.svg";
+import { useState, useEffect } from "react";
 import {
   Box,
   Button,
@@ -7,10 +8,35 @@ import {
   Radio,
   RadioGroup,
   FormControlLabel,
+  Skeleton,
 } from "@mui/material";
 import info from "../assets/images/admin/info.svg";
 import copyIcon from "../assets/images/admin/copyIcon.svg";
-const WithdrawalDetails = ({ setWithdrawalDetails }) => {
+import { useQuery } from "@tanstack/react-query";
+import { AuthAxios } from "../helpers/axiosInstance";
+import modDate from "../utils/moddate";
+import FormattedPrice from "../components/FormattedPrice";
+import { is } from "date-fns/locale";
+const WithdrawalDetails = ({ setWithdrawalDetails, index }) => {
+  const [trxId, setTrxId] = useState("");
+  const [selectedValue, setSelectedValue] = useState("");
+  const apiUrl = `/admin/trx/${trxId}`;
+  const fetchSingleTransactionData = async (url) => {
+    try {
+      const response = await AuthAxios.get(apiUrl);
+      return response?.data?.data;
+    } catch (error) {
+      throw new Error("Error fetching data...");
+    }
+  };
+
+  const { isLoading, data } = useQuery({
+    queryKey: ["fetchSingleTransactionData", apiUrl],
+    queryFn: () => fetchSingleTransactionData(apiUrl),
+    keepPreviousData: true,
+    staleTime: 5000, // Cache data for 5 seconds
+  });
+
   const style = {
     position: "absolute",
     top: "50%",
@@ -20,6 +46,49 @@ const WithdrawalDetails = ({ setWithdrawalDetails }) => {
     width: "745px",
     bgcolor: "background.paper",
     p: 3,
+  };
+  useEffect(() => {
+    setTrxId(index);
+  }, [index]);
+
+  useEffect(() => {
+    if (data) {
+      setSelectedValue(data.status);
+    }
+  }, [data]);
+
+  const renderDetail = (label, value, type) => {
+    return (
+      <Box
+        key={label}
+        sx={{
+          display: "flex",
+          gap: "2rem",
+          alignItems: "center",
+        }}
+      >
+        <Typography
+          sx={{
+            fontWeight: "500",
+            color: "#828282",
+            fontSize: "14px",
+            minWidth: "230px",
+            mb: "5px",
+          }}
+        >
+          {label}:
+        </Typography>
+        <Typography
+          sx={{
+            color: type === "ongoing" ? "#1E854A" : "#1E1E1E",
+            fontWeight: "600",
+            fontSize: "14px",
+          }}
+        >
+          {value ?? " ..."}
+        </Typography>
+      </Box>
+    );
   };
   return (
     <Box sx={style}>
@@ -64,399 +133,156 @@ const WithdrawalDetails = ({ setWithdrawalDetails }) => {
               fontWeight: "500",
               fontSize: "14px",
               color: "#000",
+              mb: "20px",
             }}
           >
             GENERAL TRANSACTION DETAILS
           </Typography>
 
           {/* general transaction details data */}
+          {isLoading ? (
+            <Skeleton variant="rounded" width="100%" height={320} />
+          ) : (
+            <div>
+              {renderDetail(
+                "User",
+                data?.user?.lastName + " " + data?.user?.firstName
+              )}
+              {renderDetail("Email", data?.user?.email)}
+              {renderDetail("Phone Number", data?.user?.phoneNumber)}
+              {renderDetail("Category", data?.user?.category || "null")}
+              {renderDetail("Transaction Type", data?.type || "null")}
+              {renderDetail("Transaction ID", data?.id || "null")}
+              {renderDetail(
+                "Transaction ID",
+                modDate(data?.createdAt) || "null"
+              )}
+              {renderDetail(
+                "Amount",
+                <FormattedPrice amount={data?.amount} /> || "null"
+              )}
+            </div>
+          )}
+          {/* state data end */}
+        </Box>
+        {/*  bank details*/}
+        {isLoading ? (
+          <Skeleton variant="rounded" width="100%" height={200} />
+        ) : (
           <Box
             sx={{
               width: "100%",
               display: "flex",
               flexDirection: "column",
               gap: ".4em",
+              padding: "20px",
               justifyContent: "start",
               borderRadius: "8px",
               my: "1rem",
-            }}
-          >
-            <Box
-              sx={{
-                display: "flex",
-                gap: "2rem",
-                alignItems: "center",
-              }}
-            >
-              <Typography
-                sx={{
-                  fontWeight: "500",
-                  color: "#828282",
-                  fontSize: "14px",
-                  minWidth: "130px",
-                }}
-              >
-                User:
-              </Typography>
-
-              <Typography
-                sx={{
-                  color: "#1E1E1E",
-                  fontWeight: "600",
-                  fontSize: "14px",
-                }}
-              >
-                {/* {details?.transferFrom?.lastName +
-              " " +
-              details?.transferFrom?.firstName ?? " ..."} */}
-                emma
-              </Typography>
-            </Box>
-            <Box
-              sx={{
-                display: "flex",
-                gap: "2rem",
-                alignItems: "center",
-              }}
-            >
-              <Typography
-                sx={{
-                  fontWeight: "500",
-                  color: "#828282",
-                  fontSize: "14px",
-                  minWidth: "130px",
-                }}
-              >
-                Email Address:
-              </Typography>
-
-              <Typography
-                sx={{
-                  color: "#1E1E1E",
-                  fontWeight: "600",
-                  fontSize: "14px",
-                }}
-              >
-                {/* {details?.transferFrom?.email ?? " ..."} */}emma@gmail.com
-              </Typography>
-            </Box>
-            <Box
-              sx={{
-                display: "flex",
-                gap: "2rem",
-                alignItems: "center",
-              }}
-            >
-              <Typography
-                sx={{
-                  fontWeight: "500",
-                  color: "#828282",
-                  fontSize: "14px",
-                  minWidth: "130px",
-                }}
-              >
-                Phone Number:
-              </Typography>
-
-              <Typography
-                sx={{
-                  color: "#1E1E1E",
-                  fontWeight: "600",
-                  fontSize: "14px",
-                }}
-              >
-                {/* {details?.transferFrom?.phoneNumber ?? " ..."} */}
-                08166226622
-              </Typography>
-            </Box>
-            <Box
-              sx={{
-                display: "flex",
-                gap: "2rem",
-                alignItems: "center",
-              }}
-            >
-              <Typography
-                sx={{
-                  fontWeight: "500",
-                  color: "#828282",
-                  fontSize: "14px",
-                  minWidth: "130px",
-                }}
-              >
-                Category:
-              </Typography>
-
-              <Typography
-                sx={{
-                  color: "#1E1E1E",
-                  fontWeight: "600",
-                  fontSize: "14px",
-                }}
-              >
-                {/* {details?.transferFrom?.role ?? " ..."} */} cool
-              </Typography>
-            </Box>
-            <Box
-              sx={{
-                display: "flex",
-                gap: "2rem",
-                alignItems: "center",
-              }}
-            >
-              <Typography
-                sx={{
-                  fontWeight: "500",
-                  color: "#828282",
-                  fontSize: "14px",
-                  minWidth: "130px",
-                }}
-              >
-                Transaction Type:
-              </Typography>
-
-              <Typography
-                sx={{
-                  color: "#1E1E1E",
-                  fontWeight: "600",
-                  fontSize: "14px",
-                }}
-              >
-                {/* {details?.transactionType ?? "..."} */}Withdrawal
-              </Typography>
-            </Box>
-            <Box
-              sx={{
-                display: "flex",
-                gap: "2rem",
-                alignItems: "center",
-              }}
-            >
-              <Typography
-                sx={{
-                  fontWeight: "500",
-                  color: "#828282",
-                  fontSize: "14px",
-                  minWidth: "130px",
-                }}
-              >
-                Transaction ID:
-              </Typography>
-
-              <Typography
-                sx={{
-                  color: "#1E1E1E",
-                  fontWeight: "600",
-                  fontSize: "14px",
-                }}
-              >
-                {/* {details?.transactionRef ?? "..."} */}SN30000SS00S
-              </Typography>
-            </Box>
-            <Box
-              sx={{
-                display: "flex",
-                gap: "2rem",
-                alignItems: "center",
-              }}
-            >
-              <Typography
-                sx={{
-                  fontWeight: "500",
-                  color: "#828282",
-                  fontSize: "14px",
-                  minWidth: "130px",
-                }}
-              >
-                Date & Time:
-              </Typography>
-
-              <Typography
-                sx={{
-                  color: "#1E1E1E",
-                  fontWeight: "600",
-                  fontSize: "14px",
-                }}
-              >
-                {/* {modDate(details?.createdAt)} */}20-11-20024
-              </Typography>
-            </Box>
-            <Box
-              sx={{
-                display: "flex",
-                gap: "2rem",
-                alignItems: "center",
-              }}
-            >
-              <Typography
-                sx={{
-                  fontWeight: "500",
-                  color: "#828282",
-                  fontSize: "14px",
-                  minWidth: "130px",
-                }}
-              >
-                Recipient:
-              </Typography>
-
-              <Typography
-                sx={{
-                  color: "#1E1E1E",
-                  fontWeight: "600",
-                  fontSize: "14px",
-                }}
-              >
-                {/* {details?.transferFrom?.phoneNumber ?? "..."} */}09126626222
-              </Typography>
-            </Box>
-
-            <Box
-              sx={{
-                display: "flex",
-                gap: "2rem",
-                alignItems: "center",
-              }}
-            >
-              <Typography
-                sx={{
-                  fontWeight: "500",
-                  color: "#828282",
-                  fontSize: "14px",
-                  minWidth: "130px",
-                }}
-              >
-                Amount:
-              </Typography>
-
-              <Typography
-                sx={{
-                  color: "#CDA11E",
-                  fontWeight: "600",
-                  fontSize: "14px",
-                }}
-              >
-                {/* N {details?.amount ?? "..."} */}3000
-              </Typography>
-            </Box>
-          </Box>
-          {/* state data end */}
-        </Box>
-        {/*  bank details*/}
-        <Box
-          sx={{
-            width: "100%",
-            display: "flex",
-            flexDirection: "column",
-            gap: ".4em",
-            padding: "20px",
-            justifyContent: "start",
-            borderRadius: "8px",
-            my: "1rem",
-            border: "1px solid #e0e0e0",
-          }}
-        >
-          <Typography
-            sx={{
-              fontWeight: "500",
-              fontSize: "14px",
-              color: "#000",
-            }}
-          >
-            Bank Account Details
-          </Typography>
-
-          <Box
-            sx={{
-              display: "flex",
-              gap: "2rem",
-              alignItems: "center",
+              border: "1px solid #e0e0e0",
             }}
           >
             <Typography
               sx={{
                 fontWeight: "500",
-                color: "#828282",
                 fontSize: "14px",
-                minWidth: "130px",
+                color: "#000",
               }}
             >
-              Bank Name:
+              Bank Account Details
             </Typography>
 
-            <Typography
+            <Box
               sx={{
-                color: "#1E1E1E",
-                fontWeight: "600",
-                fontSize: "14px",
-              }}
-            >
-              {/* {details?.transferFrom?.lastName +
-              " " +
-              details?.transferFrom?.firstName ?? " ..."} */}
-              Providus Bank
-            </Typography>
-          </Box>
-          <Box
-            sx={{
-              display: "flex",
-              gap: "2rem",
-              alignItems: "center",
-            }}
-          >
-            <Typography
-              sx={{
-                fontWeight: "500",
-                color: "#828282",
-                fontSize: "14px",
-                minWidth: "130px",
-              }}
-            >
-              Account Name:
-            </Typography>
-
-            <Typography
-              sx={{
-                color: "#1E1E1E",
-                fontWeight: "600",
-                fontSize: "14px",
-              }}
-            >
-              {/* {details?.transferFrom?.email ?? " ..."} */}Cascade Lounge
-            </Typography>
-          </Box>
-          <Box
-            sx={{
-              display: "flex",
-              gap: "2rem",
-              alignItems: "center",
-            }}
-          >
-            <Typography
-              sx={{
-                fontWeight: "500",
-                color: "#828282",
-                fontSize: "14px",
-                minWidth: "130px",
-              }}
-            >
-              Account Number:
-            </Typography>
-
-            <Typography
-              sx={{
-                color: "#1E1E1E",
-                fontWeight: "600",
-                fontSize: "14px",
                 display: "flex",
+                gap: "2rem",
                 alignItems: "center",
-                gap: "10px",
               }}
             >
-              {/* {details?.transferFrom?.phoneNumber ?? " ..."} */}08166226622
-              <img src={copyIcon} alt="c-icon" />
-            </Typography>
+              <Typography
+                sx={{
+                  fontWeight: "500",
+                  color: "#828282",
+                  fontSize: "14px",
+                  minWidth: "130px",
+                }}
+              >
+                Bank Name:
+              </Typography>
+
+              <Typography
+                sx={{
+                  color: "#1E1E1E",
+                  fontWeight: "600",
+                  fontSize: "14px",
+                }}
+              >
+                {data?.origin?.bankName || "null"}
+              </Typography>
+            </Box>
+            <Box
+              sx={{
+                display: "flex",
+                gap: "2rem",
+                alignItems: "center",
+              }}
+            >
+              <Typography
+                sx={{
+                  fontWeight: "500",
+                  color: "#828282",
+                  fontSize: "14px",
+                  minWidth: "130px",
+                }}
+              >
+                Account Name:
+              </Typography>
+
+              <Typography
+                sx={{
+                  color: "#1E1E1E",
+                  fontWeight: "600",
+                  fontSize: "14px",
+                }}
+              >
+                {data?.origin?.accountName || "null"}
+              </Typography>
+            </Box>
+            <Box
+              sx={{
+                display: "flex",
+                gap: "2rem",
+                alignItems: "center",
+              }}
+            >
+              <Typography
+                sx={{
+                  fontWeight: "500",
+                  color: "#828282",
+                  fontSize: "14px",
+                  minWidth: "130px",
+                }}
+              >
+                Account Number:
+              </Typography>
+
+              <Typography
+                sx={{
+                  color: "#1E1E1E",
+                  fontWeight: "600",
+                  fontSize: "14px",
+                  display: "flex",
+                  alignItems: "center",
+                  gap: "10px",
+                }}
+              >
+                {data?.origin?.accountNumber || "null"}
+
+                <img src={copyIcon} alt="c-icon" />
+              </Typography>
+            </Box>
           </Box>
-        </Box>
+        )}
 
         {/* T-status */}
 
@@ -484,84 +310,78 @@ const WithdrawalDetails = ({ setWithdrawalDetails }) => {
           </Typography>
 
           <Box sx={{ display: "flex", gap: "20px", alignItems: "center" }}>
-            <Box sx={{ display: "flex", alignItems: "center" }}>
-              <RadioGroup>
-                <FormControlLabel
-                  value={""}
-                  disabled
-                  control={
-                    <Radio
-                      sx={{
-                        color: "#333333", // Unchecked color
-                        "&.Mui-checked": { color: "#DC0019" }, // Checked color
-                      }}
-                    />
-                  }
-                />
-              </RadioGroup>
-              <Typography
-                sx={{
-                  fontWeight: "500",
-                  fontSize: "14px",
-                  color: "#000",
-                  ml: "-15px",
-                }}
-              >
-                Pending
-              </Typography>
-            </Box>
-            <Box sx={{ display: "flex", alignItems: "center" }}>
-              <RadioGroup>
-                <FormControlLabel
-                  value={""}
-                  disabled
-                  control={
-                    <Radio
-                      sx={{
-                        color: "#333333", // Unchecked color
-                        "&.Mui-checked": { color: "#DC0019" }, // Checked color
-                      }}
-                    />
-                  }
-                />
-              </RadioGroup>
-              <Typography
-                sx={{
-                  fontWeight: "500",
-                  fontSize: "14px",
-                  color: "#000",
-                  ml: "-15px",
-                }}
-              >
-                Successfull
-              </Typography>
-            </Box>
-            <Box sx={{ display: "flex", alignItems: "center" }}>
-              <RadioGroup>
-                <FormControlLabel
-                  value={""}
-                  disabled
-                  control={
-                    <Radio
-                      sx={{
-                        color: "#333333", // Unchecked color
-                        "&.Mui-checked": { color: "#DC0019" }, // Checked color
-                      }}
-                    />
-                  }
-                />
-              </RadioGroup>
-              <Typography
-                sx={{
-                  fontWeight: "500",
-                  fontSize: "14px",
-                  color: "#000",
-                  ml: "-15px",
-                }}
-              >
-                Failed
-              </Typography>
-            </Box>
+            <RadioGroup
+              value={selectedValue}
+              onChange={(e) => setSelectedValue(e.target.value)}
+              sx={{ display: "flex", flexDirection: "row", gap: "20px" }}
+            >
+              <FormControlLabel
+                value="pending"
+                control={
+                  <Radio
+                    sx={{
+                      color: "#333333", // Unchecked color
+                      "&.Mui-checked": { color: "#DC0019" }, // Checked color
+                    }}
+                  />
+                }
+                label={
+                  <Typography
+                    sx={{
+                      fontWeight: "500",
+                      fontSize: "14px",
+                      color: "#000",
+                    }}
+                  >
+                    Pending
+                  </Typography>
+                }
+              />
+              <FormControlLabel
+                value="success"
+                control={
+                  <Radio
+                    sx={{
+                      color: "#333333", // Unchecked color
+                      "&.Mui-checked": { color: "#DC0019" }, // Checked color
+                    }}
+                  />
+                }
+                label={
+                  <Typography
+                    sx={{
+                      fontWeight: "500",
+                      fontSize: "14px",
+                      color: "#000",
+                    }}
+                  >
+                    Successful
+                  </Typography>
+                }
+              />
+              <FormControlLabel
+                value="failed"
+                control={
+                  <Radio
+                    sx={{
+                      color: "#333333", // Unchecked color
+                      "&.Mui-checked": { color: "#DC0019" }, // Checked color
+                    }}
+                  />
+                }
+                label={
+                  <Typography
+                    sx={{
+                      fontWeight: "500",
+                      fontSize: "14px",
+                      color: "#000",
+                    }}
+                  >
+                    Failed
+                  </Typography>
+                }
+              />
+            </RadioGroup>
           </Box>
         </Box>
         {/*  */}
