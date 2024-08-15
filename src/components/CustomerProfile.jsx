@@ -65,6 +65,8 @@ const CustomerProfile = ({
   const rowsPerPage = 10;
   const [currentPage, setCurrentPage] = useState(1);
 
+  console.log(apiId);
+
   const {
     data: customerDataById,
     error: isError,
@@ -74,7 +76,7 @@ const CustomerProfile = ({
     queryFn: async () => {
       try {
         const response = await AuthAxios.get(
-          `/admin/trx?entityId=${apiId}&limit=10`
+          `/admin/user/${apiId}/de-profile?analytics=include`
         );
         console.log(response);
         return response?.data?.data;
@@ -125,6 +127,8 @@ const CustomerProfile = ({
   const handlePageChange = (page) => {
     setCurrentPage(page);
   };
+
+  console.log("djhkdh", customerDataById);
 
   return (
     <Box className="w-full ">
@@ -199,7 +203,7 @@ const CustomerProfile = ({
                     ) : (
                       <FormattedPrice
                         amount={
-                          customerDataById?.analytics?.totalInwardsSum || 0
+                          customerDataById?.trxAnalytics?.totalInwardsSum || 0
                         }
                       />
                     )}
@@ -229,7 +233,7 @@ const CustomerProfile = ({
                     ) : (
                       <FormattedPrice
                         amount={
-                          customerDataById?.analytics?.filterInwardsSum || 0
+                          customerDataById?.trxAnalytics?.filterInwardsSum || 0
                         }
                       />
                     )}
@@ -307,7 +311,7 @@ const CustomerProfile = ({
                     ) : (
                       <FormattedPrice
                         amount={
-                          customerDataById?.analytics?.totalOutwardsSum || 0
+                          customerDataById?.trxAnalytics?.totalOutwardsSum || 0
                         }
                       />
                     )}
@@ -337,7 +341,7 @@ const CustomerProfile = ({
                     ) : (
                       <FormattedPrice
                         amount={
-                          customerDataById?.analytics?.filterOutwardsSum || 0
+                          customerDataById?.trxAnalytics?.filterOutwardsSum || 0
                         }
                       />
                     )}
@@ -398,7 +402,9 @@ const CustomerProfile = ({
                       color: "#000",
                     }}
                   >
-                    <FormattedPrice amount={3000000} />
+                    <FormattedPrice
+                      amount={customerDataById?.bankProfile.currentBalance}
+                    />
                   </Typography>
                 </Box>
                 <Box className="flex flex-col gap-2 items-start">
@@ -475,7 +481,9 @@ const CustomerProfile = ({
                       color: "#000",
                     }}
                   >
-                    <FormattedPrice amount={3000000} />
+                    <FormattedPrice
+                      amount={customerDataById.commTrxAnalytics.totalInwardsSum}
+                    />
                   </Typography>
                 </Box>
                 <Box className="flex flex-col gap-2 items-start">
@@ -494,7 +502,11 @@ const CustomerProfile = ({
                       color: "#000",
                     }}
                   >
-                    <FormattedPrice amount={3000000} />
+                    <FormattedPrice
+                      amount={
+                        customerDataById.commTrxAnalytics.filterInwardsSum
+                      }
+                    />
                   </Typography>
                 </Box>
               </Box>
@@ -1270,7 +1282,7 @@ const CustomerProfile = ({
                         />
                       ) : (
                         `[${
-                          customerDataById?.analytics?.totalInwardsCount || 0
+                          customerDataById?.trxAnalytics?.totalInwardsCount || 0
                         }]`
                       )}
                     </p>
@@ -1288,7 +1300,8 @@ const CustomerProfile = ({
                         />
                       ) : (
                         `[${
-                          customerDataById?.analytics?.totalOutwardsCount || 0
+                          customerDataById?.trxAnalytics?.totalOutwardsCount ||
+                          0
                         }]`
                       )}
                     </p>
@@ -1306,7 +1319,7 @@ const CustomerProfile = ({
                         />
                       ) : (
                         `[${
-                          customerDataById?.analytics?.totalWalletCount || 0
+                          customerDataById?.trxAnalytics?.totalWalletCount || 0
                         }]`
                       )}
                     </p>
@@ -1323,7 +1336,7 @@ const CustomerProfile = ({
                         />
                       ) : (
                         `[${
-                          customerDataById?.analytics?.totalCliqPayCount || 0
+                          customerDataById?.trxAnalytics?.totalCliqPayCount || 0
                         }]`
                       )}
                     </p>
