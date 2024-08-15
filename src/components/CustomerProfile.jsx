@@ -147,7 +147,6 @@ const CustomerProfile = ({
                 display: "flex",
                 flexDirection: "column",
                 padding: "16px",
-                // width: "356px",
                 width: "100%",
                 gap: "0.8rem",
               }}
@@ -482,7 +481,9 @@ const CustomerProfile = ({
                     }}
                   >
                     <FormattedPrice
-                      amount={customerDataById.commTrxAnalytics.totalInwardsSum}
+                      amount={
+                        customerDataById?.commTrxAnalytics?.totalInwardsSum
+                      }
                     />
                   </Typography>
                 </Box>
@@ -504,7 +505,7 @@ const CustomerProfile = ({
                   >
                     <FormattedPrice
                       amount={
-                        customerDataById.commTrxAnalytics.filterInwardsSum
+                        customerDataById?.commTrxAnalytics?.filterInwardsSum
                       }
                     />
                   </Typography>

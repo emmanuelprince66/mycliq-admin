@@ -172,7 +172,6 @@ const Customer = () => {
                 display: "flex",
                 flexDirection: "column",
                 padding: "16px",
-                // width: "356px",
                 width: "100%",
                 gap: "0.8rem",
               }}
