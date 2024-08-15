@@ -64,6 +64,7 @@ import DiscountDetails from "./DiscountDetails";
 import CreateOffer from "./CreateOffer";
 import CustomPagination from "./CustomPagination";
 import { AirtimeModal } from "../pages/trx/AirtimeModal";
+import { formatToIsoDateStr } from "../utils/formatIsoDateString";
 const TableCom = () => {
   const [transactionData, setTransactionData] = useState([]);
   const [open1, setOpen1] = React.useState(false);
@@ -76,7 +77,6 @@ const TableCom = () => {
   const [loading, setLoading] = useState(true);
   const [index, setIndex] = useState(0);
   const [details, setDetails] = useState({});
-  const { selectedDates } = useSelector((state) => state);
   const [openAirtimeModal, setOpenAirtimeModal] = useState(false);
   const [anchorEl, setAnchorEl] = React.useState(null);
   const open = Boolean(anchorEl);
@@ -85,7 +85,10 @@ const TableCom = () => {
   const [withdrawalDetails, setWithdrawalDetails] = useState(false);
   const [discountDetails, setDiscountDetails] = useState(false);
   const [createOffer, setCreateOffer] = useState(false);
+  const { selectedDates } = useSelector((state) => state);
 
+  const startDate = formatToIsoDateStr(selectedDates?.startDate);
+  const endDate = formatToIsoDateStr(selectedDates?.endDate);
   const totalPages = 8;
   const rowsPerPage = 20;
   const [currentPage, setCurrentPage] = useState(1);
@@ -150,6 +153,28 @@ const TableCom = () => {
   };
 
   console.log(transactions);
+
+  // fetch transactions analytics
+  const { data: trxAnalytics, isLoading: analyticsLoading } = useQuery({
+    queryKey: ["trxAnalytics", startDate, endDate],
+    queryFn: async () => {
+      try {
+        const response = await AuthAxios.get(`/admin/analytics/trx`, {
+          params: {
+            startDate: startDate,
+            endDate: endDate,
+          },
+        });
+        console.log(response);
+        return response?.data?.data;
+      } catch (error) {
+        throw new Error("Failed to fetch customer data");
+      }
+    },
+    onSuccess: (data) => {},
+    staleTime: 5000, // Cache data for 5 seconds
+  });
+
   useEffect(() => {
     if (transactions?.records) {
       // const paidData = response?.data?.queryResult.filter(
@@ -283,10 +308,12 @@ const TableCom = () => {
                 color: "#1E1E1E",
               }}
             >
-              {totalDeposits === null ? (
+              {analyticsLoading ? (
                 <CircularProgress size="1.2rem" sx={{ color: "#f78105" }} />
               ) : (
-                <FormattedPrice amount={totalDeposits || 0} />
+                <FormattedPrice
+                  amount={trxAnalytics?.transactions?.totalInwardsSum || 0}
+                />
               )}
             </Typography>
           </Box>
@@ -345,9 +372,13 @@ const TableCom = () => {
                 color: "##1E1E1E",
               }}
             >
-              <FormattedPrice
-                amount={Number(transactionDetails?.outflow || 0)}
-              />
+              {analyticsLoading ? (
+                <CircularProgress size="1.2rem" sx={{ color: "#f78105" }} />
+              ) : (
+                <FormattedPrice
+                  amount={trxAnalytics?.transactions?.totalOutwardsSum || 0}
+                />
+              )}
             </Typography>
           </Box>
         </Card>
@@ -397,9 +428,13 @@ const TableCom = () => {
                 color: "##1E1E1E",
               }}
             >
-              <FormattedPrice
-                amount={Number(transactionDetails?.walletBalance || 0)}
-              />
+              {analyticsLoading ? (
+                <CircularProgress size="1.2rem" sx={{ color: "#f78105" }} />
+              ) : (
+                <FormattedPrice
+                  amount={trxAnalytics?.commissions?.totalInwardsSum || 0}
+                />
+              )}
             </Typography>
           </Box>
         </Card>
