@@ -1,43 +1,20 @@
 import React, { useState, useEffect } from "react";
 import { CalendarMonthOutlined } from "@mui/icons-material";
 import { Calendar, DateRangePicker } from "react-date-range";
-import { useDispatch } from "react-redux";
-import { fillSelectedDates } from "../utils/store/merchantSlice";
-import { fillUserDetails } from "../utils/store/merchantSlice";
-import { useSelector } from "react-redux";
-
+import { useDispatch, useSelector } from "react-redux";
+import { fillSelectedDates, fillUserDetails } from "../utils/store/merchantSlice";
 import { Box, Button, Typography } from "@mui/material";
 import { AuthAxios } from "../helpers/axiosInstance";
 import { parse } from "date-fns";
 
 const SelectDate = () => {
-  const { selectedDates } = useSelector((state) => state);
   const dispatch = useDispatch();
-
-  const current = new Date();
-  const timeZone = "Africa/Lagos"; // Nigerian time zone
-
-  const startOfMonth = new Date();
-  const endOfMonth = new Date();
-
-  // Assuming the date is in MM/DD/YYYY format
-  const formatString = "M/d/yyyy";
-
-  const convertedStartDate = parse(
-    selectedDates.startDate,
-    formatString,
-    new Date()
-  );
-  const convertedEndDate = parse(
-    selectedDates.endDate,
-    formatString,
-    new Date()
-  );
+  const { selectedDates } = useSelector((state) => state);
 
   const [dateVisible, setDateVisible] = useState(false);
   const [selectedRange, setSelectedRange] = useState({
-    startDate: selectedDates.startDate,
-    endDate: selectedDates.endDate,
+    startDate: new Date(),
+    endDate: new Date(),
     key: "selection",
   });
 
@@ -46,30 +23,18 @@ const SelectDate = () => {
       try {
         const response = await AuthAxios.get("/user");
         dispatch(fillUserDetails(response.data));
-      } catch (error) {}
+      } catch (error) {
+        console.error(error);
+      }
     }
     getUserDetails();
   }, [dispatch]);
 
-  function handleSelect(ranges) {
-    const dateRange = {
-      startDate: ranges.selection.startDate,
-      endDate: ranges.selection.endDate,
-      key: "selection",
-    };
+  const handleSelect = (ranges) => {
+    setSelectedRange(ranges.selection);
+  };
 
-    setSelectedRange(dateRange);
-  }
-  const modStartDate = new Date(selectedDates.startDate).toLocaleDateString();
-  const modEndDate = new Date(selectedDates.endDate).toLocaleDateString();
-
-  function openDateRange() {
-    setDateVisible(!dateVisible);
-  }
-  function showChange(data) {
-    // setDateVisible(!dateVisible);
-  }
-  function handleDateChange() {
+  const handleDateChange = () => {
     dispatch(
       fillSelectedDates({
         startDate: new Date(selectedRange.startDate),
@@ -77,7 +42,12 @@ const SelectDate = () => {
       })
     );
     setDateVisible(false);
-  }
+  };
+
+  const openDateRange = () => {
+    setDateVisible(!dateVisible);
+  };
+
   return (
     <div>
       <Box
@@ -107,15 +77,14 @@ const SelectDate = () => {
             startIcon={<CalendarMonthOutlined />}
             onClick={openDateRange}
           >
-            {" "}
-            {modStartDate}- {modEndDate}
+            {selectedRange.startDate.toLocaleDateString()} -{" "}
+            {selectedRange.endDate.toLocaleDateString()}
           </Button>
         </div>
         {dateVisible && (
           <div className="absolute flex flex-col bg-white z-[2]  shadow-lg p-2 rounded-[8px] top-[140px]">
             <DateRangePicker
               ranges={[selectedRange]}
-              onShownDateChange={showChange}
               onChange={handleSelect}
             />
 
@@ -123,8 +92,7 @@ const SelectDate = () => {
               onClick={handleDateChange}
               className="bg-primary_red_2 hover:bg-primary_red_3 p-2 w-1/5 ml-auto rounded-[8px] text-white"
             >
-              {" "}
-              Done{" "}
+              Done
             </button>
           </div>
         )}

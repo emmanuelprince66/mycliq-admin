@@ -413,9 +413,7 @@ const CustomerProfile = ({
                         }
                       />
                     )}
-                    <FormattedPrice
-                      amount={customerDataById?.bankProfile.currentBalance}
-                    />
+                 
                   </Typography>
                 </Box>
                 {/* <Box className="flex flex-col gap-2 items-start">
