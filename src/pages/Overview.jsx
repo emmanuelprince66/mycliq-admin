@@ -1,6 +1,6 @@
 import React from "react";
 import TableCom from "../components/TableCom";
-import { Box, Card, Typography, Grid, Button , Skeleton} from "@mui/material";
+import { Box, Card, Typography, Grid, Button, Skeleton } from "@mui/material";
 import SelectDate from "../components/SelectDate";
 import purple from "../assets/images/admin/purple.svg";
 import blue from "../assets/images/admin/blue.svg";
@@ -22,7 +22,6 @@ import { AuthAxios } from "../helpers/axiosInstance";
 import { useSelector } from "react-redux";
 import { formatToIsoDateStr } from "../utils/formatIsoDateString";
 
-
 const Item = styled(Box)(({ theme }) => ({
   backgroundColor: theme.palette.mode === "dark" ? "#1A2027" : "#fff",
   ...theme.typography.body2,
@@ -35,9 +34,10 @@ const Item = styled(Box)(({ theme }) => ({
 export const Overview = () => {
   const { selectedDates } = useSelector((state) => state);
 
-  const startDate = formatToIsoDateStr(selectedDates?.startDate)
-  const endDate = formatToIsoDateStr(selectedDates?.endDate)
+  const startDate = formatToIsoDateStr(selectedDates?.startDate);
+  const endDate = formatToIsoDateStr(selectedDates?.endDate);
 
+  console.log(startDate, endDate);
   const {
     data: overviewData,
     error,
@@ -49,7 +49,7 @@ export const Overview = () => {
         const response = await AuthAxios.get(`/admin/analytics/overview`, {
           params: {
             startDate: startDate,
-            endDate:endDate,
+            endDate: endDate,
           },
         });
         console.log(response);
@@ -62,8 +62,7 @@ export const Overview = () => {
     staleTime: 5000, // Cache data for 5 seconds
   });
 
-
-  console.log(overviewData)
+  console.log(overviewData);
   return (
     <Box
       sx={{
@@ -147,11 +146,13 @@ export const Overview = () => {
                   color: "#000",
                 }}
               >
-                   {isLoading ? 
-                <CircularProgress size="0.6rem" sx={{ color: "#DC0019" }} />
-                :
-                <FormattedPrice amount={overviewData?.transactions?.totalInwardsSum || 0} />
-                }
+                {isLoading ? (
+                  <CircularProgress size="0.6rem" sx={{ color: "#DC0019" }} />
+                ) : (
+                  <FormattedPrice
+                    amount={overviewData?.transactions?.totalInwardsSum || 0}
+                  />
+                )}
               </Typography>
             </Box>
             <Box className="flex flex-col gap-1 items-start">
@@ -170,11 +171,13 @@ export const Overview = () => {
                   color: "#000",
                 }}
               >
-                   {isLoading ? 
-                <CircularProgress size="0.6rem" sx={{ color: "#DC0019" }} />
-                :
-                <FormattedPrice amount={overviewData?.transactions?.filterInwardsSum || 0} />
-                }
+                {isLoading ? (
+                  <CircularProgress size="0.6rem" sx={{ color: "#DC0019" }} />
+                ) : (
+                  <FormattedPrice
+                    amount={overviewData?.transactions?.filterInwardsSum || 0}
+                  />
+                )}
               </Typography>
             </Box>
           </Box>
@@ -241,11 +244,13 @@ export const Overview = () => {
                   color: "#000",
                 }}
               >
-                       {isLoading ? 
-                <CircularProgress size="0.6rem" sx={{ color: "#DC0019" }} />
-                :
-                <FormattedPrice amount={overviewData?.transactions?.totalOutwardsSum || 0} />
-                }
+                {isLoading ? (
+                  <CircularProgress size="0.6rem" sx={{ color: "#DC0019" }} />
+                ) : (
+                  <FormattedPrice
+                    amount={overviewData?.transactions?.totalOutwardsSum || 0}
+                  />
+                )}
               </Typography>
             </Box>
             <Box className="flex flex-col gap-1 items-start">
@@ -264,11 +269,13 @@ export const Overview = () => {
                   color: "#000",
                 }}
               >
-                        {isLoading ? 
-                <CircularProgress size="0.6rem" sx={{ color: "#DC0019" }} />
-                :
-                <FormattedPrice amount={overviewData?.transactions?.filterOutwardsSum || 0} />
-                }
+                {isLoading ? (
+                  <CircularProgress size="0.6rem" sx={{ color: "#DC0019" }} />
+                ) : (
+                  <FormattedPrice
+                    amount={overviewData?.transactions?.filterOutwardsSum || 0}
+                  />
+                )}
               </Typography>
             </Box>
           </Box>
@@ -326,11 +333,11 @@ export const Overview = () => {
                   color: "#000",
                 }}
               >
-                    {isLoading ? 
-                <CircularProgress size="0.6rem" sx={{ color: "#DC0019" }} />
-                :
-          overviewData?.users?.totalUserCount || 0
-                }
+                {isLoading ? (
+                  <CircularProgress size="0.6rem" sx={{ color: "#DC0019" }} />
+                ) : (
+                  overviewData?.users?.totalUserCount || 0
+                )}
               </Typography>
             </Box>
             <Box className="flex flex-col gap-1 items-start">
@@ -349,11 +356,11 @@ export const Overview = () => {
                   color: "#000",
                 }}
               >
-                        {isLoading ? 
-                <CircularProgress size="0.6rem" sx={{ color: "#DC0019" }} />
-                :
-             overviewData?.users?.filterUserCount || 0
-                }
+                {isLoading ? (
+                  <CircularProgress size="0.6rem" sx={{ color: "#DC0019" }} />
+                ) : (
+                  overviewData?.users?.filterUserCount || 0
+                )}
               </Typography>
             </Box>
           </Box>
@@ -410,11 +417,11 @@ export const Overview = () => {
                   color: "#000",
                 }}
               >
-                         {isLoading ? 
-                <CircularProgress size="0.6rem" sx={{ color: "#DC0019" }} />
-                :
-                overviewData?.merchants?.totalMerchantCount || 0
-                }
+                {isLoading ? (
+                  <CircularProgress size="0.6rem" sx={{ color: "#DC0019" }} />
+                ) : (
+                  overviewData?.merchants?.totalMerchantCount || 0
+                )}
               </Typography>
             </Box>
             <Box className="flex flex-col gap-1 items-start">
@@ -433,12 +440,11 @@ export const Overview = () => {
                   color: "#000",
                 }}
               >
-                        {isLoading ? 
-                <CircularProgress size="0.6rem" sx={{ color: "#DC0019" }} />
-                :
-              overviewData?.transactions?.filterMerchantCount || 0
-
-                }
+                {isLoading ? (
+                  <CircularProgress size="0.6rem" sx={{ color: "#DC0019" }} />
+                ) : (
+                  overviewData?.transactions?.filterMerchantCount || 0
+                )}
               </Typography>
             </Box>
           </Box>
@@ -495,11 +501,13 @@ export const Overview = () => {
                   color: "#000",
                 }}
               >
-                        {isLoading ? 
-                <CircularProgress size="0.6rem" sx={{ color: "#DC0019" }} />
-                :
-                <FormattedPrice amount={overviewData?.commissions?.totalInwardsSum || 0} />
-                }
+                {isLoading ? (
+                  <CircularProgress size="0.6rem" sx={{ color: "#DC0019" }} />
+                ) : (
+                  <FormattedPrice
+                    amount={overviewData?.commissions?.totalInwardsSum || 0}
+                  />
+                )}
               </Typography>
             </Box>
             <Box className="flex flex-col gap-1 items-start">
@@ -518,11 +526,13 @@ export const Overview = () => {
                   color: "#000",
                 }}
               >
-                      {isLoading ? 
-                <CircularProgress size="0.6rem" sx={{ color: "#DC0019" }} />
-                :
-                <FormattedPrice amount={overviewData?.transactions?.filterInwardsSum || 0} />
-                }
+                {isLoading ? (
+                  <CircularProgress size="0.6rem" sx={{ color: "#DC0019" }} />
+                ) : (
+                  <FormattedPrice
+                    amount={overviewData?.transactions?.filterInwardsSum || 0}
+                  />
+                )}
               </Typography>
             </Box>
           </Box>
@@ -572,12 +582,15 @@ export const Overview = () => {
 
                       <div className="flex items-center justify-between w-full">
                         <p className="text-[#828282] font-normal text-[14px]">
-                          Total Active Users 
-                          {isLoading ? 
-                <CircularProgress size="0.3rem" sx={{ color: "#DC0019" }} />
-                :
-                `[${overviewData?.users?.activeUserCount || 0}]`
-                }
+                          Total Active Users
+                          {isLoading ? (
+                            <CircularProgress
+                              size="0.3rem"
+                              sx={{ color: "#DC0019" }}
+                            />
+                          ) : (
+                            `[${overviewData?.users?.activeUserCount || 0}]`
+                          )}
                         </p>
                         <span className="text-[#F78105] cursor-pointer text-[12px] hover:text-[#333333]">
                           View More
@@ -590,12 +603,15 @@ export const Overview = () => {
 
                       <div className="flex items-center justify-between w-full">
                         <p className="text-[#828282] font-normal text-[14px]">
-                          Total Inactive Users 
-                          {isLoading ? 
-                <CircularProgress size="0.3rem" sx={{ color: "#DC0019" }} />
-                :
-                `[${overviewData?.users?.inactiveUserCount || 0}]`
-                }
+                          Total Inactive Users
+                          {isLoading ? (
+                            <CircularProgress
+                              size="0.3rem"
+                              sx={{ color: "#DC0019" }}
+                            />
+                          ) : (
+                            `[${overviewData?.users?.inactiveUserCount || 0}]`
+                          )}
                         </p>
                         <span className="text-[#F78105] cursor-pointer text-[12px] hover:text-[#333333]">
                           View More
@@ -608,12 +624,15 @@ export const Overview = () => {
 
                       <div className="flex items-center justify-between w-full">
                         <p className="text-[#828282] font-normal text-[14px]">
-                          Total Suspended Users 
-                          {isLoading ? 
-                <CircularProgress size="0.3rem" sx={{ color: "#DC0019" }} />
-                :
-                `[${overviewData?.users?.suspendedUserCount || 0}]`
-                }
+                          Total Suspended Users
+                          {isLoading ? (
+                            <CircularProgress
+                              size="0.3rem"
+                              sx={{ color: "#DC0019" }}
+                            />
+                          ) : (
+                            `[${overviewData?.users?.suspendedUserCount || 0}]`
+                          )}
                         </p>
                         <span className="text-[#F78105] cursor-pointer text-[12px] hover:text-[#333333]">
                           View More
@@ -637,12 +656,15 @@ export const Overview = () => {
 
                       <div className="flex items-center justify-between w-full">
                         <p className="text-[#828282] font-normal text-[14px]">
-                          Total Closed Users 
-                                             {isLoading ? 
-                <CircularProgress size="0.3rem" sx={{ color: "#DC0019" }} />
-                :
-                `[${overviewData?.users?.unverifiedCount || 0}]`
-                }
+                          Total Closed Users
+                          {isLoading ? (
+                            <CircularProgress
+                              size="0.3rem"
+                              sx={{ color: "#DC0019" }}
+                            />
+                          ) : (
+                            `[${overviewData?.users?.unverifiedCount || 0}]`
+                          )}
                         </p>
                         <span className="text-[#F78105]  cursor-pointer text-[12px] hover:text-[#333333]">
                           View More
@@ -672,11 +694,16 @@ export const Overview = () => {
 
                       <p className="text-[#828282] font-normal text-[14px]">
                         Total Inward Transfer
-                        {isLoading ? 
-                <CircularProgress size="0.3rem" sx={{ color: "#DC0019" }} />
-                :
-                `[${overviewData?.transactions?.totalInwardsCount || 0}]`
-                }
+                        {isLoading ? (
+                          <CircularProgress
+                            size="0.3rem"
+                            sx={{ color: "#DC0019" }}
+                          />
+                        ) : (
+                          `[${
+                            overviewData?.transactions?.totalInwardsCount || 0
+                          }]`
+                        )}
                       </p>
                     </div>
 
@@ -684,12 +711,17 @@ export const Overview = () => {
                       <div className="w-[24px] h-[8px] bg-[#E52929]"></div>
 
                       <p className="text-[#828282] font-normal text-[14px]">
-                        Total Outward Transfer 
-                        {isLoading ? 
-                <CircularProgress size="0.3rem" sx={{ color: "#DC0019" }} />
-                :
-                `[${overviewData?.transactions?.totalOutwardsCount || 0}]`
-                }
+                        Total Outward Transfer
+                        {isLoading ? (
+                          <CircularProgress
+                            size="0.3rem"
+                            sx={{ color: "#DC0019" }}
+                          />
+                        ) : (
+                          `[${
+                            overviewData?.transactions?.totalOutwardsCount || 0
+                          }]`
+                        )}
                       </p>
                     </div>
 
@@ -697,48 +729,68 @@ export const Overview = () => {
                       <div className="w-[24px] h-[8px] bg-[#BD00FF]"></div>
 
                       <p className="text-[#828282] font-normal text-[14px]">
-                        Total Wallet To Wallet 
-                        {isLoading ? 
-                <CircularProgress size="0.3rem" sx={{ color: "#DC0019" }} />
-                :
-                `[${overviewData?.transactions?.totalWalletCount || 0}]`
-                }
+                        Total Wallet To Wallet
+                        {isLoading ? (
+                          <CircularProgress
+                            size="0.3rem"
+                            sx={{ color: "#DC0019" }}
+                          />
+                        ) : (
+                          `[${
+                            overviewData?.transactions?.totalWalletCount || 0
+                          }]`
+                        )}
                       </p>
                     </div>
                     <div className="flex items-center gap-2">
                       <div className="w-[24px] h-[8px] bg-[#1367D8]"></div>
 
                       <p className="text-[#828282] font-normal text-[14px]">
-                        Total Mycliq 
-                        {isLoading ? 
-                <CircularProgress size="0.3rem" sx={{ color: "#DC0019" }} />
-                :
-                `[${overviewData?.transactions?.totalCliqPayCount || 0}]`
-                }
+                        Total Mycliq
+                        {isLoading ? (
+                          <CircularProgress
+                            size="0.3rem"
+                            sx={{ color: "#DC0019" }}
+                          />
+                        ) : (
+                          `[${
+                            overviewData?.transactions?.totalCliqPayCount || 0
+                          }]`
+                        )}
                       </p>
                     </div>
                     <div className="flex items-center gap-2">
                       <div className="w-[24px] h-[8px] bg-pink-400"></div>
 
                       <p className="text-[#828282] font-normal text-[14px]">
-                        Total Soft POS 
-                        {isLoading ? 
-                <CircularProgress size="0.3rem" sx={{ color: "#DC0019" }} />
-                :
-                `[${overviewData?.transactions?.totalTerminalCount || 0}]`
-                }
+                        Total Soft POS
+                        {isLoading ? (
+                          <CircularProgress
+                            size="0.3rem"
+                            sx={{ color: "#DC0019" }}
+                          />
+                        ) : (
+                          `[${
+                            overviewData?.transactions?.totalTerminalCount || 0
+                          }]`
+                        )}
                       </p>
                     </div>
                     <div className="flex items-center gap-2">
                       <div className="w-[24px] h-[8px] bg-red-500"></div>
 
                       <p className="text-[#828282] font-normal text-[14px]">
-                        Total Bills 
-                        {isLoading ? 
-                <CircularProgress size="0.3rem" sx={{ color: "#DC0019" }} />
-                :
-                `[${overviewData?.transactions?.totalBillsCount || 0}]`
-                }
+                        Total Bills
+                        {isLoading ? (
+                          <CircularProgress
+                            size="0.3rem"
+                            sx={{ color: "#DC0019" }}
+                          />
+                        ) : (
+                          `[${
+                            overviewData?.transactions?.totalBillsCount || 0
+                          }]`
+                        )}
                       </p>
                     </div>
                   </div>

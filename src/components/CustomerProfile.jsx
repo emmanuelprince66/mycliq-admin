@@ -401,12 +401,24 @@ const CustomerProfile = ({
                       color: "#000",
                     }}
                   >
+                    {dataLoading ? (
+                      <CircularProgress
+                        size="0.6rem"
+                        sx={{ color: "#DC0019" }}
+                      />
+                    ) : (
+                      <FormattedPrice
+                        amount={
+                          customerDataById?.bankProfile?.currentBalance || 0
+                        }
+                      />
+                    )}
                     <FormattedPrice
                       amount={customerDataById?.bankProfile.currentBalance}
                     />
                   </Typography>
                 </Box>
-                <Box className="flex flex-col gap-2 items-start">
+                {/* <Box className="flex flex-col gap-2 items-start">
                   <Typography
                     sx={{
                       fontSize: "12px",
@@ -424,7 +436,7 @@ const CustomerProfile = ({
                   >
                     <FormattedPrice amount={3000000} />
                   </Typography>
-                </Box>
+                </Box> */}
               </Box>
             </Card>
             <Card
