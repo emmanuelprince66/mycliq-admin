@@ -147,7 +147,7 @@ const VentureImage = ({ onSubmit, handleBack }) => {
       const formDatta = {
         ...data,
         venturesLogo: imgUrl,
-        tags: [`${data?.ventureTag}`],
+        tags: `${data?.ventureTag}`,
       };
 
       const newFormDatta = { ...formDatta };
