@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Box,
   Button,
@@ -13,1114 +13,170 @@ import {
   RadioGroup,
   Paper,
   FormControlLabel,
+  CircularProgress,
+  Table,
+  TableCell,
 } from "@mui/material";
 import NotiDetails from "./NotiDetails";
 
-const NotiHistory = () => {
+import CustomPagination from "./CustomPagination";
+
+const NotiHistory = ({notiHistory ,rowsPerPage , totalPages , currentPage , onPageChange , historyLoading}) => {
   const [notiDetails, setNotiDetails] = useState(false);
   const handleCloseNotiDetails = () => setNotiDetails(false);
+
+  const [notiId , setNotiId] = useState("")
+
+  const [notiItem , setNotiItem  ] =  useState(null)
+
+
+
+
+
+  const handleEdit = (item) => {
+    setNotiDetails(true)
+    setNotiItem(item)
+  }
+
+
+
   return (
     <Box className="p-3 overflow-y-auto max-h-[60vh] flex flex-col mt-2 items-start w-[100%] gap-3">
-      <Box className="w-full flex gap-3 items-center justify-between mb-3">
-        <Box className=" w-full gap-5 flex items-center ">
-          <span>1.</span>
-          <Box className=" flex-col flex items-start gap-2">
-            <Typography
-              sx={{
-                color: "#1E1E1E",
-                fontWeight: "600",
-                fontSize: "15px",
-              }}
-            >
-              Inter-bank Transfer is here!!!🔥😎🎉
-            </Typography>
-            <Typography
-              sx={{
-                color: "#1E1E1E",
-                fontWeight: "400",
-                fontSize: "13px",
-                flexWrap: "wrap",
-              }}
-            >
-              You asked, and we listened. We're thrilled to announce that you
-              can now send funds to any bank account effortlessly. Update your
-              app now to enjoy! 🎉
-            </Typography>
+   
 
-            <Box className="flex gap-2 items-center">
-              <Typography
-                sx={{
-                  color: "#1E1E1E",
-                  fontWeight: "400",
-                  fontSize: "10px",
-                }}
-              >
-                sent to{" "}
-                <span
-                  className={`p-1 px-2 rounded-full 
-                  bg-orange-200 text-orange-500
-                 text-[10px]`}
-                >
-                  All customers
-                </span>
-              </Typography>
-              <Typography
-                sx={{
-                  color: "#1E1E1E",
-                  fontWeight: "400",
-                  fontSize: "10px",
-                }}
-              >
-                By{" "}
-                <span
-                  className={` 
+
+      {historyLoading ? (
+                      <Table>
+                        <TableCell colSpan={8} align="left">
+                          <CircularProgress
+                            size="4.2rem"
+                            sx={{
+                              color: "#DC0019",
+                              marginLeft: "auto",
+                              padding: "1em",
+                            }}
+                          />
+                        </TableCell>
+                      </Table>
+                    ) : notiHistory &&
+                      Array.isArray(notiHistory.records) &&
+                      notiHistory.records.length > 0 ? (
+                      notiHistory.records.map((item, i) => (
+                        <Box className="w-full flex gap-3 items-center justify-between mb-3" key={item?.id}>
+                        <Box className=" w-full gap-5 flex items-center ">
+                          <span>{i + 1 + (currentPage - 1) * rowsPerPage}.</span>
+                          <Box className=" flex-col flex items-start gap-2">
+                            <Typography
+                              sx={{
+                                color: "#1E1E1E",
+                                fontWeight: "600",
+                                fontSize: "15px",
+                              }}
+                            >
+                             {item?.title}🔥😎🎉
+                            </Typography>
+                            <Typography
+                              sx={{
+                                color: "#1E1E1E",
+                                fontWeight: "400",
+                                fontSize: "13px",
+                                flexWrap: "wrap",
+                              }}
+                            >
+                            {item?.body} 🎉
+                            </Typography>
                 
-                 text-[10px]`}
-                >
-                  Oluwatobiloba Olosunde (Super Admin)
-                </span>
-              </Typography>
-              <Typography
-                sx={{
-                  color: "#1E1E1E",
-                  fontWeight: "400",
-                  fontSize: "10px",
-                }}
-              >
-                |
-                <span
-                  className={` 
-                ml-3
-                 text-[10px]`}
-                >
-                  Today at 09:34 AM
-                </span>
-              </Typography>
-            </Box>
-          </Box>
-        </Box>
-
-        <Button
-          sx={{
-            background: "#fff",
-            padding: "10px",
-            borderRadius: "8px",
-            width: "100%",
-            flex: "1",
-            borderColor: "#333333",
-
-            color: "#000",
-            "&:hover": {
-              borderColor: "#FF7F00",
-            },
-            textTransform: "capitalize",
-            fontWeight: "500",
-          }}
-          variant="outlined"
-        >
-          View
-        </Button>
-      </Box>
-      <Box className="w-full flex gap-3 items-center justify-between mb-3">
-        <Box className=" w-full gap-5 flex items-center ">
-          <span>2.</span>
-          <Box className=" flex-col flex items-start gap-2">
-            <Typography
-              sx={{
-                color: "#1E1E1E",
-                fontWeight: "600",
-                fontSize: "15px",
-              }}
-            >
-              Inter-bank Transfer is here!!!🔥😎🎉
-            </Typography>
-            <Typography
-              sx={{
-                color: "#1E1E1E",
-                fontWeight: "400",
-                fontSize: "13px",
-                flexWrap: "wrap",
-              }}
-            >
-              You asked, and we listened. We're thrilled to announce that you
-              can now send funds to any bank account effortlessly. Update your
-              app now to enjoy! 🎉
-            </Typography>
-
-            <Box className="flex gap-2 items-center">
-              <Typography
-                sx={{
-                  color: "#1E1E1E",
-                  fontWeight: "400",
-                  fontSize: "10px",
-                }}
-              >
-                sent to{" "}
-                <span
-                  className={`p-1 px-2 rounded-full 
-                  bg-orange-200 text-orange-500
-                 text-[10px]`}
-                >
-                  All customers
-                </span>
-              </Typography>
-              <Typography
-                sx={{
-                  color: "#1E1E1E",
-                  fontWeight: "400",
-                  fontSize: "10px",
-                }}
-              >
-                By{" "}
-                <span
-                  className={` 
+                            <Box className="flex gap-2 items-center">
+                              <Typography
+                                sx={{
+                                  color: "#1E1E1E",
+                                  fontWeight: "400",
+                                  fontSize: "10px",
+                                }}
+                              >
+                                sent to{" "}
+                                <span
+                                  className={`p-1 px-2 rounded-full 
+                                  bg-orange-200 text-orange-500
+                                 text-[10px]`}
+                                >
+                                  {item?.topic}
+                                </span>
+                              </Typography>
+                              <Typography
+                                sx={{
+                                  color: "#1E1E1E",
+                                  fontWeight: "400",
+                                  fontSize: "10px",
+                                }}
+                              >
+                                By{" "}
+                                <span
+                                  className={` 
+                                
+                                 text-[10px]`}
+                                >
+                                 {item?.admin?.lastName} 
+                                 {" "}
+                                 {item?.admin?.firstName}
+                                 ({item?.admin?.role})
+                                </span>
+                              </Typography>
+                              <Typography
+                                sx={{
+                                  color: "#1E1E1E",
+                                  fontWeight: "400",
+                                  fontSize: "10px",
+                                }}
+                              >
+                                |
+                                <span
+                                  className={` 
+                                ml-3
+                                 text-[10px]`}
+                                >
+                                no date sent yet"
+                                </span>
+                              </Typography>
+                            </Box>
+                          </Box>
+                        </Box>
                 
-                 text-[10px]`}
-                >
-                  Oluwatobiloba Olosunde (Super Admin)
-                </span>
-              </Typography>
-              <Typography
-                sx={{
-                  color: "#1E1E1E",
-                  fontWeight: "400",
-                  fontSize: "10px",
-                }}
-              >
-                |
-                <span
-                  className={` 
-                ml-3
-                 text-[10px]`}
-                >
-                  Today at 09:34 AM
-                </span>
-              </Typography>
-            </Box>
-          </Box>
-        </Box>
-
-        <Button
-          sx={{
-            background: "#fff",
-            padding: "10px",
-            borderRadius: "8px",
-            width: "100%",
-            flex: "1",
-            borderColor: "#333333",
-
-            color: "#000",
-            "&:hover": {
-              borderColor: "#FF7F00",
-            },
-            textTransform: "capitalize",
-            fontWeight: "500",
-          }}
-          variant="outlined"
-        >
-          View
-        </Button>
-      </Box>
-      <Box className="w-full flex gap-3 items-center justify-between mb-3">
-        <Box className=" w-full gap-5 flex items-center ">
-          <span>3.</span>
-          <Box className=" flex-col flex items-start gap-2">
-            <Typography
-              sx={{
-                color: "#1E1E1E",
-                fontWeight: "600",
-                fontSize: "15px",
-              }}
-            >
-              Inter-bank Transfer is here!!!🔥😎🎉
-            </Typography>
-            <Typography
-              sx={{
-                color: "#1E1E1E",
-                fontWeight: "400",
-                fontSize: "13px",
-                flexWrap: "wrap",
-              }}
-            >
-              You asked, and we listened. We're thrilled to announce that you
-              can now send funds to any bank account effortlessly. Update your
-              app now to enjoy! 🎉
-            </Typography>
-
-            <Box className="flex gap-2 items-center">
-              <Typography
-                sx={{
-                  color: "#1E1E1E",
-                  fontWeight: "400",
-                  fontSize: "10px",
-                }}
-              >
-                sent to{" "}
-                <span
-                  className={`p-1 px-2 rounded-full 
-                  bg-orange-200 text-orange-500
-                 text-[10px]`}
-                >
-                  All customers
-                </span>
-              </Typography>
-              <Typography
-                sx={{
-                  color: "#1E1E1E",
-                  fontWeight: "400",
-                  fontSize: "10px",
-                }}
-              >
-                By{" "}
-                <span
-                  className={` 
+                        <Button
+                        onClick={() =>  handleEdit(item)}
+                          sx={{
+                            background: "#fff",
+                            padding: "10px",
+                            borderRadius: "8px",
+                            width: "100%",
+                            flex: "1",
+                            borderColor: "#333333",
                 
-                 text-[10px]`}
-                >
-                  Oluwatobiloba Olosunde (Super Admin)
-                </span>
-              </Typography>
-              <Typography
-                sx={{
-                  color: "#1E1E1E",
-                  fontWeight: "400",
-                  fontSize: "10px",
-                }}
-              >
-                |
-                <span
-                  className={` 
-                ml-3
-                 text-[10px]`}
-                >
-                  Today at 09:34 AM
-                </span>
-              </Typography>
-            </Box>
-          </Box>
-        </Box>
+                            color: "#000",
+                            "&:hover": {
+                              borderColor: "#FF7F00",
+                            },
+                            textTransform: "capitalize",
+                            fontWeight: "500",
+                          }}
+                          variant="outlined"
+                        >
+                          View
+                        </Button>
+                      </Box>
+                      ))
+                    ) : (
+                        <div className="flex justify-start">
+                          No data found
+                        </div>
+                    )}
 
-        <Button
-          sx={{
-            background: "#fff",
-            padding: "10px",
-            borderRadius: "8px",
-            width: "100%",
-            flex: "1",
-            borderColor: "#333333",
+<CustomPagination
+          currentPage={currentPage}
+          totalPages={totalPages}
+          onPageChange={onPageChange}
+        />
 
-            color: "#000",
-            "&:hover": {
-              borderColor: "#FF7F00",
-            },
-            textTransform: "capitalize",
-            fontWeight: "500",
-          }}
-          variant="outlined"
-        >
-          View
-        </Button>
-      </Box>
-      <Box className="w-full flex gap-3 items-center justify-between mb-3">
-        <Box className=" w-full gap-5 flex items-center ">
-          <span>4.</span>
-          <Box className=" flex-col flex items-start gap-2">
-            <Typography
-              sx={{
-                color: "#1E1E1E",
-                fontWeight: "600",
-                fontSize: "15px",
-              }}
-            >
-              Inter-bank Transfer is here!!!🔥😎🎉
-            </Typography>
-            <Typography
-              sx={{
-                color: "#1E1E1E",
-                fontWeight: "400",
-                fontSize: "13px",
-                flexWrap: "wrap",
-              }}
-            >
-              You asked, and we listened. We're thrilled to announce that you
-              can now send funds to any bank account effortlessly. Update your
-              app now to enjoy! 🎉
-            </Typography>
-
-            <Box className="flex gap-2 items-center">
-              <Typography
-                sx={{
-                  color: "#1E1E1E",
-                  fontWeight: "400",
-                  fontSize: "10px",
-                }}
-              >
-                sent to{" "}
-                <span
-                  className={`p-1 px-2 rounded-full 
-                  bg-orange-200 text-orange-500
-                 text-[10px]`}
-                >
-                  All customers
-                </span>
-              </Typography>
-              <Typography
-                sx={{
-                  color: "#1E1E1E",
-                  fontWeight: "400",
-                  fontSize: "10px",
-                }}
-              >
-                By{" "}
-                <span
-                  className={` 
-                
-                 text-[10px]`}
-                >
-                  Oluwatobiloba Olosunde (Super Admin)
-                </span>
-              </Typography>
-              <Typography
-                sx={{
-                  color: "#1E1E1E",
-                  fontWeight: "400",
-                  fontSize: "10px",
-                }}
-              >
-                |
-                <span
-                  className={` 
-                ml-3
-                 text-[10px]`}
-                >
-                  Today at 09:34 AM
-                </span>
-              </Typography>
-            </Box>
-          </Box>
-        </Box>
-
-        <Button
-          sx={{
-            background: "#fff",
-            padding: "10px",
-            borderRadius: "8px",
-            width: "100%",
-            flex: "1",
-            borderColor: "#333333",
-
-            color: "#000",
-            "&:hover": {
-              borderColor: "#FF7F00",
-            },
-            textTransform: "capitalize",
-            fontWeight: "500",
-          }}
-          variant="outlined"
-        >
-          View
-        </Button>
-      </Box>
-      <Box className="w-full flex gap-3 items-center justify-between mb-3">
-        <Box className=" w-full gap-5 flex items-center ">
-          <span>5.</span>
-          <Box className=" flex-col flex items-start gap-2">
-            <Typography
-              sx={{
-                color: "#1E1E1E",
-                fontWeight: "600",
-                fontSize: "15px",
-              }}
-            >
-              Inter-bank Transfer is here!!!🔥😎🎉
-            </Typography>
-            <Typography
-              sx={{
-                color: "#1E1E1E",
-                fontWeight: "400",
-                fontSize: "13px",
-                flexWrap: "wrap",
-              }}
-            >
-              You asked, and we listened. We're thrilled to announce that you
-              can now send funds to any bank account effortlessly. Update your
-              app now to enjoy! 🎉
-            </Typography>
-
-            <Box className="flex gap-2 items-center">
-              <Typography
-                sx={{
-                  color: "#1E1E1E",
-                  fontWeight: "400",
-                  fontSize: "10px",
-                }}
-              >
-                sent to{" "}
-                <span
-                  className={`p-1 px-2 rounded-full 
-                  bg-orange-200 text-orange-500
-                 text-[10px]`}
-                >
-                  All customers
-                </span>
-              </Typography>
-              <Typography
-                sx={{
-                  color: "#1E1E1E",
-                  fontWeight: "400",
-                  fontSize: "10px",
-                }}
-              >
-                By{" "}
-                <span
-                  className={` 
-                
-                 text-[10px]`}
-                >
-                  Oluwatobiloba Olosunde (Super Admin)
-                </span>
-              </Typography>
-              <Typography
-                sx={{
-                  color: "#1E1E1E",
-                  fontWeight: "400",
-                  fontSize: "10px",
-                }}
-              >
-                |
-                <span
-                  className={` 
-                ml-3
-                 text-[10px]`}
-                >
-                  Today at 09:34 AM
-                </span>
-              </Typography>
-            </Box>
-          </Box>
-        </Box>
-
-        <Button
-          sx={{
-            background: "#fff",
-            padding: "10px",
-            borderRadius: "8px",
-            width: "100%",
-            flex: "1",
-            borderColor: "#333333",
-
-            color: "#000",
-            "&:hover": {
-              borderColor: "#FF7F00",
-            },
-            textTransform: "capitalize",
-            fontWeight: "500",
-          }}
-          variant="outlined"
-        >
-          View
-        </Button>
-      </Box>
-      <Box className="w-full flex gap-3 items-center justify-between mb-3">
-        <Box className=" w-full gap-5 flex items-center ">
-          <span>6.</span>
-          <Box className=" flex-col flex items-start gap-2">
-            <Typography
-              sx={{
-                color: "#1E1E1E",
-                fontWeight: "600",
-                fontSize: "15px",
-              }}
-            >
-              Inter-bank Transfer is here!!!🔥😎🎉
-            </Typography>
-            <Typography
-              sx={{
-                color: "#1E1E1E",
-                fontWeight: "400",
-                fontSize: "13px",
-                flexWrap: "wrap",
-              }}
-            >
-              You asked, and we listened. We're thrilled to announce that you
-              can now send funds to any bank account effortlessly. Update your
-              app now to enjoy! 🎉
-            </Typography>
-
-            <Box className="flex gap-2 items-center">
-              <Typography
-                sx={{
-                  color: "#1E1E1E",
-                  fontWeight: "400",
-                  fontSize: "10px",
-                }}
-              >
-                sent to{" "}
-                <span
-                  className={`p-1 px-2 rounded-full 
-                  bg-orange-200 text-orange-500
-                 text-[10px]`}
-                >
-                  All customers
-                </span>
-              </Typography>
-              <Typography
-                sx={{
-                  color: "#1E1E1E",
-                  fontWeight: "400",
-                  fontSize: "10px",
-                }}
-              >
-                By{" "}
-                <span
-                  className={` 
-                
-                 text-[10px]`}
-                >
-                  Oluwatobiloba Olosunde (Super Admin)
-                </span>
-              </Typography>
-              <Typography
-                sx={{
-                  color: "#1E1E1E",
-                  fontWeight: "400",
-                  fontSize: "10px",
-                }}
-              >
-                |
-                <span
-                  className={` 
-                ml-3
-                 text-[10px]`}
-                >
-                  Today at 09:34 AM
-                </span>
-              </Typography>
-            </Box>
-          </Box>
-        </Box>
-
-        <Button
-          sx={{
-            background: "#fff",
-            padding: "10px",
-            borderRadius: "8px",
-            width: "100%",
-            flex: "1",
-            borderColor: "#333333",
-
-            color: "#000",
-            "&:hover": {
-              borderColor: "#FF7F00",
-            },
-            textTransform: "capitalize",
-            fontWeight: "500",
-          }}
-          variant="outlined"
-        >
-          View
-        </Button>
-      </Box>
-      <Box className="w-full flex gap-3 items-center justify-between mb-3">
-        <Box className=" w-full gap-5 flex items-center ">
-          <span>7.</span>
-          <Box className=" flex-col flex items-start gap-2">
-            <Typography
-              sx={{
-                color: "#1E1E1E",
-                fontWeight: "600",
-                fontSize: "15px",
-              }}
-            >
-              Inter-bank Transfer is here!!!🔥😎🎉
-            </Typography>
-            <Typography
-              sx={{
-                color: "#1E1E1E",
-                fontWeight: "400",
-                fontSize: "13px",
-                flexWrap: "wrap",
-              }}
-            >
-              You asked, and we listened. We're thrilled to announce that you
-              can now send funds to any bank account effortlessly. Update your
-              app now to enjoy! 🎉
-            </Typography>
-
-            <Box className="flex gap-2 items-center">
-              <Typography
-                sx={{
-                  color: "#1E1E1E",
-                  fontWeight: "400",
-                  fontSize: "10px",
-                }}
-              >
-                sent to{" "}
-                <span
-                  className={`p-1 px-2 rounded-full 
-                  bg-orange-200 text-orange-500
-                 text-[10px]`}
-                >
-                  All customers
-                </span>
-              </Typography>
-              <Typography
-                sx={{
-                  color: "#1E1E1E",
-                  fontWeight: "400",
-                  fontSize: "10px",
-                }}
-              >
-                By{" "}
-                <span
-                  className={` 
-                
-                 text-[10px]`}
-                >
-                  Oluwatobiloba Olosunde (Super Admin)
-                </span>
-              </Typography>
-              <Typography
-                sx={{
-                  color: "#1E1E1E",
-                  fontWeight: "400",
-                  fontSize: "10px",
-                }}
-              >
-                |
-                <span
-                  className={` 
-                ml-3
-                 text-[10px]`}
-                >
-                  Today at 09:34 AM
-                </span>
-              </Typography>
-            </Box>
-          </Box>
-        </Box>
-
-        <Button
-          sx={{
-            background: "#fff",
-            padding: "10px",
-            borderRadius: "8px",
-            width: "100%",
-            flex: "1",
-            borderColor: "#333333",
-
-            color: "#000",
-            "&:hover": {
-              borderColor: "#FF7F00",
-            },
-            textTransform: "capitalize",
-            fontWeight: "500",
-          }}
-          variant="outlined"
-        >
-          View
-        </Button>
-      </Box>
-      <Box className="w-full flex gap-3 items-center justify-between mb-3">
-        <Box className=" w-full gap-5 flex items-center ">
-          <span>8.</span>
-          <Box className=" flex-col flex items-start gap-2">
-            <Typography
-              sx={{
-                color: "#1E1E1E",
-                fontWeight: "600",
-                fontSize: "15px",
-              }}
-            >
-              Inter-bank Transfer is here!!!🔥😎🎉
-            </Typography>
-            <Typography
-              sx={{
-                color: "#1E1E1E",
-                fontWeight: "400",
-                fontSize: "13px",
-                flexWrap: "wrap",
-              }}
-            >
-              You asked, and we listened. We're thrilled to announce that you
-              can now send funds to any bank account effortlessly. Update your
-              app now to enjoy! 🎉
-            </Typography>
-
-            <Box className="flex gap-2 items-center">
-              <Typography
-                sx={{
-                  color: "#1E1E1E",
-                  fontWeight: "400",
-                  fontSize: "10px",
-                }}
-              >
-                sent to{" "}
-                <span
-                  className={`p-1 px-2 rounded-full 
-                  bg-orange-200 text-orange-500
-                 text-[10px]`}
-                >
-                  All customers
-                </span>
-              </Typography>
-              <Typography
-                sx={{
-                  color: "#1E1E1E",
-                  fontWeight: "400",
-                  fontSize: "10px",
-                }}
-              >
-                By{" "}
-                <span
-                  className={` 
-                
-                 text-[10px]`}
-                >
-                  Oluwatobiloba Olosunde (Super Admin)
-                </span>
-              </Typography>
-              <Typography
-                sx={{
-                  color: "#1E1E1E",
-                  fontWeight: "400",
-                  fontSize: "10px",
-                }}
-              >
-                |
-                <span
-                  className={` 
-                ml-3
-                 text-[10px]`}
-                >
-                  Today at 09:34 AM
-                </span>
-              </Typography>
-            </Box>
-          </Box>
-        </Box>
-
-        <Button
-          sx={{
-            background: "#fff",
-            padding: "10px",
-            borderRadius: "8px",
-            width: "100%",
-            flex: "1",
-            borderColor: "#333333",
-
-            color: "#000",
-            "&:hover": {
-              borderColor: "#FF7F00",
-            },
-            textTransform: "capitalize",
-            fontWeight: "500",
-          }}
-          variant="outlined"
-        >
-          View
-        </Button>
-      </Box>
-      <Box className="w-full flex gap-3 items-center justify-between mb-3">
-        <Box className=" w-full gap-5 flex items-center ">
-          <span>9.</span>
-          <Box className=" flex-col flex items-start gap-2">
-            <Typography
-              sx={{
-                color: "#1E1E1E",
-                fontWeight: "600",
-                fontSize: "15px",
-              }}
-            >
-              Inter-bank Transfer is here!!!🔥😎🎉
-            </Typography>
-            <Typography
-              sx={{
-                color: "#1E1E1E",
-                fontWeight: "400",
-                fontSize: "13px",
-                flexWrap: "wrap",
-              }}
-            >
-              You asked, and we listened. We're thrilled to announce that you
-              can now send funds to any bank account effortlessly. Update your
-              app now to enjoy! 🎉
-            </Typography>
-
-            <Box className="flex gap-2 items-center">
-              <Typography
-                sx={{
-                  color: "#1E1E1E",
-                  fontWeight: "400",
-                  fontSize: "10px",
-                }}
-              >
-                sent to{" "}
-                <span
-                  className={`p-1 px-2 rounded-full 
-                  bg-orange-200 text-orange-500
-                 text-[10px]`}
-                >
-                  All customers
-                </span>
-              </Typography>
-              <Typography
-                sx={{
-                  color: "#1E1E1E",
-                  fontWeight: "400",
-                  fontSize: "10px",
-                }}
-              >
-                By{" "}
-                <span
-                  className={` 
-                
-                 text-[10px]`}
-                >
-                  Oluwatobiloba Olosunde (Super Admin)
-                </span>
-              </Typography>
-              <Typography
-                sx={{
-                  color: "#1E1E1E",
-                  fontWeight: "400",
-                  fontSize: "10px",
-                }}
-              >
-                |
-                <span
-                  className={` 
-                ml-3
-                 text-[10px]`}
-                >
-                  Today at 09:34 AM
-                </span>
-              </Typography>
-            </Box>
-          </Box>
-        </Box>
-
-        <Button
-          sx={{
-            background: "#fff",
-            padding: "10px",
-            borderRadius: "8px",
-            width: "100%",
-            flex: "1",
-            borderColor: "#333333",
-
-            color: "#000",
-            "&:hover": {
-              borderColor: "#FF7F00",
-            },
-            textTransform: "capitalize",
-            fontWeight: "500",
-          }}
-          variant="outlined"
-        >
-          View
-        </Button>
-      </Box>
-      <Box className="w-full flex gap-3 items-center justify-between mb-3">
-        <Box className=" w-full gap-5 flex items-center ">
-          <span>10.</span>
-          <Box className=" flex-col flex items-start gap-2">
-            <Typography
-              sx={{
-                color: "#1E1E1E",
-                fontWeight: "600",
-                fontSize: "15px",
-              }}
-            >
-              Inter-bank Transfer is here!!!🔥😎🎉
-            </Typography>
-            <Typography
-              sx={{
-                color: "#1E1E1E",
-                fontWeight: "400",
-                fontSize: "13px",
-                flexWrap: "wrap",
-              }}
-            >
-              You asked, and we listened. We're thrilled to announce that you
-              can now send funds to any bank account effortlessly. Update your
-              app now to enjoy! 🎉
-            </Typography>
-
-            <Box className="flex gap-2 items-center">
-              <Typography
-                sx={{
-                  color: "#1E1E1E",
-                  fontWeight: "400",
-                  fontSize: "10px",
-                }}
-              >
-                sent to{" "}
-                <span
-                  className={`p-1 px-2 rounded-full 
-                  bg-orange-200 text-orange-500
-                 text-[10px]`}
-                >
-                  All customers
-                </span>
-              </Typography>
-              <Typography
-                sx={{
-                  color: "#1E1E1E",
-                  fontWeight: "400",
-                  fontSize: "10px",
-                }}
-              >
-                By{" "}
-                <span
-                  className={` 
-                
-                 text-[10px]`}
-                >
-                  Oluwatobiloba Olosunde (Super Admin)
-                </span>
-              </Typography>
-              <Typography
-                sx={{
-                  color: "#1E1E1E",
-                  fontWeight: "400",
-                  fontSize: "10px",
-                }}
-              >
-                |
-                <span
-                  className={` 
-                ml-3
-                 text-[10px]`}
-                >
-                  Today at 09:34 AM
-                </span>
-              </Typography>
-            </Box>
-          </Box>
-        </Box>
-
-        <Button
-          sx={{
-            background: "#fff",
-            padding: "10px",
-            borderRadius: "8px",
-            width: "100%",
-            flex: "1",
-            borderColor: "#333333",
-
-            color: "#000",
-            "&:hover": {
-              borderColor: "#FF7F00",
-            },
-            textTransform: "capitalize",
-            fontWeight: "500",
-          }}
-          variant="outlined"
-        >
-          View
-        </Button>
-      </Box>
-      <Box className="w-full flex gap-3 items-center justify-between mb-3">
-        <Box className=" w-full gap-5 flex items-center ">
-          <span>1.</span>
-          <Box className=" flex-col flex items-start gap-2">
-            <Typography
-              sx={{
-                color: "#1E1E1E",
-                fontWeight: "600",
-                fontSize: "15px",
-              }}
-            >
-              Inter-bank Transfer is here!!!🔥😎🎉
-            </Typography>
-            <Typography
-              sx={{
-                color: "#1E1E1E",
-                fontWeight: "400",
-                fontSize: "13px",
-                flexWrap: "wrap",
-              }}
-            >
-              You asked, and we listened. We're thrilled to announce that you
-              can now send funds to any bank account effortlessly. Update your
-              app now to enjoy! 🎉
-            </Typography>
-
-            <Box className="flex gap-2 items-center">
-              <Typography
-                sx={{
-                  color: "#1E1E1E",
-                  fontWeight: "400",
-                  fontSize: "10px",
-                }}
-              >
-                sent to{" "}
-                <span
-                  className={`p-1 px-2 rounded-full 
-                  bg-orange-200 text-orange-500
-                 text-[10px]`}
-                >
-                  All customers
-                </span>
-              </Typography>
-              <Typography
-                sx={{
-                  color: "#1E1E1E",
-                  fontWeight: "400",
-                  fontSize: "10px",
-                }}
-              >
-                By{" "}
-                <span
-                  className={` 
-                
-                 text-[10px]`}
-                >
-                  Oluwatobiloba Olosunde (Super Admin)
-                </span>
-              </Typography>
-              <Typography
-                sx={{
-                  color: "#1E1E1E",
-                  fontWeight: "400",
-                  fontSize: "10px",
-                }}
-              >
-                |
-                <span
-                  className={` 
-                ml-3
-                 text-[10px]`}
-                >
-                  Today at 09:34 AM
-                </span>
-              </Typography>
-            </Box>
-          </Box>
-        </Box>
-
-        <Button
-          sx={{
-            background: "#fff",
-            padding: "10px",
-            borderRadius: "8px",
-            width: "100%",
-            flex: "1",
-            borderColor: "#333333",
-
-            color: "#000",
-            "&:hover": {
-              borderColor: "#FF7F00",
-            },
-            textTransform: "capitalize",
-            fontWeight: "500",
-          }}
-          variant="outlined"
-        >
-          View
-        </Button>
-      </Box>
 
       {/* Modal for  discount details */}
 
@@ -1136,7 +192,7 @@ const NotiHistory = () => {
           },
         }}
       >
-        <NotiDetails handleCloseNotiDetails={handleCloseNotiDetails} />
+        <NotiDetails notiItem={notiItem} handleCloseNotiDetails={handleCloseNotiDetails} />
       </Modal>
       {/* Modal discount ends */}
     </Box>

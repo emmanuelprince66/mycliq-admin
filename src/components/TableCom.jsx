@@ -93,6 +93,10 @@ const TableCom = () => {
   const rowsPerPage = 20;
   const [currentPage, setCurrentPage] = useState(1);
 
+  const [flow , setFlow] =  useState(null)
+  const [wallet , setWallet] =  useState(null)
+  const [payment , setPayment] =  useState(null)
+
   const [transactionFilter, setTransactionFilter] = useState("All");
 
   const handleCloseDepositDetails = () => setDepositDetails(false);
@@ -122,27 +126,71 @@ const TableCom = () => {
   const { transactionDetails } = useSelector((state) => state);
 
   const handleTransactionFilter = (val) => {
-    setTransactionFilter(val);
-  };
+    console.log(val)
 
-  const fetchTransactions = async ({ queryKey }) => {
-    const [_key, { page, limit }] = queryKey;
-    try {
-      const response = await AuthAxios.get(
-        `/admin/trx?page=${page}&limit=${limit}`
-      );
-      return response?.data?.data;
-    } catch (error) {
-      throw new Error("Failed to fetch customer data");
+    switch (val) {
+      case "All":
+        setTransactionFilter(val)
+        setFlow("")
+        setWallet("")
+        setPayment("")
+        break;
+      case "credit":
+        setFlow(val)
+        setTransactionFilter(val)
+        setWallet(null)
+        setPayment(null)
+        break;
+        case "debit":
+          setFlow(val)
+        setTransactionFilter(val)
+        setWallet(null)
+        setPayment(null)
+
+          break;
+          case "cliq_transfer":
+            setWallet(val);
+            setFlow(null)
+        setPayment(null)
+        setTransactionFilter(val)
+
+            break;
+            case "payment":
+            setPayment(val);
+        setTransactionFilter(val)
+        setWallet(null)
+        setFlow(null)
+            break;
+      default:
+        break;
     }
   };
 
+  const fetchTransactions = async ({ queryKey }) => {
+    const [_key, { page, limit, flow, wallet, payment }] = queryKey;
+  
+    const params = new URLSearchParams();
+    params.append("page", page);
+    params.append("limit", limit);
+    if (flow) params.append("entry", flow);
+    if (payment) params.append("type", payment);
+    if (wallet) params.append("subType", wallet);
+  
+    try {
+      const response = await AuthAxios.get(`/admin/trx?${params.toString()}`);
+      return response?.data?.data;
+    } catch (error) {
+      console.error("Error fetching transactions:", error);
+      throw new Error("Failed to fetch transaction data");
+    }
+  };
+  
   const {
     data: transactions,
     error,
     isLoading,
   } = useQuery({
-    queryKey: ["transactions", { page: currentPage, limit: rowsPerPage }],
+    queryKey: ["transactions", { page: currentPage, limit: rowsPerPage ,flow:flow, wallet:wallet ,payment:payment }],
     queryFn: fetchTransactions,
     keepPreviousData: true,
     staleTime: 5000, // Cache data for 5 seconds
@@ -152,11 +200,9 @@ const TableCom = () => {
     setCurrentPage(page);
   };
 
-  console.log(transactions);
 
   // fetch transactions analytics
   const { data: trxAnalytics, isLoading: analyticsLoading } = useQuery({
-    queryKey: ["trxAnalytics", startDate, endDate],
     queryFn: async () => {
       try {
         const response = await AuthAxios.get(`/admin/analytics/trx`, {
@@ -594,7 +640,7 @@ const TableCom = () => {
           </div>
           <div
             className="flex items-center flex-col gap-2 cursor-pointer  min-h-[3rem]"
-            onClick={() => handleTransactionFilter("Inward")}
+            onClick={() => handleTransactionFilter("credit")}
           >
             <div className="flex gap-2 items-center">
               <p className="text-[16px] text-[#F78105] font-[600]">Inward</p>
@@ -602,13 +648,13 @@ const TableCom = () => {
                 <p className="text-[12px] text-[#A86500] font-[500]">122</p>
               </span> */}
             </div>
-            {transactionFilter === "Inward" && (
+            {transactionFilter === "credit" && (
               <div className="w-full h-1 rounded-tl-lg rounded-tr-lg bg-[#F78105]" />
             )}
           </div>
           <div
             className="flex items-center flex-col gap-2 cursor-pointer  min-h-[3rem]"
-            onClick={() => handleTransactionFilter("Outward")}
+            onClick={() => handleTransactionFilter("debit")}
           >
             <div className="flex gap-2 items-center">
               <p className="text-[16px] text-[#F78105] font-[600]">Outward</p>
@@ -616,13 +662,13 @@ const TableCom = () => {
                 <p className="text-[12px] text-[#A86500] font-[500]">122</p>
               </span> */}
             </div>
-            {transactionFilter === "Outward" && (
+            {transactionFilter === "debit" && (
               <div className="w-full h-1 rounded-tl-lg rounded-tr-lg bg-[#F78105]" />
             )}
           </div>
           <div
             className="flex items-center flex-col gap-2 cursor-pointer  min-h-[3rem]"
-            onClick={() => handleTransactionFilter("Wallet")}
+            onClick={() => handleTransactionFilter("cliq_transfer")}
           >
             <div className="flex gap-2 items-center">
               <p className="text-[16px] text-[#F78105] font-[600]">
@@ -632,13 +678,13 @@ const TableCom = () => {
                 <p className="text-[12px] text-[#A86500] font-[500]">122</p>
               </span> */}
             </div>
-            {transactionFilter === "Wallet" && (
+            {transactionFilter === "cliq_transfer" && (
               <div className="w-full h-1 rounded-tl-lg rounded-tr-lg bg-[#F78105]" />
             )}
           </div>
           <div
             className="flex items-center flex-col gap-2 cursor-pointer  min-h-[3rem]"
-            onClick={() => handleTransactionFilter("Bills")}
+            onClick={() => handleTransactionFilter("payment")}
           >
             <div className="flex gap-2 items-center">
               <p className="text-[16px] text-[#F78105] font-[600]">
@@ -648,7 +694,7 @@ const TableCom = () => {
                 <p className="text-[12px] text-[#A86500] font-[500]">122</p>
               </span> */}
             </div>
-            {transactionFilter === "Bills" && (
+            {transactionFilter === "payment" && (
               <div className="w-full h-1 rounded-tl-lg rounded-tr-lg bg-[#F78105]" />
             )}
           </div>

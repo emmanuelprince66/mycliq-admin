@@ -12,12 +12,114 @@ import {
   Modal,
   FormControl,
   Backdrop,
+  CircularProgress,
   RadioGroup,
   Paper,
   FormControlLabel,
 } from "@mui/material";
+import { useState , useEffect } from "react";
+import { useMutation } from "@tanstack/react-query";
+import { ToastContainer, toast } from "react-toastify";
+import { AuthAxios } from "../helpers/axiosInstance";
+const NotiDetails = ({ handleCloseNotiDetails , notiItem }) => {
+  console.log(notiItem)
 
-const NotiDetails = ({ handleCloseNotiDetails }) => {
+  const [headline, setHeadline] = useState(notiItem?.title || "");
+  const [headlineCount, setHeadlineCount] = useState(0);
+  const [disableButton, setDisableButton] = useState(false);
+  const [message, setMessage] = useState(notiItem?.body || "");
+  const [messageCount, setMessageCount] = useState(0);
+  const [openNotiModal , setOpenNotiModal] = useState(false)
+  const closeNotiModal = () => setOpenNotiModal(false)
+  const notifyErr = (message) => {
+    toast.error(message, {
+      position: "top-center",
+      autoClose: 5000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "dark",
+    });
+  };
+
+  const notify = (message) => {
+    toast.success(message, {
+      position: "top-center",
+      autoClose: 5000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "dark",
+    });
+  };
+// mutation
+const mutationNoti = useMutation({
+  mutationFn: async (payload) => {
+    try {
+      const response = await AuthAxios({
+        url: "/admin/system/broadcast-notification",
+        method: "POST",
+        data: payload,
+      });
+
+      return response.data;
+    } catch (error) {
+      console.log(error);
+      setDisableButton(false);
+      notifyErr(error.response.data.message);
+      throw new Error(error.response);
+    }
+  },
+  onSuccess: (response) => {
+    notify(response.message);
+    setDisableButton(false);
+    handleCloseNotiDetails()
+  },
+  onError: (error) => {
+    setButtonDisabled(false);
+  },
+});
+
+  useEffect(() => {
+    setHeadlineCount(headline.length);
+  }, [headline]);
+
+  useEffect(() => {
+    setMessageCount(message.length);
+  }, [message]);
+
+  const handleHeadlineChange = (event) => {
+    const value = event.target.value;
+    if (value.length <= 30) {
+      setHeadline(value);
+    }
+  };
+
+  const handleMessageChange = (event) => {
+    const value = event.target.value;
+    if (value.length <= 120) {
+      setMessage(value);
+    }
+  };
+
+  const handleSubmitNoti  = () => {
+
+    const payload = {
+       title:headline,
+       body:message,
+       channel:notiItem?.topic
+    }
+
+
+    mutationNoti.mutate(payload)
+    setDisableButton(true)
+
+
+  }
   const style = {
     position: "absolute",
     top: "50%",
@@ -69,7 +171,7 @@ const NotiDetails = ({ handleCloseNotiDetails }) => {
                   bg-orange-200 text-orange-500
                  text-[10px]`}
           >
-            All customers
+            {notiItem?.topic || ""}
           </span>
         </Typography>
         <Typography
@@ -85,7 +187,10 @@ const NotiDetails = ({ handleCloseNotiDetails }) => {
                 
                  text-[10px]`}
           >
-            Oluwatobiloba Olosunde (Super Admin)
+                     {notiItem?.admin?.lastName} 
+                                 {" "}
+                                 {notiItem?.admin?.firstName}
+                                 ({notiItem?.admin?.role})
           </span>
         </Typography>
         <Typography
@@ -101,7 +206,7 @@ const NotiDetails = ({ handleCloseNotiDetails }) => {
                 ml-3
                  text-[10px]`}
           >
-            Today at 09:34 AM
+           "no date sent"
           </span>
         </Typography>
       </Box>
@@ -123,13 +228,15 @@ const NotiDetails = ({ handleCloseNotiDetails }) => {
             fontSize: "13px",
           }}
         >
-          29/30
+         {headlineCount}/30
         </Typography>
       </Box>
       <TextField
         required
         placeholder="Enter Headline"
         fullWidth
+        value={headline}
+        onChange={handleHeadlineChange}
         sx={{
           "& .MuiInputBase-root": { borderRadius: "8px" },
           "& .MuiInputBase-input": { padding: "12px  " },
@@ -164,12 +271,14 @@ const NotiDetails = ({ handleCloseNotiDetails }) => {
             fontSize: "13px",
           }}
         >
-          114/120
+           {messageCount}/120
         </Typography>
       </Box>
       <TextField
         required
         placeholder="Enter Message"
+        value={message}
+        onChange={handleMessageChange}
         fullWidth
         sx={{
           "& .MuiInputBase-root": {
@@ -214,6 +323,8 @@ const NotiDetails = ({ handleCloseNotiDetails }) => {
           Cancel
         </Button>
         <Button
+          onClick={handleSubmitNoti}
+          disabled={disableButton || mutationNoti.isLoading}
           sx={{
             background: "#333333",
             padding: "10px",
@@ -227,14 +338,22 @@ const NotiDetails = ({ handleCloseNotiDetails }) => {
             fontWeight: "500",
           }}
         >
-          <SwapHorizRoundedIcon
+                  {mutationNoti.isLoading || disableButton ? (
+            <CircularProgress size="1.2rem" sx={{ color: "white" }} />
+          ) : (
+            <>
+             <SwapHorizRoundedIcon
             sx={{
               mr: "1rem",
             }}
           />{" "}
           Send Again
+            </>
+          )}
+      
         </Button>
       </Box>
+      <ToastContainer />
     </Box>
   );
 };

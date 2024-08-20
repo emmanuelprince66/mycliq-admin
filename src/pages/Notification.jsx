@@ -14,6 +14,7 @@ import {
   RadioGroup,
   Paper,
   FormControlLabel,
+  CircularProgress,
 } from "@mui/material";
 import NotificationAddRoundedIcon from "@mui/icons-material/NotificationAddRounded";
 import RotateLeftOutlinedIcon from "@mui/icons-material/RotateLeftOutlined";
@@ -25,11 +26,56 @@ import info from "../assets/images/admin/info.svg";
 import closeIcon from "../assets/images/closeIcon.svg";
 import NotiHistory from "../components/NotiHistory";
 import AddNotification from "./notificaitions/AddNotification";
+import { NineKPlusOutlined } from "@mui/icons-material";
+import { AuthAxios } from "../helpers/axiosInstance";
+import { useQuery } from "@tanstack/react-query";
 
 const Notification = () => {
   const [newNoti, setNewNoti] = useState(true);
   const [pushNoti, setPushNoti] = useState(false);
   const handleClosePushNoti = () => setPushNoti(false);
+  const [selectedOption, setSelectedOption] = useState('All'); 
+  const [totalNotiHistory , setTotalNotiHistory] =  useState(null)
+  const rowsPerPage = 20;
+  const [currentPage, setCurrentPage] = useState(1);
+  const fetchNotiHistory = async ({ queryKey }) => {
+    const [_key, { page, limit }] = queryKey;
+    try {
+      const response = await AuthAxios.get(
+        `/admin/system/broadcast-notification?page=${page}&limit=${limit}`
+      );
+      return response?.data?.data;
+    } catch (error) {
+      throw new Error("Failed to fetch customer data");
+    }
+  };
+
+  const {
+    data: notiHistory,
+    error,
+    isLoading:historyLoading,
+  } = useQuery({
+    queryKey: ["fetchNotiHistory", { page: currentPage, limit: rowsPerPage }],
+    queryFn: fetchNotiHistory,
+    keepPreviousData: true,
+    staleTime: 5000, // Cache data for 5 seconds
+  });
+
+  const totalPages  = notiHistory?.totalPages || 1
+    const handlePageChange = (page) => {
+      setCurrentPage(page);
+    };
+  
+  
+  
+    const handleEdit = (item) => {
+      setNotiDetails(true)
+      setNotiItem(item)
+    }
+  
+  const handleChange = (event) => {
+    setSelectedOption(event.target.value);
+  };
 
   return (
     <Box sx={{ background: "#fffcfc", width: "100%", height: "100%" }}>
@@ -108,7 +154,10 @@ const Notification = () => {
                   !newNoti && "bg-orange-200 text-white"
                 } text-sm text-black`}
               >
-                31
+                {historyLoading?   <CircularProgress
+                        size="0.6rem"
+                        sx={{ color: "#DC0019" }}
+                      /> :  notiHistory?.totalRecords || 0}
               </span>
             </Box>
             {!newNoti && (
@@ -157,8 +206,140 @@ const Notification = () => {
                 </Typography>
 
                 {/* radio */}
+                <Box className="w-full flex flex-col gap-3">
+      <Box className="flex items-center justify-between w-full border border-gray-500 rounded-md p-2">
+        <Typography
+          sx={{
+            color: "#1E1E1E",
+            fontWeight: "400",
+            fontSize: "13px",
+          }}
+        >
+          All Users (Customers & Merchants)
+        </Typography>
+        <RadioGroup
+          sx={{
+            display: "flex",
+            justifyContent: "flex-end",
+            mr: "-22px",
+          }}
+          value={selectedOption}
+          onChange={handleChange}
+        >
+          <FormControlLabel
+            value="All"
+            control={
+              <Radio
+                sx={{
+                  color: "#333333", // Unchecked color
+                  "&.Mui-checked": { color: "#333333" }, // Checked color
+                }}
+              />
+            }
+          />
+        </RadioGroup>
+      </Box>
 
-                <Box className="flex items-center justify-between w-full border border-gray-500 rounded-md p-2">
+      <Box className="flex items-center justify-between w-full border border-gray-500 rounded-md p-2">
+        <Typography
+          sx={{
+            color: "#1E1E1E",
+            fontWeight: "400",
+            fontSize: "13px",
+          }}
+        >
+          All Customers
+        </Typography>
+        <RadioGroup
+          sx={{
+            display: "flex",
+            justifyContent: "flex-end",
+            mr: "-22px",
+          }}
+          value={selectedOption}
+          onChange={handleChange}
+        >
+          <FormControlLabel
+            value="Customers"
+            control={
+              <Radio
+                sx={{
+                  color: "#333333", // Unchecked color
+                  "&.Mui-checked": { color: "#333333" }, // Checked color
+                }}
+              />
+            }
+          />
+        </RadioGroup>
+      </Box>
+
+      <Box className="flex items-center justify-between w-full border border-gray-500 rounded-md p-2">
+        <Typography
+          sx={{
+            color: "#1E1E1E",
+            fontWeight: "400",
+            fontSize: "13px",
+          }}
+        >
+          All Merchants
+        </Typography>
+        <RadioGroup
+          sx={{
+            display: "flex",
+            justifyContent: "flex-end",
+            mr: "-22px",
+          }}
+          value={selectedOption}
+          onChange={handleChange}
+        >
+          <FormControlLabel
+            value="Merchants"
+            control={
+              <Radio
+                sx={{
+                  color: "#333333", // Unchecked color
+                  "&.Mui-checked": { color: "#333333" }, // Checked color
+                }}
+              />
+            }
+          />
+        </RadioGroup>
+      </Box>
+
+      <Box className="flex items-center justify-between w-full border border-gray-500 rounded-md p-2">
+        <Typography
+          sx={{
+            color: "#1E1E1E",
+            fontWeight: "400",
+            fontSize: "13px",
+          }}
+        >
+          Restaurants
+        </Typography>
+        <RadioGroup
+          sx={{
+            display: "flex",
+            justifyContent: "flex-end",
+            mr: "-22px",
+          }}
+          value={selectedOption}
+          onChange={handleChange}
+        >
+          <FormControlLabel
+            value="restaurants"
+            control={
+              <Radio
+                sx={{
+                  color: "#333333", // Unchecked color
+                  "&.Mui-checked": { color: "#333333" }, // Checked color
+                }}
+              />
+            }
+          />
+        </RadioGroup>
+      </Box>
+    </Box>
+                {/* <Box className="flex items-center justify-between w-full border border-gray-500 rounded-md p-2">
                   <Typography
                     sx={{
                       color: "#1E1E1E",
@@ -166,131 +347,7 @@ const Notification = () => {
                       fontSize: "13px",
                     }}
                   >
-                    All Users (Customers & Merchants)
-                  </Typography>
-
-                  <RadioGroup
-                    sx={{
-                      display: "flex",
-                      justifyContent: "flex-end",
-                      mr: "-22px",
-                    }}
-                  >
-                    <FormControlLabel
-                      disabled
-                      control={
-                        <Radio
-                          sx={{
-                            color: "#333333", // Unchecked color
-                            "&.Mui-checked": { color: "#333333" }, // Checked color
-                          }}
-                        />
-                      }
-                    />
-                  </RadioGroup>
-                </Box>
-                <Box className="flex items-center justify-between w-full border border-gray-500 rounded-md p-2">
-                  <Typography
-                    sx={{
-                      color: "#1E1E1E",
-                      fontWeight: "400",
-                      fontSize: "13px",
-                    }}
-                  >
-                    All Users (Customers & Merchants)
-                  </Typography>
-
-                  <RadioGroup
-                    sx={{
-                      display: "flex",
-                      justifyContent: "flex-end",
-                      mr: "-22px",
-                    }}
-                  >
-                    <FormControlLabel
-                      disabled
-                      control={
-                        <Radio
-                          sx={{
-                            color: "#333333", // Unchecked color
-                            "&.Mui-checked": { color: "#333333" }, // Checked color
-                          }}
-                        />
-                      }
-                    />
-                  </RadioGroup>
-                </Box>
-                <Box className="flex items-center justify-between w-full border border-gray-500 rounded-md p-2">
-                  <Typography
-                    sx={{
-                      color: "#1E1E1E",
-                      fontWeight: "400",
-                      fontSize: "13px",
-                    }}
-                  >
-                    All Users (Customers & Merchants)
-                  </Typography>
-
-                  <RadioGroup
-                    sx={{
-                      display: "flex",
-                      justifyContent: "flex-end",
-                      mr: "-22px",
-                    }}
-                  >
-                    <FormControlLabel
-                      disabled
-                      control={
-                        <Radio
-                          sx={{
-                            color: "#333333", // Unchecked color
-                            "&.Mui-checked": { color: "#333333" }, // Checked color
-                          }}
-                        />
-                      }
-                    />
-                  </RadioGroup>
-                </Box>
-                <Box className="flex items-center justify-between w-full border border-gray-500 rounded-md p-2">
-                  <Typography
-                    sx={{
-                      color: "#1E1E1E",
-                      fontWeight: "400",
-                      fontSize: "13px",
-                    }}
-                  >
-                    All Users (Customers & Merchants)
-                  </Typography>
-
-                  <RadioGroup
-                    sx={{
-                      display: "flex",
-                      justifyContent: "flex-end",
-                      mr: "-22px",
-                    }}
-                  >
-                    <FormControlLabel
-                      disabled
-                      control={
-                        <Radio
-                          sx={{
-                            color: "#333333", // Unchecked color
-                            "&.Mui-checked": { color: "#333333" }, // Checked color
-                          }}
-                        />
-                      }
-                    />
-                  </RadioGroup>
-                </Box>
-                <Box className="flex items-center justify-between w-full border border-gray-500 rounded-md p-2">
-                  <Typography
-                    sx={{
-                      color: "#1E1E1E",
-                      fontWeight: "400",
-                      fontSize: "13px",
-                    }}
-                  >
-                    All Users (Customers & Merchants)
+                    
                   </Typography>
 
                   <RadioGroup
@@ -531,16 +588,19 @@ const Notification = () => {
                       ),
                     }}
                   />
-                </Box>
+                </Box> */}
               </Box>
             </Grid>
             <Grid item xs={7}>
               {/* shhgjsghs */}
-              <AddNotification />
+              <AddNotification selectedOption={selectedOption} />
             </Grid>
           </Grid>
         ) : (
-          <NotiHistory />
+          <NotiHistory totalPages={totalPages} currentPage={currentPage}
+          onPageChange={handlePageChange}
+          rowsPerPage={rowsPerPage}
+          notiHistory={notiHistory || []} historyLoading={historyLoading} />
         )}
 
         {/*modal  */}

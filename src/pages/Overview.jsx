@@ -37,7 +37,6 @@ export const Overview = () => {
   const startDate = formatToIsoDateStr(selectedDates?.startDate);
   const endDate = formatToIsoDateStr(selectedDates?.endDate);
 
-  console.log(startDate, endDate);
   const {
     data: overviewData,
     error,

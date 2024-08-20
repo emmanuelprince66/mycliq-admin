@@ -30,8 +30,7 @@ import CalendarMonthRoundedIcon from "@mui/icons-material/CalendarMonthRounded";
 import CheckCircleOutlineRoundedIcon from "@mui/icons-material/CheckCircleOutlineRounded";
 import PersonOutlineRoundedIcon from "@mui/icons-material/PersonOutlineRounded";
 import TransgenderRoundedIcon from "@mui/icons-material/TransgenderRounded";
-import { useMutation, useQuery } from "@tanstack/react-query";
-import { AuthAxios } from "../helpers/axiosInstance";
+import { useQuery } from "@tanstack/react-query";
 import LocalPhoneOutlinedIcon from "@mui/icons-material/LocalPhoneOutlined";
 import EmailOutlinedIcon from "@mui/icons-material/EmailOutlined";
 import HttpsOutlinedIcon from "@mui/icons-material/HttpsOutlined";
@@ -53,6 +52,13 @@ import percent from "../assets/images/generalMerchants/percent.svg";
 import HourglassBottomOutlinedIcon from "@mui/icons-material/HourglassBottomOutlined";
 import ReportOutlinedIcon from "@mui/icons-material/ReportOutlined";
 import CustomPagination from "./CustomPagination";
+import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { AuthAxios } from "../helpers/axiosInstance";
+import { ToastContainer, toast } from "react-toastify";
+
+
+
+
 
 const CustomerProfile = ({
   id,
@@ -64,8 +70,84 @@ const CustomerProfile = ({
   const handleCloseProfileDetails = () => setShowProfileDetails(false);
   const rowsPerPage = 10;
   const [currentPage, setCurrentPage] = useState(1);
+  const [isSwitchChecked, setIsSwitchChecked] = useState(null);
 
-  console.log(apiId);
+  const notify = (message) => {
+    toast.success(message, {
+      position: "top-center",
+      autoClose: 5000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "dark",
+    });
+  };
+  // update status
+
+  const updateUserStatus = async ({ userId, status }) => {
+    try {
+      const response = await AuthAxios.put(`/admin/user/${userId}/status`, {
+        userId,
+        status,
+      });
+  
+      if (response.status !== 201) {
+        throw new Error(response.data.message || 'Failed to update status');
+      }
+    
+      return response.data;
+    } catch (error) {
+      throw new Error(error.response?.data?.message || 'Network Error');
+    }
+  };
+
+
+
+    const queryClient = useQueryClient();
+  
+    const statusMutation = useMutation({
+      mutationFn: updateUserStatus,
+      onSuccess: (data) => {
+        console.log("hello")
+        // queryClient.invalidateQueries(['userStatus', userId]);
+
+        setTimeout(() => {
+        notify("Account Successfully disabled.")
+        } , 500)
+      },
+      onError: (error) => {
+        console.error('Error updating user status:', error);
+        // Handle the error (e.g., show a notification or set an error state)
+      },
+    });
+
+
+  const handleSwitchChange = (event) => {
+    setIsSwitchChecked(event.target.checked);
+    const status = event.target.checked 
+
+    // console.log(status)
+    // console.log(payload)
+
+
+    console.log(status)
+  if (status) {
+    const payload = {
+      userId:apiId,
+      status:'disabled'
+  }
+  statusMutation.mutate(payload);
+  }
+
+
+  };
+
+
+
+
+  // end update status
 
   const {
     data: customerDataById,
@@ -100,6 +182,8 @@ const CustomerProfile = ({
     }
   };
 
+
+
   const {
     data: customerTrx,
     error,
@@ -128,8 +212,12 @@ const CustomerProfile = ({
     setCurrentPage(page);
   };
 
-  console.log("djhkdh", customerDataById);
+  useEffect(() => {
+    setIsSwitchChecked(customerDataById?.userProfile?.isDisabled)
+  }, customerDataById)
 
+
+console.log(isSwitchChecked)
   return (
     <Box className="w-full ">
       <Grid container spacing={2}>
@@ -490,11 +578,19 @@ const CustomerProfile = ({
                       color: "#000",
                     }}
                   >
-                    <FormattedPrice
+                         {dataLoading ? (
+                      <CircularProgress
+                        size="0.6rem"
+                        sx={{ color: "#DC0019" }}
+                      />
+                    ) : (
+                      <FormattedPrice
                       amount={
-                        customerDataById?.commTrxAnalytics?.totalInwardsSum
+                        customerDataById?.commTrxAnalytics?.totalInwardsSum || 0
                       }
                     />
+                    )}
+               
                   </Typography>
                 </Box>
                 <Box className="flex flex-col gap-2 items-start">
@@ -513,11 +609,18 @@ const CustomerProfile = ({
                       color: "#000",
                     }}
                   >
-                    <FormattedPrice
+                           {dataLoading ? (
+                      <CircularProgress
+                        size="0.6rem"
+                        sx={{ color: "#DC0019" }}
+                      />
+                    ) : (
+                      <FormattedPrice
                       amount={
-                        customerDataById?.commTrxAnalytics?.filterInwardsSum
+                        customerDataById?.commTrxAnalytics?.filterInwardsSum ||  0
                       }
                     />
+                    )}
                   </Typography>
                 </Box>
               </Box>
@@ -592,9 +695,9 @@ const CustomerProfile = ({
                         sx={{ color: "#DC0019" }}
                       />
                     ) : (
-                      customerDataById?.userProfile?.lastName
+                      customerDataById?.userProfile?.lastName || ""
                     )}{" "}
-                    {customerDataById?.userProfile?.firstName}
+                    {customerDataById?.userProfile?.firstName || ""}
                   </Typography>
                 </Box>
                 <Box className="flex items-center mt-1 mb-1 justify-between ">
@@ -660,7 +763,7 @@ const CustomerProfile = ({
                           sx={{ color: "#DC0019" }}
                         />
                       ) : (
-                        customerDataById?.userProfile?.email
+                        customerDataById?.userProfile?.email ||  ""
                       )}
                     </Typography>
 
@@ -814,9 +917,9 @@ const CustomerProfile = ({
                   {dataLoading ? (
                     <CircularProgress size="0.6rem" sx={{ color: "#DC0019" }} />
                   ) : (
-                    customerDataById?.bvnProfile?.firstName
+                    customerDataById?.bvnProfile?.firstName || ""
                   )}{" "}
-                  {customerDataById?.bvnProfile?.lastName}
+                  {customerDataById?.bvnProfile?.lastName || ""}
                 </Typography>
               </Box>
               <Box className="flex items-center mt-1 mb-1 justify-between ">
@@ -845,7 +948,7 @@ const CustomerProfile = ({
                   {dataLoading ? (
                     <CircularProgress size="0.6rem" sx={{ color: "#DC0019" }} />
                   ) : (
-                    customerDataById?.bvnProfile?.gender
+                    customerDataById?.bvnProfile?.gender || ""
                   )}
                 </Typography>
               </Box>
@@ -877,7 +980,7 @@ const CustomerProfile = ({
                         sx={{ color: "#DC0019" }}
                       />
                     ) : (
-                      customerDataById?.bvnProfile?.email
+                      customerDataById?.bvnProfile?.email || ""
                     )}
                   </Typography>
 
@@ -922,7 +1025,7 @@ const CustomerProfile = ({
                         sx={{ color: "#DC0019" }}
                       />
                     ) : (
-                      customerDataById?.bvnProfile?.phoneNumber
+                      customerDataById?.bvnProfile?.phoneNumber || ""
                     )}
                   </Typography>
 
@@ -963,7 +1066,7 @@ const CustomerProfile = ({
                   {dataLoading ? (
                     <CircularProgress size="0.6rem" sx={{ color: "#DC0019" }} />
                   ) : (
-                    customerDataById?.bvnProfile?.address
+                    customerDataById?.bvnProfile?.address || ""
                   )}
                 </Typography>
               </Box>
@@ -1002,7 +1105,7 @@ const CustomerProfile = ({
                   {dataLoading ? (
                     <CircularProgress size="0.6rem" sx={{ color: "#DC0019" }} />
                   ) : (
-                    customerDataById?.bankProfile?.accountName
+                    customerDataById?.bankProfile?.accountName ||  ""
                   )}
                 </Typography>
               </Box>
@@ -1032,7 +1135,7 @@ const CustomerProfile = ({
                   {dataLoading ? (
                     <CircularProgress size="0.6rem" sx={{ color: "#DC0019" }} />
                   ) : (
-                    customerDataById?.bankProfile?.accountNumber
+                    customerDataById?.bankProfile?.accountNumber ||  ""
                   )}
                 </Typography>
               </Box>
@@ -1060,7 +1163,7 @@ const CustomerProfile = ({
                   {dataLoading ? (
                     <CircularProgress size="0.6rem" sx={{ color: "#DC0019" }} />
                   ) : (
-                    customerDataById?.bankProfile?.bankName
+                    customerDataById?.bankProfile?.bankName ||  ""
                   )}
                 </Typography>
               </Box>
@@ -1150,7 +1253,7 @@ const CustomerProfile = ({
                         sx={{ color: "#DC0019" }}
                       />
                     ) : (
-                      customerDataById?.userProfile?.tier
+                      customerDataById?.userProfile?.tier ||  ""
                     )}
                   </span>
                 </Typography>
@@ -1181,7 +1284,7 @@ const CustomerProfile = ({
                   {dataLoading ? (
                     <CircularProgress size="0.6rem" sx={{ color: "#DC0019" }} />
                   ) : (
-                    customerDataById?.bankProfile?.createdAt
+                    customerDataById?.bankProfile?.createdAt ||  ""
                   )}
                 </Typography>
               </Box>
@@ -1211,7 +1314,7 @@ const CustomerProfile = ({
                   {dataLoading ? (
                     <CircularProgress size="0.6rem" sx={{ color: "#DC0019" }} />
                   ) : (
-                    customerDataById?.bankProfile?.lastLogin
+                    customerDataById?.bankProfile?.lastLogin ||  ""
                   )}
                 </Typography>
               </Box>
@@ -1237,25 +1340,19 @@ const CustomerProfile = ({
                     fontSize: "13px",
                   }}
                 >
-                  <Switch
-                    sx={{
-                      "& .MuiSwitch-switchBase.Mui-checked": {
-                        color: "#fff",
-                        // "&:hover": {
-                        //   backgroundColor: alpha(
-                        //     pink[600],
-                        //     theme.palette.action.hoverOpacity
-                        //   ),
-                        // },
-                      },
-                      "& .MuiSwitch-switchBase.Mui-checked + .MuiSwitch-track":
-                        {
-                          backgroundColor: "#DC0019",
-                        },
-                    }}
-                    defaultChecked
-                    color="default"
-                  />
+                     <Switch
+          checked={isSwitchChecked}
+          onChange={handleSwitchChange}
+          sx={{
+            "& .MuiSwitch-switchBase.Mui-checked": {
+              color: "#fff",
+            },
+            "& .MuiSwitch-switchBase.Mui-checked + .MuiSwitch-track": {
+              backgroundColor: "#DC0019",
+            },
+          }}
+          color="default"
+        />
                 </Typography>
               </Box>
             </Box>
@@ -1566,6 +1663,7 @@ const CustomerProfile = ({
         <CustomerProfileDetails setShowProfileDetails={setShowProfileDetails} />
       </Modal>
       {/* Modal deposit ends */}
+      <ToastContainer />
     </Box>
   );
 };
