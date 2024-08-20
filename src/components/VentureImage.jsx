@@ -150,8 +150,20 @@ const VentureImage = ({ onSubmit, handleBack }) => {
         tags: `${data?.ventureTag}`,
       };
 
+      // Object.keys(formDatta).forEach(key => {
+      //   formData.append(key, formDatta[key]);
+      // });
+      
+      // // Log the contents of `formData`
+      // for (const pair of formData.entries()) {
+      //   console.log(pair[0], pair[1]);
+      // }
+
       const newFormDatta = { ...formDatta };
       delete newFormDatta.ventureTag;
+
+
+      // console.log(newFormDatta)
 
       onSubmit(newFormDatta);
     }
@@ -324,7 +336,7 @@ const VentureImage = ({ onSubmit, handleBack }) => {
                       <AddBusinessRoundedIcon /> &nbsp; | Select Venture
                     </Box>
                   </MenuItem>
-                  <MenuItem value="Transportation">Transportation</MenuItem>
+                  <MenuItem value="transportation">Transportation</MenuItem>
                   <MenuItem value="association">Association</MenuItem>
                   <MenuItem value="ticketing">Ticketing</MenuItem>
                 </Select>
