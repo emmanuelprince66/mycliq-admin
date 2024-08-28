@@ -30,7 +30,6 @@ import { useQuery } from "@tanstack/react-query";
 import { AuthAxios } from "../../helpers/axiosInstance";
 
 const AllCustomers = ({ handleOpenCustomerProfile }) => {
-  const totalPages = 8;
   const rowsPerPage = 20;
   const [currentPage, setCurrentPage] = useState(1);
   const [searchTerm, setSearchTerm] = useState("");
@@ -58,6 +57,9 @@ const AllCustomers = ({ handleOpenCustomerProfile }) => {
     keepPreviousData: true,
     staleTime: 5000, // Cache data for 5 seconds
   });
+
+  const totalPages = usersData?.totalPages || ""
+
 
   const handlePageChange = (page) => {
     setCurrentPage(page);

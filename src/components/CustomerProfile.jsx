@@ -197,7 +197,6 @@ const CustomerProfile = ({
     keepPreviousData: true,
     staleTime: 5000, // Cache data for 5 seconds
   });
-
   useEffect(() => {
     setApiId(id);
   }, [id]);
@@ -277,7 +276,7 @@ console.log(isSwitchChecked)
                   </Typography>
                   <Typography
                     sx={{
-                      fontSize: "20px",
+                      fontSize: "15px",
                       fontWeight: 500,
                       color: "#000",
                     }}
@@ -307,7 +306,7 @@ console.log(isSwitchChecked)
                   </Typography>
                   <Typography
                     sx={{
-                      fontSize: "20px",
+                      fontSize: "15px",
                       fontWeight: 500,
                       color: "#000",
                     }}
@@ -385,7 +384,7 @@ console.log(isSwitchChecked)
                   </Typography>
                   <Typography
                     sx={{
-                      fontSize: "20px",
+                      fontSize: "15px",
                       fontWeight: 500,
                       color: "#000",
                     }}
@@ -415,7 +414,7 @@ console.log(isSwitchChecked)
                   </Typography>
                   <Typography
                     sx={{
-                      fontSize: "20px",
+                      fontSize: "15px",
                       fontWeight: 500,
                       color: "#000",
                     }}
@@ -484,7 +483,7 @@ console.log(isSwitchChecked)
                   </Typography>
                   <Typography
                     sx={{
-                      fontSize: "20px",
+                      fontSize: "15px",
                       fontWeight: 500,
                       color: "#000",
                     }}
@@ -573,7 +572,7 @@ console.log(isSwitchChecked)
                   </Typography>
                   <Typography
                     sx={{
-                      fontSize: "20px",
+                      fontSize: "15px",
                       fontWeight: 500,
                       color: "#000",
                     }}
@@ -604,7 +603,7 @@ console.log(isSwitchChecked)
                   </Typography>
                   <Typography
                     sx={{
-                      fontSize: "20px",
+                      fontSize: "15px",
                       fontWeight: 500,
                       color: "#000",
                     }}
@@ -1479,7 +1478,6 @@ console.log(isSwitchChecked)
                       <TableCell>User</TableCell>
                       <TableCell>Type</TableCell>
                       <TableCell>Amount(N)</TableCell>
-                      <TableCell>Wallet Balance(N)</TableCell>
                       <TableCell>Status</TableCell>
                       <TableCell>Action</TableCell>
                     </TableRow>
@@ -1550,7 +1548,6 @@ console.log(isSwitchChecked)
                               {item.amount}
                             </Typography>
                           </TableCell>
-                          <TableCell>...</TableCell>
                           <TableCell>
                             <Box
                               sx={{

@@ -239,7 +239,7 @@ const Gtransportaton = () => {
                 <Typography
                   sx={{
                     fontWeight: "500",
-                    fontSize: "20px",
+                    fontSize: "15px",
                     color: "#1E1E1E",
                   }}
                 >
@@ -296,7 +296,7 @@ const Gtransportaton = () => {
                 <Typography
                   sx={{
                     fontWeight: "500",
-                    fontSize: "20px",
+                    fontSize: "15px",
                     color: "#1E1E1E",
                   }}
                 >
@@ -346,7 +346,7 @@ const Gtransportaton = () => {
                 <Typography
                   sx={{
                     fontWeight: "500",
-                    fontSize: "20px",
+                    fontSize: "15px",
                     color: "#1E1E1E",
                   }}
                 >
@@ -395,7 +395,7 @@ const Gtransportaton = () => {
                 <Typography
                   sx={{
                     fontWeight: "500",
-                    fontSize: "20px",
+                    fontSize: "15px",
                     color: "#1E1E1E",
                   }}
                 >
@@ -444,7 +444,7 @@ const Gtransportaton = () => {
                 <Typography
                   sx={{
                     fontWeight: "500",
-                    fontSize: "20px",
+                    fontSize: "15px",
                     color: "#1E1E1E",
                   }}
                 >
@@ -468,7 +468,7 @@ const Gtransportaton = () => {
                       sx={{
                         color: "#1E1E1E",
                         fontWeight: "500",
-                        fontSize: "20px",
+                        fontSize: "15px",
                         display: "flex",
                         gap: "6px",
                         alignItems: "center",
@@ -719,7 +719,7 @@ const Gtransportaton = () => {
                     <Typography
                       sx={{
                         fontWeight: "500",
-                        fontSize: "20px",
+                        fontSize: "15px",
                         color: "#4F4F4F",
                         py: "10px",
                       }}
@@ -774,7 +774,7 @@ const Gtransportaton = () => {
                     <Typography
                       sx={{
                         fontWeight: "500",
-                        fontSize: "20px",
+                        fontSize: "15px",
                         color: "#1E1E1E",
                         py: "10px",
                       }}
@@ -815,7 +815,7 @@ const Gtransportaton = () => {
                     <Typography
                       sx={{
                         fontWeight: "500",
-                        fontSize: "20px",
+                        fontSize: "15px",
                         color: "#1E1E1E",
                         py: "10px",
                       }}

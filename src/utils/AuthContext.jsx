@@ -24,18 +24,21 @@ export function AuthProvider({ children }) {
       }
 
       try {
-        const user = getUser(token); // This might throw if token is expired
+        const user =  await getUser(token); 
         if (user) {
           setShowSpinner(false);
           dispatch(fillUserDetails(user));
         }
+        else {
+        setRedirectToLogin(true); 
+        }
       } catch (error) {
-        setRedirectToLogin(true); // Redirect to login on error
+        setRedirectToLogin(true); 
       }
     }
 
     fetchUserDetails();
-  }, [dispatch, refreshToken]);
+  }, []);
 
   if (redirectToLogin) {
     return <Navigate to="/" />;

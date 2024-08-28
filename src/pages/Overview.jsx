@@ -21,6 +21,7 @@ import CircularProgress from "@mui/material/CircularProgress";
 import { AuthAxios } from "../helpers/axiosInstance";
 import { useSelector } from "react-redux";
 import { formatToIsoDateStr } from "../utils/formatIsoDateString";
+import { useNavigate } from "react-router-dom";
 
 const Item = styled(Box)(({ theme }) => ({
   backgroundColor: theme.palette.mode === "dark" ? "#1A2027" : "#fff",
@@ -36,6 +37,7 @@ export const Overview = () => {
 
   const startDate = formatToIsoDateStr(selectedDates?.startDate);
   const endDate = formatToIsoDateStr(selectedDates?.endDate);
+  const navigate = useNavigate()
 
   const {
     data: overviewData,
@@ -54,6 +56,9 @@ export const Overview = () => {
         console.log(response);
         return response?.data?.data;
       } catch (error) {
+        if(error?.response?.data?.code === 401) {
+          navigate("/")
+        }
         throw new Error("Failed to fetch customer data");
       }
     },
@@ -97,7 +102,6 @@ export const Overview = () => {
             display: "flex",
             flexDirection: "column",
             padding: "16px",
-            // width: "356px",
             width: "100%",
             gap: "0.8rem",
           }}
@@ -140,7 +144,7 @@ export const Overview = () => {
               </Typography>
               <Typography
                 sx={{
-                  fontSize: "20px",
+                  fontSize: "15px",
                   fontWeight: 500,
                   color: "#000",
                 }}
@@ -165,7 +169,7 @@ export const Overview = () => {
               </Typography>
               <Typography
                 sx={{
-                  fontSize: "20px",
+                  fontSize: "15px",
                   fontWeight: 500,
                   color: "#000",
                 }}
@@ -238,7 +242,7 @@ export const Overview = () => {
               </Typography>
               <Typography
                 sx={{
-                  fontSize: "20px",
+                  fontSize: "15px",
                   fontWeight: 500,
                   color: "#000",
                 }}
@@ -263,7 +267,7 @@ export const Overview = () => {
               </Typography>
               <Typography
                 sx={{
-                  fontSize: "20px",
+                  fontSize: "15px",
                   fontWeight: 500,
                   color: "#000",
                 }}
@@ -327,7 +331,7 @@ export const Overview = () => {
               </Typography>
               <Typography
                 sx={{
-                  fontSize: "20px",
+                  fontSize: "15px",
                   fontWeight: 500,
                   color: "#000",
                 }}
@@ -350,7 +354,7 @@ export const Overview = () => {
               </Typography>
               <Typography
                 sx={{
-                  fontSize: "20px",
+                  fontSize: "15px",
                   fontWeight: 500,
                   color: "#000",
                 }}
@@ -411,7 +415,7 @@ export const Overview = () => {
               </Typography>
               <Typography
                 sx={{
-                  fontSize: "20px",
+                  fontSize: "15px",
                   fontWeight: 500,
                   color: "#000",
                 }}
@@ -434,7 +438,7 @@ export const Overview = () => {
               </Typography>
               <Typography
                 sx={{
-                  fontSize: "20px",
+                  fontSize: "15px",
                   fontWeight: 500,
                   color: "#000",
                 }}
@@ -495,7 +499,7 @@ export const Overview = () => {
               </Typography>
               <Typography
                 sx={{
-                  fontSize: "20px",
+                  fontSize: "15px",
                   fontWeight: 500,
                   color: "#000",
                 }}
@@ -520,7 +524,7 @@ export const Overview = () => {
               </Typography>
               <Typography
                 sx={{
-                  fontSize: "20px",
+                  fontSize: "15px",
                   fontWeight: 500,
                   color: "#000",
                 }}
@@ -547,7 +551,7 @@ export const Overview = () => {
                 <Typography
                   sx={{
                     fontWeight: "500",
-                    fontSize: "20px",
+                    fontSize: "15px",
                     color: "#1E1E1E",
                     p: "20px",
                   }}
@@ -566,7 +570,7 @@ export const Overview = () => {
                   <Typography
                     sx={{
                       fontWeight: "500",
-                      fontSize: "20px",
+                      fontSize: "15px",
                       color: "#1E1E1E",
                       py: "10px",
                     }}
@@ -678,7 +682,7 @@ export const Overview = () => {
                   <Typography
                     sx={{
                       fontWeight: "500",
-                      fontSize: "20px",
+                      fontSize: "15px",
                       color: "#4F4F4F",
                       py: "10px",
                     }}

@@ -3,22 +3,48 @@ import EastRoundedIcon from "@mui/icons-material/EastRounded";
 import { Button } from "@mui/material";
 import KeyboardBackspaceRoundedIcon from "@mui/icons-material/KeyboardBackspaceRounded";
 
-const PageNumberPagination = ({ currentPage, totalPages, onPageChange }) => {
-  const pageNumbers = Array.from(
-    { length: totalPages },
-    (_, index) => index + 1
-  );
-
+const PageNumberPagination = ({
+  currentPage,
+  totalPages,
+  onPageChange,
+  maxPageNumbersToShow = 10,
+}) => {
   const handlePageClick = (pageNumber) => {
     onPageChange(pageNumber);
   };
 
+  const getPageNumbers = () => {
+    const pageNumbers = [];
+    const startPage = Math.max(1, currentPage - Math.floor(maxPageNumbersToShow / 2));
+    const endPage = Math.min(totalPages, startPage + maxPageNumbersToShow - 1);
+
+    if (startPage > 1) {
+      pageNumbers.push(1);
+      if (startPage > 2) {
+        pageNumbers.push("...");
+      }
+    }
+
+    for (let i = startPage; i <= endPage; i++) {
+      pageNumbers.push(i);
+    }
+
+    if (endPage < totalPages) {
+      if (endPage < totalPages - 1) {
+        pageNumbers.push("...");
+      }
+      pageNumbers.push(totalPages);
+    }
+
+    return pageNumbers;
+  };
+
   return (
     <div style={{ display: "flex", gap: "8px", marginTop: "16px" }}>
-      {pageNumbers.map((pageNumber) => (
+      {getPageNumbers().map((pageNumber, index) => (
         <button
-          key={pageNumber}
-          onClick={() => handlePageClick(pageNumber)}
+          key={index}
+          onClick={() => pageNumber !== "..." && handlePageClick(pageNumber)}
           style={{
             padding: "8px",
             borderRadius: "4px",
@@ -26,7 +52,9 @@ const PageNumberPagination = ({ currentPage, totalPages, onPageChange }) => {
             background: currentPage === pageNumber ? "#FEF2E6" : "transparent",
             color: currentPage === pageNumber ? "#F78105" : "#667085",
             fontWeight: currentPage === pageNumber ? "bold" : "normal",
+            cursor: pageNumber === "..." ? "default" : "pointer",
           }}
+          disabled={pageNumber === "..."}
         >
           {pageNumber}
         </button>
@@ -73,9 +101,7 @@ const CustomPagination = ({ currentPage, totalPages, onPageChange }) => {
         <KeyboardBackspaceRoundedIcon />
         Back
       </Button>
-      {/* <span style={{ margin: "0 8px" }}>
-        Page {currentPage} of {totalPages}
-      </span> */}
+
       <PageNumberPagination
         currentPage={currentPage}
         totalPages={totalPages}

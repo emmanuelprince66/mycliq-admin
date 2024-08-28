@@ -119,7 +119,7 @@ const Billers = () => {
 
           <Box
             sx={{
-              width: "1080px",
+              width: "100%",
               display: "flex",
               gap: "2rem",
               mb: "1rem",
@@ -130,7 +130,7 @@ const Billers = () => {
                 display: "flex",
                 flexDirection: "column",
                 padding: "16px",
-                width: "356px",
+                width: "100%",
                 gap: "0.8rem",
               }}
             >
@@ -164,8 +164,8 @@ const Billers = () => {
               <Box>
                 <Typography
                   sx={{
-                    fontWeight: "600",
-                    fontSize: "24px",
+                    fontWeight: "500",
+                    fontSize: "15px",
                     color: "#1E1E1E",
                   }}
                 >
@@ -178,7 +178,7 @@ const Billers = () => {
                 display: "flex",
                 flexDirection: "column",
                 padding: "16px",
-                width: "356px",
+                width: "100%",
                 gap: "0.8rem",
               }}
             >
@@ -221,8 +221,8 @@ const Billers = () => {
               <Box>
                 <Typography
                   sx={{
-                    fontWeight: "600",
-                    fontSize: "24px",
+                    fontWeight: "500",
+                    fontSize: "15px",
                     color: "##1E1E1E",
                   }}
                 >
@@ -235,7 +235,7 @@ const Billers = () => {
                 display: "flex",
                 flexDirection: "column",
                 padding: "16px",
-                width: "356px",
+                width: "100%",
                 gap: "0.8rem",
               }}
             >
@@ -270,8 +270,8 @@ const Billers = () => {
               <Box>
                 <Typography
                   sx={{
-                    fontWeight: "600",
-                    fontSize: "24px",
+                    fontWeight: "500",
+                    fontSize: "15px",
                     color: "##1E1E1E",
                   }}
                 >
@@ -284,7 +284,7 @@ const Billers = () => {
                 display: "flex",
                 flexDirection: "column",
                 padding: "16px",
-                width: "356px",
+                width: "100%",
                 gap: "0.8rem",
               }}
             >
@@ -319,12 +319,12 @@ const Billers = () => {
               <Box>
                 <Typography
                   sx={{
-                    fontWeight: "600",
-                    fontSize: "24px",
+                    fontWeight: "500",
+                    fontSize: "15px",
                     color: "##1E1E1E",
                   }}
                 >
-                  <FormattedPrice amount={Number(20000 || 0)} />
+                  <FormattedPrice amount={Number(2000 || 0)} />
                 </Typography>
               </Box>
             </Card>

@@ -251,8 +251,8 @@ const mutationNoti = useMutation({
           sx={{
             background: "#333333",
             padding: "10px",
+            mt:"3rem",
             borderRadius: "8px",
-            mt: "10px",
             width: "100%",
             color: "#fff",
             "&:hover": {

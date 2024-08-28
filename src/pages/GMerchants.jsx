@@ -221,7 +221,7 @@ const GMerchants = () => {
                 <Typography
                   sx={{
                     fontWeight: "500",
-                    fontSize: "20px",
+                    fontSize: "15px",
                     color: "#1E1E1E",
                   }}
                 >
@@ -284,7 +284,7 @@ const GMerchants = () => {
                 <Typography
                   sx={{
                     fontWeight: "500",
-                    fontSize: "20px",
+                    fontSize: "15px",
                     color: "#1E1E1E",
                   }}
                 >
@@ -339,7 +339,7 @@ const GMerchants = () => {
                 <Typography
                   sx={{
                     fontWeight: "500",
-                    fontSize: "20px",
+                    fontSize: "15px",
                     color: "#1E1E1E",
                   }}
                 >
@@ -380,7 +380,7 @@ const GMerchants = () => {
                 <Typography
                   sx={{
                     fontWeight: "500",
-                    fontSize: "14px",
+                    fontSize: "15px",
                     minHeight: "2.7rem",
                     color: "#4F4F4F",
                   }}
@@ -393,7 +393,7 @@ const GMerchants = () => {
                 <Typography
                   sx={{
                     fontWeight: "500",
-                    fontSize: "20px",
+                    fontSize: "15px",
                     color: "#1E1E1E",
                   }}
                 >
@@ -428,7 +428,7 @@ const GMerchants = () => {
                 <Typography
                   sx={{
                     fontWeight: "500",
-                    fontSize: "14px",
+                    fontSize: "15px",
                     color: "#4F4F4F",
                   }}
                 >
@@ -442,7 +442,7 @@ const GMerchants = () => {
                 <Typography
                   sx={{
                     fontWeight: "500",
-                    fontSize: "20px",
+                    fontSize: "15px",
                     color: "#1E1E1E",
                   }}
                 >
@@ -514,7 +514,7 @@ const GMerchants = () => {
                     <Typography
                       sx={{
                         fontWeight: "500",
-                        fontSize: "16px",
+                        fontSize: "15px",
                         color: "#1E1E1E",
                       }}
                     >
@@ -581,7 +581,7 @@ const GMerchants = () => {
                     <Typography
                       sx={{
                         fontWeight: "500",
-                        fontSize: "16px",
+                        fontSize: "15px",
                         color: "#1E1E1E",
                       }}
                     >
@@ -648,7 +648,7 @@ const GMerchants = () => {
                     <Typography
                       sx={{
                         fontWeight: "500",
-                        fontSize: "16px",
+                        fontSize: "15px",
                         color: "#1E1E1E",
                       }}
                     >
@@ -715,7 +715,7 @@ const GMerchants = () => {
                     <Typography
                       sx={{
                         fontWeight: "500",
-                        fontSize: "16px",
+                        fontSize: "15px",
                         color: "#1E1E1E",
                       }}
                     >
@@ -782,7 +782,7 @@ const GMerchants = () => {
                     <Typography
                       sx={{
                         fontWeight: "500",
-                        fontSize: "16px",
+                        fontSize: "15px",
                         color: "#1E1E1E",
                       }}
                     >
@@ -823,7 +823,7 @@ const GMerchants = () => {
                     <Typography
                       sx={{
                         fontWeight: "500",
-                        fontSize: "20px",
+                        fontSize: "15px",
                         color: "#4F4F4F",
                         py: "10px",
                       }}
@@ -921,7 +921,7 @@ const GMerchants = () => {
                     <Typography
                       sx={{
                         fontWeight: "500",
-                        fontSize: "20px",
+                        fontSize: "15px ",
                         color: "#1E1E1E",
                         py: "10px",
                       }}
@@ -988,7 +988,7 @@ const GMerchants = () => {
                     <Typography
                       sx={{
                         fontWeight: "500",
-                        fontSize: "20px",
+                        fontSize: "15px",
                         color: "#1E1E1E",
                         py: "10px",
                       }}

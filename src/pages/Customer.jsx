@@ -47,12 +47,13 @@ import { styled } from "@mui/material/styles";
 import ArrowBackRoundedIcon from "@mui/icons-material/ArrowBackRounded";
 import { useDispatch } from "react-redux";
 import { useSelector } from "react-redux";
-
+import { useNavigate } from "react-router-dom";
 import { fillCustomersData } from "../utils/store/merchantSlice";
 import wallet from "../assets/images/generalMerchants/wallet.svg";
 import percent from "../assets/images/generalMerchants/percent.svg";
 import CustomerProfile from "../components/CustomerProfile";
 import AllCustomers from "./customers/AllCustomers";
+
 const Item = styled(Box)(({ theme }) => ({
   backgroundColor: theme.palette.mode === "dark" ? "#1A2027" : "#fff",
   ...theme.typography.body2,
@@ -65,6 +66,7 @@ const Customer = () => {
   const dispatch = useDispatch();
 
   const { selectedDates } = useSelector((state) => state);
+  const navigate = useNavigate()
 
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(100);
@@ -100,6 +102,8 @@ const Customer = () => {
     staleTime: 5000, // Cache data for 5 seconds
   });
 
+
+
   const handleShowCustomerProfile = () => setShowCustomerProfile(true);
   const handleCloseShowCustomerProfile = () => setShowCustomerProfile(false);
   const handleOpenCustomerProfile = (id) => {
@@ -131,7 +135,7 @@ const Customer = () => {
       >
         {profileAcive && (
           <Box className="flex items-center gap-1">
-            <span
+            <span 
               className="flex gap-1 items-center cursor-pointer"
               onClick={closeUp}
             >
@@ -209,7 +213,7 @@ const Customer = () => {
                 <Box className="flex flex-col gap-1 items-start">
                   <Typography
                     sx={{
-                      fontSize: "20px",
+                      fontSize: "15px",
                       fontWeight: 500,
                       color: "#000",
                     }}
@@ -280,7 +284,7 @@ const Customer = () => {
                 <Box className="flex flex-col gap-2 items-start">
                   <Typography
                     sx={{
-                      fontSize: "20px",
+                      fontSize: "15px",
                       fontWeight: 500,
                       color: "#000",
                     }}
@@ -340,7 +344,7 @@ const Customer = () => {
                 <Box className="flex flex-col gap-2 items-start">
                   <Typography
                     sx={{
-                      fontSize: "20px",
+                      fontSize: "15px",
                       fontWeight: 500,
                       color: "#000",
                     }}
@@ -400,7 +404,7 @@ const Customer = () => {
                 <Box className="flex flex-col gap-2 items-start">
                   <Typography
                     sx={{
-                      fontSize: "20px",
+                      fontSize: "15px",
                       fontWeight: 500,
                       color: "#000",
                     }}
@@ -459,7 +463,7 @@ const Customer = () => {
                 <Box className="flex flex-col gap-2 items-start">
                   <Typography
                     sx={{
-                      fontSize: "20px",
+                      fontSize: "15px",
                       fontWeight: 500,
                       color: "#000",
                     }}
@@ -499,7 +503,7 @@ const Customer = () => {
                   <Typography
                     sx={{
                       fontWeight: "500",
-                      fontSize: "20px",
+                      fontSize: "15px",
                       color: "#1E1E1E",
                       py: "10px",
                     }}
@@ -611,7 +615,7 @@ const Customer = () => {
                   <Typography
                     sx={{
                       fontWeight: "500",
-                      fontSize: "20px",
+                      fontSize: "15px",
                       color: "#1E1E1E",
                       py: "10px",
                     }}
@@ -676,7 +680,7 @@ const Customer = () => {
                   <Typography
                     sx={{
                       fontWeight: "500",
-                      fontSize: "20px",
+                      fontSize: "15px",
                       color: "#1e1e1e",
                       py: "10px",
                     }}

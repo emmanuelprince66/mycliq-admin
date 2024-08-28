@@ -100,7 +100,7 @@ const SuperAdmin = () => {
   const closeAdminModal = () => setAdminModal(false);
   return (
     <div className="flex w-full border-[1px] border-[#E0E0E0] bg-white p-3  rounded-[8px] flex-col items-start gap-3">
-      <p className="text-[20px] font-[500] text-[#1e1e1e] ">
+      <p className="text-[15px] font-[500] text-[#1e1e1e] ">
         Manage Administrators
       </p>
 
@@ -119,9 +119,9 @@ const SuperAdmin = () => {
                 flex items-center gap-1
                 ${
                   !administrators ? "text-[#828282]" : "text-[#F78105]"
-                } font-[600]`}
+                } font-[500]`}
             >
-              <PersonPinCircleRoundedIcon sx={{ fontSize: "20px" }} />
+              <PersonPinCircleRoundedIcon sx={{ fontSize: "15px" }} />
               Admininstrators
             </p>
             <span className=" px-2 bg-[#FFEFD6] rounded-md">
@@ -153,9 +153,9 @@ const SuperAdmin = () => {
             <p
               className={`text-[16px] flex items-center gap-2 ${
                 administrators ? "text-[#828282]" : "text-[#F78105]"
-              } font-[600]`}
+              } font-[500]`}
             >
-              <AddCircleRoundedIcon sx={{ fontSize: "20px" }} />
+              <AddCircleRoundedIcon sx={{ fontSize: "15px" }} />
               Add New Administrator{" "}
             </p>
             {/* <span className="py-1 px-2 bg-[#FFEFD6] rounded-md">
@@ -290,7 +290,7 @@ const SuperAdmin = () => {
       <CustomModal open={adminModal} close={closeAdminModal}>
         <div className="w-full flex flex-col items-start gap-2">
           <div className="flex items-center justify-between w-full mb-3">
-            <p className="text-[#1e1e1e] text-[20px] font-[500]">
+            <p className="text-[#1e1e1e] text-[15px] font-[500]">
               Administrator's Profile
             </p>
             <ClearRoundedIcon
@@ -557,7 +557,7 @@ const SuperAdmin = () => {
                     color: "#fff",
                     // "&:hover": {
                     //   backgroundColor: alpha(
-                    //     pink[600],
+                    //     pink[500],
                     //     theme.palette.action.hoverOpacity
                     //   ),
                     // },

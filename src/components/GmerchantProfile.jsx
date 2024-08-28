@@ -63,68 +63,7 @@ const Item = styled(Box)(({ theme }) => ({
   borderRadius: "8px",
   maxHeight: "100%",
 }));
-const dummyCustomers = [
-  {
-    id: 1,
-    name: "Eleanor Poe",
-    img: "",
-  },
-  {
-    id: 2,
-    name: "Pleanor Poe",
-    img: "",
-  },
-  {
-    id: 3,
-    name: "Sleanor Poe",
-    img: "",
-  },
-  {
-    id: 4,
-    name: "Bleanor Poe",
-    img: "",
-  },
-  {
-    id: 5,
-    name: "Gleanor Poe",
-    img: "",
-  },
-  {
-    id: 6,
-    name: "Gleanor Poe",
-    img: "",
-  },
-  {
-    id: 7,
-    name: "Gleanor Poe",
-    img: "",
-  },
-  {
-    id: 8,
-    name: "Gleanor Poe",
-    img: "",
-  },
-  {
-    id: 9,
-    name: "Gleanor Poe",
-    img: "",
-  },
-  {
-    id: 10,
-    name: "Gleanor Poe",
-    img: "",
-  },
-  {
-    id: 11,
-    name: "Gleanor Poe",
-    img: "",
-  },
-  {
-    id: 12,
-    name: "Gleanor Poe",
-    img: "",
-  },
-];
+
 const GmerchantProfile = ({ setShowMerchantProfile, merchantId }) => {
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [showOutLet, setShowOutLet] = useState(false);

@@ -194,7 +194,7 @@ const GmerchantOutLet = () => {
                   <Box className="flex flex-col gap-1 items-start">
                     <Typography
                       sx={{
-                        fontSize: "20px",
+                        fontSize: "15px",
                         fontWeight: 500,
                         color: "#000",
                       }}
@@ -253,7 +253,7 @@ const GmerchantOutLet = () => {
                   <Box className="flex flex-col gap-1 items-start">
                     <Typography
                       sx={{
-                        fontSize: "20px",
+                        fontSize: "15px",
                         fontWeight: 500,
                         color: "#000",
                       }}
@@ -303,7 +303,7 @@ const GmerchantOutLet = () => {
                   <Box className="flex flex-col gap-1 items-start">
                     <Typography
                       sx={{
-                        fontSize: "20px",
+                        fontSize: "15px",
                         fontWeight: 500,
                         color: "#000",
                       }}
@@ -353,7 +353,7 @@ const GmerchantOutLet = () => {
                   <Box className="flex flex-col gap-1 items-start">
                     <Typography
                       sx={{
-                        fontSize: "20px",
+                        fontSize: "15px",
                         fontWeight: 500,
                         color: "#000",
                       }}

@@ -206,7 +206,7 @@ const GmerchantP = ({
                 <Box className="flex flex-col gap-1 items-start">
                   <Typography
                     sx={{
-                      fontSize: "20px",
+                      fontSize: "15px",
                       fontWeight: 500,
                       color: "#000",
                     }}
@@ -276,7 +276,7 @@ const GmerchantP = ({
                 <Box className="flex flex-col gap-1 items-start">
                   <Typography
                     sx={{
-                      fontSize: "20px",
+                      fontSize: "15px",
                       fontWeight: 500,
                       color: "#000",
                     }}
@@ -337,7 +337,7 @@ const GmerchantP = ({
                 <Box className="flex flex-col gap-1 items-start">
                   <Typography
                     sx={{
-                      fontSize: "20px",
+                      fontSize: "15px",
                       fontWeight: 500,
                       color: "#000",
                     }}
@@ -398,7 +398,7 @@ const GmerchantP = ({
                 <Box className="flex flex-col gap-1 items-start">
                   <Typography
                     sx={{
-                      fontSize: "20px",
+                      fontSize: "15px",
                       fontWeight: 500,
                       color: "#000",
                     }}
@@ -660,7 +660,7 @@ const GmerchantP = ({
                               {merchantDataById?.userProfile?.ninVerified ? (
                                 <div className="bg-[#EBFFF3]  px-2 flex items-center gap-1 rounded-md">
                                   <VerifiedOutlinedIcon
-                                    sx={{ fontSize: "15px" }}
+                                    sx={{ fontSize: "15px" }} 
                                     className="text-[#1E854A] text-[10px] font-[500]"
                                   />
                                   <p className="text-[#1E854A] text-[10px] font-[500]">
@@ -828,15 +828,7 @@ const GmerchantP = ({
                               )}
                             </Typography>
 
-                            <div className="bg-[#FFF0F0]  px-2 flex items-center gap-1 rounded-md">
-                              <ReportProblemOutlinedIcon
-                                sx={{ fontSize: "15px" }}
-                                className="text-[#E52929] font-[500]"
-                              />
-                              <p className="text-[#E52929] text-[10px] font-[500]">
-                                Unverified
-                              </p>
-                            </div>
+                     
                           </div>
                         </Box>
                         <Box className="flex  items-center mt-1 mb-1 justify-between ">
@@ -869,11 +861,11 @@ const GmerchantP = ({
                                   sx={{ color: "#DC0019" }}
                                 />
                               ) : (
-                                merchantDataById?.bvnProfile?.phoneNumber
+                                merchantDataById?.bvnProfile?.phoneNumber 
                               )}
                             </Typography>
 
-                            <div className="bg-[#EBFFF3]  px-2 flex items-center gap-1 rounded-md">
+                            {/* <div className="bg-[#EBFFF3]  px-2 flex items-center gap-1 rounded-md">
                               <VerifiedOutlinedIcon
                                 sx={{ fontSize: "15px" }}
                                 className="text-[#1E854A] text-[10px] font-[500]"
@@ -881,7 +873,7 @@ const GmerchantP = ({
                               <p className="text-[#1E854A] text-[10px] font-[500]">
                                 Verified
                               </p>
-                            </div>
+                            </div> */}
                           </div>
                         </Box>
                         <Box className="flex  items-center mt-1 mb-1 justify-between ">
@@ -1216,208 +1208,7 @@ const GmerchantP = ({
                         </Typography>
                       </Box>
                     </Box>
-                    <Box className="flex flex-col  mt-6 items-start w-full justify-center">
-                      <Typography
-                        sx={{
-                          color: "grey",
-                          fontWeight: "500",
-                          fontSize: "13px",
-                        }}
-                      >
-                        BASIC INFORMATION FOR BVN
-                      </Typography>
-                      <Box className="flex items-center mt-1 mb-1">
-                        <Box className="flex items-center gap-1 w-[200px] ">
-                          <PersonOutlineRoundedIcon
-                            sx={{ color: "grey", fontSize: "15px" }}
-                          />
-                          <Typography
-                            sx={{
-                              color: "grey",
-                              fontWeight: "300",
-                              fontSize: "12px",
-                            }}
-                          >
-                            Name :
-                          </Typography>
-                        </Box>
-
-                        <Typography
-                          sx={{
-                            color: "#1E1E1E",
-                            fontWeight: "500",
-                            fontSize: "13px",
-                          }}
-                        >
-                          {dataLoading ? (
-                            <CircularProgress
-                              size="0.6rem"
-                              sx={{ color: "#DC0019" }}
-                            />
-                          ) : (
-                            merchantDataById?.bvnProfile?.firstName
-                          )}
-                          {merchantDataById?.bvnProfile?.lastName}
-                        </Typography>
-                      </Box>
-                      <Box className="flex items-center mt-1 mb-1 justify-between ">
-                        <Box className="flex items-center gap-1 w-[200px] ">
-                          <TransgenderRoundedIcon
-                            sx={{ color: "grey", fontSize: "15px" }}
-                          />
-                          <Typography
-                            sx={{
-                              color: "grey",
-                              fontWeight: "300",
-                              fontSize: "12px",
-                            }}
-                          >
-                            Gender :
-                          </Typography>
-                        </Box>
-
-                        <Typography
-                          sx={{
-                            color: "#1E1E1E",
-                            fontWeight: "500",
-                            fontSize: "13px",
-                          }}
-                        >
-                          {dataLoading ? (
-                            <CircularProgress
-                              size="0.6rem"
-                              sx={{ color: "#DC0019" }}
-                            />
-                          ) : (
-                            merchantDataById?.bvnProfile?.gender
-                          )}
-                        </Typography>
-                      </Box>
-                      <Box className="flex  items-center mt-1 mb-1 justify-between ">
-                        <Box className="flex items-center gap-1 w-[200px] ">
-                          <EmailOutlinedIcon
-                            sx={{ color: "grey", fontSize: "15px" }}
-                          />
-                          <Typography
-                            sx={{
-                              color: "grey",
-                              fontWeight: "300",
-                              fontSize: "12px",
-                            }}
-                          >
-                            Email :
-                          </Typography>
-                        </Box>
-
-                        <div className="flex gap-2 items-center">
-                          <Typography
-                            sx={{
-                              color: "#1E1E1E",
-                              fontWeight: "500",
-                              fontSize: "13px",
-                            }}
-                          >
-                            {dataLoading ? (
-                              <CircularProgress
-                                size="0.6rem"
-                                sx={{ color: "#DC0019" }}
-                              />
-                            ) : (
-                              merchantDataById?.bvnProfile?.email
-                            )}
-                          </Typography>
-
-                          {/* <div className="bg-[#FFF0F0]  px-2 flex items-center gap-1 rounded-md">
-                            <ReportProblemOutlinedIcon
-                              sx={{ fontSize: "15px" }}
-                              className="text-[#E52929] font-[500]"
-                            />
-                            <p className="text-[#E52929] text-[10px] font-[500]">
-                              Unverified
-                            </p>
-                          </div> */}
-                        </div>
-                      </Box>
-                      <Box className="flex  items-center mt-1 mb-1 justify-between ">
-                        <Box className="flex items-center gap-1 w-[200px]">
-                          <LocalPhoneOutlinedIcon
-                            sx={{ color: "grey", fontSize: "15px" }}
-                          />
-                          <Typography
-                            sx={{
-                              color: "grey",
-                              fontWeight: "300",
-                              fontSize: "12px",
-                            }}
-                          >
-                            Phone Num :
-                          </Typography>
-                        </Box>
-
-                        <div className="flex gap-2 items-center">
-                          <Typography
-                            sx={{
-                              color: "#1E1E1E",
-                              fontWeight: "500",
-                              fontSize: "13px",
-                            }}
-                          >
-                            {dataLoading ? (
-                              <CircularProgress
-                                size="0.6rem"
-                                sx={{ color: "#DC0019" }}
-                              />
-                            ) : (
-                              merchantDataById?.bvnProfile?.phoneNumber
-                            )}
-                          </Typography>
-
-                          <div className="bg-[#EBFFF3]  px-2 flex items-center gap-1 rounded-md">
-                            <VerifiedOutlinedIcon
-                              sx={{ fontSize: "15px" }}
-                              className="text-[#1E854A] text-[10px] font-[500]"
-                            />
-                            <p className="text-[#1E854A] text-[10px] font-[500]">
-                              Verified
-                            </p>
-                          </div>
-                        </div>
-                      </Box>
-                      <Box className="flex  items-center mt-1 mb-1 justify-between ">
-                        <Box className="flex items-center gap-1 w-[200px]">
-                          <FmdGoodRoundedIcon
-                            sx={{ color: "grey", fontSize: "15px" }}
-                          />
-                          <Typography
-                            sx={{
-                              color: "grey",
-                              fontWeight: "300",
-                              fontSize: "12px",
-                            }}
-                          >
-                            Address :
-                          </Typography>
-                        </Box>
-
-                        <Typography
-                          sx={{
-                            color: "#1E1E1E",
-                            fontWeight: "500",
-                            fontSize: "13px",
-                          }}
-                        >
-                          {" "}
-                          {dataLoading ? (
-                            <CircularProgress
-                              size="0.6rem"
-                              sx={{ color: "#DC0019" }}
-                            />
-                          ) : (
-                            merchantDataById?.bvnProfile?.address
-                          )}
-                        </Typography>
-                      </Box>
-                    </Box>
+                    {/* a boc is here */}
                   </Grid>
                 </Grid>
               </AccordionDetails>

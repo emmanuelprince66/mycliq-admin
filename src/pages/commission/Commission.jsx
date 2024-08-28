@@ -76,7 +76,7 @@ const Commission = () => {
 
       <div className="w-full mx-auto p-3 flex flex-col bg-white items-start gap-3 border-slate-200 border-[1px] rounded-md">
         <div className="flex gap-6 items-center w-full">
-          <p className="font-[500] text-[20px] text-[#1E1E1E]">Commission</p>
+          <p className="font-[500] text-[15px] text-[#1E1E1E]">Commission</p>
           {/* search  */}
           <Box className="w-1/2">
             <TextField
@@ -135,7 +135,7 @@ const Commission = () => {
               <p
                 className={`text-[16px] ${
                   showUsers ? "text-[#F78105]" : "text-[#828282]"
-                } font-[600]`}
+                } font-[500]`}
               >
                 Users
               </p>
@@ -152,7 +152,7 @@ const Commission = () => {
               <p
                 className={`text-[16px] ${
                   !showUsers ? "text-[#F78105]" : "text-[#828282]"
-                } font-[600]`}
+                } font-[500]`}
               >
                 Merchants
               </p>
@@ -208,7 +208,7 @@ const Commission = () => {
                         sx={{
                           textTransform: "capitalize",
                           color: "#DC0019",
-                          fontWeight: "600",
+                          fontWeight: "500",
                           fontSize: "10px",
                           border: "1px solid #E0E0E0",
                           "&:hover": {

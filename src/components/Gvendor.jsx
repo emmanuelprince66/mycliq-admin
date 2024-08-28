@@ -239,7 +239,7 @@ const Gvendor = () => {
                 <Typography
                   sx={{
                     fontWeight: "500",
-                    fontSize: "20px",
+                    fontSize: "15px",
                     color: "#1E1E1E",
                   }}
                 >
@@ -296,7 +296,7 @@ const Gvendor = () => {
                 <Typography
                   sx={{
                     fontWeight: "500",
-                    fontSize: "20px",
+                    fontSize: "15px",
                     color: "#1E1E1E",
                   }}
                 >
@@ -346,7 +346,7 @@ const Gvendor = () => {
                 <Typography
                   sx={{
                     fontWeight: "500",
-                    fontSize: "20px",
+                    fontSize: "15px",
                     color: "#1E1E1E",
                   }}
                 >
@@ -395,7 +395,7 @@ const Gvendor = () => {
                 <Typography
                   sx={{
                     fontWeight: "500",
-                    fontSize: "20px",
+                    fontSize: "15px",
                     color: "#1E1E1E",
                   }}
                 >
@@ -444,7 +444,7 @@ const Gvendor = () => {
                 <Typography
                   sx={{
                     fontWeight: "500",
-                    fontSize: "20px",
+                    fontSize: "15px",
                     color: "#1E1E1E",
                   }}
                 >
@@ -468,7 +468,7 @@ const Gvendor = () => {
                       sx={{
                         color: "#1E1E1E",
                         fontWeight: "500",
-                        fontSize: "20px",
+                        fontSize: "15px",
                         display: "flex",
                         gap: "6px",
                         alignItems: "center",
@@ -720,7 +720,7 @@ const Gvendor = () => {
                     <Typography
                       sx={{
                         fontWeight: "500",
-                        fontSize: "20px",
+                        fontSize: "15px",
                         color: "#4F4F4F",
                         py: "10px",
                       }}
@@ -775,7 +775,7 @@ const Gvendor = () => {
                     <Typography
                       sx={{
                         fontWeight: "500",
-                        fontSize: "20px",
+                        fontSize: "15px",
                         color: "#1E1E1E",
                         py: "10px",
                       }}
@@ -816,7 +816,7 @@ const Gvendor = () => {
                     <Typography
                       sx={{
                         fontWeight: "500",
-                        fontSize: "20px",
+                        fontSize: "15px",
                         color: "#1E1E1E",
                         py: "10px",
                       }}

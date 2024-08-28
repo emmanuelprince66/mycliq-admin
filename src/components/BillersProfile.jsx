@@ -115,7 +115,7 @@ const BillersProfile = ({ setShowBillersProfile }) => {
       </Typography>
       <Box
         sx={{
-          width: "1080px",
+          width: "100%",
           display: "flex",
           gap: "2rem",
           mb: "1rem",
@@ -126,7 +126,7 @@ const BillersProfile = ({ setShowBillersProfile }) => {
             display: "flex",
             flexDirection: "column",
             padding: "16px",
-            width: "356px",
+            width: "100%",
             gap: "0.8rem",
           }}
         >
@@ -160,8 +160,8 @@ const BillersProfile = ({ setShowBillersProfile }) => {
           <Box>
             <Typography
               sx={{
-                fontWeight: "600",
-                fontSize: "24px",
+                fontWeight: "500",
+                fontSize: "15px",
                 color: "#1E1E1E",
               }}
             >
@@ -174,7 +174,7 @@ const BillersProfile = ({ setShowBillersProfile }) => {
             display: "flex",
             flexDirection: "column",
             padding: "16px",
-            width: "356px",
+            width: "100%",
             gap: "0.8rem",
           }}
         >
@@ -217,8 +217,8 @@ const BillersProfile = ({ setShowBillersProfile }) => {
           <Box>
             <Typography
               sx={{
-                fontWeight: "600",
-                fontSize: "24px",
+                fontWeight: "500",
+                fontSize: "15px",
                 color: "##1E1E1E",
               }}
             >
@@ -231,7 +231,7 @@ const BillersProfile = ({ setShowBillersProfile }) => {
             display: "flex",
             flexDirection: "column",
             padding: "16px",
-            width: "356px",
+            width: "100%",
             gap: "0.8rem",
           }}
         >
@@ -266,8 +266,8 @@ const BillersProfile = ({ setShowBillersProfile }) => {
           <Box>
             <Typography
               sx={{
-                fontWeight: "600",
-                fontSize: "24px",
+                fontWeight: "500",
+                fontSize: "15px",
                 color: "##1E1E1E",
               }}
             >
@@ -280,7 +280,7 @@ const BillersProfile = ({ setShowBillersProfile }) => {
             display: "flex",
             flexDirection: "column",
             padding: "16px",
-            width: "356px",
+            width: "100%",
             gap: "0.8rem",
           }}
         >
@@ -315,8 +315,8 @@ const BillersProfile = ({ setShowBillersProfile }) => {
           <Box>
             <Typography
               sx={{
-                fontWeight: "600",
-                fontSize: "24px",
+                fontWeight: "500",
+                fontSize: "15px",
                 color: "##1E1E1E",
               }}
             >
@@ -904,10 +904,10 @@ const BillersProfile = ({ setShowBillersProfile }) => {
                                 alignItems: "center",
                                 gap: "10px",
                                 justifyContent: "center",
-                                width: "120px",
+                                width: "115px",
                               }}
                             >
-                              <span className="w-[10px] h-[10px] rounded-full  bg-green-600" />
+                              <span className="w-[10px] h-[10px] rounded-full  bg-green-500" />
                               Successfull
                             </Typography>
                           </TableCell>

@@ -20,16 +20,9 @@ let refreshSubscribers = [];
 async function refreshToken() {
   console.log("Attempting to refresh token...");
   const refreshToken = getCookie("refreshToken");
-  console.log(refreshToken, "ochigbo");
-  // Check if refreshToken exists and is a string
-  if (
-    typeof refreshToken !== "string" ||
-    !refreshToken ||
-    refreshToken === null
-  ) {
+
+  if (typeof refreshToken !== "string" || !refreshToken || refreshToken === null) {
     console.log("Refresh token is not available or not a string.");
-    // Handle the error appropriately
-    // For example, redirect to login or show an error message
     throw new Error("Refresh token is invalid or missing.");
   }
 
@@ -45,9 +38,8 @@ async function refreshToken() {
         },
       }
     );
-    console.log("Token refreshed:", response.data);
 
-    // Assuming response.data contains the new access token and optionally a new refresh token
+    console.log("Token refreshed:", response.data);
     setCookie("authToken", response.data.access_token);
     if (response.data.refreshToken) {
       setCookie("refreshToken", response.data.refreshToken);
@@ -56,7 +48,6 @@ async function refreshToken() {
     return response.data.access_token;
   } catch (error) {
     console.error("Error refreshing token:", error);
-    // Depending on your application's flow, you may want to handle this differently
     throw error;
   }
 }
@@ -67,17 +58,6 @@ function onAccessTokenFetched(newAccessToken) {
   refreshSubscribers = [];
 }
 
-// Add request interceptor to include the token in every request
-AuthAxios.interceptors.request.use(
-  async (config) => {
-    const token = getCookie("authToken");
-    if (token) {
-      config.headers.Authorization = `Bearer ${token}`;
-    }
-    return config;
-  },
-  (error) => Promise.reject(error)
-);
 
 // Add response interceptor to handle token expiration
 AuthAxios.interceptors.response.use(
@@ -91,8 +71,6 @@ AuthAxios.interceptors.response.use(
           .then((newAccessToken) => {
             isRefreshing = false;
             onAccessTokenFetched(newAccessToken);
-
-            // Update the original request with the new access token and retry
             config.headers["Authorization"] = `Bearer ${newAccessToken}`;
             config._retry = true;
             return AuthAxios(config);
@@ -100,11 +78,11 @@ AuthAxios.interceptors.response.use(
           .catch((refreshError) => {
             console.error("Token refresh failed:", refreshError);
             isRefreshing = false;
-            // Handle failed refresh here (e.g., redirect to login)
+            window.location.href = "/";
+            throw refreshError;
           });
       }
 
-      // Wait for the token refresh to complete, then retry the failed request
       return new Promise((resolve) => {
         refreshSubscribers.push((newAccessToken) => {
           config.headers["Authorization"] = `Bearer ${newAccessToken}`;
@@ -117,9 +95,16 @@ AuthAxios.interceptors.response.use(
   }
 );
 
-// Usage example
-// AuthAxios.get('/some/protected/endpoint').then(response => {
-//   console.log(response.data);
-// }).catch(error => {
-//   console.error('API call error:', error);
-// });
+// Add request interceptor to include the token in every request
+AuthAxios.interceptors.request.use(
+  async (config) => {
+    const token = getCookie("authToken");
+    if (token) {
+      config.headers.Authorization = `Bearer ${token}`;
+    }
+    return config;
+  },
+  (error) => Promise.reject(error)
+);
+
+export default AuthAxios;

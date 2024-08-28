@@ -20,7 +20,7 @@ const Profitability = () => {
             <img src={image} alt="icon" className="mb-2" />
 
             <p className="font-[500] text-[14px] text-[#4F4F4F]">{textOne}</p>
-            <p className="font-[600] text-[#1E1E1E] text-[20px]">
+            <p className="font-[500] text-[#1E1E1E] text-[15px]">
               <FormattedPrice amount={textTwo} />
             </p>
           </div>
