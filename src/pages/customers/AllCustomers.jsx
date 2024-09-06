@@ -28,6 +28,7 @@ import {
 } from "@mui/material";
 import { useQuery } from "@tanstack/react-query";
 import { AuthAxios } from "../../helpers/axiosInstance";
+import { CompressOutlined } from "@mui/icons-material";
 
 const AllCustomers = ({ handleOpenCustomerProfile }) => {
   const rowsPerPage = 20;
@@ -39,7 +40,7 @@ const AllCustomers = ({ handleOpenCustomerProfile }) => {
     const [_key, { page, limit }] = queryKey;
     try {
       const response = await AuthAxios.get(
-        `/admin/user?page=${page}&limit=${limit}&type=user`
+        `/admin/user/all?page=${page}&limit=${limit}&type=user`
       );
       return response?.data?.data;
     } catch (error) {
@@ -58,8 +59,7 @@ const AllCustomers = ({ handleOpenCustomerProfile }) => {
     staleTime: 5000, // Cache data for 5 seconds
   });
 
-  const totalPages = usersData?.totalPages || ""
-
+  const totalPages = usersData?.totalPages || "";
 
   const handlePageChange = (page) => {
     setCurrentPage(page);

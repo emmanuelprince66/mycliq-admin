@@ -46,7 +46,7 @@ const AllMerchants = ({ handleOpenCustomerProfile }) => {
     const [_key, { page, limit }] = queryKey;
     try {
       const response = await AuthAxios.get(
-        `/admin/user?page=${page}&limit=${limit}&type=merchant-admin`
+        `/admin/user/all?page=${page}&limit=${limit}&type=merchant-admin`
       );
       return response?.data?.data;
     } catch (error) {
@@ -64,6 +64,8 @@ const AllMerchants = ({ handleOpenCustomerProfile }) => {
     keepPreviousData: true,
     staleTime: 5000, // Cache data for 5 seconds
   });
+
+  console.log(merchantData);
 
   const handlePageChange = (page) => {
     setCurrentPage(page);

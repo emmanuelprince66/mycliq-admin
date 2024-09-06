@@ -21,7 +21,11 @@ async function refreshToken() {
   console.log("Attempting to refresh token...");
   const refreshToken = getCookie("refreshToken");
 
-  if (typeof refreshToken !== "string" || !refreshToken || refreshToken === null) {
+  if (
+    typeof refreshToken !== "string" ||
+    !refreshToken ||
+    refreshToken === null
+  ) {
     console.log("Refresh token is not available or not a string.");
     throw new Error("Refresh token is invalid or missing.");
   }
@@ -57,7 +61,6 @@ function onAccessTokenFetched(newAccessToken) {
   refreshSubscribers.forEach((callback) => callback(newAccessToken));
   refreshSubscribers = [];
 }
-
 
 // Add response interceptor to handle token expiration
 AuthAxios.interceptors.response.use(

@@ -24,16 +24,15 @@ export function AuthProvider({ children }) {
       }
 
       try {
-        const user =  await getUser(token); 
-        if (user) {
+        // const user =  await getUser(token);
+        if (token) {
           setShowSpinner(false);
-          dispatch(fillUserDetails(user));
-        }
-        else {
-        setRedirectToLogin(true); 
+          // dispatch(fillUserDetails(user));
+        } else {
+          setRedirectToLogin(true);
         }
       } catch (error) {
-        setRedirectToLogin(true); 
+        setRedirectToLogin(true);
       }
     }
 
