@@ -93,9 +93,9 @@ const TableCom = () => {
   const rowsPerPage = 20;
   const [currentPage, setCurrentPage] = useState(1);
 
-  const [flow , setFlow] =  useState(null)
-  const [wallet , setWallet] =  useState(null)
-  const [payment , setPayment] =  useState(null)
+  const [flow, setFlow] = useState(null);
+  const [wallet, setWallet] = useState(null);
+  const [payment, setPayment] = useState(null);
 
   const [transactionFilter, setTransactionFilter] = useState("All");
 
@@ -123,76 +123,85 @@ const TableCom = () => {
 
   const dispatch = useDispatch();
   const { transactionDetails } = useSelector((state) => state);
- 
+
   const handleTransactionFilter = (val) => {
-    console.log(val)
+    console.log(val);
 
     switch (val) {
       case "All":
-        setTransactionFilter(val)
-        setFlow("")
-        setWallet("")
-        setPayment("")
+        setTransactionFilter(val);
+        setFlow("");
+        setWallet("");
+        setPayment("");
         break;
       case "credit":
-        setFlow(val)
-        setTransactionFilter(val)
-        setWallet(null)
-        setPayment(null)
+        setFlow(val);
+        setTransactionFilter(val);
+        setWallet(null);
+        setPayment(null);
         break;
-        case "debit":
-          setFlow(val)
-        setTransactionFilter(val)
-        setWallet(null)
-        setPayment(null)
+      case "debit":
+        setFlow(val);
+        setTransactionFilter(val);
+        setWallet(null);
+        setPayment(null);
 
-          break;
-          case "cliq_transfer":
-            setWallet(val);
-            setFlow(null)
-        setPayment(null)
-        setTransactionFilter(val)
+        break;
+      case "cliq_transfer":
+        setWallet(val);
+        setFlow(null);
+        setPayment(null);
+        setTransactionFilter(val);
 
-            break;
-            case "payment":
-            setPayment(val);
-        setTransactionFilter(val)
-        setWallet(null)
-        setFlow(null)
-            break;
+        break;
+      case "payment":
+        setPayment(val);
+        setTransactionFilter(val);
+        setWallet(null);
+        setFlow(null);
+        break;
       default:
         break;
     }
   };
 
-
-
   const fetchTransactions = async ({ queryKey }) => {
     const [_key, { page, limit, flow, wallet, payment }] = queryKey;
-  
+
     const params = new URLSearchParams();
     params.append("page", page);
     params.append("limit", limit);
     if (flow) params.append("entry", flow);
     if (payment) params.append("type", payment);
     if (wallet) params.append("subType", wallet);
-  
+
     try {
-      const response = await AuthAxios.get(`/admin/trx?${params.toString()}`);
+      const response = await AuthAxios.get(
+        `/admin/trx/all?${params.toString()}`
+      );
       return response?.data?.data;
     } catch (error) {
       console.error("Error fetching transactions:", error);
-   
+
       throw new Error("Failed to fetch transaction data");
     }
   };
-  
+
   const {
     data: transactions,
     error,
     isLoading,
   } = useQuery({
-    queryKey: ["transactions", { page: currentPage, limit: rowsPerPage ,flow:flow, wallet:wallet ,payment:payment }],
+    queryKey: [
+      "transactions",
+      {
+        page: currentPage,
+        limit: rowsPerPage,
+        flow: flow,
+        wallet: wallet,
+        payment: payment,
+      },
+    ],
     queryFn: fetchTransactions,
     keepPreviousData: true,
     staleTime: 5000, // Cache data for 5 seconds
@@ -201,7 +210,6 @@ const TableCom = () => {
   const handlePageChange = (page) => {
     setCurrentPage(page);
   };
-
 
   // fetch transactions analytics
   const { data: trxAnalytics, isLoading: analyticsLoading } = useQuery({
@@ -216,8 +224,8 @@ const TableCom = () => {
         console.log(response);
         return response?.data?.data;
       } catch (error) {
-        if(error?.response?.data?.code === 401) {
-          navigate("/")
+        if (error?.response?.data?.code === 401) {
+          navigate("/");
         }
         throw new Error("Failed to fetch customer data");
       }
@@ -623,25 +631,23 @@ const TableCom = () => {
               <p className="text-[15px] text-[#F78105] font-[500]">
                 All Transaction
               </p>
-             {
-              transactionFilter === "All" && (
+              {transactionFilter === "All" && (
                 <span className="py-1 px-2 bg-[#FFEFD6] rounded-md">
-                <p className="text-[11px] text-[#A86500] font-[400]">
-                  {!isLoading && transactions?.records?.length > 0 ? (
-                    transactions?.totalRecords
-                  ) : (
-                    <CircularProgress
-                      size="1rem"
-                      sx={{
-                        color: "#f78105",
-                        marginLeft: "auto",
-                      }}
-                    />
-                  )}
-                </p>
-              </span>
-              )
-             }
+                  <p className="text-[11px] text-[#A86500] font-[400]">
+                    {!isLoading && transactions?.records?.length > 0 ? (
+                      transactions?.totalRecords
+                    ) : (
+                      <CircularProgress
+                        size="1rem"
+                        sx={{
+                          color: "#f78105",
+                          marginLeft: "auto",
+                        }}
+                      />
+                    )}
+                  </p>
+                </span>
+              )}
             </div>
             {transactionFilter === "All" && (
               <div className="w-full h-1 rounded-tl-lg rounded-tr-lg bg-[#F78105]" />
@@ -653,25 +659,23 @@ const TableCom = () => {
           >
             <div className="flex gap-2 items-center">
               <p className="text-[14px] text-[#F78105] font-[500]">Inward</p>
-              {
-              transactionFilter === "credit" && (
+              {transactionFilter === "credit" && (
                 <span className="py-1 px-2 bg-[#FFEFD6] rounded-md">
-                <p className="text-[11px] text-[#A86500] font-[400]">
-                  {!isLoading && transactions?.records?.length > 0 ? (
-                    transactions?.totalRecords
-                  ) : (
-                    <CircularProgress
-                      size="1rem"
-                      sx={{
-                        color: "#f78105",
-                        marginLeft: "auto",
-                      }}
-                    />
-                  )}
-                </p>
-              </span>
-              )
-             }
+                  <p className="text-[11px] text-[#A86500] font-[400]">
+                    {!isLoading && transactions?.records?.length > 0 ? (
+                      transactions?.totalRecords
+                    ) : (
+                      <CircularProgress
+                        size="1rem"
+                        sx={{
+                          color: "#f78105",
+                          marginLeft: "auto",
+                        }}
+                      />
+                    )}
+                  </p>
+                </span>
+              )}
             </div>
             {transactionFilter === "credit" && (
               <div className="w-full h-1 rounded-tl-lg rounded-tr-lg bg-[#F78105]" />
@@ -683,25 +687,23 @@ const TableCom = () => {
           >
             <div className="flex gap-2 items-center">
               <p className="text-[15px] text-[#F78105] font-[500]">Outward</p>
-              {
-              transactionFilter === "debit" && (
+              {transactionFilter === "debit" && (
                 <span className="py-1 px-2 bg-[#FFEFD6] rounded-md">
-                <p className="text-[11px] text-[#A86500] font-[400]">
-                  {!isLoading && transactions?.records?.length > 0 ? (
-                    transactions?.totalRecords
-                  ) : (
-                    <CircularProgress
-                      size="1rem"
-                      sx={{
-                        color: "#f78105",
-                        marginLeft: "auto",
-                      }}
-                    />
-                  )}
-                </p>
-              </span>
-              )
-             }
+                  <p className="text-[11px] text-[#A86500] font-[400]">
+                    {!isLoading && transactions?.records?.length > 0 ? (
+                      transactions?.totalRecords
+                    ) : (
+                      <CircularProgress
+                        size="1rem"
+                        sx={{
+                          color: "#f78105",
+                          marginLeft: "auto",
+                        }}
+                      />
+                    )}
+                  </p>
+                </span>
+              )}
             </div>
             {transactionFilter === "debit" && (
               <div className="w-full h-1 rounded-tl-lg rounded-tr-lg bg-[#F78105]" />
@@ -715,25 +717,23 @@ const TableCom = () => {
               <p className="text-[15px] text-[#F78105] font-[500]">
                 Wallet to Wallet
               </p>
-              {
-              transactionFilter === "cliq_transfer" && (
+              {transactionFilter === "cliq_transfer" && (
                 <span className="py-1 px-2 bg-[#FFEFD6] rounded-md">
-                <p className="text-[11px] text-[#A86500] font-[400]">
-                  {!isLoading && transactions?.records?.length > 0 ? (
-                    transactions?.totalRecords
-                  ) : (
-                    <CircularProgress
-                      size="1rem"
-                      sx={{
-                        color: "#f78105",
-                        marginLeft: "auto",
-                      }}
-                    />
-                  )}
-                </p>
-              </span>
-              )
-             }
+                  <p className="text-[11px] text-[#A86500] font-[400]">
+                    {!isLoading && transactions?.records?.length > 0 ? (
+                      transactions?.totalRecords
+                    ) : (
+                      <CircularProgress
+                        size="1rem"
+                        sx={{
+                          color: "#f78105",
+                          marginLeft: "auto",
+                        }}
+                      />
+                    )}
+                  </p>
+                </span>
+              )}
             </div>
             {transactionFilter === "cliq_transfer" && (
               <div className="w-full h-1 rounded-tl-lg rounded-tr-lg bg-[#F78105]" />
@@ -747,25 +747,23 @@ const TableCom = () => {
               <p className="text-[15px] text-[#F78105] font-[500]">
                 Bill Payment
               </p>
-              {
-              transactionFilter === "payment" && (
+              {transactionFilter === "payment" && (
                 <span className="py-1 px-2 bg-[#FFEFD6] rounded-md">
-                <p className="text-[11px] text-[#A86500] font-[400]">
-                  {!isLoading && transactions?.records?.length > 0 ? (
-                    transactions?.totalRecords
-                  ) : (
-                    <CircularProgress
-                      size="1rem"
-                      sx={{
-                        color: "#f78105",
-                        marginLeft: "auto",
-                      }}
-                    />
-                  )}
-                </p>
-              </span>
-              )
-             }
+                  <p className="text-[11px] text-[#A86500] font-[400]">
+                    {!isLoading && transactions?.records?.length > 0 ? (
+                      transactions?.totalRecords
+                    ) : (
+                      <CircularProgress
+                        size="1rem"
+                        sx={{
+                          color: "#f78105",
+                          marginLeft: "auto",
+                        }}
+                      />
+                    )}
+                  </p>
+                </span>
+              )}
             </div>
             {transactionFilter === "payment" && (
               <div className="w-full h-1 rounded-tl-lg rounded-tr-lg bg-[#F78105]" />
@@ -805,7 +803,7 @@ const TableCom = () => {
                       {i + 1 + (currentPage - 1) * rowsPerPage}
                     </TableCell>
                     <TableCell>{item?.origin?.accountName}</TableCell>
-                    <TableCell>{item?.type}</TableCell>
+                    <TableCell>{item?.subType}</TableCell>
                     <TableCell>
                       <FormattedPrice amount={item?.amount} />
                     </TableCell>

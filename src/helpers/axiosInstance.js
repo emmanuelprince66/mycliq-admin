@@ -3,13 +3,13 @@ import { getCookie, setCookie } from "../utils/cookieAuth";
 
 // Axios instance for API calls
 export const AuthAxios = Axios.create({
-  baseURL: "https://mycliq-backend-prod-a.onrender.com/api",
+  baseURL: "https://mycliq-prod-e2c876691052.herokuapp.com/api",
   withCredentials: false,
 });
 
 // Axios instance for authentication related calls
 export const BaseAxios = Axios.create({
-  baseURL: "https://mycliq-backend-prod-a.onrender.com/api",
+  baseURL: "https://mycliq-prod-e2c876691052.herokuapp.com/api",
   withCredentials: false,
 });
 

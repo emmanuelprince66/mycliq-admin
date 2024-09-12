@@ -12,11 +12,6 @@ import {
   CircularProgress,
   Paper,
   Grid,
-  Container,
-  TextField,
-  TablePagination,
-  ToggleButtonGroup,
-  ToggleButton,
   Card,
   Typography,
   Modal,
@@ -52,13 +47,9 @@ import percent from "../assets/images/generalMerchants/percent.svg";
 import HourglassBottomOutlinedIcon from "@mui/icons-material/HourglassBottomOutlined";
 import ReportOutlinedIcon from "@mui/icons-material/ReportOutlined";
 import CustomPagination from "./CustomPagination";
-import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { AuthAxios } from "../helpers/axiosInstance";
 import { ToastContainer, toast } from "react-toastify";
-
-
-
-
 
 const CustomerProfile = ({
   id,
@@ -92,60 +83,51 @@ const CustomerProfile = ({
         userId,
         status,
       });
-  
+
       if (response.status !== 201) {
-        throw new Error(response.data.message || 'Failed to update status');
+        throw new Error(response.data.message || "Failed to update status");
       }
-    
+
       return response.data;
     } catch (error) {
-      throw new Error(error.response?.data?.message || 'Network Error');
+      throw new Error(error.response?.data?.message || "Network Error");
     }
   };
 
+  const queryClient = useQueryClient();
 
+  const statusMutation = useMutation({
+    mutationFn: updateUserStatus,
+    onSuccess: (data) => {
+      console.log("hello");
+      // queryClient.invalidateQueries(['userStatus', userId]);
 
-    const queryClient = useQueryClient();
-  
-    const statusMutation = useMutation({
-      mutationFn: updateUserStatus,
-      onSuccess: (data) => {
-        console.log("hello")
-        // queryClient.invalidateQueries(['userStatus', userId]);
-
-        setTimeout(() => {
-        notify("Account Successfully disabled.")
-        } , 500)
-      },
-      onError: (error) => {
-        console.error('Error updating user status:', error);
-        // Handle the error (e.g., show a notification or set an error state)
-      },
-    });
-
+      setTimeout(() => {
+        notify("Account Successfully disabled.");
+      }, 500);
+    },
+    onError: (error) => {
+      console.error("Error updating user status:", error);
+      // Handle the error (e.g., show a notification or set an error state)
+    },
+  });
 
   const handleSwitchChange = (event) => {
     setIsSwitchChecked(event.target.checked);
-    const status = event.target.checked 
+    const status = event.target.checked;
 
     // console.log(status)
     // console.log(payload)
 
-
-    console.log(status)
-  if (status) {
-    const payload = {
-      userId:apiId,
-      status:'disabled'
-  }
-  statusMutation.mutate(payload);
-  }
-
-
+    console.log(status);
+    if (status) {
+      const payload = {
+        userId: apiId,
+        status: "disabled",
+      };
+      statusMutation.mutate(payload);
+    }
   };
-
-
-
 
   // end update status
 
@@ -174,15 +156,13 @@ const CustomerProfile = ({
     const [_key, { page, limit, entityId }] = queryKey;
     try {
       const response = await AuthAxios.get(
-        `/admin/trx?page=${page}&limit=${limit}&entityId=${entityId}`
+        `/admin/trx/all?page=${page}&limit=${limit}&entityId=${entityId}`
       );
       return response?.data?.data;
     } catch (error) {
       throw new Error("Failed to fetch customer data");
     }
   };
-
-
 
   const {
     data: customerTrx,
@@ -212,11 +192,10 @@ const CustomerProfile = ({
   };
 
   useEffect(() => {
-    setIsSwitchChecked(customerDataById?.userProfile?.isDisabled)
-  }, customerDataById)
+    setIsSwitchChecked(customerDataById?.userProfile?.isDisabled);
+  }, customerDataById);
 
-
-console.log(isSwitchChecked)
+  console.log(isSwitchChecked);
   return (
     <Box className="w-full ">
       <Grid container spacing={2}>
@@ -500,7 +479,6 @@ console.log(isSwitchChecked)
                         }
                       />
                     )}
-                 
                   </Typography>
                 </Box>
                 {/* <Box className="flex flex-col gap-2 items-start">
@@ -577,19 +555,19 @@ console.log(isSwitchChecked)
                       color: "#000",
                     }}
                   >
-                         {dataLoading ? (
+                    {dataLoading ? (
                       <CircularProgress
                         size="0.6rem"
                         sx={{ color: "#DC0019" }}
                       />
                     ) : (
                       <FormattedPrice
-                      amount={
-                        customerDataById?.commTrxAnalytics?.totalInwardsSum || 0
-                      }
-                    />
+                        amount={
+                          customerDataById?.commTrxAnalytics?.totalInwardsSum ||
+                          0
+                        }
+                      />
                     )}
-               
                   </Typography>
                 </Box>
                 <Box className="flex flex-col gap-2 items-start">
@@ -608,17 +586,18 @@ console.log(isSwitchChecked)
                       color: "#000",
                     }}
                   >
-                           {dataLoading ? (
+                    {dataLoading ? (
                       <CircularProgress
                         size="0.6rem"
                         sx={{ color: "#DC0019" }}
                       />
                     ) : (
                       <FormattedPrice
-                      amount={
-                        customerDataById?.commTrxAnalytics?.filterInwardsSum ||  0
-                      }
-                    />
+                        amount={
+                          customerDataById?.commTrxAnalytics
+                            ?.filterInwardsSum || 0
+                        }
+                      />
                     )}
                   </Typography>
                 </Box>
@@ -762,7 +741,7 @@ console.log(isSwitchChecked)
                           sx={{ color: "#DC0019" }}
                         />
                       ) : (
-                        customerDataById?.userProfile?.email ||  ""
+                        customerDataById?.userProfile?.email || ""
                       )}
                     </Typography>
 
@@ -1104,7 +1083,7 @@ console.log(isSwitchChecked)
                   {dataLoading ? (
                     <CircularProgress size="0.6rem" sx={{ color: "#DC0019" }} />
                   ) : (
-                    customerDataById?.bankProfile?.accountName ||  ""
+                    customerDataById?.bankProfile?.accountName || ""
                   )}
                 </Typography>
               </Box>
@@ -1134,7 +1113,7 @@ console.log(isSwitchChecked)
                   {dataLoading ? (
                     <CircularProgress size="0.6rem" sx={{ color: "#DC0019" }} />
                   ) : (
-                    customerDataById?.bankProfile?.accountNumber ||  ""
+                    customerDataById?.bankProfile?.accountNumber || ""
                   )}
                 </Typography>
               </Box>
@@ -1162,7 +1141,7 @@ console.log(isSwitchChecked)
                   {dataLoading ? (
                     <CircularProgress size="0.6rem" sx={{ color: "#DC0019" }} />
                   ) : (
-                    customerDataById?.bankProfile?.bankName ||  ""
+                    customerDataById?.bankProfile?.bankName || ""
                   )}
                 </Typography>
               </Box>
@@ -1252,7 +1231,7 @@ console.log(isSwitchChecked)
                         sx={{ color: "#DC0019" }}
                       />
                     ) : (
-                      customerDataById?.userProfile?.tier ||  ""
+                      customerDataById?.userProfile?.tier || ""
                     )}
                   </span>
                 </Typography>
@@ -1283,7 +1262,7 @@ console.log(isSwitchChecked)
                   {dataLoading ? (
                     <CircularProgress size="0.6rem" sx={{ color: "#DC0019" }} />
                   ) : (
-                    customerDataById?.bankProfile?.createdAt ||  ""
+                    customerDataById?.bankProfile?.createdAt || ""
                   )}
                 </Typography>
               </Box>
@@ -1313,7 +1292,7 @@ console.log(isSwitchChecked)
                   {dataLoading ? (
                     <CircularProgress size="0.6rem" sx={{ color: "#DC0019" }} />
                   ) : (
-                    customerDataById?.bankProfile?.lastLogin ||  ""
+                    customerDataById?.bankProfile?.lastLogin || ""
                   )}
                 </Typography>
               </Box>
@@ -1339,19 +1318,20 @@ console.log(isSwitchChecked)
                     fontSize: "13px",
                   }}
                 >
-                     <Switch
-          checked={isSwitchChecked}
-          onChange={handleSwitchChange}
-          sx={{
-            "& .MuiSwitch-switchBase.Mui-checked": {
-              color: "#fff",
-            },
-            "& .MuiSwitch-switchBase.Mui-checked + .MuiSwitch-track": {
-              backgroundColor: "#DC0019",
-            },
-          }}
-          color="default"
-        />
+                  <Switch
+                    checked={isSwitchChecked}
+                    onChange={handleSwitchChange}
+                    sx={{
+                      "& .MuiSwitch-switchBase.Mui-checked": {
+                        color: "#fff",
+                      },
+                      "& .MuiSwitch-switchBase.Mui-checked + .MuiSwitch-track":
+                        {
+                          backgroundColor: "#DC0019",
+                        },
+                    }}
+                    color="default"
+                  />
                 </Typography>
               </Box>
             </Box>
@@ -1523,7 +1503,7 @@ console.log(isSwitchChecked)
                                 color: "#828282",
                               }}
                             >
-                              {item.origin.accountName}
+                              {item?.origin?.accountName}
                             </Typography>
                           </TableCell>
                           <TableCell>
