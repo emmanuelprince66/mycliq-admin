@@ -181,6 +181,8 @@ const CustomerProfile = ({
     setApiId(id);
   }, [id]);
 
+  console.log("ema", apiId);
+
   const totalPages = customerTrx?.totalPages ?? 0;
 
   if (!showCustomerProfile) {
@@ -619,11 +621,18 @@ const CustomerProfile = ({
                 Customer Profile
               </Typography>
               <div className="flex gap-2 items-center cursor-pointer">
-                <img src={compliance} alt="c-p" />
-                <p className="text-[14px] font-[500] text-[#F78105]">
-                  Compliance
-                </p>
-              </div>
+                <div className="flex flex-col items-start gap-3">
+                  <div className="flex gap-3 items-center">
+                    <img src={compliance} alt="c-p" />
+                    <p className="text-[14px] font-[500] text-[#F78105]">
+                      Compliance
+                    </p>
+                  </div>
+                  <p className="text-[14px] font-[500] cursor-pointer">
+                    Change Security Question
+                  </p>
+                </div>
+              </div>{" "}
             </div>
 
             <Box className="w-full flex items-start flex-col   gap-[2rem] my-3 border-b border-grey-400  pb-1">

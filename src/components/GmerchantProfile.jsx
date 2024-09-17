@@ -54,7 +54,7 @@ import GmerchantP from "./GmerchantP";
 import SelectDate from "./SelectDate";
 import { useQuery } from "@tanstack/react-query";
 import { AuthAxios } from "../helpers/axiosInstance";
-
+import api from "js-cookie";
 const Item = styled(Box)(({ theme }) => ({
   backgroundColor: theme.palette.mode === "dark" ? "#1A2027" : "#fff",
   ...theme.typography.body2,
@@ -116,9 +116,7 @@ const GmerchantProfile = ({ setShowMerchantProfile, merchantId }) => {
     queryKey: "merchantDataById",
     queryFn: async () => {
       try {
-        const response = await AuthAxios.get(
-          `/admin/user/${apiId}/de-profile?analytics=include`
-        );
+        const response = await AuthAxios.get(`/admin/merchant/${apiId}`);
         console.log(response);
         return response?.data?.data;
       } catch (error) {
@@ -129,6 +127,7 @@ const GmerchantProfile = ({ setShowMerchantProfile, merchantId }) => {
     staleTime: 5000, // Cache data for 5 seconds
   });
 
+  console.log("next", apiId);
   const fetchMerchantTrx = async ({ queryKey }) => {
     const [_key, { page, limit, entityId }] = queryKey;
     try {
@@ -159,6 +158,8 @@ const GmerchantProfile = ({ setShowMerchantProfile, merchantId }) => {
   useEffect(() => {
     setApiId(merchantId);
   }, [merchantId]);
+
+  console.log("merchantData", merchantDataById);
 
   return (
     <div>

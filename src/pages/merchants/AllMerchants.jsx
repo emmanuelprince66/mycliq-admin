@@ -45,9 +45,7 @@ const AllMerchants = ({ handleOpenCustomerProfile }) => {
   const fetchMerchantsData = async ({ queryKey }) => {
     const [_key, { page, limit }] = queryKey;
     try {
-      const response = await AuthAxios.get(
-        `/admin/user/all?page=${page}&limit=${limit}&type=merchant-admin`
-      );
+      const response = await AuthAxios.get(`/admin/merchant/all`);
       return response?.data?.data;
     } catch (error) {
       throw new Error("Failed to fetch customer data");
@@ -308,7 +306,7 @@ const AllMerchants = ({ handleOpenCustomerProfile }) => {
                               color: "#828282",
                             }}
                           >
-                            {`${item?.lastName}  ${item?.firstName}`}
+                            {`${item?.name} `}
                           </Typography>
                         </Box>
                       </TableCell>

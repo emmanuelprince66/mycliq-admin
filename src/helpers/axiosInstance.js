@@ -6,12 +6,20 @@ export const AuthAxios = Axios.create({
   baseURL: "https://mycliq-prod-e2c876691052.herokuapp.com/api",
   withCredentials: false,
 });
+// export const AuthAxios = Axios.create({
+//   baseURL: "https://mycliq-backend.onrender.com/api",
+//   withCredentials: false,
+// });
 
 // Axios instance for authentication related calls
 export const BaseAxios = Axios.create({
   baseURL: "https://mycliq-prod-e2c876691052.herokuapp.com/api",
   withCredentials: false,
 });
+// export const BaseAxios = Axios.create({
+//   baseURL: "https://mycliq-backend.onrender.com/api",
+//   withCredentials: false,
+// });
 
 let isRefreshing = false;
 let refreshSubscribers = [];

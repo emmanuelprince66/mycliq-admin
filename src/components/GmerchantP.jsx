@@ -529,9 +529,8 @@ const GmerchantP = ({
                                   sx={{ color: "#DC0019" }}
                                 />
                               ) : (
-                                merchantDataById?.userProfile?.lastName
+                                merchantDataById?.name
                               )}{" "}
-                              {merchantDataById?.userProfile?.firstName}
                             </Typography>
                           </Box>
                           <Box className="flex items-center mt-1 mb-1 justify-between ">
@@ -597,7 +596,7 @@ const GmerchantP = ({
                                     sx={{ color: "#DC0019" }}
                                   />
                                 ) : (
-                                  merchantDataById?.userProfile?.email
+                                  merchantDataById?.email
                                 )}
                               </Typography>
 
@@ -606,8 +605,7 @@ const GmerchantP = ({
                                   size="0.6rem"
                                   sx={{ color: "#DC0019" }}
                                 />
-                              ) : merchantDataById?.userProfile
-                                  ?.emailVerified ? (
+                              ) : merchantDataById?.emailVerified ? (
                                 ""
                               ) : (
                                 <div className="bg-[#FFF0F0]  px-2 flex items-center gap-1 rounded-md">
@@ -652,15 +650,14 @@ const GmerchantP = ({
                                     sx={{ color: "#DC0019" }}
                                   />
                                 ) : (
-                                  merchantDataById?.userProfile?.phoneNumber ||
-                                  "null"
+                                  merchantDataById?.phone || "null"
                                 )}
                               </Typography>
 
-                              {merchantDataById?.userProfile?.ninVerified ? (
+                              {merchantDataById?.ninVerified ? (
                                 <div className="bg-[#EBFFF3]  px-2 flex items-center gap-1 rounded-md">
                                   <VerifiedOutlinedIcon
-                                    sx={{ fontSize: "15px" }} 
+                                    sx={{ fontSize: "15px" }}
                                     className="text-[#1E854A] text-[10px] font-[500]"
                                   />
                                   <p className="text-[#1E854A] text-[10px] font-[500]">
@@ -710,7 +707,7 @@ const GmerchantP = ({
                                   sx={{ color: "#DC0019" }}
                                 />
                               ) : (
-                                merchantDataById?.userProfile?.address || "null"
+                                merchantDataById?.address || "null"
                               )}
                             </Typography>
                           </Box>
@@ -827,8 +824,6 @@ const GmerchantP = ({
                                 merchantDataById?.bvnProfile?.email
                               )}
                             </Typography>
-
-                     
                           </div>
                         </Box>
                         <Box className="flex  items-center mt-1 mb-1 justify-between ">
@@ -861,7 +856,7 @@ const GmerchantP = ({
                                   sx={{ color: "#DC0019" }}
                                 />
                               ) : (
-                                merchantDataById?.bvnProfile?.phoneNumber 
+                                merchantDataById?.bvnProfile?.phoneNumber
                               )}
                             </Typography>
 
@@ -1029,7 +1024,7 @@ const GmerchantP = ({
                               sx={{ color: "#DC0019" }}
                             />
                           ) : (
-                            modDate(merchantDataById?.userProfile?.createdAt)
+                            modDate(merchantDataById?.createdAt)
                           )}
                         </Typography>
                       </Box>
@@ -1062,7 +1057,7 @@ const GmerchantP = ({
                               sx={{ color: "#DC0019" }}
                             />
                           ) : (
-                            modDate(merchantDataById?.userProfile?.lastLogin)
+                            modDate(merchantDataById?.updatedAt)
                           )}
                         </Typography>
                       </Box>

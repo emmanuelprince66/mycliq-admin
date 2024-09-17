@@ -7,7 +7,7 @@ import PersonPinCircleRoundedIcon from "@mui/icons-material/PersonPinCircleRound
 import PersonOutlineRoundedIcon from "@mui/icons-material/PersonOutlineRounded";
 import LocalPhoneOutlinedIcon from "@mui/icons-material/LocalPhoneOutlined";
 import EmailOutlinedIcon from "@mui/icons-material/EmailOutlined";
-
+import { useState } from "react";
 import {
   Box,
   Typography,
@@ -24,7 +24,10 @@ import {
   Paper,
   FormControlLabel,
 } from "@mui/material";
-
+import { useMutation } from "@tanstack/react-query";
+import Cookies from "js-cookie";
+import { toast, ToastContainer } from "react-toastify";
+import { BaseAxios } from "../helpers/axiosInstance";
 const AddSuperAdmin = () => {
   const {
     handleSubmit,
@@ -32,6 +35,55 @@ const AddSuperAdmin = () => {
     register,
     formState: { isValid, errors },
   } = useForm({ mode: "all" });
+  const token = Cookies.get("authToken");
+  const [showSpinner, setShowSpinner] = useState(false);
+
+  const notifyError = (msg) => {
+    toast.error(msg, {
+      position: toast.POSITION.TOP_RIGHT,
+      autoClose: 6000, // Time in milliseconds
+    });
+  };
+  const notifySuccess = (msg) => {
+    toast.success(msg, {
+      position: toast.POSITION.TOP_RIGHT,
+      autoClose: 6000, // Time in milliseconds
+    });
+  };
+
+  const registerSuperAdminMutation = useMutation({
+    mutationFn: async (payLoad) => {
+      try {
+        const response = await BaseAxios({
+          url: "/admin/onboard",
+          method: "POST",
+          data: payLoad,
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+
+        return response.data;
+      } catch (error) {
+        notifyError(error?.response?.data?.message);
+        setShowSpinner(false);
+        throw new Error(error.response.data.message);
+        // throw new Error(error.response.data.message);
+      }
+    },
+    onSuccess: (data) => {
+      setShowSpinner(false);
+      notifySuccess(data?.message);
+    },
+    onError: (error) => {
+      setShowSpinner(false);
+    },
+  });
+  const onFormSubmit = (data) => {
+    console.log(data);
+    setShowSpinner(true);
+    registerSuperAdminMutation.mutate(data);
+  };
 
   return (
     <div className="flex flex-col items-start gap-3 w-full">
@@ -42,7 +94,10 @@ const AddSuperAdmin = () => {
         Fill in the form below to register a new administrator.
       </p>
 
-      <form action="" className="w-1/2 flex justify-start">
+      <form
+        onSubmit={handleSubmit(onFormSubmit)}
+        className="w-1/2 flex justify-start"
+      >
         <Grid container spacing={2}>
           <Grid item xs={6}>
             <div className="flex flex-col items-start gap-2">
@@ -58,7 +113,7 @@ const AddSuperAdmin = () => {
                 First Name
               </Typography>
               <Controller
-                name="firstName"
+                name="firstname"
                 control={control}
                 defaultValue=""
                 rules={{
@@ -113,7 +168,7 @@ const AddSuperAdmin = () => {
                 Last Name
               </Typography>
               <Controller
-                name="firstName"
+                name="lastname"
                 control={control}
                 defaultValue=""
                 rules={{
@@ -212,7 +267,7 @@ const AddSuperAdmin = () => {
             </Typography>
             <FormControl sx={{ mb: "1rem", width: "100%" }}>
               <Controller
-                name="gender"
+                name="role"
                 control={control}
                 defaultValue=""
                 render={({ field }) => (
@@ -235,8 +290,14 @@ const AddSuperAdmin = () => {
                         &nbsp; | Select Administrator Role
                       </Box>
                     </MenuItem>
-                    <MenuItem value="admin">Admin </MenuItem>
-                    <MenuItem value="super-admin">Super Admin</MenuItem>
+                    <MenuItem value="super-admin">Super Admin </MenuItem>
+                    <MenuItem value="customer-support">
+                      Customer Support{" "}
+                    </MenuItem>
+                    <MenuItem value="compliance-officer">
+                      Compliance Officer{" "}
+                    </MenuItem>
+                    <MenuItem value="acct">Accountant </MenuItem>
                   </Select>
                 )}
               />
@@ -255,7 +316,7 @@ const AddSuperAdmin = () => {
               Phone Number
             </Typography>
             <Controller
-              name="phone"
+              name="phoneNumber"
               control={control}
               defaultValue=""
               rules={{ required: true, minLength: 11, maxLength: 11 }}
@@ -360,20 +421,26 @@ const AddSuperAdmin = () => {
                 fontWeight: "500",
               }}
             >
-              <Typography
-                sx={{
-                  fontWeight: "400",
-                  fontSize: "16px",
-                  borderRadius: "8px",
-                  color: "#fff",
-                }}
-              >
-                Save and Proceed
-              </Typography>
+              {showSpinner ? (
+                <CircularProgress size="1.2rem" sx={{ color: "white" }} />
+              ) : (
+                <Typography
+                  sx={{
+                    fontWeight: "400",
+                    fontSize: "16px",
+                    borderRadius: "8px",
+                    color: "#fff",
+                  }}
+                >
+                  Save and Proceed
+                </Typography>
+              )}
             </Button>
           </Grid>
         </Grid>
       </form>
+
+      <ToastContainer />
     </div>
   );
 };
