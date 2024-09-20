@@ -55,6 +55,10 @@ import cancelled from "../assets/images/cancelled.svg";
 import completed from "../assets/images/completed.svg";
 import search from "../../src/assets/search.svg";
 import { useNavigate } from "react-router-dom";
+import { useQuery } from "@tanstack/react-query";
+import { useSelector } from "react-redux";
+import AuthAxios from "../helpers/axiosInstance";
+import { formatToIsoDateStr } from "../utils/formatIsoDateString";
 
 import ChevronRightRoundedIcon from "@mui/icons-material/ChevronRightRounded";
 import avatar from "../assets/avatar.svg";
@@ -75,7 +79,43 @@ const Item = styled(Box)(({ theme }) => ({
   maxHeight: "100%",
 }));
 const Gtransportaton = () => {
+  const { selectedDates } = useSelector((state) => state);
+
+  const startDate = formatToIsoDateStr(selectedDates?.startDate);
+  const endDate = formatToIsoDateStr(selectedDates?.endDate);
+  const [transportId, setTransportId] = useState("");
   const navigate = useNavigate();
+
+  const {
+    data: transportData,
+    error,
+    isLoading: transportLoading,
+  } = useQuery({
+    queryKey: ["transportData", startDate, endDate],
+    queryFn: async () => {
+      try {
+        const response = await AuthAxios.get(`/admin/merchant/all`, {
+          params: {
+            startDate: startDate,
+            endDate: endDate,
+            tag: "transportation",
+          },
+        });
+        return response?.data?.data;
+      } catch (error) {
+        throw new Error("Failed to fetch merchant data");
+      }
+    },
+    onSuccess: (data) => {},
+    staleTime: 5000, // Cache data for 5 seconds
+  });
+
+  const handleOpenTransportProfile = (id) => {
+    setTransportId(id);
+    setShowMerchantProfile(true);
+  };
+
+  console.log("transport", transportData);
   const dummyCustomers = [
     {
       id: 1,
@@ -160,7 +200,10 @@ const Gtransportaton = () => {
       }}
     >
       {showMerchantProfile ? (
-        <GmerchantProfile setShowMerchantProfile={setShowMerchantProfile} />
+        <GmerchantProfile
+          merchantId={transportId}
+          setShowMerchantProfile={setShowMerchantProfile}
+        />
       ) : (
         <>
           {/* card */}
@@ -480,8 +523,8 @@ const Gtransportaton = () => {
                   bg-orange-200 text-orange-500
                  text-[10px]`}
                       >
-                        {!isLoading && dummyCustomers?.length > 0 ? (
-                          dummyCustomers?.length
+                        {!transportLoading ? (
+                          transportData?.records?.length
                         ) : (
                           <CircularProgress
                             size="1rem"
@@ -621,7 +664,7 @@ const Gtransportaton = () => {
                     <TableContainer component={Paper}>
                       <Table sx={{ minWidth: 100, padding: "8px" }}>
                         <TableBody>
-                          {dummyCustomers?.length === 0 ? (
+                          {transportLoading ? (
                             <CircularProgress
                               size="4.2rem"
                               sx={{
@@ -630,12 +673,14 @@ const Gtransportaton = () => {
                                 padding: "1em",
                               }}
                             />
-                          ) : dummyCustomers &&
-                            Array.isArray(dummyCustomers) &&
-                            dummyCustomers?.length > 0 ? (
-                            dummyCustomers?.map((item, i) => (
+                          ) : transportData?.records &&
+                            Array.isArray(transportData?.records) &&
+                            transportData?.records?.length > 0 ? (
+                            transportData?.records?.map((item, i) => (
                               <TableRow
-                                onClick={() => setShowMerchantProfile(true)}
+                                onClick={() =>
+                                  handleOpenTransportProfile(item.id)
+                                }
                                 key={item.id}
                                 className="cursor-pointer"
                               >

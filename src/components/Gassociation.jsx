@@ -55,7 +55,10 @@ import cancelled from "../assets/images/cancelled.svg";
 import completed from "../assets/images/completed.svg";
 import search from "../../src/assets/search.svg";
 import { useNavigate } from "react-router-dom";
-
+import AuthAxios from "../helpers/axiosInstance";
+import { formatToIsoDateStr } from "../utils/formatIsoDateString";
+import { useQuery } from "@tanstack/react-query";
+import { useSelector } from "react-redux";
 import ChevronRightRoundedIcon from "@mui/icons-material/ChevronRightRounded";
 import avatar from "../assets/avatar.svg";
 import DoughnutChart from "../components/DoughnutChart";
@@ -76,6 +79,42 @@ const Item = styled(Box)(({ theme }) => ({
 }));
 const Gassociation = () => {
   const navigate = useNavigate();
+  const { selectedDates } = useSelector((state) => state);
+
+  const startDate = formatToIsoDateStr(selectedDates?.startDate);
+  const endDate = formatToIsoDateStr(selectedDates?.endDate);
+  const [associationId, setAssociationId] = useState("");
+
+  const {
+    data: associationData,
+    error,
+    isLoading: associationLoading,
+  } = useQuery({
+    queryKey: ["associationData", startDate, endDate],
+    queryFn: async () => {
+      try {
+        const response = await AuthAxios.get(`/admin/merchant/all`, {
+          params: {
+            startDate: startDate,
+            endDate: endDate,
+            tag: "association",
+          },
+        });
+        return response?.data?.data;
+      } catch (error) {
+        throw new Error("Failed to fetch merchant data");
+      }
+    },
+    onSuccess: (data) => {},
+    staleTime: 5000, // Cache data for 5 seconds
+  });
+
+  console.log("asss", associationData);
+
+  const handleOpenAssociationrofile = (id) => {
+    setAssociationId(id);
+    setShowMerchantProfile(true);
+  };
   const dummyCustomers = [
     {
       id: 1,
@@ -160,7 +199,10 @@ const Gassociation = () => {
       }}
     >
       {showMerchantProfile ? (
-        <GmerchantProfile setShowMerchantProfile={setShowMerchantProfile} />
+        <GmerchantProfile
+          merchantId={associationId}
+          setShowMerchantProfile={setShowMerchantProfile}
+        />
       ) : (
         <>
           {/* card */}
@@ -480,8 +522,9 @@ const Gassociation = () => {
                   bg-orange-200 text-orange-500
                  text-[10px]`}
                       >
-                        {!isLoading && dummyCustomers?.length > 0 ? (
-                          dummyCustomers?.length
+                        {!associationLoading &&
+                        associationData?.records?.length > 0 ? (
+                          associationData?.records?.length
                         ) : (
                           <CircularProgress
                             size="1rem"
@@ -622,7 +665,7 @@ const Gassociation = () => {
                     <TableContainer component={Paper}>
                       <Table sx={{ minWidth: 100, padding: "8px" }}>
                         <TableBody>
-                          {dummyCustomers?.length === 0 ? (
+                          {associationLoading ? (
                             <CircularProgress
                               size="4.2rem"
                               sx={{
@@ -631,12 +674,14 @@ const Gassociation = () => {
                                 padding: "1em",
                               }}
                             />
-                          ) : dummyCustomers &&
-                            Array.isArray(dummyCustomers) &&
-                            dummyCustomers?.length > 0 ? (
-                            dummyCustomers?.map((item, i) => (
+                          ) : associationData?.records &&
+                            Array.isArray(associationData?.records) &&
+                            associationData?.records?.length > 0 ? (
+                            associationData?.records?.map((item, i) => (
                               <TableRow
-                                onClick={() => setShowMerchantProfile(true)}
+                                onClick={() =>
+                                  handleOpenAssociationrofile(item.id)
+                                }
                                 key={item.id}
                                 className="cursor-pointer"
                               >

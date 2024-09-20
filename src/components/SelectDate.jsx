@@ -2,7 +2,10 @@ import React, { useState, useEffect } from "react";
 import { CalendarMonthOutlined } from "@mui/icons-material";
 import { Calendar, DateRangePicker } from "react-date-range";
 import { useDispatch, useSelector } from "react-redux";
-import { fillSelectedDates, fillUserDetails } from "../utils/store/merchantSlice";
+import {
+  fillSelectedDates,
+  fillUserDetails,
+} from "../utils/store/merchantSlice";
 import { Box, Button, Typography } from "@mui/material";
 import { AuthAxios } from "../helpers/axiosInstance";
 import { parse } from "date-fns";
@@ -21,8 +24,6 @@ const SelectDate = () => {
   useEffect(() => {
     async function getUserDetails() {
       try {
-        const response = await AuthAxios.get("/user");
-        dispatch(fillUserDetails(response.data));
       } catch (error) {
         console.error(error);
       }
@@ -83,10 +84,7 @@ const SelectDate = () => {
         </div>
         {dateVisible && (
           <div className="absolute flex flex-col bg-white z-[2]  shadow-lg p-2 rounded-[8px] top-[140px]">
-            <DateRangePicker
-              ranges={[selectedRange]}
-              onChange={handleSelect}
-            />
+            <DateRangePicker ranges={[selectedRange]} onChange={handleSelect} />
 
             <button
               onClick={handleDateChange}

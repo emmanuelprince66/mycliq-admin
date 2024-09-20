@@ -99,7 +99,6 @@ const CustomerProfile = ({
   const statusMutation = useMutation({
     mutationFn: updateUserStatus,
     onSuccess: (data) => {
-      console.log("hello");
       // queryClient.invalidateQueries(['userStatus', userId]);
 
       setTimeout(() => {
@@ -164,6 +163,8 @@ const CustomerProfile = ({
     }
   };
 
+  console.log("sweet", customerDataById);
+
   const {
     data: customerTrx,
     error,
@@ -180,8 +181,6 @@ const CustomerProfile = ({
   useEffect(() => {
     setApiId(id);
   }, [id]);
-
-  console.log("ema", apiId);
 
   const totalPages = customerTrx?.totalPages ?? 0;
 

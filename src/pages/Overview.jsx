@@ -37,7 +37,7 @@ export const Overview = () => {
 
   const startDate = formatToIsoDateStr(selectedDates?.startDate);
   const endDate = formatToIsoDateStr(selectedDates?.endDate);
-  const navigate = useNavigate()
+  const navigate = useNavigate();
 
   const {
     data: overviewData,
@@ -56,8 +56,8 @@ export const Overview = () => {
         console.log(response);
         return response?.data?.data;
       } catch (error) {
-        if(error?.response?.data?.code === 401) {
-          navigate("/")
+        if (error?.response?.data?.code === 401) {
+          navigate("/");
         }
         throw new Error("Failed to fetch customer data");
       }
@@ -66,7 +66,7 @@ export const Overview = () => {
     staleTime: 5000, // Cache data for 5 seconds
   });
 
-  console.log(overviewData);
+  console.log("over", overviewData);
   return (
     <Box
       sx={{

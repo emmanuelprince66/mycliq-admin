@@ -65,68 +65,6 @@ const Item = styled(Box)(({ theme }) => ({
   borderRadius: "8px",
   maxHeight: "100%",
 }));
-const dummyCustomers = [
-  {
-    id: 1,
-    name: "Eleanor Poe",
-    img: "",
-  },
-  {
-    id: 2,
-    name: "Pleanor Poe",
-    img: "",
-  },
-  {
-    id: 3,
-    name: "Sleanor Poe",
-    img: "",
-  },
-  {
-    id: 4,
-    name: "Bleanor Poe",
-    img: "",
-  },
-  {
-    id: 5,
-    name: "Gleanor Poe",
-    img: "",
-  },
-  {
-    id: 6,
-    name: "Gleanor Poe",
-    img: "",
-  },
-  {
-    id: 7,
-    name: "Gleanor Poe",
-    img: "",
-  },
-  {
-    id: 8,
-    name: "Gleanor Poe",
-    img: "",
-  },
-  {
-    id: 9,
-    name: "Gleanor Poe",
-    img: "",
-  },
-  {
-    id: 10,
-    name: "Gleanor Poe",
-    img: "",
-  },
-  {
-    id: 11,
-    name: "Gleanor Poe",
-    img: "",
-  },
-  {
-    id: 12,
-    name: "Gleanor Poe",
-    img: "",
-  },
-];
 
 const GmerchantP = ({
   merchantDataById,
@@ -218,9 +156,7 @@ const GmerchantP = ({
                       />
                     ) : (
                       <FormattedPrice
-                        amount={
-                          merchantDataById?.analytics?.totalInwardsSum || 0
-                        }
+                        amount={merchantDataById?.trx?.totalInwardsSum || 0}
                       />
                     )}
                   </Typography>
@@ -288,9 +224,7 @@ const GmerchantP = ({
                       />
                     ) : (
                       <FormattedPrice
-                        amount={
-                          merchantDataById?.analytics?.totalOutwardsSum || 0
-                        }
+                        amount={merchantDataById?.trx?.totalOutwardsSum || 0}
                       />
                     )}
                   </Typography>
@@ -349,9 +283,7 @@ const GmerchantP = ({
                       />
                     ) : (
                       <FormattedPrice
-                        amount={
-                          merchantDataById?.analytics?.totalWalletCount || 0
-                        }
+                        amount={merchantDataById?.commTrx?.currentBalance || 0}
                       />
                     )}
                   </Typography>
@@ -485,7 +417,7 @@ const GmerchantP = ({
                       <Box className="w-full flex items-start flex-col   gap-[2rem] my-3 border-b border-grey-400  pb-1">
                         <Box className="ml-3">
                           <img
-                            src={bigavatar}
+                            src={merchantDataById?.merchant?.logo || bigavatar}
                             className="object-contain w-[120px]  h-[120px]"
                             alt="b-a"
                           />
@@ -529,11 +461,11 @@ const GmerchantP = ({
                                   sx={{ color: "#DC0019" }}
                                 />
                               ) : (
-                                merchantDataById?.name
+                                merchantDataById?.merchant?.name
                               )}{" "}
                             </Typography>
                           </Box>
-                          <Box className="flex items-center mt-1 mb-1 justify-between ">
+                          {/* <Box className="flex items-center mt-1 mb-1 justify-between ">
                             <Box className="flex items-center gap-1 w-[200px] ">
                               <TransgenderRoundedIcon
                                 sx={{ color: "grey", fontSize: "15px" }}
@@ -565,7 +497,7 @@ const GmerchantP = ({
                                 merchantDataById?.userProfile?.gender
                               )}
                             </Typography>
-                          </Box>
+                          </Box> */}
                           <Box className="flex  items-center mt-1 mb-1 justify-between ">
                             <Box className="flex items-center gap-1 w-[200px] ">
                               <EmailOutlinedIcon
@@ -596,7 +528,7 @@ const GmerchantP = ({
                                     sx={{ color: "#DC0019" }}
                                   />
                                 ) : (
-                                  merchantDataById?.email
+                                  merchantDataById?.merchant?.email
                                 )}
                               </Typography>
 
@@ -605,7 +537,7 @@ const GmerchantP = ({
                                   size="0.6rem"
                                   sx={{ color: "#DC0019" }}
                                 />
-                              ) : merchantDataById?.emailVerified ? (
+                              ) : merchantDataById?.merchant?.emailVerified ? (
                                 ""
                               ) : (
                                 <div className="bg-[#FFF0F0]  px-2 flex items-center gap-1 rounded-md">
@@ -650,11 +582,11 @@ const GmerchantP = ({
                                     sx={{ color: "#DC0019" }}
                                   />
                                 ) : (
-                                  merchantDataById?.phone || "null"
+                                  merchantDataById?.merchant?.phone || "null"
                                 )}
                               </Typography>
 
-                              {merchantDataById?.ninVerified ? (
+                              {merchantDataById?.merchant?.ninVerified ? (
                                 <div className="bg-[#EBFFF3]  px-2 flex items-center gap-1 rounded-md">
                                   <VerifiedOutlinedIcon
                                     sx={{ fontSize: "15px" }}
@@ -707,7 +639,7 @@ const GmerchantP = ({
                                   sx={{ color: "#DC0019" }}
                                 />
                               ) : (
-                                merchantDataById?.address || "null"
+                                merchantDataById?.merchant?.address || "null"
                               )}
                             </Typography>
                           </Box>
@@ -938,24 +870,45 @@ const GmerchantP = ({
                           </Typography>
                         </Box>
 
-                        <Typography
-                          sx={{
-                            color: "#1E1E1E",
-                            fontWeight: "500",
-                            fontSize: "10px",
-                            background: "#EBFFF3",
-                            py: "2px",
-                            px: "8px",
-                            color: "#1E854A",
-                            borderRadius: "10px",
-                            display: "flex",
-                            alignItems: "center",
-                            gap: "10px",
-                          }}
-                        >
-                          <span className="w-[10px] h-[10px] rounded-full text-[13px0]  bg-green-600" />
-                          Active
-                        </Typography>
+                        {merchantDataById?.merchant?.isDisabled ? (
+                          <Typography
+                            sx={{
+                              color: "#1E1E1E",
+                              fontWeight: "500",
+                              fontSize: "10px",
+                              background: "#EBFFF3",
+                              py: "2px",
+                              px: "8px",
+                              color: "#1E854A",
+                              borderRadius: "10px",
+                              display: "flex",
+                              alignItems: "center",
+                              gap: "10px",
+                            }}
+                          >
+                            <span className="w-[10px] h-[10px] rounded-full text-[13px0]  bg-red-600" />
+                            InActive
+                          </Typography>
+                        ) : (
+                          <Typography
+                            sx={{
+                              color: "#1E1E1E",
+                              fontWeight: "500",
+                              fontSize: "10px",
+                              background: "#EBFFF3",
+                              py: "2px",
+                              px: "8px",
+                              color: "#1E854A",
+                              borderRadius: "10px",
+                              display: "flex",
+                              alignItems: "center",
+                              gap: "10px",
+                            }}
+                          >
+                            <span className="w-[10px] h-[10px] rounded-full text-[13px0]  bg-green-600" />
+                            Active
+                          </Typography>
+                        )}
                       </Box>
                       <Box className="flex  items-center mt-2 mb-1 ">
                         <Box className="flex items-center gap-1 w-[150px] ">
@@ -1024,7 +977,7 @@ const GmerchantP = ({
                               sx={{ color: "#DC0019" }}
                             />
                           ) : (
-                            modDate(merchantDataById?.createdAt)
+                            modDate(merchantDataById?.merchant?.createdAt)
                           )}
                         </Typography>
                       </Box>
@@ -1057,7 +1010,7 @@ const GmerchantP = ({
                               sx={{ color: "#DC0019" }}
                             />
                           ) : (
-                            modDate(merchantDataById?.updatedAt)
+                            modDate(merchantDataById?.merchant?.updatedAt)
                           )}
                         </Typography>
                       </Box>
@@ -1146,7 +1099,8 @@ const GmerchantP = ({
                               sx={{ color: "#DC0019" }}
                             />
                           ) : (
-                            merchantDataById?.bankProfile?.name || ""
+                            merchantDataById?.merchant?.collectionBankAccount
+                              ?.bank || ""
                           )}
                         </Typography>
                       </Box>
@@ -1173,10 +1127,18 @@ const GmerchantP = ({
                             fontSize: "13px",
                           }}
                         >
-                          2211223445
+                          {dataLoading ? (
+                            <CircularProgress
+                              size="0.6rem"
+                              sx={{ color: "#DC0019" }}
+                            />
+                          ) : (
+                            merchantDataById?.merchant?.collectionBankAccount
+                              ?.accountNumber || ""
+                          )}
                         </Typography>
                       </Box>
-                      <Box className="flex items-center mt-1 mb-1 ">
+                      {/* <Box className="flex items-center mt-1 mb-1 ">
                         <Box className="flex items-center gap-1 w-[200px] ">
                           <CabinRoundedIcon
                             sx={{ color: "grey", fontSize: "15px" }}
@@ -1199,9 +1161,17 @@ const GmerchantP = ({
                             fontSize: "13px",
                           }}
                         >
-                          Safe Haven
+                          {dataLoading ? (
+                            <CircularProgress
+                              size="0.6rem"
+                              sx={{ color: "#DC0019" }}
+                            />
+                          ) : (
+                            merchantDataById?.merchant?.collectionBankAccount
+                              ?. || ""
+                          )}
                         </Typography>
-                      </Box>
+                      </Box> */}
                     </Box>
                     {/* a boc is here */}
                   </Grid>

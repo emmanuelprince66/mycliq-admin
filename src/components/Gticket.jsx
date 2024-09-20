@@ -55,7 +55,10 @@ import cancelled from "../assets/images/cancelled.svg";
 import completed from "../assets/images/completed.svg";
 import search from "../../src/assets/search.svg";
 import { useNavigate } from "react-router-dom";
-
+import AuthAxios from "../helpers/axiosInstance";
+import { formatToIsoDateStr } from "../utils/formatIsoDateString";
+import { useQuery } from "@tanstack/react-query";
+import { useSelector } from "react-redux";
 import ChevronRightRoundedIcon from "@mui/icons-material/ChevronRightRounded";
 import avatar from "../assets/avatar.svg";
 import DoughnutChart from "../components/DoughnutChart";
@@ -76,6 +79,41 @@ const Item = styled(Box)(({ theme }) => ({
 }));
 const Gticket = () => {
   const navigate = useNavigate();
+  const { selectedDates } = useSelector((state) => state);
+
+  const startDate = formatToIsoDateStr(selectedDates?.startDate);
+  const endDate = formatToIsoDateStr(selectedDates?.endDate);
+  const [ticketId, setticketId] = useState("");
+
+  const {
+    data: ticketData,
+    error,
+    isLoading: ticketLoading,
+  } = useQuery({
+    queryKey: ["ticketData", startDate, endDate],
+    queryFn: async () => {
+      try {
+        const response = await AuthAxios.get(`/admin/merchant/all`, {
+          params: {
+            startDate: startDate,
+            endDate: endDate,
+            tag: "ticket",
+          },
+        });
+        return response?.data?.data;
+      } catch (error) {
+        throw new Error("Failed to fetch merchant data");
+      }
+    },
+    onSuccess: (data) => {},
+    staleTime: 5000, // Cache data for 5 seconds
+  });
+  const handleOpenTicketProfile = (id) => {
+    setticketId(id);
+    setShowMerchantProfile(true);
+  };
+
+  console.log("asss", ticketData);
   const dummyCustomers = [
     {
       id: 1,
@@ -160,7 +198,10 @@ const Gticket = () => {
       }}
     >
       {showMerchantProfile ? (
-        <GmerchantProfile setShowMerchantProfile={setShowMerchantProfile} />
+        <GmerchantProfile
+          merchantId={ticketId}
+          setShowMerchantProfile={setShowMerchantProfile}
+        />
       ) : (
         <>
           {/* card */}
@@ -480,8 +521,8 @@ const Gticket = () => {
                   bg-orange-200 text-orange-500
                  text-[10px]`}
                       >
-                        {!isLoading && dummyCustomers?.length > 0 ? (
-                          dummyCustomers?.length
+                        {!ticketLoading ? (
+                          ticketData?.records?.length
                         ) : (
                           <CircularProgress
                             size="1rem"
@@ -622,7 +663,7 @@ const Gticket = () => {
                     <TableContainer component={Paper}>
                       <Table sx={{ minWidth: 100, padding: "8px" }}>
                         <TableBody>
-                          {dummyCustomers?.length === 0 ? (
+                          {ticketLoading ? (
                             <CircularProgress
                               size="4.2rem"
                               sx={{
@@ -631,12 +672,12 @@ const Gticket = () => {
                                 padding: "1em",
                               }}
                             />
-                          ) : dummyCustomers &&
-                            Array.isArray(dummyCustomers) &&
-                            dummyCustomers?.length > 0 ? (
-                            dummyCustomers?.map((item, i) => (
+                          ) : ticketData?.records &&
+                            Array.isArray(ticketData?.records) &&
+                            ticketData?.records?.length > 0 ? (
+                            ticketData?.records?.map((item, i) => (
                               <TableRow
-                                onClick={() => setShowMerchantProfile(true)}
+                                onClick={() => handleOpenTicketProfile(item.id)}
                                 key={item.id}
                                 className="cursor-pointer"
                               >

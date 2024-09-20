@@ -5,7 +5,6 @@ import { useDispatch } from "react-redux";
 import { fillUserDetails } from "./store/merchantSlice";
 import axios from "axios";
 import { getCookie } from "./cookieAuth";
-import { getUser } from "../helpers/getUser";
 export function AuthProvider({ children }) {
   const refreshToken = getCookie("refreshToken");
   const dispatch = useDispatch();
@@ -24,10 +23,8 @@ export function AuthProvider({ children }) {
       }
 
       try {
-        // const user =  await getUser(token);
         if (token) {
           setShowSpinner(false);
-          // dispatch(fillUserDetails(user));
         } else {
           setRedirectToLogin(true);
         }

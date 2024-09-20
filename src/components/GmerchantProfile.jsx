@@ -46,6 +46,7 @@ import GmerchantOutLet from "./GmerchantOutLet";
 import ArrowBackRoundedIcon from "@mui/icons-material/ArrowBackRounded";
 import house from "../assets/images/outletHouseIcon.svg";
 import arrRight from "../assets/images/arrow-right.svg";
+import { formatToIsoDateStr } from "../utils/formatIsoDateString";
 
 import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
@@ -54,6 +55,7 @@ import GmerchantP from "./GmerchantP";
 import SelectDate from "./SelectDate";
 import { useQuery } from "@tanstack/react-query";
 import { AuthAxios } from "../helpers/axiosInstance";
+import { useSelector } from "react-redux";
 import api from "js-cookie";
 const Item = styled(Box)(({ theme }) => ({
   backgroundColor: theme.palette.mode === "dark" ? "#1A2027" : "#fff",
@@ -69,6 +71,10 @@ const GmerchantProfile = ({ setShowMerchantProfile, merchantId }) => {
   const [showOutLet, setShowOutLet] = useState(false);
   const [outletValue, setOutletValue] = useState("");
   const [apiId, setApiId] = useState("");
+  const { selectedDates } = useSelector((state) => state);
+
+  const startDate = formatToIsoDateStr(selectedDates?.startDate);
+  const endDate = formatToIsoDateStr(selectedDates?.endDate);
 
   const rowsPerPage = 10;
   const [currentPage, setCurrentPage] = useState(1);
@@ -113,10 +119,15 @@ const GmerchantProfile = ({ setShowMerchantProfile, merchantId }) => {
     error: isError,
     isLoading: dataLoading,
   } = useQuery({
-    queryKey: "merchantDataById",
+    queryKey: ["merchantDataById", startDate, endDate],
     queryFn: async () => {
       try {
-        const response = await AuthAxios.get(`/admin/merchant/${apiId}`);
+        const response = await AuthAxios.get(`/admin/merchant/${apiId}`, {
+          params: {
+            startDate: startDate,
+            endDate: endDate,
+          },
+        });
         console.log(response);
         return response?.data?.data;
       } catch (error) {

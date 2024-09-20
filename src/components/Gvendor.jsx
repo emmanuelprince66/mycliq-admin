@@ -55,7 +55,11 @@ import cancelled from "../assets/images/cancelled.svg";
 import completed from "../assets/images/completed.svg";
 import search from "../../src/assets/search.svg";
 import { useNavigate } from "react-router-dom";
+import { useSelector } from "react-redux";
+import { formatToIsoDateStr } from "../utils/formatIsoDateString";
 
+import { useMutation, useQuery } from "@tanstack/react-query";
+import AuthAxios from "../helpers/axiosInstance";
 import ChevronRightRoundedIcon from "@mui/icons-material/ChevronRightRounded";
 import avatar from "../assets/avatar.svg";
 import DoughnutChart from "../components/DoughnutChart";
@@ -75,6 +79,10 @@ const Item = styled(Box)(({ theme }) => ({
   maxHeight: "100%",
 }));
 const Gvendor = () => {
+  const { selectedDates } = useSelector((state) => state);
+
+  const startDate = formatToIsoDateStr(selectedDates?.startDate);
+  const endDate = formatToIsoDateStr(selectedDates?.endDate);
   const navigate = useNavigate();
   const dummyCustomers = [
     {
@@ -144,6 +152,33 @@ const Gvendor = () => {
   const [isLoading, setIsLoading] = useState(false);
 
   const [showMerchantProfile, setShowMerchantProfile] = useState(false);
+  const [vendorId, setVendorId] = useState("");
+
+  const {
+    data: vendorData,
+    error,
+    isLoading: vendorLoading,
+  } = useQuery({
+    queryKey: ["vendorData", startDate, endDate],
+    queryFn: async () => {
+      try {
+        const response = await AuthAxios.get(`/admin/merchant/all`, {
+          params: {
+            startDate: startDate,
+            endDate: endDate,
+            type: "ventures",
+          },
+        });
+        return response?.data?.data;
+      } catch (error) {
+        throw new Error("Failed to fetch merchant data");
+      }
+    },
+    onSuccess: (data) => {},
+    staleTime: 5000, // Cache data for 5 seconds
+  });
+
+  console.log("vendor", vendorData);
 
   const handleClose = () => {
     setShowMerchantProfile(false);
@@ -151,6 +186,11 @@ const Gvendor = () => {
 
   const handleNavigateMerchant = (link) => {
     navigate(link);
+  };
+
+  const handleOpenVendorProfile = (id) => {
+    setVendorId(id);
+    setShowMerchantProfile(true);
   };
   return (
     <Box
@@ -160,7 +200,10 @@ const Gvendor = () => {
       }}
     >
       {showMerchantProfile ? (
-        <GmerchantProfile setShowMerchantProfile={setShowMerchantProfile} />
+        <GmerchantProfile
+          merchantId={vendorId}
+          setShowMerchantProfile={setShowMerchantProfile}
+        />
       ) : (
         <>
           <div className="w-full flex items-center justify-between">
@@ -480,8 +523,8 @@ const Gvendor = () => {
                   bg-orange-200 text-orange-500
                  text-[10px]`}
                       >
-                        {!isLoading && dummyCustomers?.length > 0 ? (
-                          dummyCustomers?.length
+                        {!isLoading ? (
+                          vendorData?.records?.length
                         ) : (
                           <CircularProgress
                             size="1rem"
@@ -622,7 +665,7 @@ const Gvendor = () => {
                     <TableContainer component={Paper}>
                       <Table sx={{ minWidth: 100, padding: "8px" }}>
                         <TableBody>
-                          {dummyCustomers?.length === 0 ? (
+                          {isLoading ? (
                             <CircularProgress
                               size="4.2rem"
                               sx={{
@@ -631,12 +674,12 @@ const Gvendor = () => {
                                 padding: "1em",
                               }}
                             />
-                          ) : dummyCustomers &&
-                            Array.isArray(dummyCustomers) &&
-                            dummyCustomers?.length > 0 ? (
-                            dummyCustomers?.map((item, i) => (
+                          ) : vendorData?.records &&
+                            Array.isArray(vendorData?.records) &&
+                            vendorData?.records?.length > 0 ? (
+                            vendorData?.records?.map((item, i) => (
                               <TableRow
-                                onClick={() => setShowMerchantProfile(true)}
+                                onClick={() => handleOpenVendorProfile(item.id)}
                                 key={item.id}
                                 className="cursor-pointer"
                               >
