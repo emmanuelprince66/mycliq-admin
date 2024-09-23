@@ -288,13 +288,13 @@ const AllMerchants = ({ handleOpenCustomerProfile }) => {
                             {item?.img === "" ? (
                               <img
                                 src={avatar}
-                                className="cat-img"
+                                className="cat-img max-h-[20px] max-w-[20px]"
                                 alt="p-img"
                               />
                             ) : (
                               <img
-                                src={item?.img}
-                                className="cat-img"
+                                src={item?.logo}
+                                className="cat-img max-h-[30px] max-w-[30px]"
                                 alt="p-img"
                               />
                             )}

@@ -63,6 +63,8 @@ const CustomerProfile = ({
   const [currentPage, setCurrentPage] = useState(1);
   const [isSwitchChecked, setIsSwitchChecked] = useState(null);
 
+  console.log("switch", isSwitchChecked);
+
   const notify = (message) => {
     toast.success(message, {
       position: "top-center",
@@ -119,13 +121,11 @@ const CustomerProfile = ({
     // console.log(payload)
 
     console.log(status);
-    if (status) {
-      const payload = {
-        userId: apiId,
-        status: "disabled",
-      };
-      statusMutation.mutate(payload);
-    }
+    const payload = {
+      userId: apiId,
+      status: !status ? "enabled" : "disabled",
+    };
+    statusMutation.mutate(payload);
   };
 
   // end update status
