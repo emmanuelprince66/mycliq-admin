@@ -50,6 +50,7 @@ import CustomPagination from "./CustomPagination";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { AuthAxios } from "../helpers/axiosInstance";
 import { ToastContainer, toast } from "react-toastify";
+import modDate from "../utils/moddate";
 
 const CustomerProfile = ({
   id,
@@ -80,6 +81,7 @@ const CustomerProfile = ({
   // update status
 
   const updateUserStatus = async ({ userId, status }) => {
+    console.log("status", status);
     try {
       const response = await AuthAxios.put(`/admin/user/${userId}/status`, {
         userId,
@@ -102,9 +104,9 @@ const CustomerProfile = ({
     mutationFn: updateUserStatus,
     onSuccess: (data) => {
       // queryClient.invalidateQueries(['userStatus', userId]);
-
+      console.log("test", data);
       setTimeout(() => {
-        notify("Account Successfully disabled.");
+        notify(data?.message);
       }, 500);
     },
     onError: (error) => {
@@ -123,7 +125,7 @@ const CustomerProfile = ({
     console.log(status);
     const payload = {
       userId: apiId,
-      status: !status ? "enabled" : "disabled",
+      status: !status ? "reactivated" : "disabled",
     };
     statusMutation.mutate(payload);
   };
@@ -181,6 +183,8 @@ const CustomerProfile = ({
   useEffect(() => {
     setApiId(id);
   }, [id]);
+
+  console.log("customerTrx", customerTrx);
 
   const totalPages = customerTrx?.totalPages ?? 0;
 
@@ -1270,7 +1274,7 @@ const CustomerProfile = ({
                   {dataLoading ? (
                     <CircularProgress size="0.6rem" sx={{ color: "#DC0019" }} />
                   ) : (
-                    customerDataById?.bankProfile?.createdAt || ""
+                    modDate(customerDataById?.userProfile?.createdAt) || ""
                   )}
                 </Typography>
               </Box>
@@ -1300,7 +1304,7 @@ const CustomerProfile = ({
                   {dataLoading ? (
                     <CircularProgress size="0.6rem" sx={{ color: "#DC0019" }} />
                   ) : (
-                    customerDataById?.bankProfile?.lastLogin || ""
+                    modDate(customerDataById?.userProfile?.lastLogin) || ""
                   )}
                 </Typography>
               </Box>

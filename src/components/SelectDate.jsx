@@ -1,14 +1,9 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { CalendarMonthOutlined } from "@mui/icons-material";
-import { Calendar, DateRangePicker } from "react-date-range";
+import { DateRangePicker } from "react-date-range";
 import { useDispatch, useSelector } from "react-redux";
-import {
-  fillSelectedDates,
-  fillUserDetails,
-} from "../utils/store/merchantSlice";
+import { fillSelectedDates } from "../utils/store/merchantSlice";
 import { Box, Button, Typography } from "@mui/material";
-import { AuthAxios } from "../helpers/axiosInstance";
-import { parse } from "date-fns";
 
 const SelectDate = () => {
   const dispatch = useDispatch();
@@ -21,25 +16,29 @@ const SelectDate = () => {
     key: "selection",
   });
 
-  useEffect(() => {
-    async function getUserDetails() {
-      try {
-      } catch (error) {
-        console.error(error);
-      }
-    }
-    getUserDetails();
-  }, [dispatch]);
-
+  // This function handles date selection changes, but no time adjustments are made here
   const handleSelect = (ranges) => {
-    setSelectedRange(ranges.selection);
+    setSelectedRange({
+      startDate: new Date(ranges.selection.startDate),
+      endDate: new Date(ranges.selection.endDate),
+      key: "selection",
+    });
   };
 
+  // Adjust the dates' times only when dispatching them to Redux
   const handleDateChange = () => {
+    // Adjust the startDate to 12:00 AM and endDate to 11:59 PM
+    const adjustedStartDate = new Date(selectedRange.startDate);
+    adjustedStartDate.setHours(0, 0, 0, 0);
+
+    const adjustedEndDate = new Date(selectedRange.endDate);
+    adjustedEndDate.setHours(23, 59, 59, 999);
+
+    // Dispatch the adjusted dates
     dispatch(
       fillSelectedDates({
-        startDate: new Date(selectedRange.startDate),
-        endDate: new Date(selectedRange.endDate),
+        startDate: adjustedStartDate, // Ensure it's a Date object
+        endDate: adjustedEndDate, // Ensure it's a Date object
       })
     );
     setDateVisible(false);
@@ -83,7 +82,7 @@ const SelectDate = () => {
           </Button>
         </div>
         {dateVisible && (
-          <div className="absolute flex flex-col bg-white z-[2]  shadow-lg p-2 rounded-[8px] top-[140px]">
+          <div className="absolute flex flex-col bg-white z-[2] shadow-lg p-2 rounded-[8px] top-[140px]">
             <DateRangePicker ranges={[selectedRange]} onChange={handleSelect} />
 
             <button

@@ -53,6 +53,7 @@ import wallet from "../assets/images/generalMerchants/wallet.svg";
 import percent from "../assets/images/generalMerchants/percent.svg";
 import CustomerProfile from "../components/CustomerProfile";
 import AllCustomers from "./customers/AllCustomers";
+import { adjustDateRange } from "../utils/dateFix";
 
 const Item = styled(Box)(({ theme }) => ({
   backgroundColor: theme.palette.mode === "dark" ? "#1A2027" : "#fff",
@@ -66,7 +67,7 @@ const Customer = () => {
   const dispatch = useDispatch();
 
   const { selectedDates } = useSelector((state) => state);
-  const navigate = useNavigate()
+  const navigate = useNavigate();
 
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(100);
@@ -78,12 +79,17 @@ const Customer = () => {
   const endDate = formatToIsoDateStr(selectedDates?.endDate);
   const [id, setId] = useState("");
 
+  const { startDate: newStartDate, endDate: newEndDate } = adjustDateRange(
+    startDate,
+    endDate
+  );
+
   const {
     data: customers,
     error,
     isLoading,
   } = useQuery({
-    queryKey: ["customers", startDate, endDate],
+    queryKey: ["customers", newStartDate, newEndDate],
     queryFn: async () => {
       try {
         const response = await AuthAxios.get(`/admin/analytics/user`, {
@@ -101,8 +107,6 @@ const Customer = () => {
     onSuccess: (data) => {},
     staleTime: 5000, // Cache data for 5 seconds
   });
-
-
 
   const handleShowCustomerProfile = () => setShowCustomerProfile(true);
   const handleCloseShowCustomerProfile = () => setShowCustomerProfile(false);
@@ -135,7 +139,7 @@ const Customer = () => {
       >
         {profileAcive && (
           <Box className="flex items-center gap-1">
-            <span 
+            <span
               className="flex gap-1 items-center cursor-pointer"
               onClick={closeUp}
             >

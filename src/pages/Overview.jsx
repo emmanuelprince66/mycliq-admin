@@ -22,6 +22,7 @@ import { AuthAxios } from "../helpers/axiosInstance";
 import { useSelector } from "react-redux";
 import { formatToIsoDateStr } from "../utils/formatIsoDateString";
 import { useNavigate } from "react-router-dom";
+import { adjustDateRange } from "../utils/dateFix";
 
 const Item = styled(Box)(({ theme }) => ({
   backgroundColor: theme.palette.mode === "dark" ? "#1A2027" : "#fff",
@@ -37,6 +38,15 @@ export const Overview = () => {
 
   const startDate = formatToIsoDateStr(selectedDates?.startDate);
   const endDate = formatToIsoDateStr(selectedDates?.endDate);
+
+  const { startDate: newStartDate, endDate: newEndDate } = adjustDateRange(
+    startDate,
+    endDate
+  );
+
+  console.log("news", newStartDate);
+  console.log("newe", newEndDate);
+
   const navigate = useNavigate();
 
   const {
@@ -44,7 +54,7 @@ export const Overview = () => {
     error,
     isLoading,
   } = useQuery({
-    queryKey: ["overviewData", startDate, endDate],
+    queryKey: ["overviewData", newStartDate, newEndDate],
     queryFn: async () => {
       try {
         const response = await AuthAxios.get(`/admin/analytics/overview`, {
