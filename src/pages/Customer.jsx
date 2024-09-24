@@ -94,8 +94,8 @@ const Customer = () => {
       try {
         const response = await AuthAxios.get(`/admin/analytics/user`, {
           params: {
-            startDate: startDate,
-            endDate: endDate,
+            startDate: newStartDate,
+            endDate: newEndDate,
           },
         });
         console.log(response);
