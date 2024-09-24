@@ -631,9 +631,6 @@ const CustomerProfile = ({
                       Compliance
                     </p>
                   </div>
-                  <p className="text-[14px] font-[500] cursor-pointer">
-                    Change Security Question
-                  </p>
                 </div>
               </div>{" "}
             </div>
@@ -1345,6 +1342,12 @@ const CustomerProfile = ({
                     color="default"
                   />
                 </Typography>
+              </Box>
+
+              <Box className="flex  items-center  mb-1 ">
+                <p className="text-[14px] font-[500] cursor-pointer hover:text-[#DC0019] mt-5">
+                  Change Security Question
+                </p>
               </Box>
             </Box>
           </Grid>
