@@ -71,6 +71,7 @@ import house from "../assets/images/outletHouseIcon.svg";
 import arrRight from "../assets/images/arrow-right.svg";
 import { formatToIsoDateStr } from "../utils/formatIsoDateString";
 import AllMerchants from "./merchants/AllMerchants";
+import { adjustDateRange } from "../utils/dateFix";
 const Item = styled(Box)(({ theme }) => ({
   backgroundColor: theme.palette.mode === "dark" ? "#1A2027" : "#fff",
   ...theme.typography.body2,
@@ -95,18 +96,23 @@ const GMerchants = () => {
 
   const [showMerchantProfile, setShowMerchantProfile] = useState(false);
 
+  const { startDate: newStartDate, endDate: newEndDate } = adjustDateRange(
+    startDate,
+    endDate
+  );
+
   const {
     data: merchantData,
     error,
     isLoading: merchantLoading,
   } = useQuery({
-    queryKey: ["merchantData", startDate, endDate],
+    queryKey: ["merchantData", newStartDate, newEndDate],
     queryFn: async () => {
       try {
         const response = await AuthAxios.get(`/admin/analytics/merchant`, {
           params: {
-            startDate: startDate,
-            endDate: endDate,
+            startDate: newStartDate,
+            endDate: newEndDate,
           },
         });
         return response?.data?.data;
