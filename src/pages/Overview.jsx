@@ -44,8 +44,8 @@ export const Overview = () => {
     endDate
   );
 
-  console.log("news", newStartDate);
-  console.log("newe", newEndDate);
+  console.log("newStartDate", newStartDate);
+  console.log("newEndDate", newEndDate);
 
   const navigate = useNavigate();
 
@@ -59,8 +59,8 @@ export const Overview = () => {
       try {
         const response = await AuthAxios.get(`/admin/analytics/overview`, {
           params: {
-            startDate: startDate,
-            endDate: endDate,
+            startDate: newStartDate,
+            endDate: newEndDate,
           },
         });
         console.log(response);
