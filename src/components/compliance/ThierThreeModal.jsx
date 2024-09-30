@@ -529,34 +529,6 @@ const ThierThreeModal = ({ modalData }) => {
               <p className="text-[#828282] font-[500] text-[14px]">
                 BASIC INFORMATION FOR TEIR 3
               </p>
-
-              <div className="w-full">
-                {renderDetail(PersonOutlineRoundedIcon, "Image")}
-                {/*  */}
-                {rendersDetail(
-                  CalendarMonthRoundedIcon,
-                  "Date of Birth",
-                  modalData?.ninMeta?.dateOfBirth || ""
-                )}
-                {/*  */}
-                {/*  */}
-                {renderDetail(PersonOutlineRoundedIcon, "Voters Card")}
-                {/*  */}
-                {/*  */}
-                {renderDetail(
-                  FmdGoodRoundedIcon,
-                  "Utility Bill",
-                  modalData?.utilityMeta?.files[0]?.utilityBill[0]?.type ||
-                    "nil"
-                )}
-                {/*  */}
-                {/*  */}
-                {renderDetail(FmdGoodRoundedIcon, "Verification Status")}
-                {/*  */}
-                {/*  */}
-                {renderDetail(FmdGoodRoundedIcon, "Attempt")}
-                {/*  */}
-              </div>
             </div>
           </Grid>
         </Grid>
