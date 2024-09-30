@@ -1206,6 +1206,7 @@ const GmerchantP = ({
                       <TableCell>S/N</TableCell>
                       <TableCell>Transaction ID</TableCell>
                       <TableCell>User</TableCell>
+                      <TableCell>Date</TableCell>
                       <TableCell>Type</TableCell>
                       <TableCell>Amount(N)</TableCell>
                       <TableCell>Status</TableCell>
@@ -1256,6 +1257,17 @@ const GmerchantP = ({
                               {item?.type === "transfer"
                                 ? item?.origin?.accountName
                                 : item?.recipientDetails?.accountName}
+                            </Typography>
+                          </TableCell>
+                          <TableCell>
+                            <Typography
+                              sx={{
+                                fontWeight: "400",
+                                fontSize: "16px",
+                                color: "#828282",
+                              }}
+                            >
+                              {modDate(item?.createdAt)}
                             </Typography>
                           </TableCell>
                           <TableCell>

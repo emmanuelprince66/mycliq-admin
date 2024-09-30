@@ -1493,6 +1493,7 @@ const CustomerProfile = ({
                       <TableCell>S/N</TableCell>
                       <TableCell>Transaction ID</TableCell>
                       <TableCell>User</TableCell>
+                      <TableCell>Date</TableCell>
                       <TableCell>Type</TableCell>
                       <TableCell>Amount(N)</TableCell>
                       <TableCell>Status</TableCell>
@@ -1541,6 +1542,17 @@ const CustomerProfile = ({
                               }}
                             >
                               {item?.origin?.accountName}
+                            </Typography>
+                          </TableCell>
+                          <TableCell>
+                            <Typography
+                              sx={{
+                                fontWeight: "400",
+                                fontSize: "16px",
+                                color: "#828282",
+                              }}
+                            >
+                              {modDate(item?.createdAt)}
                             </Typography>
                           </TableCell>
                           <TableCell>
