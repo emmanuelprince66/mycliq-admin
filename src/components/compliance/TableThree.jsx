@@ -27,9 +27,8 @@ import {
   Modal,
 } from "@mui/material";
 import modDate from "../../utils/moddate";
-import ThierThreeModal from "./ThierThreeModal";
 
-const TableTwo = ({
+const TableThree = ({
   currentPage,
   rowsPerPage,
   tableData,
@@ -37,25 +36,61 @@ const TableTwo = ({
   totalPages,
   setCurrentPage,
 }) => {
-  const [open, setOpen] = React.useState(false);
-
-  const [modalData, setModalData] = useState(null);
-
   const handlePageChange = (page) => {
     setCurrentPage(page);
   };
 
-  const handleClose = () => {
-    setOpen(false);
-  };
-
-  const handleOpenModal = (item) => {
-    setModalData(item);
-    setOpen(true);
-  };
-
   console.log("zeta", tableData);
-
+  const dummy = [
+    {
+      id: 1,
+      name: "Jenny Wison",
+      category: "Merchant",
+      phone: "08166557773",
+      date: "12-08-2924. 01:00pm",
+      status: "success",
+    },
+    {
+      id: 2,
+      name: "Jenny Wison",
+      category: "Customer",
+      phone: "08166557773",
+      date: "12-08-2924. 01:00pm",
+      status: "success",
+    },
+    {
+      id: 3,
+      name: "Jenny Wison",
+      category: "Merchant",
+      phone: "08166557773",
+      date: "12-08-2924. 01:00pm",
+      status: "failed  ",
+    },
+    {
+      id: 4,
+      name: "Jenny Wison",
+      category: "Merchant",
+      phone: "08166557773",
+      date: "12-08-2924. 01:00pm",
+      status: "pending",
+    },
+    {
+      id: 5,
+      name: "Jenny Wison",
+      category: "Merchant",
+      phone: "08166557773",
+      date: "12-08-2924. 01:00pm",
+      status: "processing",
+    },
+    {
+      id: 6,
+      name: "Jenny Wison",
+      category: "Merchant",
+      phone: "08166557773",
+      date: "12-08-2924. 01:00pm",
+      status: "success",
+    },
+  ];
   return (
     <>
       <TableContainer component={Paper}>
@@ -88,15 +123,12 @@ const TableTwo = ({
                   <TableCell>
                     {i + 1 + (currentPage - 1) * rowsPerPage}
                   </TableCell>
-                  <TableCell>
-                    {item?.lastName} {item?.firstName}
-                  </TableCell>
-                  <TableCell>{item?.phoneNumber}</TableCell>
+                  <TableCell>{item?.name} </TableCell>
+                  <TableCell>{item?.phone}</TableCell>
                   <TableCell>{item?.category}</TableCell>
                   <TableCell>{modDate(item?.createdAt)}</TableCell>
                   <TableCell>
                     <Button
-                      onClick={() => handleOpenModal(item)}
                       variant="outlined"
                       sx={{
                         textTransform: "capitalize",
@@ -128,26 +160,8 @@ const TableTwo = ({
         totalPages={totalPages}
         onPageChange={handlePageChange}
       />
-
-      {/* Moda;l for detailsl */}
-
-      <Modal
-        open={open}
-        onClose={handleClose}
-        aria-labelledby="modal-modal-title"
-        aria-describedby="modal-modal-description"
-        PaperProps={{
-          sx: {
-            border: "none", // Remove the border
-            boxShadow: "none", // Remove the box shadow
-          },
-        }}
-      >
-        <ThierThreeModal modalData={modalData || {}} />
-      </Modal>
-      {/* Modal ends */}
     </>
   );
 };
 
-export default TableTwo;
+export default TableThree;

@@ -27,7 +27,7 @@ import {
   Modal,
 } from "@mui/material";
 
-const DefaultTable = ({
+const DefaultMerchantTable = ({
   currentPage,
   setCurrentPage,
   tableData,
@@ -74,9 +74,7 @@ const DefaultTable = ({
                   <TableCell>
                     {i + 1 + (currentPage - 1) * rowsPerPage}
                   </TableCell>
-                  <TableCell>
-                    {item?.lastName} {item?.firstName}
-                  </TableCell>
+                  <TableCell>{item?.name}</TableCell>
                   <TableCell>
                     {`${item?.bvnMeta?.lastName || ""} ${
                       item?.bvnMeta?.firstName || ""
@@ -87,7 +85,7 @@ const DefaultTable = ({
                       item?.ninMeta?.firstName || ""
                     }`}
                   </TableCell>
-                  <TableCell>{item?.phoneNumber}</TableCell>
+                  <TableCell>{item?.phone}</TableCell>
                   <TableCell>
                     <Button
                       variant="outlined"
@@ -204,4 +202,4 @@ const DefaultTable = ({
   );
 };
 
-export default DefaultTable;
+export default DefaultMerchantTable;

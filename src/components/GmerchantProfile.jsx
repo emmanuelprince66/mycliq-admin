@@ -138,12 +138,11 @@ const GmerchantProfile = ({ setShowMerchantProfile, merchantId }) => {
     staleTime: 5000, // Cache data for 5 seconds
   });
 
-  console.log("next", apiId);
   const fetchMerchantTrx = async ({ queryKey }) => {
     const [_key, { page, limit, entityId }] = queryKey;
     try {
       const response = await AuthAxios.get(
-        `/admin/trx?page=${page}&limit=${limit}&entityId=${entityId}`
+        `/admin/trx/all?page=${page}&limit=${limit}&entityId=${entityId}`
       );
       return response?.data?.data;
     } catch (error) {
@@ -164,6 +163,8 @@ const GmerchantProfile = ({ setShowMerchantProfile, merchantId }) => {
     keepPreviousData: true,
     staleTime: 5000, // Cache data for 5 seconds
   });
+
+  console.log("trx", merchantTrx);
   const totalPages = merchantTrx?.totalPages ?? 0;
 
   useEffect(() => {

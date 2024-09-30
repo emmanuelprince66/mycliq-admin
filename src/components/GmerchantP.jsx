@@ -32,6 +32,8 @@ import bigavatar from "../assets/images/bigavatar.svg";
 import TransgenderRoundedIcon from "@mui/icons-material/TransgenderRounded";
 import ReportProblemOutlinedIcon from "@mui/icons-material/ReportProblemOutlined";
 import FmdGoodRoundedIcon from "@mui/icons-material/FmdGoodRounded";
+import CheckCircleOutlineRoundedIcon from "@mui/icons-material/CheckCircleOutlineRounded";
+
 import AccessTimeRoundedIcon from "@mui/icons-material/AccessTimeRounded";
 import HttpsOutlinedIcon from "@mui/icons-material/HttpsOutlined";
 
@@ -1206,7 +1208,6 @@ const GmerchantP = ({
                       <TableCell>User</TableCell>
                       <TableCell>Type</TableCell>
                       <TableCell>Amount(N)</TableCell>
-                      <TableCell>Wallet Balance(N)</TableCell>
                       <TableCell>Status</TableCell>
                       <TableCell>Action</TableCell>
                     </TableRow>
@@ -1241,7 +1242,7 @@ const GmerchantP = ({
                                 color: "#828282",
                               }}
                             >
-                              {item.id.substring(0, 10) + "...."}
+                              {item?.id?.substring(0, 10) + "...."}
                             </Typography>
                           </TableCell>
                           <TableCell>
@@ -1252,7 +1253,9 @@ const GmerchantP = ({
                                 color: "#828282",
                               }}
                             >
-                              {item.origin.accountName}
+                              {item?.type === "transfer"
+                                ? item?.origin?.accountName
+                                : item?.recipientDetails?.accountName}
                             </Typography>
                           </TableCell>
                           <TableCell>
@@ -1277,7 +1280,6 @@ const GmerchantP = ({
                               {item.amount}
                             </Typography>
                           </TableCell>
-                          <TableCell>...</TableCell>
                           <TableCell>
                             <Box
                               sx={{

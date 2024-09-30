@@ -65,6 +65,8 @@ import CreateOffer from "./CreateOffer";
 import CustomPagination from "./CustomPagination";
 import { AirtimeModal } from "../pages/trx/AirtimeModal";
 import { formatToIsoDateStr } from "../utils/formatIsoDateString";
+import { adjustDateRange } from "../utils/dateFix";
+import modDate from "../utils/moddate";
 const TableCom = () => {
   const [transactionData, setTransactionData] = useState([]);
   const [open1, setOpen1] = React.useState(false);
@@ -89,6 +91,11 @@ const TableCom = () => {
 
   const startDate = formatToIsoDateStr(selectedDates?.startDate);
   const endDate = formatToIsoDateStr(selectedDates?.endDate);
+
+  const { startDate: newStartDate, endDate: newEndDate } = adjustDateRange(
+    startDate,
+    endDate
+  );
   const totalPages = 8;
   const rowsPerPage = 20;
   const [currentPage, setCurrentPage] = useState(1);
@@ -207,6 +214,7 @@ const TableCom = () => {
     staleTime: 5000, // Cache data for 5 seconds
   });
 
+  console.log("trx", transactions);
   const handlePageChange = (page) => {
     setCurrentPage(page);
   };
@@ -217,8 +225,8 @@ const TableCom = () => {
       try {
         const response = await AuthAxios.get(`/admin/analytics/trx`, {
           params: {
-            startDate: startDate,
-            endDate: endDate,
+            startDate: newStartDate,
+            endDate: newEndDate,
           },
         });
         console.log(response);
@@ -780,6 +788,7 @@ const TableCom = () => {
                 <TableCell>User</TableCell>
                 <TableCell>Type</TableCell>
                 <TableCell>Amount(N)</TableCell>
+                <TableCell>Date</TableCell>
                 <TableCell>Status</TableCell>
                 <TableCell>Action</TableCell>
               </TableRow>
@@ -802,11 +811,18 @@ const TableCom = () => {
                     <TableCell>
                       {i + 1 + (currentPage - 1) * rowsPerPage}
                     </TableCell>
-                    <TableCell>{item?.origin?.accountName}</TableCell>
+                    <TableCell>
+                      {item?.type === "transfer" ||
+                      item?.type === "reversal" ||
+                      item?.type === "payment"
+                        ? item?.origin?.accountName
+                        : item?.recipientDetails?.accountName}
+                    </TableCell>
                     <TableCell>{item?.subType}</TableCell>
                     <TableCell>
                       <FormattedPrice amount={item?.amount} />
                     </TableCell>
+                    <TableCell>{modDate(item?.createdAt)}</TableCell>
                     <TableCell>
                       <Box
                         sx={{
