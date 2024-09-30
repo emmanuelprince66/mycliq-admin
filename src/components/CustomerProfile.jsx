@@ -51,6 +51,7 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { AuthAxios } from "../helpers/axiosInstance";
 import { ToastContainer, toast } from "react-toastify";
 import modDate from "../utils/moddate";
+import { AirtimeModal } from "../pages/trx/AirtimeModal";
 
 const CustomerProfile = ({
   id,
@@ -59,6 +60,12 @@ const CustomerProfile = ({
 }) => {
   const [apiId, setApiId] = useState("");
   const [showProfileDetails, setShowProfileDetails] = useState(false);
+  const [index, setIndex] = useState(0);
+  const [openAirtimeModal, setOpenAirtimeModal] = useState(false);
+  const handleCloseAirtimeModal = () => setOpenAirtimeModal(false);
+  const handleCloseWithdrawalDetails = () => setWithdrawalDetails(false);
+  const [withdrawalDetails, setWithdrawalDetails] = useState(false);
+
   const handleCloseProfileDetails = () => setShowProfileDetails(false);
   const rowsPerPage = 10;
   const [currentPage, setCurrentPage] = useState(1);
@@ -195,6 +202,21 @@ const CustomerProfile = ({
   const handlePageChange = (page) => {
     setCurrentPage(page);
   };
+  async function viewDetails(i, type) {
+    setIndex(i);
+
+    switch (type) {
+      case "airtime":
+        setOpenAirtimeModal(true);
+        break;
+      case "bank_transfer":
+        setWithdrawalDetails(true);
+      default:
+        setOpenAirtimeModal(true);
+        break;
+    }
+    // setOpen1(true);
+  }
 
   useEffect(() => {
     setIsSwitchChecked(customerDataById?.userProfile?.isDisabled);
@@ -1595,6 +1617,9 @@ const CustomerProfile = ({
                           </TableCell>
                           <TableCell>
                             <Button
+                              onClick={() =>
+                                viewDetails(item?.id, item?.subType)
+                              }
                               variant="outlined"
                               sx={{
                                 textTransform: "capitalize",
@@ -1612,7 +1637,7 @@ const CustomerProfile = ({
                                 },
                               }}
                             >
-                              View Profile
+                              View More
                             </Button>
                           </TableCell>
                         </TableRow>
@@ -1655,6 +1680,27 @@ const CustomerProfile = ({
         <CustomerProfileDetails setShowProfileDetails={setShowProfileDetails} />
       </Modal>
       {/* Modal deposit ends */}
+
+      {/* Moda;l for detailsl */}
+
+      <Modal
+        open={openAirtimeModal}
+        onClose={handleCloseAirtimeModal}
+        aria-labelledby="modal-modal-title"
+        aria-describedby="modal-modal-description"
+        PaperProps={{
+          sx: {
+            border: "none", // Remove the border
+            boxShadow: "none", // Remove the box shadow
+          },
+        }}
+      >
+        <AirtimeModal
+          handleCloseAirtimeModal={handleCloseAirtimeModal}
+          index={index}
+        />
+      </Modal>
+      {/* Modal ends */}
       <ToastContainer />
     </Box>
   );

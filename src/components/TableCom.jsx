@@ -172,6 +172,7 @@ const TableCom = () => {
     }
   };
 
+
   const fetchTransactions = async ({ queryKey }) => {
     const [_key, { page, limit, flow, wallet, payment }] = queryKey;
 
