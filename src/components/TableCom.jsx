@@ -309,6 +309,8 @@ const TableCom = () => {
         break;
       case "bank_transfer":
         setWithdrawalDetails(true);
+        default:
+        setOpenAirtimeModal(true)
         break;
     }
     // setOpen1(true);
