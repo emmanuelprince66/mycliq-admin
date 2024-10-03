@@ -40,7 +40,12 @@ const ThierThreeModal = ({ modalData }) => {
   const [messageCount, setMessageCount] = useState(0);
   const [disableButton, setDisableButton] = useState(false);
 
-  const apiId = modalData?.utilityMeta && modalData?.utilityMeta?.files[0]?.id;
+  console.log("mod", modalData);
+
+  const apiId =
+    modalData?.utilityMeta &&
+    Object.keys(modalData?.utilityMeta).length > 0 &&
+    modalData?.utilityMeta?.files[0]?.id;
 
   const [status, setStatus] = useState("pending");
 

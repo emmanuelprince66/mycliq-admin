@@ -172,7 +172,6 @@ const TableCom = () => {
     }
   };
 
-
   const fetchTransactions = async ({ queryKey }) => {
     const [_key, { page, limit, flow, wallet, payment }] = queryKey;
 
@@ -310,8 +309,8 @@ const TableCom = () => {
         break;
       case "bank_transfer":
         setWithdrawalDetails(true);
-        default:
-        setOpenAirtimeModal(true)
+      default:
+        setOpenAirtimeModal(true);
         break;
     }
     // setOpen1(true);
