@@ -751,7 +751,7 @@ const Compliance = () => {
                   majorFilter === "all" ? "text-[#F78105]" : "text-[#828282]"
                 } font-[600]`}
               >
-                All Users
+                All Customers
               </p>
               {majorFilter === "all" && minorFilter !== "tierThree" && (
                 <span className="py-1 px-2 bg-[#FFEFD6] rounded-md">
@@ -775,28 +775,7 @@ const Compliance = () => {
               <div className="w-full h-1 rounded-tl-lg rounded-tr-lg bg-[#F78105]" />
             )}
           </div>
-          <div
-            className="flex items-center flex-col gap-2 cursor-pointer  min-h-[3rem]"
-            onClick={() => handleMajorFilterChange("customers")}
-          >
-            <div className="flex gap-2 items-center">
-              <p
-                className={`text-[16px] ${
-                  majorFilter === "customers"
-                    ? "text-[#F78105]"
-                    : "text-[#828282]"
-                } font-[600]`}
-              >
-                Customers
-              </p>
-              <span className="py-1 px-2 bg-[#FFEFD6] rounded-md">
-                <p className="text-[12px] text-[#A86500] font-[500]">122</p>
-              </span>
-            </div>
-            {majorFilter === "customers" && (
-              <div className="w-full h-1 rounded-tl-lg rounded-tr-lg bg-[#F78105]" />
-            )}
-          </div>
+
           <div
             className="flex items-center flex-col gap-2 cursor-pointer  min-h-[3rem]"
             onClick={() => handleMajorFilterChange("merchants")}
@@ -809,7 +788,7 @@ const Compliance = () => {
                     : "text-[#828282]"
                 } font-[600]`}
               >
-                Merchants
+                All Merchants
               </p>
               {majorFilter === "merchants" && minorFilter !== "tierThree" && (
                 <span className="py-1 px-2 bg-[#FFEFD6] rounded-md">
@@ -833,28 +812,7 @@ const Compliance = () => {
               <div className="w-full h-1 rounded-tl-lg rounded-tr-lg bg-[#F78105]" />
             )}
           </div>
-          <div
-            className="flex items-center flex-col gap-2 cursor-pointer  min-h-[3rem]"
-            onClick={() => handleMajorFilterChange("holdings")}
-          >
-            <div className="flex gap-2 items-center">
-              <p
-                className={`text-[16px] ${
-                  majorFilter === "holdings"
-                    ? "text-[#F78105]"
-                    : "text-[#828282]"
-                } font-[600]`}
-              >
-                Holdings
-              </p>
-              <span className="py-1 px-2 bg-[#FFEFD6] rounded-md">
-                <p className="text-[12px] text-[#A86500] font-[500]">122</p>
-              </span>
-            </div>
-            {majorFilter === "holdings" && (
-              <div className="w-full h-1 rounded-tl-lg rounded-tr-lg bg-[#F78105]" />
-            )}
-          </div>
+
           {/* major filter one ends */}
         </div>
 
@@ -1261,6 +1219,7 @@ const Compliance = () => {
             <DefaultTable
               currentPage={currentPage}
               rowsPerPage={rowsPerPage}
+              minorFilter={minorFilter}
               tableData={tableData}
               usersCompLoading={usersCompLoading}
               totalPages={totalPages}
@@ -1272,6 +1231,7 @@ const Compliance = () => {
           majorFilter === "merchants" && (
             <DefaultMerchantTable
               currentPage={currentPage}
+              minorFilter={minorFilter}
               rowsPerPage={rowsPerPage}
               tableData={tableData}
               usersCompLoading={usersCompLoading}

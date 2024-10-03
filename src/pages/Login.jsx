@@ -70,7 +70,7 @@ export const Login = () => {
     mutationFn: async (formData) => {
       try {
         const response = await BaseAxios({
-          url: "/auth/login",
+          url: "/auth/admin/login",
           method: "POST",
           data: formData,
         });
@@ -91,7 +91,7 @@ export const Login = () => {
 
       Cookies.set("authToken", data?.data?.data?.access_token);
       Cookies.set("refreshToken", data?.data?.data?.refreshToken);
-      localStorage.setItem("user", JSON.stringify(data?.data?.data?.user));
+      localStorage.setItem("user", JSON.stringify(data?.data?.data?.admin));
     },
     onError: (error) => {
       console.log(error);

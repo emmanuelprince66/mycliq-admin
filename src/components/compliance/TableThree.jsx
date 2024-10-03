@@ -41,56 +41,7 @@ const TableThree = ({
   };
 
   console.log("zeta", tableData);
-  const dummy = [
-    {
-      id: 1,
-      name: "Jenny Wison",
-      category: "Merchant",
-      phone: "08166557773",
-      date: "12-08-2924. 01:00pm",
-      status: "success",
-    },
-    {
-      id: 2,
-      name: "Jenny Wison",
-      category: "Customer",
-      phone: "08166557773",
-      date: "12-08-2924. 01:00pm",
-      status: "success",
-    },
-    {
-      id: 3,
-      name: "Jenny Wison",
-      category: "Merchant",
-      phone: "08166557773",
-      date: "12-08-2924. 01:00pm",
-      status: "failed  ",
-    },
-    {
-      id: 4,
-      name: "Jenny Wison",
-      category: "Merchant",
-      phone: "08166557773",
-      date: "12-08-2924. 01:00pm",
-      status: "pending",
-    },
-    {
-      id: 5,
-      name: "Jenny Wison",
-      category: "Merchant",
-      phone: "08166557773",
-      date: "12-08-2924. 01:00pm",
-      status: "processing",
-    },
-    {
-      id: 6,
-      name: "Jenny Wison",
-      category: "Merchant",
-      phone: "08166557773",
-      date: "12-08-2924. 01:00pm",
-      status: "success",
-    },
-  ];
+
   return (
     <>
       <TableContainer component={Paper}>
@@ -125,7 +76,7 @@ const TableThree = ({
                   </TableCell>
                   <TableCell>{item?.name} </TableCell>
                   <TableCell>{item?.phone}</TableCell>
-                  <TableCell>{item?.category}</TableCell>
+                  <TableCell>Merchant</TableCell>
                   <TableCell>{modDate(item?.createdAt)}</TableCell>
                   <TableCell>
                     <Button

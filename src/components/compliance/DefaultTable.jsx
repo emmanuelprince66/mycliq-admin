@@ -32,6 +32,7 @@ const DefaultTable = ({
   setCurrentPage,
   tableData,
   totalPages,
+  minorFilter,
   rowsPerPage,
   usersComplianceData,
   usersCompLoading,
@@ -51,7 +52,6 @@ const DefaultTable = ({
               <TableCell>BVN Name</TableCell>
               <TableCell>NIN Name</TableCell>
               <TableCell>Phone Number</TableCell>
-              <TableCell>Hold</TableCell>
               <TableCell>Status</TableCell>
               <TableCell>Action</TableCell>
             </TableRow>
@@ -88,52 +88,54 @@ const DefaultTable = ({
                     }`}
                   </TableCell>
                   <TableCell>{item?.phoneNumber}</TableCell>
-                  <TableCell>
-                    <Button
-                      variant="outlined"
-                      sx={{
-                        textTransform: "capitalize",
-                        color: "#828282",
-                        fontWeight: "600",
-                        display: "flex",
-                        alignItems: "center",
-                        gap: "8px",
-                        fontSize: "10px",
-                        border: "1px solid #F78105",
-                        "&:hover": {
-                          backgroundColor: "#fff",
-                          border: "1px solid #F78105",
-                        },
-                      }}
-                    >
-                      <img src={cThree} alt="c-three" />
-                      Holding
-                    </Button>
-                  </TableCell>
+
                   <TableCell>
                     <Box
                       sx={{
                         textTransform: "capitalize",
+                        // background:
+                        //   item?.status === "failed"
+                        //     ? "#FFF0F0"
+                        //     : item.status === "success"
+                        //     ? "#EBFFF3"
+                        //     : item?.status === "pending"
+                        //     ? "#FFF0F0"
+                        //     : item?.status === "processing"
+                        //     ? "#F4F1FE"
+                        //     : "",
                         background:
-                          item?.status === "failed"
-                            ? "#FFF0F0"
-                            : item.status === "success"
-                            ? "#EBFFF3"
-                            : item?.status === "pending"
-                            ? "#FFF0F0"
-                            : item?.status === "processing"
-                            ? "#F4F1FE"
+                          minorFilter === "all"
+                            ? item?.bvnVerified || item?.ninVerified
+                              ? " #ebfff3"
+                              : "#ff0f0"
+                            : minorFilter === "bvn"
+                            ? item?.bvnVerified
+                              ? "#ebfff3"
+                              : "#ff0f0"
+                            : minorFilter === "nin"
+                            ? item?.ninVerified
+                              ? "#ebfff3"
+                              : "#ff0f0"
                             : "",
                         color:
-                          item?.status === "failed"
-                            ? "#E52929"
-                            : item.status === "success"
-                            ? "#1E854A"
-                            : item?.status === "pending"
-                            ? "#CDA11E"
-                            : item?.status === "processing"
-                            ? "#391E85"
+                          // item?.bvnVerified || item?.ninVerified
+                          //   ? " #1E854A"
+                          //   : "#E52929",
+
+                          minorFilter === "all"
+                            ? item?.bvnVerified || item?.ninVerified
+                              ? " #1E854A"
+                              : "#E52929"
+                            : minorFilter === "bvn"
+                            ? item?.bvnVerified
+                              ? "#1E854A"
+                              : "#E52929"
+                            : minorFilter === "nin"
+                            ? item?.ninVerified
+                              ? "#1E854A"
+                              : "#E52929"
                             : "",
+
                         fontWeight: "500",
                         fontSize: "12px",
                         padding: "4px 8px",
@@ -145,26 +147,19 @@ const DefaultTable = ({
                         border: "1px solid #E0E0E0",
                       }}
                     >
-                      {item?.status === "failed" && (
-                        <ReportOutlinedIcon sx={{ fontSize: "12px" }} />
-                      )}
-                      {item?.status === "success" && (
-                        <CheckCircleOutlineRoundedIcon
-                          sx={{ fontSize: "12px" }}
-                        />
-                      )}
-                      {item?.status === "processing" && (
-                        <CheckCircleOutlineRoundedIcon
-                          sx={{ fontSize: "12px" }}
-                        />
-                      )}
-                      {item?.status === "pending" && (
-                        <HourglassBottomOutlinedIcon
-                          sx={{ fontSize: "12px" }}
-                        />
-                      )}
-
-                      {item?.status}
+                      {minorFilter === "all"
+                        ? item?.bvnVerified || item?.ninVerified
+                          ? " Success"
+                          : "Failed"
+                        : minorFilter === "bvn"
+                        ? item?.bvnVerified
+                          ? "Success"
+                          : "Failed"
+                        : minorFilter === "nin"
+                        ? item?.ninVerified
+                          ? "Success"
+                          : "Failed"
+                        : ""}
                     </Box>
                   </TableCell>
                   <TableCell>

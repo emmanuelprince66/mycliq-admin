@@ -138,7 +138,7 @@ const VerifyForgotPassword = ({ phoneNo, setShowOTP, setShowVerifyUser }) => {
     mutationFn: async (phone) => {
       try {
         const response = await axios.post(
-          "https://mycliq-backend-prod-a.onrender.com/api/auth/password-reset",
+          "https://mycliq-backend-prod-a.onrender.com/api/auth/admin/password-reset",
           {
             phone: phone, // Replace with your phone data
           }

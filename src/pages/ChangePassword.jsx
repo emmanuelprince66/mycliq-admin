@@ -104,7 +104,7 @@ const ChangePassWord = ({ phoneNo, setShowVerifyUser }) => {
     mutationFn: async () => {
       try {
         const response = await AuthAxios({
-          url: "/auth/password-reset-confirm",
+          url: "/auth/admin/password-reset-confirm",
           method: "POST",
 
           data: {

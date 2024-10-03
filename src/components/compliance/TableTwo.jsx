@@ -92,7 +92,7 @@ const TableTwo = ({
                     {item?.lastName} {item?.firstName}
                   </TableCell>
                   <TableCell>{item?.phoneNumber}</TableCell>
-                  <TableCell>{item?.category}</TableCell>
+                  <TableCell>Customer</TableCell>
                   <TableCell>{modDate(item?.createdAt)}</TableCell>
                   <TableCell>
                     <Button
