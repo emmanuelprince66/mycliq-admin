@@ -788,6 +788,7 @@ const TableCom = () => {
               <TableRow>
                 <TableCell>S/N</TableCell>
                 <TableCell>User</TableCell>
+                <TableCell>Sub Type</TableCell>
                 <TableCell>Type</TableCell>
                 <TableCell>Amount(N)</TableCell>
                 <TableCell>Date</TableCell>
@@ -821,6 +822,7 @@ const TableCom = () => {
                         : item?.recipientDetails?.accountName}
                     </TableCell>
                     <TableCell>{item?.subType}</TableCell>
+                    <TableCell>{item?.type}</TableCell>
                     <TableCell>
                       <FormattedPrice amount={item?.amount} />
                     </TableCell>
