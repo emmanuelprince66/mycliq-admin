@@ -108,6 +108,9 @@ const Customer = () => {
     staleTime: 5000, // Cache data for 5 seconds
   });
 
+  console.log("startDate", newStartDate);
+  console.log("endDate", newEndDate);
+
   const handleShowCustomerProfile = () => setShowCustomerProfile(true);
   const handleCloseShowCustomerProfile = () => setShowCustomerProfile(false);
   const handleOpenCustomerProfile = (id) => {
@@ -229,7 +232,7 @@ const Customer = () => {
                       />
                     ) : (
                       <FormattedPrice
-                        amount={customers?.transactions?.totalInwardsSum || 0}
+                        amount={customers?.transactions?.filterInwardsSum || 0}
                       />
                     )}
                   </Typography>
@@ -300,7 +303,7 @@ const Customer = () => {
                       />
                     ) : (
                       <FormattedPrice
-                        amount={customers?.transactions?.totalOutwardsSum || 0}
+                        amount={customers?.transactions?.filterOutwardsSum || 0}
                       />
                     )}
                   </Typography>
@@ -353,16 +356,16 @@ const Customer = () => {
                       color: "#000",
                     }}
                   >
-                    {isLoading ? (
+                    {/* {isLoading ? (
                       <CircularProgress
                         size="0.6rem"
                         sx={{ color: "#DC0019" }}
                       />
                     ) : (
                       <FormattedPrice
-                        amount={customers?.transactions?.totalWalletCount || 0}
+                        amount={customers?.transactions?.filterInwardsSum || 0}
                       />
-                    )}
+                    )} */}
                   </Typography>
                 </Box>
               </Box>
@@ -420,7 +423,7 @@ const Customer = () => {
                       />
                     ) : (
                       <FormattedPrice
-                        amount={customers?.commissions?.totalInwardsSum || 0}
+                        amount={customers?.commissions?.filterInwardsSum || 0}
                       />
                     )}
                   </Typography>
@@ -478,7 +481,7 @@ const Customer = () => {
                         sx={{ color: "#DC0019" }}
                       />
                     ) : (
-                      customers?.users?.totalUserCount || 0
+                      customers?.users?.filterUserCount || 0
                     )}
                   </Typography>
                 </Box>

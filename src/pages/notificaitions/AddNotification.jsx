@@ -111,7 +111,7 @@ const AddNotification = ({ selectedOption }) => {
     const payload = {
       title: headline,
       body: message,
-      channel: "users",
+      channel: selectedOption?.toLowerCase(),
     };
 
     mutationNoti.mutate(payload);

@@ -787,7 +787,8 @@ const TableCom = () => {
             <TableHead sx={{ background: "#F8F8F8" }}>
               <TableRow>
                 <TableCell>S/N</TableCell>
-                <TableCell>User</TableCell>
+                <TableCell>Origin</TableCell>
+                <TableCell>Recipient</TableCell>
                 <TableCell>Sub Type</TableCell>
                 <TableCell>Type</TableCell>
                 <TableCell>Amount(N)</TableCell>
@@ -814,13 +815,8 @@ const TableCom = () => {
                     <TableCell>
                       {i + 1 + (currentPage - 1) * rowsPerPage}
                     </TableCell>
-                    <TableCell>
-                      {item?.type === "transfer" ||
-                      item?.type === "reversal" ||
-                      item?.type === "payment"
-                        ? item?.origin?.accountName
-                        : item?.recipientDetails?.accountName}
-                    </TableCell>
+                    <TableCell>{item?.origin?.accountName}</TableCell>
+                    <TableCell>{item?.recipientDetails?.accountName}</TableCell>
                     <TableCell>{item?.subType}</TableCell>
                     <TableCell>{item?.type}</TableCell>
                     <TableCell>

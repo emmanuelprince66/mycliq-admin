@@ -543,7 +543,7 @@ export const Overview = () => {
                   <CircularProgress size="0.6rem" sx={{ color: "#DC0019" }} />
                 ) : (
                   <FormattedPrice
-                    amount={overviewData?.transactions?.filterInwardsSum || 0}
+                    amount={overviewData?.commissions?.filterInwardsSum || 0}
                   />
                 )}
               </Typography>
@@ -652,18 +652,7 @@ export const Overview = () => {
                         </span>
                       </div>
                     </div>
-                    <div className="flex items-center gap-2 w-full">
-                      <div className="w-[24px] h-[8px] bg-[#1367D8]"></div>
 
-                      <div className="flex items-center justify-between w-full">
-                        <p className="text-[#828282] font-normal text-[14px]">
-                          Total Reactivated Users [234]
-                        </p>
-                        <span className="text-[#F78105] cursor-pointer text-[12px] hover:text-[#333333]">
-                          View More
-                        </span>
-                      </div>
-                    </div>
                     <div className="flex items-center gap-2 w-full">
                       <div className="w-[24px] h-[8px] bg-black"></div>
 
