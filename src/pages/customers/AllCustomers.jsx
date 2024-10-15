@@ -29,18 +29,31 @@ import {
 import { useQuery } from "@tanstack/react-query";
 import { AuthAxios } from "../../helpers/axiosInstance";
 import { CompressOutlined } from "@mui/icons-material";
+import { adjustDateRange } from "../../utils/dateFix";
+import SelectDate from "../../components/SelectDate";
+import { useSelector } from "react-redux";
+import { formatToIsoDateStr } from "../../utils/formatIsoDateString";
 
 const AllCustomers = ({ handleOpenCustomerProfile }) => {
   const rowsPerPage = 20;
   const [currentPage, setCurrentPage] = useState(1);
   const [searchTerm, setSearchTerm] = useState("");
   const [filteredUser, setFilteredUser] = useState(null);
+  const { selectedDates } = useSelector((state) => state);
+
+  const startDate = formatToIsoDateStr(selectedDates?.startDate);
+  const endDate = formatToIsoDateStr(selectedDates?.endDate);
+
+  const { startDate: newStartDate, endDate: newEndDate } = adjustDateRange(
+    startDate,
+    endDate
+  );
 
   const fetchUsersData = async ({ queryKey }) => {
-    const [_key, { page, limit }] = queryKey;
+    const [_key, { page, limit, startDate, endDate }] = queryKey;
     try {
       const response = await AuthAxios.get(
-        `/admin/user/all?page=${page}&limit=${limit}&type=user`
+        `/admin/user/all?page=${page}&limit=${limit}&type=user&startDate=${startDate}&endDate=${endDate}`
       );
       return response?.data?.data;
     } catch (error) {
@@ -53,7 +66,15 @@ const AllCustomers = ({ handleOpenCustomerProfile }) => {
     error,
     isLoading,
   } = useQuery({
-    queryKey: ["usersData", { page: currentPage, limit: rowsPerPage }],
+    queryKey: [
+      "usersData",
+      {
+        page: currentPage,
+        limit: rowsPerPage,
+        startDate: newStartDate,
+        endDate: newEndDate,
+      },
+    ],
     queryFn: fetchUsersData,
     keepPreviousData: true,
     staleTime: 5000, // Cache data for 5 seconds
