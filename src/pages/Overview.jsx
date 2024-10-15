@@ -44,9 +44,6 @@ export const Overview = () => {
     endDate
   );
 
-  console.log("newStartDate", newStartDate);
-  console.log("newEndDate", newEndDate);
-
   const navigate = useNavigate();
 
   const {

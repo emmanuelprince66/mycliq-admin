@@ -28,6 +28,7 @@ import {
 } from "@mui/material";
 import modDate from "../../utils/moddate";
 import ThierThreeModal from "./ThierThreeModal";
+import { ToastContainer } from "react-toastify";
 
 const TableTwo = ({
   currentPage,
@@ -146,6 +147,7 @@ const TableTwo = ({
         <ThierThreeModal modalData={modalData || {}} />
       </Modal>
       {/* Modal ends */}
+      <ToastContainer />
     </>
   );
 };

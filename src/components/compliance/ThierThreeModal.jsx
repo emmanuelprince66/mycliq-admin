@@ -21,6 +21,8 @@ import { Height } from "@mui/icons-material";
 import CreateRoundedIcon from "@mui/icons-material/CreateRounded";
 import { useMutation } from "@tanstack/react-query";
 import AuthAxios from "../../helpers/axiosInstance";
+import { toast, ToastContainer } from "react-toastify";
+
 import SendRoundedIcon from "@mui/icons-material/SendRounded";
 
 import modDate from "../../utils/moddate";
@@ -40,6 +42,19 @@ const ThierThreeModal = ({ modalData }) => {
   const [messageCount, setMessageCount] = useState(0);
   const [disableButton, setDisableButton] = useState(false);
 
+  const notifyError = (msg) => {
+    toast.error(msg, {
+      position: toast.POSITION.TOP_RIGHT,
+      autoClose: 6000, // Time in milliseconds
+    });
+  };
+  const notifySuccess = (msg) => {
+    toast.success(msg, {
+      position: toast.POSITION.TOP_RIGHT,
+      autoClose: 6000, // Time in milliseconds
+    });
+  };
+
   console.log("mod", modalData);
 
   const apiId =
@@ -53,11 +68,13 @@ const ThierThreeModal = ({ modalData }) => {
     setStatus(event.target.value);
   };
 
+  console.log("api", apiId);
+
   const aprvMutation = useMutation({
     mutationFn: async (payload) => {
       try {
         const response = await AuthAxios({
-          url: `/admin/compliance/users/tier3/${apiId}`,
+          url: `/admin/complaince/users/tier3/${apiId}`,
           method: "PUT",
           data: payload,
         });
@@ -66,16 +83,16 @@ const ThierThreeModal = ({ modalData }) => {
       } catch (error) {
         console.log(error);
         setDisableButton(false);
-        notifyErr(error.response.data.message);
+        notifyError(error.response.data.message);
         throw new Error(error.response);
       }
     },
     onSuccess: (response) => {
-      notify(response.message);
+      notifySuccess(response.message);
       setDisableButton(false);
     },
     onError: (error) => {
-      setButtonDisabled(false);
+      setDisableButton(false);
     },
   });
 
@@ -85,9 +102,15 @@ const ThierThreeModal = ({ modalData }) => {
       status: status,
       note: message,
     };
+    console.log("sa", status);
+
+    if (status === "pending") {
+      notifyError("Pending cannot be sent as a status");
+    } else {
+      aprvMutation.mutate(payload);
+      setDisableButton(true);
+    }
     console.log("data", payload);
-    aprvMutation.mutate(payload);
-    setDisableButton(true);
   };
 
   const style = {
@@ -640,40 +663,6 @@ const ThierThreeModal = ({ modalData }) => {
                       className="h-full w-auto object-contain"
                     />
                   </div>
-
-                  <div className="w-[60%] mx-auto flex gap-3 mt-5">
-                    <Button
-                      variant="outlined"
-                      sx={{
-                        padding: "10px",
-                        borderRadius: "8px",
-                        gap: "6px",
-                        textTransform: "capitalize",
-                        width: "50%",
-                        color: "#F78105",
-                        borderColor: "#F78105",
-                      }}
-                    >
-                      Reject Customer Image
-                    </Button>
-                    <Button
-                      //   onClick={handleClose1}
-                      sx={{
-                        background: "#F78105",
-                        padding: "10px",
-                        borderRadius: "8px",
-                        gap: "6px",
-                        textTransform: "capitalize",
-                        width: "50%",
-                        color: "#fff",
-                        "&:hover": {
-                          backgroundColor: "#F78105",
-                        },
-                      }}
-                    >
-                      Accept Customer Image
-                    </Button>
-                  </div>
                 </div>
 
                 {modalData?.utilityMeta?.files[0]?.identityVerification
@@ -719,40 +708,6 @@ const ThierThreeModal = ({ modalData }) => {
                         className="h-full w-auto object-contain"
                       />
                     </div>
-
-                    <div className="w-[60%] mx-auto flex gap-3 mt-5">
-                      <Button
-                        variant="outlined"
-                        sx={{
-                          padding: "10px",
-                          borderRadius: "8px",
-                          gap: "6px",
-                          textTransform: "capitalize",
-                          width: "50%",
-                          color: "#F78105",
-                          borderColor: "#F78105",
-                        }}
-                      >
-                        Reject Customer Image
-                      </Button>
-                      <Button
-                        //   onClick={handleClose1}
-                        sx={{
-                          background: "#F78105",
-                          padding: "10px",
-                          borderRadius: "8px",
-                          gap: "6px",
-                          textTransform: "capitalize",
-                          width: "50%",
-                          color: "#fff",
-                          "&:hover": {
-                            backgroundColor: "#F78105",
-                          },
-                        }}
-                      >
-                        Accept Customer Image
-                      </Button>
-                    </div>
                   </div>
                 )}
                 {modalData?.utilityMeta?.files[0]?.utilityBill?.length > 0 && (
@@ -795,40 +750,6 @@ const ThierThreeModal = ({ modalData }) => {
                         alt="Customer Selfie"
                         className="h-full w-auto object-contain"
                       />
-                    </div>
-
-                    <div className="w-[60%] mx-auto flex gap-3 mt-5">
-                      <Button
-                        variant="outlined"
-                        sx={{
-                          padding: "10px",
-                          borderRadius: "8px",
-                          gap: "6px",
-                          textTransform: "capitalize",
-                          width: "50%",
-                          color: "#F78105",
-                          borderColor: "#F78105",
-                        }}
-                      >
-                        Reject Customer Image
-                      </Button>
-                      <Button
-                        //   onClick={handleClose1}
-                        sx={{
-                          background: "#F78105",
-                          padding: "10px",
-                          borderRadius: "8px",
-                          gap: "6px",
-                          textTransform: "capitalize",
-                          width: "50%",
-                          color: "#fff",
-                          "&:hover": {
-                            backgroundColor: "#F78105",
-                          },
-                        }}
-                      >
-                        Accept Customer Utility Bill
-                      </Button>
                     </div>
                   </div>
                 )}
@@ -886,7 +807,7 @@ const ThierThreeModal = ({ modalData }) => {
                     }}
                     id="email"
                   />
-
+                  {/* 
                   <Box className="flex w-full items-center justify-between mt-[4rem]">
                     <Typography
                       sx={{
@@ -920,9 +841,9 @@ const ThierThreeModal = ({ modalData }) => {
                       },
                     }}
                     id="email"
-                  />
+                  /> */}
 
-                  <div className="w-full flex-col gap-4 border rounded-md border-grey-500  p-4 items-start mt-7">
+                  <div className="w-full flex-col  gap-4 border rounded-md border-grey-500  p-4 items-start mt-[10%]">
                     <p className="text-[#1e1e1e] font-[500] mb-6">
                       TRANSACTION STATUS
                     </p>
@@ -947,7 +868,7 @@ const ThierThreeModal = ({ modalData }) => {
                           label="Pending"
                         />
                         <FormControlLabel
-                          value="rejected"
+                          value="reject"
                           control={
                             <Radio
                               sx={{
@@ -959,7 +880,7 @@ const ThierThreeModal = ({ modalData }) => {
                           label="Rejected"
                         />
                         <FormControlLabel
-                          value="approved"
+                          value="approve"
                           control={
                             <Radio
                               sx={{

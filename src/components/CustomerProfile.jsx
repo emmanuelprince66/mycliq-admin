@@ -1492,10 +1492,11 @@ const CustomerProfile = ({
                   <TableHead sx={{ background: "#F8F8F8" }}>
                     <TableRow>
                       <TableCell>S/N</TableCell>
-                      <TableCell>Transaction ID</TableCell>
-                      <TableCell>User</TableCell>
-                      <TableCell>Date</TableCell>
+                      <TableCell>Origin</TableCell>
+                      <TableCell>Recipient</TableCell>
+                      <TableCell>Sub Type</TableCell>
                       <TableCell>Type</TableCell>
+                      <TableCell>Date</TableCell>
                       <TableCell>Amount(N)</TableCell>
                       <TableCell>Status</TableCell>
                       <TableCell>Action</TableCell>
@@ -1523,17 +1524,11 @@ const CustomerProfile = ({
                           <TableCell>
                             {i + 1 + (currentPage - 1) * rowsPerPage}
                           </TableCell>
+                          <TableCell>{item?.origin?.accountName}</TableCell>
                           <TableCell>
-                            <Typography
-                              sx={{
-                                fontWeight: "400",
-                                fontSize: "16px",
-                                color: "#828282",
-                              }}
-                            >
-                              {item.id.substring(0, 10) + "...."}
-                            </Typography>
+                            {item?.recipientDetails?.accountName}
                           </TableCell>
+                          <TableCell>{item?.subType}</TableCell>
                           <TableCell>
                             <Typography
                               sx={{
@@ -1542,7 +1537,7 @@ const CustomerProfile = ({
                                 color: "#828282",
                               }}
                             >
-                              {item?.origin?.accountName}
+                              {item.type}
                             </Typography>
                           </TableCell>
                           <TableCell>
@@ -1556,17 +1551,7 @@ const CustomerProfile = ({
                               {modDate(item?.createdAt)}
                             </Typography>
                           </TableCell>
-                          <TableCell>
-                            <Typography
-                              sx={{
-                                fontWeight: "400",
-                                fontSize: "16px",
-                                color: "#828282",
-                              }}
-                            >
-                              {item.type}
-                            </Typography>
-                          </TableCell>
+
                           <TableCell>
                             <Typography
                               sx={{
