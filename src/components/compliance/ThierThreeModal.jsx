@@ -41,6 +41,17 @@ const ThierThreeModal = ({ modalData }) => {
   const [compName, setCompName] = useState("");
   const [messageCount, setMessageCount] = useState(0);
   const [disableButton, setDisableButton] = useState(false);
+  const [status, setStatus] = useState(null);
+
+  useEffect(() => {
+    if (modalData?.utilityMeta?.files[0]?.isApproved) {
+      setStatus("approve");
+    } else if (modalData?.utilityMeta?.files[0]?.isRejected) {
+      setStatus("reject");
+    } else {
+      setStatus("pending");
+    }
+  }, [modalData]);
 
   const notifyError = (msg) => {
     toast.error(msg, {
@@ -61,8 +72,6 @@ const ThierThreeModal = ({ modalData }) => {
     modalData?.utilityMeta &&
     Object.keys(modalData?.utilityMeta).length > 0 &&
     modalData?.utilityMeta?.files[0]?.id;
-
-  const [status, setStatus] = useState("pending");
 
   const handleChange = (event) => {
     setStatus(event.target.value);
