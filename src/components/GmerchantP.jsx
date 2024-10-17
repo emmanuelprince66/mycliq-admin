@@ -58,6 +58,7 @@ import { styled } from "@mui/material/styles";
 import AccordionSummary from "@mui/material/AccordionSummary";
 import { formatToIsoDateStr } from "../utils/formatIsoDateString";
 import modDate from "../utils/moddate";
+import { useMutation } from "@tanstack/react-query";
 import CustomPagination from "./CustomPagination";
 const Item = styled(Box)(({ theme }) => ({
   backgroundColor: theme.palette.mode === "dark" ? "#1A2027" : "#fff",
@@ -80,6 +81,7 @@ const GmerchantP = ({
 }) => {
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [outletValue, setOutletValue] = useState("");
+  const [isSwitchChecked, setIsSwitchChecked] = useState(null);
   const open = Boolean(anchorEl);
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
@@ -95,6 +97,53 @@ const GmerchantP = ({
   } = useForm({ mode: "all" });
 
   console.log("cause", merchantDataById?.merchant);
+  const updateUserStatus = async ({ userId, status }) => {
+    console.log("status", status);
+    try {
+      const response = await AuthAxios.put(`/admin/user/${userId}/status`, {
+        userId,
+        status,
+      });
+
+      if (response.status !== 201) {
+        throw new Error(response.data.message || "Failed to update status");
+      }
+
+      return response.data;
+    } catch (error) {
+      throw new Error(error.response?.data?.message || "Network Error");
+    }
+  };
+
+  const statusMutation = useMutation({
+    mutationFn: updateUserStatus,
+    onSuccess: (data) => {
+      // queryClient.invalidateQueries(['userStatus', userId]);
+      console.log("test", data);
+      setTimeout(() => {
+        notify(data?.message);
+      }, 500);
+    },
+    onError: (error) => {
+      console.error("Error updating user status:", error);
+      // Handle the error (e.g., show a notification or set an error state)
+    },
+  });
+
+  const handleSwitchChange = (event) => {
+    setIsSwitchChecked(event.target.checked);
+    const status = event.target.checked;
+
+    // console.log(status)
+    // console.log(payload)
+
+    console.log(status);
+    const payload = {
+      userId: apiId,
+      status: !status ? "reactivated" : "disabled",
+    };
+    statusMutation.mutate(payload);
+  };
 
   return (
     <div className="w-full">
@@ -1043,22 +1092,17 @@ const GmerchantP = ({
                           }}
                         >
                           <Switch
+                            checked={isSwitchChecked}
+                            onChange={handleSwitchChange}
                             sx={{
                               "& .MuiSwitch-switchBase.Mui-checked": {
                                 color: "#fff",
-                                // "&:hover": {
-                                //   backgroundColor: alpha(
-                                //     pink[600],
-                                //     theme.palette.action.hoverOpacity
-                                //   ),
-                                // },
                               },
                               "& .MuiSwitch-switchBase.Mui-checked + .MuiSwitch-track":
                                 {
                                   backgroundColor: "#DC0019",
                                 },
                             }}
-                            defaultChecked
                             color="default"
                           />
                         </Typography>
@@ -1190,11 +1234,13 @@ const GmerchantP = ({
                         QR code
                       </Typography>
                       <Box className="flex items-center mt-1 mb-1 ">
-                        <QRCode
-                          value={merchantDataById?.merchant?.id}
-                          size={256}
-                          level="H"
-                        />
+                        {merchantDataById && (
+                          <QRCode
+                            value={merchantDataById?.merchant?.id}
+                            size={256}
+                            level="H"
+                          />
+                        )}
                       </Box>
                     </Box>
                   </Grid>
