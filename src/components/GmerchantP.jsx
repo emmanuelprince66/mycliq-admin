@@ -33,7 +33,7 @@ import TransgenderRoundedIcon from "@mui/icons-material/TransgenderRounded";
 import ReportProblemOutlinedIcon from "@mui/icons-material/ReportProblemOutlined";
 import FmdGoodRoundedIcon from "@mui/icons-material/FmdGoodRounded";
 import CheckCircleOutlineRoundedIcon from "@mui/icons-material/CheckCircleOutlineRounded";
-
+import QRCode from "react-qr-code";
 import AccessTimeRoundedIcon from "@mui/icons-material/AccessTimeRounded";
 import HttpsOutlinedIcon from "@mui/icons-material/HttpsOutlined";
 
@@ -93,6 +93,8 @@ const GmerchantP = ({
     register,
     formState: { isValid, errors },
   } = useForm({ mode: "all" });
+
+  console.log("cause", merchantDataById?.merchant);
 
   return (
     <div className="w-full">
@@ -406,7 +408,7 @@ const GmerchantP = ({
                             p: "1rem",
                           }}
                         >
-                          Customer Profile
+                          Merchant Profile
                         </Typography>
                         <div className="flex gap-2 items-center cursor-pointer">
                           <img src={compliance} alt="c-p" />
@@ -1176,6 +1178,25 @@ const GmerchantP = ({
                       </Box> */}
                     </Box>
                     {/* a boc is here */}
+                    <Box className="flex flex-col border-grey-400  border-b-[1px] items-start w-full justify-center py-2">
+                      <Typography
+                        sx={{
+                          color: "grey",
+                          fontWeight: "500",
+                          fontSize: "13px",
+                          marginTop: "10px",
+                        }}
+                      >
+                        QR code
+                      </Typography>
+                      <Box className="flex items-center mt-1 mb-1 ">
+                        <QRCode
+                          value={merchantDataById?.merchant?.id}
+                          size={256}
+                          level="H"
+                        />
+                      </Box>
+                    </Box>
                   </Grid>
                 </Grid>
               </AccordionDetails>

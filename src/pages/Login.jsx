@@ -87,6 +87,8 @@ export const Login = () => {
     onSuccess: (data) => {
       navigate("/overview");
 
+      console.log("ass", data);
+
       // // Store data in cookies
 
       Cookies.set("authToken", data?.data?.data?.access_token);
