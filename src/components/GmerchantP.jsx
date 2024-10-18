@@ -69,6 +69,8 @@ import zFive from "../assets/images/admin/profit/z-5.svg";
 import zSix from "../assets/images/admin/profit/z-6.svg";
 import zSeven from "../assets/images/admin/profit/z-7.svg";
 import zEight from "../assets/images/admin/profit/z-8.svg";
+import html2canvas from "html2canvas";
+import jsPDF from "jspdf";
 
 const Item = styled(Box)(({ theme }) => ({
   backgroundColor: theme.palette.mode === "dark" ? "#1A2027" : "#fff",
@@ -106,6 +108,19 @@ const GmerchantP = ({
     register,
     formState: { isValid, errors },
   } = useForm({ mode: "all" });
+
+  const handleDownload = async () => {
+    const element = document.getElementById("qrCodeSection"); // The element you want to convert to PDF
+    const canvas = await html2canvas(element);
+    const imageData = canvas.toDataURL("image/png");
+
+    const pdf = new jsPDF();
+    const imgWidth = 190;
+    const imgHeight = (canvas.height * imgWidth) / canvas.width;
+
+    pdf.addImage(imageData, "PNG", 10, 10, imgWidth, imgHeight);
+    pdf.save("MerchantQRCode.pdf");
+  };
 
   useEffect(() => {
     if (merchantDataById) setShowQr(true);
@@ -1236,9 +1251,32 @@ const GmerchantP = ({
                       </Box> */}
                     </Box>
                     {/* a boc is here */}
-
+                    <div className="w-full flex items-center justify-between my-4">
+                      <p className="text-black font-[500] text-[20px]">
+                        Merchant QR Code
+                      </p>
+                      <Button
+                        onClick={handleDownload}
+                        sx={{
+                          background: "#333333",
+                          borderRadius: "8px",
+                          width: "20%",
+                          color: "#fff",
+                          "&:hover": {
+                            backgroundColor: "#333333",
+                          },
+                          textTransform: "capitalize",
+                          fontWeight: "500",
+                        }}
+                      >
+                        download
+                      </Button>
+                    </div>
                     <div className="w-full ">
-                      <Box className="flex flex-col border-grey-400 border-b-[1px] w-[60%] bg-[#333333] rounded-md  items-start mx-auto relative justify-center py-2">
+                      <Box
+                        id="qrCodeSection"
+                        className="flex flex-col border-grey-400 border-b-[1px] w-[50%] bg-[#333333] rounded-md  items-start mx-auto relative justify-center py-2"
+                      >
                         <Box className="flex items-center mt-1 mb-1 w-full">
                           {showQr && (
                             <>
@@ -1256,30 +1294,30 @@ const GmerchantP = ({
                                       mb: "3rem",
                                     }}
                                   >
-                                    I ACCEPT PAYMENTS WITH
+                                    I ACCEPT PAYMENTS WITH MYCLIQ
                                   </Typography>
-                                  <div className="absolute w-full top-[-0.3rem] left-[20.5rem]">
+                                  {/* <div className="absolute w-full top-[-0.3rem] left-[20.5rem]">
                                     <img
                                       src={zOne}
                                       alt=""
                                       className="h-[130px] w-[130px]  z-2"
                                     />
-                                  </div>
-                                  <div className="absolute w-full top-[3rem] left-[3rem]">
+                                  </div> */}
+                                  <div className="absolute w-full top-[3.7rem] left-[5rem]">
                                     <img
                                       src={zTwo}
                                       alt=""
                                       className="h-[20px] w-[20px]  z-2"
                                     />
                                   </div>
-                                  <div className="absolute w-full top-[4.5rem] left-[22rem]">
+                                  <div className="absolute w-full top-[5.9rem] left-[19rem]">
                                     <img
                                       src={zThree}
                                       alt=""
                                       className="h-[30px] w-[30px]  z-2"
                                     />
                                   </div>
-                                  <div className="absolute w-full top-[14.5rem] left-[0.2rem]">
+                                  <div className="absolute w-full top-[14.5rem] left-[1rem]">
                                     <img
                                       src={zFour}
                                       alt=""
@@ -1293,13 +1331,13 @@ const GmerchantP = ({
                                     className="h-[30px] w-[30px]  z-2"
                                   />
                                 </div> */}
-                                  <div className="absolute w-full top-[5.2rem] left-[5.7rem]">
+                                  {/* <div className="absolute w-full top-[5.2rem] left-[5.7rem]">
                                     <img
                                       src={zEight}
                                       alt=""
                                       className="h-[280px] w-[280px]  z-2"
                                     />
-                                  </div>
+                                  </div> */}
 
                                   <div className="z-20 border-[10px] rounded-[20px] border-slate-200 p-2  ">
                                     <QRCode
@@ -1310,11 +1348,23 @@ const GmerchantP = ({
                                   </div>
                                 </div>
                                 <div className="flex flex-col items-center justify-center gap-1 mt-10">
-                                  <p className="text-white font-[600] border-slate-200 border-[3px] p-3 text-[20px] my-4">
+                                  <Button
+                                    sx={{
+                                      width: "50%",
+                                      padding: "10px",
+                                      borderRadius: "8px",
+                                      border: "1px solid #BDBDBD",
+                                      color: "#F78105",
+                                      borderColor: "#BDBDBD",
+                                      "&:hover": {
+                                        borderColor: "#BDBDBD",
+                                      },
+                                    }}
+                                    variant="outlined"
+                                  >
                                     Scan To Pay
-                                  </p>
-
-                                  <p className="text-white font-[500] text-[18px]">
+                                  </Button>
+                                  <p className="text-white font-[500] text-[18px] my-2">
                                     {/* CLIQ ID: {merchantDataById?.merchant?.id} */}
                                   </p>
                                   <p className="text-white font-[300] text-[12px]">
