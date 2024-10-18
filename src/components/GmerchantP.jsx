@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useState } from "react";
 import {
   Table,
@@ -60,6 +60,16 @@ import { formatToIsoDateStr } from "../utils/formatIsoDateString";
 import modDate from "../utils/moddate";
 import { useMutation } from "@tanstack/react-query";
 import CustomPagination from "./CustomPagination";
+
+import zOne from "../assets/images/admin/profit/z-1.svg";
+import zTwo from "../assets/images/admin/profit/z-2.svg";
+import zThree from "../assets/images/admin/profit/z-3.svg";
+import zFour from "../assets/images/admin/profit/z-4.svg";
+import zFive from "../assets/images/admin/profit/z-5.svg";
+import zSix from "../assets/images/admin/profit/z-6.svg";
+import zSeven from "../assets/images/admin/profit/z-7.svg";
+import zEight from "../assets/images/admin/profit/z-8.svg";
+
 const Item = styled(Box)(({ theme }) => ({
   backgroundColor: theme.palette.mode === "dark" ? "#1A2027" : "#fff",
   ...theme.typography.body2,
@@ -82,6 +92,7 @@ const GmerchantP = ({
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [outletValue, setOutletValue] = useState("");
   const [isSwitchChecked, setIsSwitchChecked] = useState(null);
+  const [showQr, setShowQr] = useState(false);
   const open = Boolean(anchorEl);
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
@@ -96,6 +107,9 @@ const GmerchantP = ({
     formState: { isValid, errors },
   } = useForm({ mode: "all" });
 
+  useEffect(() => {
+    if (merchantDataById) setShowQr(true);
+  }, [merchantDataById]);
   console.log("cause", merchantDataById?.merchant);
   const updateUserStatus = async ({ userId, status }) => {
     console.log("status", status);
@@ -1222,27 +1236,97 @@ const GmerchantP = ({
                       </Box> */}
                     </Box>
                     {/* a boc is here */}
-                    <Box className="flex flex-col border-grey-400  border-b-[1px] items-start w-full justify-center py-2">
-                      <Typography
-                        sx={{
-                          color: "grey",
-                          fontWeight: "500",
-                          fontSize: "13px",
-                          marginTop: "10px",
-                        }}
-                      >
-                        QR code
-                      </Typography>
-                      <Box className="flex items-center mt-1 mb-1 ">
-                        {merchantDataById && (
-                          <QRCode
-                            value={merchantDataById?.merchant?.id}
-                            size={256}
-                            level="H"
-                          />
-                        )}
+
+                    <div className="w-full ">
+                      <Box className="flex flex-col border-grey-400 border-b-[1px] w-[60%] bg-[#333333] rounded-md  items-start mx-auto relative justify-center py-2">
+                        <Box className="flex items-center mt-1 mb-1 w-full">
+                          {showQr && (
+                            <>
+                              <Box className="w-full">
+                                <div className="mx-auto w-[60%] h-full flex  rounded-md flex-col items-center justify-center ">
+                                  <Typography
+                                    sx={{
+                                      color: "grey",
+                                      fontWeight: "700",
+                                      fontSize: "20px",
+                                      textAlign: "center",
+                                      zIndex: "2",
+                                      color: "#ffb366",
+                                      marginTop: "10px",
+                                      mb: "3rem",
+                                    }}
+                                  >
+                                    I ACCEPT PAYMENTS WITH
+                                  </Typography>
+                                  <div className="absolute w-full top-[-0.3rem] left-[20.5rem]">
+                                    <img
+                                      src={zOne}
+                                      alt=""
+                                      className="h-[130px] w-[130px]  z-2"
+                                    />
+                                  </div>
+                                  <div className="absolute w-full top-[3rem] left-[3rem]">
+                                    <img
+                                      src={zTwo}
+                                      alt=""
+                                      className="h-[20px] w-[20px]  z-2"
+                                    />
+                                  </div>
+                                  <div className="absolute w-full top-[4.5rem] left-[22rem]">
+                                    <img
+                                      src={zThree}
+                                      alt=""
+                                      className="h-[30px] w-[30px]  z-2"
+                                    />
+                                  </div>
+                                  <div className="absolute w-full top-[14.5rem] left-[0.2rem]">
+                                    <img
+                                      src={zFour}
+                                      alt=""
+                                      className="h-[30px] w-[30px]  z-2"
+                                    />
+                                  </div>
+                                  {/* <div className="absolute w-full top-[9.5rem] left-[1rem]">
+                                  <img
+                                    src={zFive}
+                                    alt=""
+                                    className="h-[30px] w-[30px]  z-2"
+                                  />
+                                </div> */}
+                                  <div className="absolute w-full top-[5.2rem] left-[5.7rem]">
+                                    <img
+                                      src={zEight}
+                                      alt=""
+                                      className="h-[280px] w-[280px]  z-2"
+                                    />
+                                  </div>
+
+                                  <div className="z-20 border-[10px] rounded-[20px] border-slate-200 p-2  ">
+                                    <QRCode
+                                      value={merchantDataById?.merchant?.id}
+                                      size={206}
+                                      level="H"
+                                    />
+                                  </div>
+                                </div>
+                                <div className="flex flex-col items-center justify-center gap-1 mt-10">
+                                  <p className="text-white font-[600] border-slate-200 border-[3px] p-3 text-[20px] my-4">
+                                    Scan To Pay
+                                  </p>
+
+                                  <p className="text-white font-[500] text-[18px]">
+                                    {/* CLIQ ID: {merchantDataById?.merchant?.id} */}
+                                  </p>
+                                  <p className="text-white font-[300] text-[12px]">
+                                    Payment with the MyCliq App is a Breeze!
+                                  </p>
+                                </div>
+                              </Box>
+                            </>
+                          )}
+                        </Box>
                       </Box>
-                    </Box>
+                    </div>
                   </Grid>
                 </Grid>
               </AccordionDetails>

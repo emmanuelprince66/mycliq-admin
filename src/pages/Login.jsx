@@ -69,7 +69,7 @@ export const Login = () => {
   const loginMutation = useMutation({
     mutationFn: async (formData) => {
       try {
-        const response = await BaseAxios({
+        const response = await AuthAxios({
           url: "/auth/admin/login",
           method: "POST",
           data: formData,
