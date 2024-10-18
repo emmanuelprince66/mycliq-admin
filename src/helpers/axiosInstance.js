@@ -3,7 +3,7 @@ import { getCookie, setCookie } from "../utils/cookieAuth";
 
 // Axios instance for API calls
 export const AuthAxios = Axios.create({
-  baseURL: "https://mycliq-prod-e2c876691052.herokuapp.com/api",
+  baseURL: "https://api.mycliq.tech/api",
   withCredentials: false,
 });
 // export const AuthAxios = Axios.create({
@@ -13,7 +13,7 @@ export const AuthAxios = Axios.create({
 
 // Axios instance for authentication related calls
 export const BaseAxios = Axios.create({
-  baseURL: "https://mycliq-prod-e2c876691052.herokuapp.com/api",
+  baseURL: "https://api.mycliq.tech/api",
   withCredentials: false,
 });
 // export const BaseAxios = Axios.create({
