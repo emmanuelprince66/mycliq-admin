@@ -1275,7 +1275,11 @@ const GmerchantP = ({
                     <div className="w-full ">
                       <Box
                         id="qrCodeSection"
-                        className="flex flex-col border-grey-400 border-b-[1px] w-[50%] bg-[#333333] rounded-md  items-start mx-auto relative justify-center py-2"
+                        sx={{
+                          maxWidth: "800px",
+                          minWidth: "300px",
+                        }}
+                        className="flex flex-col border-grey-400 border-b-[1px] w-[400px]  bg-[#333333] rounded-md  items-start mx-auto relative justify-center py-2"
                       >
                         <Box className="flex items-center mt-1 mb-1 w-full">
                           {showQr && (
