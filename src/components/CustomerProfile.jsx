@@ -85,6 +85,26 @@ const CustomerProfile = ({
 
   const handleCloseSecuModal = () => setOpenSecuModal(false);
 
+  const { data: profileData, isLoading: profileLoading } = useQuery({
+    queryKey: ["profileData"],
+    queryFn: async () => {
+      try {
+        const response = await AuthAxios.get(`/admin/user/${apiId}`);
+        console.log(response);
+        return response?.data?.data;
+      } catch (error) {
+        if (error?.response?.data?.code === 401) {
+          navigate("/");
+        }
+        throw new Error("Failed to fetch customer data");
+      }
+    },
+    onSuccess: (data) => {},
+    staleTime: 5000, // Cache data for 5 seconds
+  });
+
+  console.log("pixes", profileData);
+
   const notify = (message) => {
     toast.success(message, {
       position: "top-center",

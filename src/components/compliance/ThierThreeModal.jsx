@@ -44,12 +44,19 @@ const ThierThreeModal = ({ modalData }) => {
   const [status, setStatus] = useState(null);
 
   useEffect(() => {
-    if (modalData?.utilityMeta?.files[0]?.isApproved) {
-      setStatus("approve");
-    } else if (modalData?.utilityMeta?.files[0]?.isRejected) {
-      setStatus("reject");
+    if (
+      modalData?.utilityMeta !== null &&
+      Array.isArray(modalData?.utilityMeta?.files)
+    ) {
+      if (modalData?.utilityMeta?.files[0]?.isApproved) {
+        setStatus("approve");
+      } else if (modalData?.utilityMeta?.files[0]?.isRejected) {
+        setStatus("reject");
+      } else {
+        setStatus("pending");
+      }
     } else {
-      setStatus("pending");
+      return;
     }
   }, [modalData]);
 
