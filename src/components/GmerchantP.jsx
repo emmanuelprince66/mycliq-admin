@@ -122,6 +122,17 @@ const GmerchantP = ({
     pdf.save("MerchantQRCode.pdf");
   };
 
+  const qrPayload = merchantDataById
+    ? {
+        type: "merchant",
+        cliqId: merchantDataById?.merchant?.phone,
+        amount: "150",
+        narration: "payment",
+        saveBeneficiary: true,
+      }
+    : "";
+
+  console.log("qrrrr", qrPayload);
   useEffect(() => {
     if (merchantDataById) setShowQr(true);
   }, [merchantDataById]);
@@ -1345,7 +1356,7 @@ const GmerchantP = ({
 
                                   <div className="z-20 border-[10px] rounded-[20px] border-slate-200 p-2  ">
                                     <QRCode
-                                      value={merchantDataById?.merchant?.id}
+                                      value={JSON.stringify(qrPayload)}
                                       size={206}
                                       level="H"
                                     />

@@ -63,15 +63,27 @@ const CustomerProfile = ({
   const [index, setIndex] = useState(0);
   const [openAirtimeModal, setOpenAirtimeModal] = useState(false);
   const handleCloseAirtimeModal = () => setOpenAirtimeModal(false);
+  const [btnLoading, setBtnLoading] = useState(false);
   const handleCloseWithdrawalDetails = () => setWithdrawalDetails(false);
   const [withdrawalDetails, setWithdrawalDetails] = useState(false);
-
+  const [openSecuModal, setOpenSecuModal] = useState(false);
   const handleCloseProfileDetails = () => setShowProfileDetails(false);
   const rowsPerPage = 10;
   const [currentPage, setCurrentPage] = useState(1);
   const [isSwitchChecked, setIsSwitchChecked] = useState(null);
-
+  const style = {
+    position: "absolute",
+    top: "50%",
+    left: "50%",
+    transform: "translate(-50%, -50%)",
+    borderRadius: "12px",
+    width: "745px",
+    bgcolor: "background.paper",
+    p: 3,
+  };
   console.log("switch", isSwitchChecked);
+
+  const handleCloseSecuModal = () => setOpenSecuModal(false);
 
   const notify = (message) => {
     toast.success(message, {
@@ -87,6 +99,45 @@ const CustomerProfile = ({
   };
   // update status
 
+  const handleOpenSecuModal = () => setOpenSecuModal(true);
+
+  const changeSecurityQuestion = async ({ userId }) => {
+    try {
+      const response = await AuthAxios.put(
+        `/admin/user/${userId}/security-question`,
+        {
+          userId,
+        }
+      );
+
+      if (response.status !== 201) {
+        throw new Error(
+          response.data.message || "Failed to Change Security Question"
+        );
+      }
+
+      return response.data;
+    } catch (error) {
+      throw new Error(error.response?.data?.message || "Network Error");
+    }
+  };
+
+  const changeSecurityQuestionMutation = useMutation({
+    mutationFn: changeSecurityQuestion,
+    onSuccess: (data) => {
+      // queryClient.invalidateQueries(['userStatus', userId]);
+      setBtnLoading(false);
+      setTimeout(() => {
+        notify(data?.message);
+      }, 500);
+    },
+    onError: (error) => {
+      console.error("Error updating user status:", error);
+      setBtnLoading(false);
+
+      // Handle the error (e.g., show a notification or set an error state)
+    },
+  });
   const updateUserStatus = async ({ userId, status }) => {
     console.log("status", status);
     try {
@@ -159,6 +210,16 @@ const CustomerProfile = ({
     onSuccess: (data) => {},
     staleTime: 5000, // Cache data for 5 seconds
   });
+
+  const handleChangeSecurityQ = () => {
+    setBtnLoading(true);
+
+    const payload = {
+      userId: apiId,
+    };
+
+    changeSecurityQuestionMutation.mutate(payload);
+  };
 
   const fetchCustomerTrx = async ({ queryKey }) => {
     const [_key, { page, limit, entityId }] = queryKey;
@@ -1366,7 +1427,10 @@ const CustomerProfile = ({
                 </Typography>
               </Box>
 
-              <Box className="flex  items-center  mb-1 ">
+              <Box
+                className="flex  items-center  mb-1 "
+                onClick={handleOpenSecuModal}
+              >
                 <p className="text-[14px] font-[500] cursor-pointer hover:text-[#DC0019] mt-5">
                   Change Security Question
                 </p>
@@ -1661,11 +1725,9 @@ const CustomerProfile = ({
         </Grid>
       </Grid>
 
-      {/* Modall for  deposit detailsl */}
-
       <Modal
-        open={showProfileDetails}
-        onClose={handleCloseProfileDetails}
+        open={openSecuModal}
+        onClose={handleCloseSecuModal}
         aria-labelledby="modal-modal-title"
         aria-describedby="modal-modal-description"
         PaperProps={{
@@ -1675,7 +1737,74 @@ const CustomerProfile = ({
           },
         }}
       >
-        <CustomerProfileDetails setShowProfileDetails={setShowProfileDetails} />
+        <Box
+          style={style}
+          className="w-full flex flex-col bg-white p-5 items-center justify-center"
+        >
+          <p className="text-[#1E1E1E] font-500 text-[15px]">Are you sure? </p>
+
+          <Box
+            sx={{
+              width: "100%",
+              gap: "10px",
+              display: "flex",
+              alignItems: "center",
+              my: "1rem",
+              justifyContent: "space-between",
+            }}
+          >
+            <Button
+              onClick={handleCloseSecuModal}
+              sx={{
+                background: "#fff",
+                padding: "10px",
+                borderRadius: "8px",
+                width: "100%",
+                borderColor: "#333333",
+
+                color: "#000",
+                "&:hover": {
+                  borderColor: "#FF7F00",
+                },
+                textTransform: "capitalize",
+                fontWeight: "500",
+              }}
+              variant="outlined"
+            >
+              Cancel
+            </Button>
+            <Button
+              onClick={handleChangeSecurityQ}
+              disabled={btnLoading}
+              sx={{
+                background: "#FF7F00",
+                padding: "10px",
+                borderRadius: "8px",
+                width: "100%",
+                color: "#fff",
+                "&:hover": {
+                  backgroundColor: "#FF7F00",
+                },
+                textTransform: "capitalize",
+              }}
+            >
+              {btnLoading ? (
+                <CircularProgress size="1.2rem" sx={{ color: "white" }} />
+              ) : (
+                <Typography
+                  sx={{
+                    fontWeight: "400",
+                    fontSize: "16px",
+                    borderRadius: "8px",
+                    color: "#fff",
+                  }}
+                >
+                  Change
+                </Typography>
+              )}
+            </Button>
+          </Box>
+        </Box>
       </Modal>
       {/* Modal deposit ends */}
 
