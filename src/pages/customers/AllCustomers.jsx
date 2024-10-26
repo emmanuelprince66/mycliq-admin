@@ -50,10 +50,10 @@ const AllCustomers = ({ handleOpenCustomerProfile }) => {
   );
 
   const fetchUsersData = async ({ queryKey }) => {
-    const [_key, { page, limit, startDate, endDate }] = queryKey;
+    const [_key, { page, limit, startDate, endDate, name }] = queryKey;
     try {
       const response = await AuthAxios.get(
-        `/admin/user/all?page=${page}&limit=${limit}&type=user&startDate=${startDate}&endDate=${endDate}`
+        `/admin/user/all?page=${page}&limit=${limit}&type=user&startDate=${startDate}&endDate=${endDate}&name=${name}`
       );
       return response?.data?.data;
     } catch (error) {
@@ -73,6 +73,7 @@ const AllCustomers = ({ handleOpenCustomerProfile }) => {
         limit: rowsPerPage,
         startDate: newStartDate,
         endDate: newEndDate,
+        name: searchTerm,
       },
     ],
     queryFn: fetchUsersData,
@@ -91,22 +92,10 @@ const AllCustomers = ({ handleOpenCustomerProfile }) => {
   };
 
   useEffect(() => {
-    let items = usersData?.records;
-
-    if (searchTerm && items) {
-      const lowercaseSearchTerm = searchTerm.toLowerCase();
-
-      items = items.filter(
-        (item) =>
-          (item.firstName &&
-            item.firstName.toLowerCase().includes(lowercaseSearchTerm)) ||
-          (item.lastName &&
-            item.lastName.toLowerCase().includes(lowercaseSearchTerm))
-      );
+    if (searchTerm) {
+      setSearchTerm(searchTerm);
     }
-
-    setFilteredUser(items);
-  }, [searchTerm, usersData]);
+  }, [searchTerm]);
   return (
     <>
       <Box className="w-full bg-white rounded-md p-2 flex-col border-grey-400 border-[1px] items-start justify-center">
@@ -281,9 +270,9 @@ const AllCustomers = ({ handleOpenCustomerProfile }) => {
                     }}
                   />
                 ) : usersData?.records &&
-                  Array.isArray(filteredUser) &&
-                  filteredUser.length > 0 ? (
-                  filteredUser?.map((item, i) => (
+                  Array.isArray(usersData?.records) &&
+                  usersData?.records.length > 0 ? (
+                  usersData?.records?.map((item, i) => (
                     <TableRow
                       key={item.id}
                       className="cursor-pointer"

@@ -43,6 +43,8 @@ const ThierThreeModal = ({ modalData }) => {
   const [disableButton, setDisableButton] = useState(false);
   const [status, setStatus] = useState(null);
 
+  console.log("modal", modalData);
+
   useEffect(() => {
     if (
       modalData?.utilityMeta !== null &&
@@ -109,6 +111,7 @@ const ThierThreeModal = ({ modalData }) => {
     },
     onError: (error) => {
       setDisableButton(false);
+      console.log("err", error);
     },
   });
 
@@ -118,7 +121,6 @@ const ThierThreeModal = ({ modalData }) => {
       status: status,
       note: message,
     };
-    console.log("sa", status);
 
     if (status === "pending") {
       notifyError("Pending cannot be sent as a status");

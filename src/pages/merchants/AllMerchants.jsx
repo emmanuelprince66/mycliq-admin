@@ -43,10 +43,10 @@ const AllMerchants = ({ handleOpenCustomerProfile }) => {
   const [filteredUser, setFilteredUser] = useState(null);
 
   const fetchMerchantsData = async ({ queryKey }) => {
-    const [_key, { page, limit }] = queryKey;
+    const [_key, { page, limit, name }] = queryKey;
     try {
       const response = await AuthAxios.get(
-        `/admin/merchant/all?page=${page}&limit=${limit}`
+        `/admin/merchant/all?page=${page}&limit=${limit}&name=${name}`
       );
       return response?.data?.data;
     } catch (error) {
@@ -59,7 +59,10 @@ const AllMerchants = ({ handleOpenCustomerProfile }) => {
     error,
     isLoading,
   } = useQuery({
-    queryKey: ["fetchMerchantsData", { page: currentPage, limit: rowsPerPage }],
+    queryKey: [
+      "fetchMerchantsData",
+      { page: currentPage, limit: rowsPerPage, name: searchTerm },
+    ],
     queryFn: fetchMerchantsData,
     keepPreviousData: true,
     staleTime: 5000, // Cache data for 5 seconds
@@ -71,27 +74,15 @@ const AllMerchants = ({ handleOpenCustomerProfile }) => {
     setCurrentPage(page);
   };
 
-  const handleSearchUser = (val) => {
+  const handleSearchMerchant = (val) => {
     setSearchTerm(val);
   };
 
   useEffect(() => {
-    let items = merchantData?.records;
-
-    if (searchTerm && items) {
-      const lowercaseSearchTerm = searchTerm.toLowerCase();
-
-      items = items.filter(
-        (item) =>
-          (item.firstName &&
-            item.firstName.toLowerCase().includes(lowercaseSearchTerm)) ||
-          (item.lastName &&
-            item.lastName.toLowerCase().includes(lowercaseSearchTerm))
-      );
+    if (searchTerm) {
+      setSearchTerm(searchTerm);
     }
-
-    setFilteredUser(items);
-  }, [searchTerm, merchantData]);
+  }, [searchTerm]);
 
   console.log(filteredUser);
 
@@ -211,6 +202,8 @@ const AllMerchants = ({ handleOpenCustomerProfile }) => {
         {/* search  */}
         <Box className="my-[1rem]">
           <TextField
+            value={searchTerm}
+            onChange={(e) => handleSearchMerchant(e.target.value)}
             sx={{
               borderRadius: "10px",
               width: "100%",
@@ -267,9 +260,9 @@ const AllMerchants = ({ handleOpenCustomerProfile }) => {
                     }}
                   />
                 ) : filteredUser &&
-                  Array.isArray(filteredUser) &&
-                  filteredUser.length > 0 ? (
-                  filteredUser?.map((item, i) => (
+                  Array.isArray(merchantData?.records) &&
+                  merchantData?.records.length > 0 ? (
+                  merchantData?.records?.map((item, i) => (
                     <TableRow
                       key={item.id}
                       className="cursor-pointer"
