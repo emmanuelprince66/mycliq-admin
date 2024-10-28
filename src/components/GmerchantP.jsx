@@ -1348,9 +1348,9 @@ const GmerchantP = ({
                                     />
                                   </div> */}
 
-                                  <div className="z-20 border-[10px] rounded-[20px] border-slate-200 p-2  ">
+                                  <div className="z-20 ">
                                     <QRCode
-                                      value={JSON.stringify(qrPayload)}
+                                      value={qrPayload}
                                       size={206}
                                       level="H"
                                     />
