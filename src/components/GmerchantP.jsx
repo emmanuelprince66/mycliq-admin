@@ -123,13 +123,7 @@ const GmerchantP = ({
   };
 
   const qrPayload = merchantDataById
-    ? {
-        type: "merchant",
-        cliqId: merchantDataById?.merchant?.phone,
-        amount: "150",
-        narration: "payment",
-        saveBeneficiary: true,
-      }
+    ? `merchant.${merchantDataById?.merchant?.phone}`
     : "";
 
   console.log("qrrrr", qrPayload);

@@ -259,7 +259,7 @@ const AllMerchants = ({ handleOpenCustomerProfile }) => {
                       padding: "1em",
                     }}
                   />
-                ) : filteredUser &&
+                ) : merchantData &&
                   Array.isArray(merchantData?.records) &&
                   merchantData?.records.length > 0 ? (
                   merchantData?.records?.map((item, i) => (
