@@ -1284,104 +1284,54 @@ const GmerchantP = ({
                           maxWidth: "800px",
                           minWidth: "300px",
                         }}
-                        className="flex flex-col border-grey-400 border-b-[1px] w-[400px]  bg-[#333333] rounded-md  items-start mx-auto relative justify-center py-2"
+                        className="flex flex-col border-grey-400 border-b-[1px] w-[400px] bg-[#333333] rounded-md items-start mx-auto relative justify-center py-2"
                       >
                         <Box className="flex items-center mt-1 mb-1 w-full">
                           {showQr && (
-                            <>
-                              <Box className="w-full">
-                                <div className="mx-auto w-[60%] h-full flex  rounded-md flex-col items-center justify-center ">
-                                  <Typography
-                                    sx={{
-                                      color: "grey",
-                                      fontWeight: "700",
-                                      fontSize: "20px",
-                                      textAlign: "center",
-                                      zIndex: "2",
-                                      color: "#ffb366",
-                                      marginTop: "10px",
-                                      mb: "3rem",
-                                    }}
-                                  >
-                                    I ACCEPT PAYMENTS WITH MYCLIQ
-                                  </Typography>
-                                  {/* <div className="absolute w-full top-[-0.3rem] left-[20.5rem]">
-                                    <img
-                                      src={zOne}
-                                      alt=""
-                                      className="h-[130px] w-[130px]  z-2"
-                                    />
-                                  </div> */}
-                                  <div className="absolute w-full top-[3.7rem] left-[5rem]">
-                                    <img
-                                      src={zTwo}
-                                      alt=""
-                                      className="h-[20px] w-[20px]  z-2"
-                                    />
-                                  </div>
-                                  <div className="absolute w-full top-[5.9rem] left-[19rem]">
-                                    <img
-                                      src={zThree}
-                                      alt=""
-                                      className="h-[30px] w-[30px]  z-2"
-                                    />
-                                  </div>
-                                  <div className="absolute w-full top-[14.5rem] left-[1rem]">
-                                    <img
-                                      src={zFour}
-                                      alt=""
-                                      className="h-[30px] w-[30px]  z-2"
-                                    />
-                                  </div>
-                                  {/* <div className="absolute w-full top-[9.5rem] left-[1rem]">
-                                  <img
-                                    src={zFive}
-                                    alt=""
-                                    className="h-[30px] w-[30px]  z-2"
+                            <Box className="w-full">
+                              <Typography
+                                sx={{
+                                  color: "#ffb366",
+                                  fontWeight: "700",
+                                  fontSize: "20px",
+                                  textAlign: "center",
+                                  marginTop: "10px",
+                                  mb: "3rem",
+                                }}
+                              >
+                                I ACCEPT PAYMENTS WITH MYCLIQ
+                              </Typography>
+                              <div className="mx-auto w-[70%] h-full flex rounded-[20px] flex-col items-center justify-center bg-white p-4">
+                                <div className="z-20 bg-white border-[4px] rounded-[20px] p-2">
+                                  <QRCode
+                                    value={qrPayload}
+                                    size={206}
+                                    level="H"
                                   />
-                                </div> */}
-                                  {/* <div className="absolute w-full top-[5.2rem] left-[5.7rem]">
-                                    <img
-                                      src={zEight}
-                                      alt=""
-                                      className="h-[280px] w-[280px]  z-2"
-                                    />
-                                  </div> */}
-
-                                  <div className="z-20 ">
-                                    <QRCode
-                                      value={qrPayload}
-                                      size={206}
-                                      level="H"
-                                    />
-                                  </div>
                                 </div>
-                                <div className="flex flex-col items-center justify-center gap-1 mt-10">
-                                  <Button
-                                    sx={{
-                                      width: "50%",
-                                      padding: "10px",
-                                      borderRadius: "8px",
-                                      border: "1px solid #BDBDBD",
-                                      color: "#F78105",
-                                      borderColor: "#BDBDBD",
-                                      "&:hover": {
-                                        borderColor: "#BDBDBD",
-                                      },
-                                    }}
-                                    variant="outlined"
-                                  >
-                                    Scan To Pay
-                                  </Button>
-                                  <p className="text-white font-[500] text-[18px] my-2">
-                                    {/* CLIQ ID: {merchantDataById?.merchant?.id} */}
-                                  </p>
-                                  <p className="text-white font-[300] text-[12px]">
-                                    Payment with the MyCliq App is a Breeze!
-                                  </p>
-                                </div>
-                              </Box>
-                            </>
+                              </div>
+                              <div className="flex flex-col items-center justify-center gap-1 mt-10">
+                                <Button
+                                  sx={{
+                                    width: "50%",
+                                    padding: "10px",
+                                    borderRadius: "8px",
+                                    border: "1px solid #BDBDBD",
+                                    color: "#F78105",
+                                    "&:hover": { borderColor: "#BDBDBD" },
+                                  }}
+                                  variant="outlined"
+                                >
+                                  Scan To Pay
+                                </Button>
+                                <p className="text-white font-[500] text-[18px] my-2">
+                                  {/* CLIQ ID: {merchantDataById?.merchant?.id} */}
+                                </p>
+                                <p className="text-white font-[300] text-[12px]">
+                                  Payment with the MyCliq App is a Breeze!
+                                </p>
+                              </div>
+                            </Box>
                           )}
                         </Box>
                       </Box>
