@@ -54,6 +54,26 @@ const AllMerchants = ({ handleOpenCustomerProfile }) => {
     }
   };
 
+  const handleDownloadMerchant = () => {
+    // Map the data to extract the required fields
+    const data = records.map((record) => ({
+      Name: record.name || "", // Replace with the correct field key
+      Email: record.email || "",
+      Phone: record.phone || "",
+      Address: record.address || "",
+      Tier: record.tier || "",
+      "Date Registered": record.createdAt || "",
+      "Last Updated": record.updatedAt || "",
+    }));
+
+    // Convert data to a worksheet and create a workbook
+    const worksheet = XLSX.utils.json_to_sheet(data);
+    const workbook = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(workbook, worksheet, "Records");
+
+    // Generate Excel file and trigger download
+    XLSX.writeFile(workbook, "records.xlsx");
+  };
   const {
     data: merchantData,
     error,

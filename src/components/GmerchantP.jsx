@@ -50,7 +50,6 @@ import percent from "../assets/images/generalMerchants/percent.svg";
 import AccordionDetails from "@mui/material/AccordionDetails";
 import MenuItem from "@mui/material/MenuItem";
 import VerifiedOutlinedIcon from "@mui/icons-material/VerifiedOutlined";
-
 import FormattedPrice from "./FormattedPrice";
 import Accordion from "@mui/material/Accordion";
 import AccordionActions from "@mui/material/AccordionActions";
@@ -60,6 +59,7 @@ import { formatToIsoDateStr } from "../utils/formatIsoDateString";
 import modDate from "../utils/moddate";
 import { useMutation } from "@tanstack/react-query";
 import CustomPagination from "./CustomPagination";
+import blackLogo from "../assets/images/admin/n-1.png";
 
 import zOne from "../assets/images/admin/profit/z-1.svg";
 import zTwo from "../assets/images/admin/profit/z-2.svg";
@@ -1153,6 +1153,7 @@ const GmerchantP = ({
                         BANK DETAILS
                       </Typography>
                       <Box className="flex items-center mt-1 mb-1 ">
+                        1
                         <Box className="flex items-center gap-1 w-[200px] ">
                           <CabinRoundedIcon
                             sx={{ color: "grey", fontSize: "15px" }}
@@ -1167,7 +1168,6 @@ const GmerchantP = ({
                             Bank Name:
                           </Typography>
                         </Box>
-
                         <Typography
                           sx={{
                             color: "#1E1E1E",
@@ -1289,7 +1289,7 @@ const GmerchantP = ({
                         <Box className="flex items-center mt-1 mb-1 w-full">
                           {showQr && (
                             <>
-                              <Box className="w-full">
+                              <Box className="w-full flex justify-center flex-col">
                                 <Typography
                                   sx={{
                                     color: "grey",
@@ -1302,9 +1302,14 @@ const GmerchantP = ({
                                     mb: "3rem",
                                   }}
                                 >
-                                  I ACCEPT PAYMENTS
-                                  <br /> WITH MYCLIQ
+                                  I ACCEPT PAYMENTS WITH
                                 </Typography>
+                                <img
+                                  src={blackLogo}
+                                  alt=""
+                                  className="w-[150px] h-[40px] absolute top-[50px] left-[110px]"
+                                />
+
                                 <div className="mx-auto  w-[70%] h-full flex rounded-[20px] flex-col items-center justify-center bg-white p-4">
                                   {/* <div className="absolute w-full top-[-0.3rem] left-[20.5rem]">
                                     <img
