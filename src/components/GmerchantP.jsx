@@ -1307,10 +1307,10 @@ const GmerchantP = ({
                                 <img
                                   src={blackLogo}
                                   alt=""
-                                  className="w-[150px] h-[40px] absolute top-[50px] left-[110px]"
+                                  className="w-[130px] h-[30px] absolute top-[55px] left-[130px]"
                                 />
 
-                                <div className="mx-auto  w-[70%] h-full flex rounded-[20px] flex-col items-center justify-center bg-white p-4">
+                                <div className="mx-auto mt-3 w-[70%] h-full flex rounded-[20px] flex-col items-center justify-center bg-white p-4">
                                   {/* <div className="absolute w-full top-[-0.3rem] left-[20.5rem]">
                                     <img
                                       src={zOne}
@@ -1363,6 +1363,9 @@ const GmerchantP = ({
                                   </div>
                                 </div>
                                 <div className="flex flex-col items-center justify-center gap-1 mt-10">
+                                  <p className="text-white mb-4">
+                                    ID : {merchantDataById?.merchant?.phone}
+                                  </p>
                                   <Button
                                     sx={{
                                       width: "50%",
