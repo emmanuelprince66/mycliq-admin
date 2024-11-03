@@ -69,9 +69,10 @@ const Ventures = () => {
 
         return response.data;
       } catch (error) {
+        console.log("errpr", error);
         notifyError(error?.response?.data?.message);
         setShowSpinner(false);
-        handleReset();
+        // handleReset();
         throw new Error(error.response.data.message);
         // throw new Error(error.response.data.message);
       }
@@ -84,7 +85,8 @@ const Ventures = () => {
     },
     onError: (error) => {
       setShowSpinner(false);
-      handleReset();
+
+      // handleReset();
     },
   });
   const handleNext = (data) => {

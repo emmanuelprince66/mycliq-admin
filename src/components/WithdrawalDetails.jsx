@@ -17,7 +17,11 @@ import { AuthAxios } from "../helpers/axiosInstance";
 import modDate from "../utils/moddate";
 import FormattedPrice from "../components/FormattedPrice";
 import { is } from "date-fns/locale";
-const WithdrawalDetails = ({ setWithdrawalDetails, index }) => {
+const WithdrawalDetails = ({
+  setWithdrawalDetails,
+  index,
+  handleCloseWithdrawalDetails,
+}) => {
   const [trxId, setTrxId] = useState("");
   const [selectedValue, setSelectedValue] = useState("");
   const apiUrl = `/admin/trx/${trxId}`;
@@ -36,6 +40,8 @@ const WithdrawalDetails = ({ setWithdrawalDetails, index }) => {
     keepPreviousData: true,
     staleTime: 5000, // Cache data for 5 seconds
   });
+
+  console.log("data", data);
 
   const style = {
     position: "absolute",
@@ -113,7 +119,7 @@ const WithdrawalDetails = ({ setWithdrawalDetails, index }) => {
           </Typography>
 
           <Box
-            onClick={() => setDepositDetails(false)}
+            onClick={handleCloseWithdrawalDetails}
             className="cursor-pointer"
           >
             <img src={closeIcon} alt="c-icon" />
@@ -169,119 +175,234 @@ const WithdrawalDetails = ({ setWithdrawalDetails, index }) => {
         {isLoading ? (
           <Skeleton variant="rounded" width="100%" height={200} />
         ) : (
-          <Box
-            sx={{
-              width: "100%",
-              display: "flex",
-              flexDirection: "column",
-              gap: ".4em",
-              padding: "20px",
-              justifyContent: "start",
-              borderRadius: "8px",
-              my: "1rem",
-              border: "1px solid #e0e0e0",
-            }}
-          >
-            <Typography
-              sx={{
-                fontWeight: "500",
-                fontSize: "14px",
-                color: "#000",
-              }}
-            >
-              Bank Account Details
-            </Typography>
-
+          <>
             <Box
               sx={{
+                width: "100%",
                 display: "flex",
-                gap: "2rem",
-                alignItems: "center",
+                flexDirection: "column",
+                gap: ".4em",
+                padding: "20px",
+                justifyContent: "start",
+                borderRadius: "8px",
+                my: "1rem",
+                border: "1px solid #e0e0e0",
               }}
             >
               <Typography
                 sx={{
                   fontWeight: "500",
-                  color: "#828282",
                   fontSize: "14px",
-                  minWidth: "130px",
+                  color: "#000",
                 }}
               >
-                Bank Name:
+                Bank Account Details
               </Typography>
 
-              <Typography
+              <Box
                 sx={{
-                  color: "#1E1E1E",
-                  fontWeight: "600",
-                  fontSize: "14px",
-                }}
-              >
-                {data?.origin?.bankName || "null"}
-              </Typography>
-            </Box>
-            <Box
-              sx={{
-                display: "flex",
-                gap: "2rem",
-                alignItems: "center",
-              }}
-            >
-              <Typography
-                sx={{
-                  fontWeight: "500",
-                  color: "#828282",
-                  fontSize: "14px",
-                  minWidth: "130px",
-                }}
-              >
-                Account Name:
-              </Typography>
-
-              <Typography
-                sx={{
-                  color: "#1E1E1E",
-                  fontWeight: "600",
-                  fontSize: "14px",
-                }}
-              >
-                {data?.origin?.accountName || "null"}
-              </Typography>
-            </Box>
-            <Box
-              sx={{
-                display: "flex",
-                gap: "2rem",
-                alignItems: "center",
-              }}
-            >
-              <Typography
-                sx={{
-                  fontWeight: "500",
-                  color: "#828282",
-                  fontSize: "14px",
-                  minWidth: "130px",
-                }}
-              >
-                Account Number:
-              </Typography>
-
-              <Typography
-                sx={{
-                  color: "#1E1E1E",
-                  fontWeight: "600",
-                  fontSize: "14px",
                   display: "flex",
+                  gap: "2rem",
                   alignItems: "center",
-                  gap: "10px",
                 }}
               >
-                {data?.origin?.accountNumber || "null"}
+                <Typography
+                  sx={{
+                    fontWeight: "500",
+                    color: "#828282",
+                    fontSize: "14px",
+                    minWidth: "130px",
+                  }}
+                >
+                  Bank Name:
+                </Typography>
 
-                <img src={copyIcon} alt="c-icon" />
-              </Typography>
+                <Typography
+                  sx={{
+                    color: "#1E1E1E",
+                    fontWeight: "600",
+                    fontSize: "14px",
+                  }}
+                >
+                  {data?.origin?.bankName || "null"}
+                </Typography>
+              </Box>
+              <Box
+                sx={{
+                  display: "flex",
+                  gap: "2rem",
+                  alignItems: "center",
+                }}
+              >
+                <Typography
+                  sx={{
+                    fontWeight: "500",
+                    color: "#828282",
+                    fontSize: "14px",
+                    minWidth: "130px",
+                  }}
+                >
+                  Account Name:
+                </Typography>
+
+                <Typography
+                  sx={{
+                    color: "#1E1E1E",
+                    fontWeight: "600",
+                    fontSize: "14px",
+                  }}
+                >
+                  {data?.origin?.accountName || "null"}
+                </Typography>
+              </Box>
+              <Box
+                sx={{
+                  display: "flex",
+                  gap: "2rem",
+                  alignItems: "center",
+                }}
+              >
+                <Typography
+                  sx={{
+                    fontWeight: "500",
+                    color: "#828282",
+                    fontSize: "14px",
+                    minWidth: "130px",
+                  }}
+                >
+                  Account Number:
+                </Typography>
+
+                <Typography
+                  sx={{
+                    color: "#1E1E1E",
+                    fontWeight: "600",
+                    fontSize: "14px",
+                    display: "flex",
+                    alignItems: "center",
+                    gap: "10px",
+                  }}
+                >
+                  {data?.origin?.accountNumber || "null"}
+
+                  <img src={copyIcon} alt="c-icon" />
+                </Typography>
+              </Box>
             </Box>
-          </Box>
+            <Box
+              sx={{
+                width: "100%",
+                display: "flex",
+                flexDirection: "column",
+                gap: ".4em",
+                padding: "20px",
+                justifyContent: "start",
+                borderRadius: "8px",
+                my: "1rem",
+                border: "1px solid #e0e0e0",
+              }}
+            >
+              <Typography
+                sx={{
+                  fontWeight: "500",
+                  fontSize: "14px",
+                  color: "#000",
+                }}
+              >
+                Recipient Bank Account Details
+              </Typography>
+
+              <Box
+                sx={{
+                  display: "flex",
+                  gap: "2rem",
+                  alignItems: "center",
+                }}
+              >
+                <Typography
+                  sx={{
+                    fontWeight: "500",
+                    color: "#828282",
+                    fontSize: "14px",
+                    minWidth: "130px",
+                  }}
+                >
+                  Bank Name:
+                </Typography>
+
+                <Typography
+                  sx={{
+                    color: "#1E1E1E",
+                    fontWeight: "600",
+                    fontSize: "14px",
+                  }}
+                >
+                  {data?.recipientDetails?.bankName || "null"}
+                </Typography>
+              </Box>
+              <Box
+                sx={{
+                  display: "flex",
+                  gap: "2rem",
+                  alignItems: "center",
+                }}
+              >
+                <Typography
+                  sx={{
+                    fontWeight: "500",
+                    color: "#828282",
+                    fontSize: "14px",
+                    minWidth: "130px",
+                  }}
+                >
+                  Account Name:
+                </Typography>
+
+                <Typography
+                  sx={{
+                    color: "#1E1E1E",
+                    fontWeight: "600",
+                    fontSize: "14px",
+                  }}
+                >
+                  {data?.recipientDetails?.accountName || "null"}
+                </Typography>
+              </Box>
+              <Box
+                sx={{
+                  display: "flex",
+                  gap: "2rem",
+                  alignItems: "center",
+                }}
+              >
+                <Typography
+                  sx={{
+                    fontWeight: "500",
+                    color: "#828282",
+                    fontSize: "14px",
+                    minWidth: "130px",
+                  }}
+                >
+                  Account Number:
+                </Typography>
+
+                <Typography
+                  sx={{
+                    color: "#1E1E1E",
+                    fontWeight: "600",
+                    fontSize: "14px",
+                    display: "flex",
+                    alignItems: "center",
+                    gap: "10px",
+                  }}
+                >
+                  {data?.recipientDetails?.accountNumber || "null"}
+
+                  <img src={copyIcon} alt="c-icon" />
+                </Typography>
+              </Box>
+            </Box>
+          </>
         )}
 
         {/* T-status */}

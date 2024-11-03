@@ -303,12 +303,15 @@ const TableCom = () => {
   async function viewDetails(i, type) {
     setIndex(i);
 
+    console.log("type ", type);
+
     switch (type) {
       case "airtime":
         setOpenAirtimeModal(true);
         break;
       case "bank_transfer":
         setWithdrawalDetails(true);
+        break;
       default:
         setOpenAirtimeModal(true);
         break;
@@ -985,6 +988,7 @@ const TableCom = () => {
         }}
       >
         <WithdrawalDetails
+          handleCloseWithdrawalDetails={handleCloseWithdrawalDetails}
           index={index}
           setWithdrawalDetails={setWithdrawalDetails}
         />
