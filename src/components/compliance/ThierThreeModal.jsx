@@ -43,6 +43,20 @@ const ThierThreeModal = ({ modalData }) => {
   const [disableButton, setDisableButton] = useState(false);
   const [status, setStatus] = useState(null);
 
+  const [zoomed, setZoomed] = useState(false);
+  const [zoomedOne, setZoomedOne] = useState(false);
+  const [zoomedTwo, setZoomedTwo] = useState(false);
+
+  const toggleZoom = () => {
+    setZoomed(!zoomed);
+  };
+  const toggleZoomOne = () => {
+    setZoomedOne(!zoomedOne);
+  };
+  const toggleZoomTwo = () => {
+    setZoomedTwo(!zoomedTwo);
+  };
+
   console.log("modal", modalData);
 
   useEffect(() => {
@@ -656,14 +670,24 @@ const ThierThreeModal = ({ modalData }) => {
               <Grid item xs={12}>
                 <div className="flex justify-center items-center flex-col border-dotted border-[2px] border-slate-200 p-3">
                   <div className="flex justify-between items-center w-full mb-5">
-                    <span className="flex gap-2">
-                      <p className="text-[#828282] text-[18px] font-normal">
-                        Document Type :{" "}
+                    <div className="flex flex-col items-start gap-2">
+                      <span className="flex gap-2">
+                        <p className="text-[#828282] text-[18px] font-normal">
+                          Document Type :{" "}
+                        </p>
+                        <p className="text-[#828282] font-[600] text-[18px]">
+                          Customer Image
+                        </p>
+                      </span>
+
+                      <p
+                        onClick={toggleZoom}
+                        className=" bg-white border mb-3 cursor-pointer border-gray-300 rounded p-1 text-gray-700 shadow-sm"
+                      >
+                        {zoomed ? "Zoom Out" : "Zoom In"}
                       </p>
-                      <p className="text-[#828282] font-[600] text-[18px]">
-                        Customer Image
-                      </p>
-                    </span>
+                    </div>
+
                     <span className="flex gap-2">
                       <p className="text-[#828282] text-[18px] font-normal">
                         Date and Time Sent :{" "}
@@ -674,11 +698,17 @@ const ThierThreeModal = ({ modalData }) => {
                     </span>
                   </div>
 
-                  <div className="h-[300px] w-full justify-center items-center flex">
+                  <div
+                    className={`h-[300px] bg-red w-full justify-center items-center flex flex-col`}
+                  >
                     <img
                       src={modalData.utilityMeta.files[0]?.selfie}
                       alt="Customer Selfie"
-                      className="h-full w-auto object-contain"
+                      className={`h-full w-auto object-contain transition-transform  ${
+                        zoomed
+                          ? "scale-[4] translate-x-[-25%] translate-y-[-25%] border-[4px] z-20"
+                          : "scale-100"
+                      }`}
                     />
                   </div>
                 </div>
@@ -687,17 +717,27 @@ const ThierThreeModal = ({ modalData }) => {
                   ?.length > 0 && (
                   <div className="flex justify-center items-center flex-col border-dotted border-[2px] border-slate-200 p-3 mt-9">
                     <div className="flex justify-between items-center w-full mb-5">
-                      <span className="flex gap-2">
-                        <p className="text-[#828282] text-[18px] font-normal">
-                          Document Type :{" "}
+                      <div className="flex flex-col items-start gap-2">
+                        <span className="flex gap-2">
+                          <p className="text-[#828282] text-[18px] font-normal">
+                            Document Type :{" "}
+                          </p>
+                          <p className="text-[#828282] font-[600] text-[18px]">
+                            {
+                              modalData?.utilityMeta?.files[0]
+                                ?.identityVerification[0]?.type
+                            }
+                          </p>
+                        </span>
+
+                        <p
+                          onClick={toggleZoomOne}
+                          className=" bg-white border mb-3 cursor-pointer border-gray-300 rounded p-1 text-gray-700 shadow-sm"
+                        >
+                          {zoomedOne ? "Zoom Out" : "Zoom In"}
                         </p>
-                        <p className="text-[#828282] font-[600] text-[18px]">
-                          {
-                            modalData?.utilityMeta?.files[0]
-                              ?.identityVerification[0]?.type
-                          }
-                        </p>
-                      </span>
+                      </div>
+
                       <span className="flex gap-2">
                         <p className="text-[#828282] text-[18px] font-normal">
                           Date and Time Sent :{" "}
@@ -723,7 +763,11 @@ const ThierThreeModal = ({ modalData }) => {
                             ?.identityVerification[0]?.back
                         }
                         alt="Customer Selfie"
-                        className="h-full w-auto object-contain"
+                        className={`h-full w-auto object-contain transition-transform  ${
+                          zoomedOne
+                            ? "scale-[4] translate-x-[-25%] translate-y-[-25%] z-20 border-[4px]"
+                            : "scale-100"
+                        }`}
                       />
                     </div>
                   </div>
@@ -731,17 +775,27 @@ const ThierThreeModal = ({ modalData }) => {
                 {modalData?.utilityMeta?.files[0]?.utilityBill?.length > 0 && (
                   <div className="flex justify-center items-center flex-col border-dotted border-[2px] border-slate-200 p-3 mt-9">
                     <div className="flex justify-between items-center w-full mb-5">
-                      <span className="flex gap-2">
-                        <p className="text-[#828282] text-[18px] font-normal">
-                          Document Type :{" "}
+                      <div className="flex flex-col items-start gap-2">
+                        <span className="flex gap-2">
+                          <p className="text-[#828282] text-[18px] font-normal">
+                            Document Type :{" "}
+                          </p>
+                          <p className="text-[#828282] font-[600] text-[18px]">
+                            {
+                              modalData?.utilityMeta?.files[0]?.utilityBill[0]
+                                ?.type
+                            }
+                          </p>
+                        </span>
+
+                        <p
+                          onClick={toggleZoomTwo}
+                          className=" bg-white border mb-3 cursor-pointer border-gray-300 rounded p-1 text-gray-700 shadow-sm"
+                        >
+                          {zoomedTwo ? "Zoom Out" : "Zoom In"}
                         </p>
-                        <p className="text-[#828282] font-[600] text-[18px]">
-                          {
-                            modalData?.utilityMeta?.files[0]?.utilityBill[0]
-                              ?.type
-                          }
-                        </p>
-                      </span>
+                      </div>
+
                       <span className="flex gap-2">
                         <p className="text-[#828282] text-[18px] font-normal">
                           Date and Time Sent :{" "}
@@ -759,7 +813,11 @@ const ThierThreeModal = ({ modalData }) => {
                             ?.front
                         }
                         alt="Customer Selfie"
-                        className="h-full w-auto object-contain"
+                        className={`h-full w-auto object-contain transition-transform  ${
+                          zoomedTwo
+                            ? "scale-[4] translate-x-[-25%] translate-y-[-25%] z-20 border-[4px]"
+                            : "scale-100"
+                        }`}
                       />
                       <img
                         src={
