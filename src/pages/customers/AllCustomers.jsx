@@ -49,6 +49,9 @@ const AllCustomers = ({ handleOpenCustomerProfile }) => {
     endDate
   );
 
+  console.log("start", startDate);
+  console.log("end", endDate);
+
   const fetchUsersData = async ({ queryKey }) => {
     const [_key, { page, limit, startDate, endDate, name }] = queryKey;
     try {

@@ -303,8 +303,6 @@ const TableCom = () => {
   async function viewDetails(i, type) {
     setIndex(i);
 
-    console.log("type ", type);
-
     switch (type) {
       case "airtime":
         setOpenAirtimeModal(true);

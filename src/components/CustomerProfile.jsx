@@ -52,6 +52,7 @@ import { AuthAxios } from "../helpers/axiosInstance";
 import { ToastContainer, toast } from "react-toastify";
 import modDate from "../utils/moddate";
 import { AirtimeModal } from "../pages/trx/AirtimeModal";
+import WithdrawalDetails from "./WithdrawalDetails";
 
 const CustomerProfile = ({
   id,
@@ -102,8 +103,6 @@ const CustomerProfile = ({
     onSuccess: (data) => {},
     staleTime: 5000, // Cache data for 5 seconds
   });
-
-  console.log("pixes", profileData);
 
   const notify = (message) => {
     toast.success(message, {
@@ -286,12 +285,15 @@ const CustomerProfile = ({
   async function viewDetails(i, type) {
     setIndex(i);
 
+    console.log("type ", type);
+
     switch (type) {
       case "airtime":
         setOpenAirtimeModal(true);
         break;
       case "bank_transfer":
         setWithdrawalDetails(true);
+        break;
       default:
         setOpenAirtimeModal(true);
         break;
@@ -1848,6 +1850,28 @@ const CustomerProfile = ({
         />
       </Modal>
       {/* Modal ends */}
+
+      {/* Modall for  withdrawal detailsl */}
+
+      <Modal
+        open={withdrawalDetails}
+        onClose={handleCloseWithdrawalDetails}
+        aria-labelledby="modal-modal-title"
+        aria-describedby="modal-modal-description"
+        PaperProps={{
+          sx: {
+            border: "none", // Remove the border
+            boxShadow: "none", // Remove the box shadow
+          },
+        }}
+      >
+        <WithdrawalDetails
+          handleCloseWithdrawalDetails={handleCloseWithdrawalDetails}
+          index={index}
+          setWithdrawalDetails={setWithdrawalDetails}
+        />
+      </Modal>
+      {/* Modal withdrawal ends */}
       <ToastContainer />
     </Box>
   );

@@ -88,7 +88,7 @@ const AllMerchants = ({ handleOpenCustomerProfile }) => {
     staleTime: 5000, // Cache data for 5 seconds
   });
 
-  console.log(merchantData);
+  console.log("merchanr", merchantData);
 
   const handlePageChange = (page) => {
     setCurrentPage(page);
