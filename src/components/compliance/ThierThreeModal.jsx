@@ -57,6 +57,27 @@ const ThierThreeModal = ({ modalData }) => {
     setZoomedTwo(!zoomedTwo);
   };
 
+  const downloadImage = async (url, filename) => {
+    try {
+      const response = await fetch(url, { method: "GET" });
+      const blob = await response.blob();
+      const blobUrl = URL.createObjectURL(blob);
+
+      // Create a temporary link element for download
+      const link = document.createElement("a");
+      link.href = blobUrl;
+      link.download = filename; // Specify the desired filename
+      document.body.appendChild(link);
+      link.click();
+
+      // Clean up
+      document.body.removeChild(link);
+      URL.revokeObjectURL(blobUrl);
+    } catch (error) {
+      console.error("Error downloading image:", error);
+    }
+  };
+
   console.log("modal", modalData);
 
   useEffect(() => {
@@ -680,12 +701,21 @@ const ThierThreeModal = ({ modalData }) => {
                         </p>
                       </span>
 
-                      <p
-                        onClick={toggleZoom}
-                        className=" bg-white border mb-3 cursor-pointer border-gray-300 rounded p-1 text-gray-700 shadow-sm"
-                      >
-                        {zoomed ? "Zoom Out" : "Zoom In"}
-                      </p>
+                      <div className="flex gap-2 items-center">
+                        <p
+                          onClick={toggleZoom}
+                          className=" bg-white border cursor-pointer border-gray-300 rounded p-1 text-gray-700 shadow-sm"
+                        >
+                          {zoomed ? "Zoom Out" : "Zoom In"}
+                        </p>
+                        <a
+                          href={modalData.utilityMeta.files[0]?.selfie}
+                          download="Customer_Selfie.jpg"
+                          className="text-red-400 font-bold cursor-pointer"
+                        >
+                          Download
+                        </a>
+                      </div>
                     </div>
 
                     <span className="flex gap-2">
@@ -730,12 +760,25 @@ const ThierThreeModal = ({ modalData }) => {
                           </p>
                         </span>
 
-                        <p
-                          onClick={toggleZoomOne}
-                          className=" bg-white border mb-3 cursor-pointer border-gray-300 rounded p-1 text-gray-700 shadow-sm"
-                        >
-                          {zoomedOne ? "Zoom Out" : "Zoom In"}
-                        </p>
+                        <div className="flex gap-2 items-center">
+                          <p
+                            onClick={toggleZoomOne}
+                            className=" bg-white border cursor-pointer border-gray-300 rounded p-1 text-gray-700 shadow-sm"
+                          >
+                            {zoomedOne ? "Zoom Out" : "Zoom In"}
+                          </p>
+
+                          <a
+                            href={
+                              modalData?.utilityMeta?.files[0]
+                                ?.identityVerification[0]?.back
+                            }
+                            download="Customer_indentification.jpg"
+                            className="text-red-400 font-bold cursor-pointer"
+                          >
+                            Download
+                          </a>
+                        </div>
                       </div>
 
                       <span className="flex gap-2">
@@ -788,12 +831,25 @@ const ThierThreeModal = ({ modalData }) => {
                           </p>
                         </span>
 
-                        <p
-                          onClick={toggleZoomTwo}
-                          className=" bg-white border mb-3 cursor-pointer border-gray-300 rounded p-1 text-gray-700 shadow-sm"
-                        >
-                          {zoomedTwo ? "Zoom Out" : "Zoom In"}
-                        </p>
+                        <div className="flex gap-2 items-center">
+                          <p
+                            onClick={toggleZoomTwo}
+                            className=" bg-white border cursor-pointer border-gray-300 rounded p-1 text-gray-700 shadow-sm"
+                          >
+                            {zoomedTwo ? "Zoom Out" : "Zoom In"}
+                          </p>
+
+                          <a
+                            href={
+                              modalData?.utilityMeta?.files[0]?.utilityBill[0]
+                                ?.back
+                            }
+                            download="Customer_utitlity.jpg"
+                            className="text-red-400 font-bold cursor-pointer"
+                          >
+                            Download
+                          </a>
+                        </div>
                       </div>
 
                       <span className="flex gap-2">
