@@ -41,6 +41,8 @@ const Compliance = () => {
   const [tableData, setTableData] = useState(null);
   const [page, setPage] = useState();
 
+  console.log("table-data", tableData);
+
   const totalPages = 8;
   const rowsPerPage = 20;
   const [currentPage, setCurrentPage] = useState(1);
@@ -1222,7 +1224,7 @@ const Compliance = () => {
               minorFilter={minorFilter}
               tableData={tableData}
               usersCompLoading={usersCompLoading}
-              totalPages={totalPages}
+              totalPages={tableData?.totalPages}
               setCurrentPage={setCurrentPage}
             />
           )}
@@ -1235,7 +1237,7 @@ const Compliance = () => {
               rowsPerPage={rowsPerPage}
               tableData={tableData}
               usersCompLoading={usersCompLoading}
-              totalPages={totalPages}
+              totalPages={tableData?.totalPages}
               setCurrentPage={setCurrentPage}
             />
           )}
@@ -1248,7 +1250,7 @@ const Compliance = () => {
               rowsPerPage={rowsPerPage}
               tableData={tableData}
               usersThreeCompLoading={usersThreeCompLoading}
-              totalPages={totalPages}
+              totalPages={tableData?.totalPages}
               setCurrentPage={setCurrentPage}
             />
           )}
@@ -1261,7 +1263,7 @@ const Compliance = () => {
               rowsPerPage={rowsPerPage}
               tableData={tableData}
               usersThreeCompLoading={usersThreeCompLoading}
-              totalPages={totalPages}
+              totalPages={tableData?.totalPages}
               setCurrentPage={setCurrentPage}
             />
           )}

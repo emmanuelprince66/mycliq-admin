@@ -96,7 +96,6 @@ const TableCom = () => {
     startDate,
     endDate
   );
-  const totalPages = 8;
   const rowsPerPage = 20;
   const [currentPage, setCurrentPage] = useState(1);
 
@@ -215,6 +214,8 @@ const TableCom = () => {
   });
 
   console.log("trx", transactions);
+  const totalPages = transactions?.totalPages;
+
   const handlePageChange = (page) => {
     setCurrentPage(page);
   };
