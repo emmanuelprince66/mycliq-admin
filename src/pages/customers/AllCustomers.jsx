@@ -35,7 +35,7 @@ import { useSelector } from "react-redux";
 import { formatToIsoDateStr } from "../../utils/formatIsoDateString";
 
 const AllCustomers = ({ handleOpenCustomerProfile }) => {
-  const rowsPerPage = 20;
+  const rowsPerPage = 100;
   const [currentPage, setCurrentPage] = useState(1);
   const [searchTerm, setSearchTerm] = useState("");
   const [filteredUser, setFilteredUser] = useState(null);
@@ -262,6 +262,15 @@ const AllCustomers = ({ handleOpenCustomerProfile }) => {
         <Box className="max-h-[87vh] overflow-y-auto">
           <TableContainer component={Paper}>
             <Table sx={{ minWidth: 100, padding: "8px" }}>
+              <TableHead sx={{ background: "#F8F8F8" }}>
+                <TableRow>
+                  <TableCell>S/N</TableCell>
+                  <TableCell>User Name</TableCell>
+                  <TableCell>Tier</TableCell>
+                  <TableCell>Account Balance</TableCell>
+                  <TableCell>Action</TableCell>
+                </TableRow>
+              </TableHead>
               <TableBody>
                 {isLoading ? (
                   <CircularProgress
@@ -318,13 +327,15 @@ const AllCustomers = ({ handleOpenCustomerProfile }) => {
                           </Typography>
                         </Box>
                       </TableCell>
+                      <TableCell>nill</TableCell>
+                      <TableCell>nill</TableCell>
+
                       <TableCell>
                         <Box
                           sx={{
                             cursor: "pointer",
                             width: "100%",
                             display: "flex",
-                            justifyContent: "end",
                           }}
                         >
                           <img src={ArrowRight} alt="a-right" />

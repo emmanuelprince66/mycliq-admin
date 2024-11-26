@@ -54,7 +54,6 @@ import percent from "../assets/images/generalMerchants/percent.svg";
 import CustomerProfile from "../components/CustomerProfile";
 import AllCustomers from "./customers/AllCustomers";
 import { adjustDateRange } from "../utils/dateFix";
-
 const Item = styled(Box)(({ theme }) => ({
   backgroundColor: theme.palette.mode === "dark" ? "#1A2027" : "#fff",
   ...theme.typography.body2,
@@ -65,7 +64,6 @@ const Item = styled(Box)(({ theme }) => ({
 }));
 const Customer = () => {
   const dispatch = useDispatch();
-
   const { selectedDates } = useSelector((state) => state);
   const navigate = useNavigate();
 
@@ -115,8 +113,11 @@ const Customer = () => {
   const handleCloseShowCustomerProfile = () => setShowCustomerProfile(false);
   const handleOpenCustomerProfile = (id) => {
     setId(id);
-    setProfileActive(true);
-    handleShowCustomerProfile();
+
+    navigate(`/customer-profile/${id}`);
+
+    // setProfileActive(true);
+    // handleShowCustomerProfile();
   };
 
   const closeUp = () => {

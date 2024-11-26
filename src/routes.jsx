@@ -29,6 +29,7 @@ import Compliance from "./pages/Compliance";
 import AcctNumber from "./pages/acct-num/AcctNumber";
 import Profitability from "./pages/profit/Profitability";
 import Commission from "./pages/commission/Commission";
+import CustomerProfile from "./pages/CustomerProfile/CustomerProfile";
 
 const myRoutes = [
   { component: <Login />, path: "/", name: "Login Page" },
@@ -85,6 +86,11 @@ const myRoutes = [
     name: "Compliance",
   },
   { component: <ManageBills />, path: "/manage-bills", name: "Manage Bills" },
+  {
+    component: <CustomerProfile />,
+    path: "/customer-profile/:id",
+    name: "Customer Profile",
+  },
   { component: <Transaction />, path: "/transaction", name: "transaction" },
   { component: <Withdrawal />, path: "/withdrawal", name: "withdrawal" },
   { component: <SuperAdmin />, path: "/super-admin", name: "SuperAdmin" },

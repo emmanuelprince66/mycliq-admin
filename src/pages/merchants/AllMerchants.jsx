@@ -36,7 +36,7 @@ import { useMutation, useQuery } from "@tanstack/react-query";
 import CustomPagination from "../../components/CustomPagination";
 const AllMerchants = ({ handleOpenCustomerProfile }) => {
   const totalPages = 8;
-  const rowsPerPage = 20;
+  const rowsPerPage = 100;
   const [page, setPage] = useState(0);
   const [currentPage, setCurrentPage] = useState(1);
   const [searchTerm, setSearchTerm] = useState("");
@@ -269,6 +269,15 @@ const AllMerchants = ({ handleOpenCustomerProfile }) => {
         <Box className="max-h-[87vh] overflow-y-auto">
           <TableContainer component={Paper}>
             <Table sx={{ minWidth: 100, padding: "8px" }}>
+              <TableHead sx={{ background: "#F8F8F8" }}>
+                <TableRow>
+                  <TableCell>S/N</TableCell>
+                  <TableCell>Merchant Name</TableCell>
+                  <TableCell>Tier</TableCell>
+                  <TableCell>Account Balance</TableCell>
+                  <TableCell>Action</TableCell>
+                </TableRow>
+              </TableHead>
               <TableBody>
                 {isLoading ? (
                   <CircularProgress
@@ -292,7 +301,7 @@ const AllMerchants = ({ handleOpenCustomerProfile }) => {
                         {i + 1 + (currentPage - 1) * rowsPerPage}
                       </TableCell>
                       <TableCell>
-                        <Box className="flex items-center gap-2 ">
+                        <Box className="flex items-center gap-2  max-w-[20rem] ">
                           <Box
                             sx={{
                               border: "1px solid #E0E0E0",
@@ -303,13 +312,13 @@ const AllMerchants = ({ handleOpenCustomerProfile }) => {
                             {item?.img === "" ? (
                               <img
                                 src={avatar}
-                                className="cat-img max-h-[20px] max-w-[20px]"
+                                className="cat-img"
                                 alt="p-img"
                               />
                             ) : (
                               <img
-                                src={item?.logo}
-                                className="cat-img max-h-[30px] max-w-[30px]"
+                                src={item?.img}
+                                className="cat-img"
                                 alt="p-img"
                               />
                             )}
@@ -325,13 +334,15 @@ const AllMerchants = ({ handleOpenCustomerProfile }) => {
                           </Typography>
                         </Box>
                       </TableCell>
+                      <TableCell>nill</TableCell>
+                      <TableCell>nill</TableCell>
+
                       <TableCell>
                         <Box
                           sx={{
                             cursor: "pointer",
                             width: "100%",
                             display: "flex",
-                            justifyContent: "end",
                           }}
                         >
                           <img src={ArrowRight} alt="a-right" />

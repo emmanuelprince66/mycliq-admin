@@ -53,7 +53,7 @@ import {
 } from "../utils/store/merchantSlice";
 import search from "../assets/images/admin/search.svg";
 import { useMutation, useQuery } from "@tanstack/react-query";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { AuthAxios } from "../helpers/axiosInstance";
 import { TransactionDetails } from "./transactionDetails";
 import { ArrowBackIosNewRounded, Discount } from "@mui/icons-material";
@@ -96,7 +96,7 @@ const TableCom = () => {
     startDate,
     endDate
   );
-  const rowsPerPage = 20;
+  const rowsPerPage = 100;
   const [currentPage, setCurrentPage] = useState(1);
 
   const [flow, setFlow] = useState(null);
@@ -131,8 +131,6 @@ const TableCom = () => {
   const { transactionDetails } = useSelector((state) => state);
 
   const handleTransactionFilter = (val) => {
-    console.log(val);
-
     switch (val) {
       case "All":
         setTransactionFilter(val);
@@ -817,7 +815,14 @@ const TableCom = () => {
                     <TableCell>
                       {i + 1 + (currentPage - 1) * rowsPerPage}
                     </TableCell>
-                    <TableCell>{item?.origin?.accountName}</TableCell>
+                    <TableCell>
+                      <Link
+                        to={`/customer-profile/${item?.entityId}`}
+                        className="text-blue-500"
+                      >
+                        {item?.origin?.accountName}
+                      </Link>
+                    </TableCell>
                     <TableCell>{item?.recipientDetails?.accountName}</TableCell>
                     <TableCell>{item?.subType}</TableCell>
                     <TableCell>{item?.type}</TableCell>
