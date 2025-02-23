@@ -33,6 +33,7 @@ import { adjustDateRange } from "../../utils/dateFix";
 import SelectDate from "../../components/SelectDate";
 import { useSelector } from "react-redux";
 import { formatToIsoDateStr } from "../../utils/formatIsoDateString";
+import FormattedPrice from "../../components/FormattedPrice";
 
 const AllCustomers = ({ handleOpenCustomerProfile }) => {
   const rowsPerPage = 100;
@@ -327,8 +328,10 @@ const AllCustomers = ({ handleOpenCustomerProfile }) => {
                           </Typography>
                         </Box>
                       </TableCell>
-                      <TableCell>nill</TableCell>
-                      <TableCell>nill</TableCell>
+                      <TableCell>{item?.tier}</TableCell>
+                      <TableCell>
+                        <FormattedPrice amount={item?.availablebalance} />
+                      </TableCell>
 
                       <TableCell>
                         <Box

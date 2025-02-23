@@ -357,16 +357,16 @@ const Customer = () => {
                       color: "#000",
                     }}
                   >
-                    {/* {isLoading ? (
+                    {isLoading ? (
                       <CircularProgress
                         size="0.6rem"
                         sx={{ color: "#DC0019" }}
                       />
                     ) : (
                       <FormattedPrice
-                        amount={customers?.transactions?.filterInwardsSum || 0}
+                        amount={customers?.transactions?.totalWalletCount || 0}
                       />
-                    )} */}
+                    )}
                   </Typography>
                 </Box>
               </Box>
