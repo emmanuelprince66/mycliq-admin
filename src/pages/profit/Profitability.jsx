@@ -1,6 +1,6 @@
 import React from "react";
 import SelectDate from "../../components/SelectDate";
-import { Grid, Card } from "@mui/material";
+import { Grid, Card, Skeleton } from "@mui/material";
 import pTwo from "../../assets/images/admin/profit/p-2.svg";
 import pThree from "../../assets/images/admin/profit/p-3.svg";
 import pFour from "../../assets/images/admin/profit/p-4.svg";
@@ -10,8 +10,34 @@ import pSeven from "../../assets/images/admin/profit/p-7.svg";
 import pEight from "../../assets/images/admin/profit/p-8.svg";
 import pNine from "../../assets/images/admin/profit/p-9.svg";
 import FormattedPrice from "../../components/FormattedPrice";
+import { useMutation, useQuery } from "@tanstack/react-query";
+import AuthAxios from "../../helpers/axiosInstance";
 
 const Profitability = () => {
+  const {
+    data: profitabilityData,
+    error,
+    isLoading,
+  } = useQuery({
+    queryKey: ["profitabilityData"],
+    queryFn: async () => {
+      try {
+        const response = await AuthAxios.get(`/admin/profitability`);
+        console.log("res", response);
+        return response?.data?.data;
+      } catch (error) {
+        if (error?.response?.data?.code === 401) {
+        }
+        throw new Error("Failed to fetch customer data");
+      }
+    },
+    onSuccess: (data) => {},
+    staleTime: 5000, // Cache data for 5 seconds
+  });
+
+  console.log("isLoading", isLoading);
+
+  console.log("profitabilityData--3", profitabilityData);
   const CustomCard = ({ image, textOne, textTwo }) => {
     return (
       <>
@@ -38,60 +64,92 @@ const Profitability = () => {
       <div className="w-full">
         <Grid container spacing={2}>
           <Grid item xs={6}>
-            <CustomCard
-              image={pTwo}
-              textOne="Profit from Wallet to Wallet"
-              textTwo={` ${557000 || 0} `}
-            />
+            {isLoading ? (
+              <Skeleton variant="rounded" width="100%" height={"100%"} />
+            ) : (
+              <CustomCard
+                image={pTwo}
+                textOne="Profit from Wallet to Wallet"
+                textTwo={` ${profitabilityData?.wallet || 0} `}
+              />
+            )}
           </Grid>
           <Grid item xs={6}>
-            <CustomCard
-              image={pThree}
-              textOne="Profit from CliqPay"
-              textTwo={` ${557000 || 0} `}
-            />
+            {isLoading ? (
+              <Skeleton variant="rounded" width="100%" height={"100%"} />
+            ) : (
+              <CustomCard
+                image={pThree}
+                textOne="Profit from CliqPay"
+                textTwo={` ${profitabilityData?.cliq_pay || 0} `}
+              />
+            )}
           </Grid>
           <Grid item xs={6}>
-            <CustomCard
-              image={pFour}
-              textOne="Profit from Ticketing Fee"
-              textTwo={` ${557000 || 0} `}
-            />
+            {isLoading ? (
+              <Skeleton variant="rounded" width="100%" height={"100%"} />
+            ) : (
+              <CustomCard
+                image={pFour}
+                textOne="Profit from Ticketing Fee"
+                textTwo={` ${profitabilityData?.ticket || 0} `}
+              />
+            )}
           </Grid>
           <Grid item xs={6}>
-            <CustomCard
-              image={pFive}
-              textOne="Profit from Nip"
-              textTwo={` ${557000 || 0} `}
-            />
+            {isLoading ? (
+              <Skeleton variant="rounded" width="100%" height={"100%"} />
+            ) : (
+              <CustomCard
+                image={pFive}
+                textOne="Profit from Nip"
+                textTwo={` ${profitabilityData?.nip || 0} `}
+              />
+            )}
           </Grid>
           <Grid item xs={6}>
-            <CustomCard
-              image={pSix}
-              textOne="Profit from Merchant Commission"
-              textTwo={` ${557000 || 0} `}
-            />
+            {isLoading ? (
+              <Skeleton variant="rounded" width="100%" height={"100%"} />
+            ) : (
+              <CustomCard
+                image={pSix}
+                textOne="Profit from Merchant Commission"
+                textTwo={` ${profitabilityData?.merchant || 0} `}
+              />
+            )}
           </Grid>
           <Grid item xs={6}>
-            <CustomCard
-              image={pSeven}
-              textOne="Profit from Airtime/Data"
-              textTwo={` ${557000 || 0} `}
-            />
+            {isLoading ? (
+              <Skeleton variant="rounded" width="100%" height={"100%"} />
+            ) : (
+              <CustomCard
+                image={pSeven}
+                textOne="Profit from Airtime/Data"
+                textTwo={` ${profitabilityData?.airtime_data || 0} `}
+              />
+            )}
           </Grid>
           <Grid item xs={6}>
-            <CustomCard
-              image={pEight}
-              textOne="Profit from Bills Tv/Electricity"
-              textTwo={` ${557000 || 0} `}
-            />
+            {isLoading ? (
+              <Skeleton variant="rounded" width="100%" height={"100%"} />
+            ) : (
+              <CustomCard
+                image={pEight}
+                textOne="Profit from Bills Tv/Electricity"
+                textTwo={` ${profitabilityData?.bills_tv || 0} `}
+              />
+            )}
           </Grid>
           <Grid item xs={6}>
-            <CustomCard
-              image={pNine}
-              textOne="Profit from Association Fee"
-              textTwo={` ${557000 || 0} `}
-            />
+            {isLoading ? (
+              <Skeleton variant="rounded" width="100%" height={"100%"} />
+            ) : (
+              <CustomCard
+                image={pNine}
+                textOne="Profit from Association Fee"
+                textTwo={` ${profitabilityData?.association || 0} `}
+              />
+            )}
           </Grid>
         </Grid>
       </div>
