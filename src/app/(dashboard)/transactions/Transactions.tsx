@@ -71,7 +71,6 @@ const Transactions = () => {
   //     currency: "NGN",
   //   }).format(amount);
   // };
-  // console.log("user", user);
   const handleSearchChange = (value: string) => {
     setSearchInput(value);
   };
