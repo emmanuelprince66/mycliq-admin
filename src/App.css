@@ -1,0 +1,41 @@
+#root {
+}
+button:focus,
+button:active {
+  outline: none;
+  border: none;
+}
+/* Track */
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+/* Vertical Thumb */
+::-webkit-scrollbar-thumb:vertical {
+  background-color: #a0a0a0; /* Set the desired background color for the vertical thumb */
+}
+
+/* Remove only the horizontal scrollbar */
+::-webkit-scrollbar {
+  width: 6px; /* Set the desired width for the vertical scrollbar */
+  height: 0px; /* Set height to 0 to remove horizontal scrollbar */
+}
+:nth-last-of-type() body {
+  background-color: #fffcfc;
+  min-height: fit-content;
+  overflow-y: auto;
+}
+.fd {
+  width: 100%;
+  height: 100%;
+}
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
